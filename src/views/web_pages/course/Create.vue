@@ -44,7 +44,8 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload video</small> <br>
-            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>
+<!--            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>-->
+            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="readVideo"/>
           </div>
         </div>
         <vs-button @click="store">Save</vs-button>
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+// import vSelect from 'vue-select'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -67,7 +68,17 @@ export default {
       video: '',
       link:'',
       type: 1,
-      allowedImageType:['image/jpeg','image/png']
+      allowedImageType:['image/jpeg', 'image/png'],
+      storeData: {
+        organization_id:null,
+        image: '',
+        title:'',
+        description:'',
+        file: '',
+        video: '',
+        link:'',
+        type: 1
+      }
     }
   },
   methods:{
@@ -76,45 +87,60 @@ export default {
       dispatchUpdate: 'course/update',
       dispatchShow: 'course/show'
     }),
+    convertToFormData () {
+      const data = new FormData;
+      // eslint-disable-next-line no-unexpected-multiline
+      ['organization_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      return data
+    },
     store () {
       this.$validator.validateAll().then(async res => {
         if (!res) return false
-        const payload = {
-          id: this.$route.params.id,
-          organization_id: this.$route.params.organizationId,
-          image: this.image,
-          title: this.title,
-          description: this.description,
-          video: this.video,
-          link: this.link,
-          type: this.type,
-          file: this.file
+        const formData = this.convertToFormData()
+        for (const pair of formData.entries()) {
+          console.log(`${pair[0] }, ${  pair[1]}`)
         }
-        try {
-          if (this.$route.params.id) {
-            await this.dispatchUpdate(payload)
-          } else {
-            await this.dispatchStore(payload)
-          }
-          this.$vs.notify({
-            title: 'Success!',
-            text: 'Data was saved successfully!',
-            color: 'success'
-          })
-          this.$router.push({name: 'course'})
-        } catch (error) {
-          this.$vs.notify({
-            title: 'Oops!',
-            text: error.data.message,
-            color: 'danger'
-          })
-        }
+        // const payload = {
+        //   id: this.$route.params.id,
+        //   organization_id: this.$route.params.organizationId,
+        //   image: this.image,
+        //   title: this.title,
+        //   description: this.description,
+        //   video: this.video,
+        //   link: this.link,
+        //   type: this.type,
+        //   file: this.file
+        // }
+        // this.$vs.loading()
+        // try {
+        //   if (this.$route.params.id) {
+        //     await this.dispatchUpdate(payload)
+        //   } else {
+        //     await this.dispatchStore(payload)
+        //   }
+        //   this.$vs.loading.close()
+        //   this.$vs.notify({
+        //     title: 'Success!',
+        //     text: 'Data was saved successfully!',
+        //     color: 'success'
+        //   })
+        //   this.$router.push({name: 'course'})
+        // } catch (error) {
+        //   this.$vs.loading.close()
+        //   this.$vs.notify({
+        //     title: 'Oops!',
+        //     text: error.data.message,
+        //     color: 'danger'
+        //   })
+        // }
       })
     },
     async getDetail () {
       const { success } = await this.dispatchShow(this.$route.params.id)
       this.organization_id = success.organization_id
-      this.image = 'http://api-kms.maesagroup.co.id/files/' + success.image
+      this.image = `http://api-kms.maesagroup.co.id/files/${  success.image}`
       this.title = success.title
       this.description = success.description
       this.file = success.file
@@ -122,33 +148,37 @@ export default {
       this.link = success.link
       this.type = success.type
     },
-    async changeImage(e) {
-        const image = e.target
-        if (image.files && image.files[0]) {
-            const filterFormat = await this.allowedImageType.filter(e => e==image.files[0].type)
-            if(filterFormat.length<1) return this.$vs.notify({title:`Maaf!`,text:`File bukan berupa gambar!`,color:`warning`});
-            const reader = new FileReader()
-            reader.onload = async (e) => {
-                this.image = e.target.result;
-            }
-            reader.readAsDataURL(image.files[0])
+    async changeImage (e) {
+      const image = e.target
+      if (image.files && image.files[0]) {
+        const filterFormat = await this.allowedImageType.filter(e => e === image.files[0].type)
+        if (filterFormat.length < 1) return this.$vs.notify({title:'Maaf!', text:'File bukan berupa gambar!', color:'warning'})
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+          this.image = e.target.result
         }
+        reader.readAsDataURL(image.files[0])
+      }
     },
-    getBase64File(event) {
-      var reader = new FileReader()
+    getBase64File (event) {
+      const reader = new FileReader()
       reader.readAsDataURL(event.target.files[0])
-      reader.onload = ()=> {
-       this.file = reader.result;
-      };
+      reader.onload = () => {
+        this.file = reader.result
+      }
       this.$emit('input', event.target.files[0])
     },
-    getBase64Video(event) {
-      var reader = new FileReader()
+    getBase64Video (event) {
+      const reader = new FileReader()
       reader.readAsDataURL(event.target.files[0])
-      reader.onload = ()=> {
-       this.video = reader.result;
-      };
+      reader.onload = () => {
+        this.video = reader.result
+      }
       this.$emit('input', event.target.files[0])
+    },
+    async readVideo (event) {
+      const video = event.target.files[0]
+      return this.$set(this.storeData, 'video', video)
     }
   },
   async mounted () {

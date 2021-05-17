@@ -11,7 +11,7 @@
           <template slot="thead">
             <vs-th>Code</vs-th>
             <vs-th>Name</vs-th>
-            <vs-th></vs-th>            
+            <vs-th></vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -35,7 +35,7 @@
   export default {
     data () {
       return {
-        
+
       }
     },
     computed:{
