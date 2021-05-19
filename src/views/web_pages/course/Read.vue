@@ -3,9 +3,9 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="All Course">
         <vs-table search :data="data" class="mb-2">
-          <template slot="header">
-            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>
-          </template>
+<!--          <template slot="header">-->
+<!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
+<!--          </template>-->
           <template slot="thead">
             <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>

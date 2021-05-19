@@ -4,48 +4,56 @@
       <vx-card title="Input Data Course">
         <div class="vx-col w-full">
             <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
-            <img v-if="image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
-            <img v-if="image.length>0" :src="image" alt="" class="preview" @click="$refs.imageInput.click()">
+            <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
+            <img v-if="storeData.image.length>0" :src="storeData.image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
         </div>
         <div class="vx-row mb-5 mt-10">
           <div class="vx-col w-full">
-            <vs-input class="w-full" v-validate="'required'" name="title" label="Title" v-model="title"></vs-input>
+            <vs-input class="w-full" v-validate="'required'" name="title" label="Title" v-model="storeData.title"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('title')">{{errors.first('title')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <vs-input class="w-full" v-validate="'required'" name="description" label="Description" v-model="description"></vs-input>
+            <vs-input class="w-full" v-validate="'required'" name="description" label="Description" v-model="storeData.description"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('description')">{{errors.first('description')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <vs-input class="w-full" v-validate="'required'" name="link" label="Link" v-model="link"></vs-input>
+            <vs-input class="w-full" v-validate="'required'" name="link" label="Link" v-model="storeData.link"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('link')">{{errors.first('link')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Type</small> <br>
-            <vs-radio class="ml-2 mr-2" v-model="type" vs-value="1">Hard Skill</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="type" vs-value="4">Soft Skill</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="type" vs-value="2">Our Company</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="type" vs-value="3">Corporate Value</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="4">Soft Skill</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1">Hard Skill</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="2">Our Company</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="3">Corporate Value</vs-radio>
+          </div>
+        </div>
+        <div class="vx-row mb-5" v-if="storeData.type==1">
+          <div class="vx-col w-full">
+            <small class="ml-2">Organization</small> <br>
+            <v-select v-model="storeData.organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization" :reduce="e => e.id" label="name"></v-select>
+            <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <small class="ml-2">Upload file</small> <br>
-            <input class="ml-2 mr-2" type="file" id="file" ref="file" @change="getBase64File"/>
+            <small class="ml-2">Upload pdf file</small> <br>
+            <input class="w-full" type="file" id="file" ref="file" @change="getBase64File" name="pdf_file" v-validate="'required'"/>
+            <span class="text-danger text-sm" v-show="errors.has('pdf_file')">{{errors.first('pdf_file')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload video</small> <br>
 <!--            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>-->
-            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="readVideo"/>
+            <input class="w-full" type="file" id="video" ref="file" @change="readVideo"/>
           </div>
         </div>
         <vs-button @click="store">Save</vs-button>
@@ -55,21 +63,27 @@
 </template>
 
 <script>
-// import vSelect from 'vue-select'
 import { mapActions } from 'vuex'
+import vSelect from 'vue-select'
 export default {
+  components:{
+    vSelect
+  },
   data () {
     return {
-      organization_id:null,
-      image: '',
-      title:'',
-      description:'',
-      file: '',
-      video: '',
-      link:'',
-      type: 1,
+      organizations:[],
+      company_id:1,
+      // organization_id:this.$route.params.organizationId,
+      // image: '',
+      // title:'',
+      // description:'',
+      // file: '',
+      // video: '',
+      // link:'',
+      // type: 4,
       allowedImageType:['image/jpeg', 'image/png'],
       storeData: {
+        id: this.$route.params.id,
         organization_id:null,
         image: '',
         title:'',
@@ -77,7 +91,7 @@ export default {
         file: '',
         video: '',
         link:'',
-        type: 1
+        type: 4
       }
     }
   },
@@ -85,12 +99,17 @@ export default {
     ...mapActions({
       dispatchStore: 'course/store',
       dispatchUpdate: 'course/update',
-      dispatchShow: 'course/show'
+      dispatchShow: 'course/show',
+      dispatchGetOrganizations: 'master/organizations'
     }),
+    async getMaster () {
+      const org = await this.dispatchGetOrganizations()
+      this.organizations = org.data
+    },
     convertToFormData () {
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
-      ['organization_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
+      ['id', 'organization_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       return data
@@ -113,40 +132,40 @@ export default {
         //   type: this.type,
         //   file: this.file
         // }
-        // this.$vs.loading()
-        // try {
-        //   if (this.$route.params.id) {
-        //     await this.dispatchUpdate(payload)
-        //   } else {
-        //     await this.dispatchStore(payload)
-        //   }
-        //   this.$vs.loading.close()
-        //   this.$vs.notify({
-        //     title: 'Success!',
-        //     text: 'Data was saved successfully!',
-        //     color: 'success'
-        //   })
-        //   this.$router.push({name: 'course'})
-        // } catch (error) {
-        //   this.$vs.loading.close()
-        //   this.$vs.notify({
-        //     title: 'Oops!',
-        //     text: error.data.message,
-        //     color: 'danger'
-        //   })
-        // }
+        this.$vs.loading()
+        try {
+          if (this.$route.params.id) {
+            await this.dispatchUpdate(formData)
+          } else {
+            await this.dispatchStore(formData)
+          }
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({name: 'course'})
+        } catch (error) {
+          this.$vs.loading.close()
+          this.$vs.notify({
+            title: 'Oops!',
+            text: error.data.message,
+            color: 'danger'
+          })
+        }
       })
     },
     async getDetail () {
       const { success } = await this.dispatchShow(this.$route.params.id)
-      this.organization_id = success.organization_id
-      this.image = `http://api-kms.maesagroup.co.id/files/${  success.image}`
-      this.title = success.title
-      this.description = success.description
-      this.file = success.file
-      this.video = success.video
-      this.link = success.link
-      this.type = success.type
+      this.storeData.organization_id = success.organization_id
+      this.storeData.image = `${process.env.VUE_APP_API_URL}/files/${success.image}`
+      this.storeData.title = success.title
+      this.storeData.description = success.description
+      this.storeData.file = success.file
+      this.storeData.video = success.video
+      this.storeData.link = success.link
+      this.storeData.type = success.type
     },
     async changeImage (e) {
       const image = e.target
@@ -155,7 +174,8 @@ export default {
         if (filterFormat.length < 1) return this.$vs.notify({title:'Maaf!', text:'File bukan berupa gambar!', color:'warning'})
         const reader = new FileReader()
         reader.onload = async (e) => {
-          this.image = e.target.result
+          // this.image = e.target.result
+          this.storeData.image = e.target.result
         }
         reader.readAsDataURL(image.files[0])
       }
@@ -164,7 +184,8 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(event.target.files[0])
       reader.onload = () => {
-        this.file = reader.result
+        // this.file = reader.result
+        this.storeData.file = reader.result
       }
       this.$emit('input', event.target.files[0])
     },
@@ -182,6 +203,7 @@ export default {
     }
   },
   async mounted () {
+    await this.getMaster()
     if (this.$route.params.id) {
       this.getDetail()
     }

@@ -1,12 +1,10 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card>
+      <vx-card title="All Organization">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <h3>
-              All Organization
-            </h3>
+            <vs-button :to="{name:'course-create'}">Create Course</vs-button>
           </template>
           <template slot="thead">
             <vs-th>Code</vs-th>
@@ -31,25 +29,25 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
-  export default {
-    data () {
-      return {
+import {mapState, mapActions} from 'vuex'
+export default {
+  data () {
+    return {
 
-      }
-    },
-    computed:{
-      ...mapState({
-        data: state => state.course.rows
-      })
-    },
-    methods:{
-      ...mapActions({
-        dispatchIndex: 'course/index'
-      })
-    },
-    mounted () {
-      this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
     }
+  },
+  computed:{
+    ...mapState({
+      data: state => state.course.rows
+    })
+  },
+  methods:{
+    ...mapActions({
+      dispatchIndex: 'course/index'
+    })
+  },
+  mounted () {
+    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
   }
+}
 </script>
