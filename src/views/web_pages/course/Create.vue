@@ -118,9 +118,9 @@ export default {
       this.$validator.validateAll().then(async res => {
         if (!res) return false
         const formData = this.convertToFormData()
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0] }, ${  pair[1]}`)
-        }
+        // for (const pair of formData.entries()) {
+        //   console.log(`${pair[0] }, ${  pair[1]}`)
+        // }
         // const payload = {
         //   id: this.$route.params.id,
         //   organization_id: this.$route.params.organizationId,

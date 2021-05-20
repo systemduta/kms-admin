@@ -135,7 +135,12 @@ export default {
     }
   },
   mounted () {
-    this.dispatchAllQuestion(this.$route.params.id)
+    this.$vs.loading()
+    this.dispatchAllQuestion(this.$route.params.id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>

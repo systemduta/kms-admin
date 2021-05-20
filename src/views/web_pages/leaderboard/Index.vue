@@ -31,25 +31,30 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
-  export default {
-    data () {
-      return {
+import {mapState, mapActions} from 'vuex'
+export default {
+  data () {
+    return {
 
-      }
-    },
-    computed:{
-      ...mapState({
-        data: state => state.leaderboard.rows
-      })
-    },
-    methods:{
-      ...mapActions({
-        dispatchIndex: 'leaderboard/index'
-      })
-    },
-    mounted () {
-      this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
     }
+  },
+  computed:{
+    ...mapState({
+      data: state => state.leaderboard.rows
+    })
+  },
+  methods:{
+    ...mapActions({
+      dispatchIndex: 'leaderboard/index'
+    })
+  },
+  mounted () {
+    this.$vs.loading()
+    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
+}
 </script>

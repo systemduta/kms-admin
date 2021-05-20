@@ -47,7 +47,12 @@ export default {
     })
   },
   mounted () {
-    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
+    this.$vs.loading()
+    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>

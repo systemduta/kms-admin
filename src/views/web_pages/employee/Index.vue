@@ -12,6 +12,7 @@
             <vs-th>Username</vs-th>
             <vs-th>Company</vs-th>
             <vs-th>Organization</vs-th>
+            <vs-th>Level</vs-th>
             <vs-th>NIK</vs-th>
             <vs-th></vs-th>
           </template>
@@ -24,6 +25,7 @@
               <vs-td :data="tr.username">{{tr.username}}</vs-td>
               <vs-td :data="tr.company.name">{{tr.company.name}}</vs-td>
               <vs-td :data="tr.organization.name">{{tr.organization.name}}</vs-td>
+              <vs-td :data="tr.golongan.name">{{tr.golongan.name}}</vs-td>
               <vs-td :data="tr.nik">{{tr.nik}}</vs-td>
               <vs-td>
                 <div class="flex">
@@ -87,7 +89,12 @@ export default {
     }
   },
   mounted () {
-    this.dispatchIndex()
+    this.$vs.loading()
+    this.dispatchIndex().then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>

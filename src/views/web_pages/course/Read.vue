@@ -82,7 +82,12 @@ export default {
     }
   },
   mounted () {
-    this.dispatchIndex(this.$route.params.id)
+    this.$vs.loading()
+    this.dispatchIndex(this.$route.params.id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>
