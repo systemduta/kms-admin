@@ -1,7 +1,8 @@
 import axios from '@/axios'
 const state = {
   rows: [],
-  row: {}
+  row: [],
+  upload_progress: 0
 }
 const mutations = {
   SET_ROWS (state, data) {
@@ -9,21 +10,36 @@ const mutations = {
   },
   SET_ROW (state, data) {
     state.row = data
+  },
+  SET_UPLOAD_PROGRESS (state, data) {
+    state.upload_progress = data
   }
 }
 const actions = {
   async index ({commit}, payload) {
     try {
-      const { data } = await axios.get(`/api/web/event?company_id=${payload}`)
+      const { data } = await axios.get('/api/web/vhs', {
+        params: payload
+      })
       commit('SET_ROWS', data.data)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
     }
   },
-  async store (store, payload) {
+  async store ({commit}, payload) {
     try {
-      const { data } = await axios.post('api/web/event', payload)
+      const { data } = await axios.post('api/web/vhs',
+        payload,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          onUploadProgress: (progressEvent) => {
+            commit('SET_UPLOAD_PROGRESS', parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100)))
+          }
+        }
+      )
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
@@ -31,7 +47,7 @@ const actions = {
   },
   async show ({commit}, id) {
     try {
-      const { data } = await axios.get(`api/web/detail_event/${id}`)
+      const { data } = await axios.get(`api/web/vhs/${id}`)
       commit('SET_ROW', data.data)
       return Promise.resolve(data)
     } catch (error) {
@@ -40,7 +56,7 @@ const actions = {
   },
   async update (store, payload) {
     try {
-      const { data } = await axios.put(`api/web/event/${payload.id}`, payload)
+      const { data } = await axios.put(`api/web/vhs/${payload.id}`, payload)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
@@ -48,7 +64,7 @@ const actions = {
   },
   async destroy (store, id) {
     try {
-      const { data } = await axios.delete(`api/web/event/${id}`)
+      const { data } = await axios.delete(`api/web/vhs/${id}`)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

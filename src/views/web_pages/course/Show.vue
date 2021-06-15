@@ -12,7 +12,7 @@
         <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="tr.description">
-                {{tr.description}}
+                <p v-html="tr.description"></p>
               </vs-td>
               <template slot="expand">
                 <vs-chip class="w-full" v-for="(val,k) in tr.answers" :key="k" :color="val.is_true==1 ? 'success' : 'warning'">
@@ -24,7 +24,8 @@
         </template>
         </vs-table>
         <vs-popup :active.sync="popUp" title="Add New Question">
-          <vs-input v-model="f_question" class="w-full" label-placeholder="Question"></vs-input>
+<!--          <vs-input v-model="f_question" class="w-full" label-placeholder="Question"></vs-input>-->
+          <quill-editor v-model="f_question"/>
           <table class="w-full">
             <thead>
               <tr>
@@ -37,7 +38,7 @@
                 <vs-input class="w-full" label-placeholder="Answer" v-model="tr.name"></vs-input>
               </td>
               <td class="text-center">
-                <vs-checkbox v-model="tr.is_true"></vs-checkbox>
+                <vs-checkbox vs-name="radio-answer" v-model="tr.is_true"></vs-checkbox>
               </td>
             </tr>
           </table>
@@ -49,78 +50,97 @@
 </template>
 
 <script>
-  const ansDef = [
-    {
-      is_true: false,
-      name: ""
-    },
-    {
-      is_true: false,
-      name: ""
-    },
-    {
-      is_true: false,
-      name: ""
-    },
-    {
-      is_true: false,
-      name: ""
-    }
-  ]
-  import {mapState, mapActions} from 'vuex'
-  export default {
-    data () {
-      return {
-        popUp: false,
-        f_question: "",
-        f_answers:[
-          {
-            is_true: false,
-            name: ""
-          },
-          {
-            is_true: false,
-            name: ""
-          },
-          {
-            is_true: false,
-            name: ""
-          },
-          {
-            is_true: false,
-            name: ""
-          },
-        ]
-      }
-    },
-    computed:{
-      ...mapState({
-        data: state => state.course.rows
-      })
-    },
-    methods:{
-      ...mapActions({
-        dispatchStoreQuestion: 'course/store_question',
-        dispatchAllQuestion: 'course/getQuestion'
-      }),
-      addQuestion(){
-        this.f_question = ""
-        this.f_answers = ansDef
-        this.popUp = true
-      },
-      async storeAnswer(){
-        let payload = {
-          course_id: this.$route.params.id,
-          description: this.f_question,
-          answers: this.f_answers
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+const ansDef = [
+  {
+    is_true: false,
+    name: ''
+  },
+  {
+    is_true: false,
+    name: ''
+  },
+  {
+    is_true: false,
+    name: ''
+  },
+  {
+    is_true: false,
+    name: ''
+  }
+]
+import {mapState, mapActions} from 'vuex'
+export default {
+  components: {
+    quillEditor
+  },
+  data () {
+    return {
+      popUp: false,
+      f_question: 'Insert question here',
+      f_answers:[
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
         }
-        await this.dispatchStoreQuestion(payload)
-        this.popUp = false       
-        this.dispatchAllQuestion(this.$route.params.id) 
-      },
+      ]
+    }
+  },
+  computed:{
+    ...mapState({
+      data: state => state.course.rows
+    })
+  },
+  methods:{
+    ...mapActions({
+      dispatchStoreQuestion: 'course/store_question',
+      dispatchAllQuestion: 'course/getQuestion'
+    }),
+    addQuestion () {
+      // this.f_question = ''
+      // this.f_answers = ansDef
+      this.popUp = true
     },
-    mounted () {
+    clearForm () {
+      this.f_question = ''
+      this.f_answers = ansDef
+    },
+    async storeAnswer () {
+      // this.clearForm()
+      // this.popUp = false
+      const payload = {
+        course_id: this.$route.params.id,
+        description: this.f_question,
+        answers: this.f_answers
+      }
+      await this.dispatchStoreQuestion(payload)
+      this.clearForm()
+      this.popUp = false
       this.dispatchAllQuestion(this.$route.params.id)
     }
+  },
+  mounted () {
+    this.$vs.loading()
+    this.dispatchAllQuestion(this.$route.params.id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
+}
 </script>

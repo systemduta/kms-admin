@@ -3,9 +3,9 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="All Course">
         <vs-table search :data="data" class="mb-2">
-          <template slot="header">
-            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>
-          </template>
+<!--          <template slot="header">-->
+<!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
+<!--          </template>-->
           <template slot="thead">
             <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>
@@ -15,7 +15,7 @@
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td class="img-container">
-                <img :src="image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
+                <img :src="base_url_image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
               </vs-td>
               <vs-td :data="tr.title">
                 <router-link :to="{name:'course-detail', params:{id: tr.id}}">{{tr.title}}</router-link>
@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       idDelete: null,
-      image: process.env.VUE_APP_API_URL
+      base_url_image: process.env.VUE_APP_API_URL
     }
   },
   computed:{
@@ -82,7 +82,12 @@ export default {
     }
   },
   mounted () {
-    this.dispatchIndex(this.$route.params.id)
+    this.$vs.loading()
+    this.dispatchIndex(this.$route.params.id).then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>

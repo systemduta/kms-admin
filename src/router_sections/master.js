@@ -64,7 +64,8 @@ export default [
         }
       },
       {
-        path: 'create/:organizationId',
+        // path: 'create/:organizationId',
+        path: 'create',
         name: 'course-create',
         component: () => import('@/views/web_pages/course/Create.vue'),
         meta: {
@@ -139,5 +140,38 @@ export default [
         }
       }
     ]
-  }
+  },
+  {
+    path: '/vhs',
+    component: {template: '<router-view/>'},
+    children: [
+      {
+        path: '',
+        name: 'vhs',
+        component: () => import('@/views/web_pages/vhs/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'vhs'
+        }
+      },
+      {
+        path: 'create',
+        name: 'vhs-create',
+        component: () => import('@/views/web_pages/vhs/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'vhs'
+        }
+      },
+      {
+        path: ':id',
+        name: 'vhs-edit',
+        component: () => import('@/views/web_pages/vhs/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'vhs'
+        }
+      }
+    ]
+  },
 ]

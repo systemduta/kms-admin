@@ -1,27 +1,27 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Event">
+      <vx-card title="All Organization">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'event-create'}">Create Event</vs-button>
+            <vs-button :to="{name:'vhs-create'}">Create VHS</vs-button>
           </template>
           <template slot="thead">
-            <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>
             <vs-th>Description</vs-th>
+            <vs-th>Thumbnail</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{data}">
-            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td class="img-container">
-                <img :src="image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
-              </vs-td>
+            <vs-tr :key="index" v-for="(tr, index) in data">
               <vs-td :data="tr.title">{{tr.title}}</vs-td>
               <vs-td :data="tr.description">{{tr.description}}</vs-td>
+              <vs-td class="img-container">
+                <img :src="base_url_image + '/files/' + tr.thumbnail" width="150" height="100" class="product-img"/>
+              </vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `event-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button class="mr-2" :to="{name: `course-read`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
                   <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
@@ -38,19 +38,19 @@ import {mapState, mapActions} from 'vuex'
 export default {
   data () {
     return {
-      idDelete: null,
-      image: process.env.VUE_APP_API_URL
+      base_url_image: process.env.VUE_APP_API_URL,
+      idDelete: null
     }
   },
   computed:{
     ...mapState({
-      data: state => state.event.rows
+      data: state => state.vhs.rows
     })
   },
   methods:{
     ...mapActions({
-      dispatchIndex: 'event/index',
-      dispatchDestroy: 'event/destroy'
+      dispatchIndex: 'vhs/index',
+      dispatchDestroy: 'vhs/destroy'
     }),
     async confirmDelete () {
       try {
@@ -61,7 +61,6 @@ export default {
           text: 'Your data has been deleted successfully',
           color: 'primary'
         })
-        this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
       } catch (error) {
         this.$vs.notify({
           title: 'Oops!',
@@ -83,7 +82,7 @@ export default {
   },
   mounted () {
     this.$vs.loading()
-    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id).then(() => {
+    this.dispatchIndex({}).then(() => {
       this.$vs.loading.close()
     }).catch(() => {
       this.$vs.loading.close()

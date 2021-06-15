@@ -67,6 +67,11 @@ export default [
         url: {name: 'event'},
         name: 'Event',
         slug: 'event'
+      },
+      {
+        url: {name: 'vhs'},
+        name: 'VHS',
+        slug: 'vhs'
       }
     ]
   }

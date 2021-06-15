@@ -63,12 +63,14 @@ export default {
           description: this.description,
           link: this.link
         }
+        this.$vs.loading()
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(payload)
           } else {
             await this.dispatchStore(payload)
           }
+          this.$vs.loading.close()
           this.$vs.notify({
             title: 'Success!',
             text: 'Data was saved successfully!',
@@ -76,6 +78,7 @@ export default {
           })
           this.$router.push({name: 'event'})
         } catch (error) {
+          this.$vs.loading.close()
           this.$vs.notify({
             title: 'Oops!',
             text: error.data.message,
@@ -95,6 +98,7 @@ export default {
     async changeImage (e) {
       const image = e.target
       if (image.files && image.files[0]) {
+        // eslint-disable-next-line eqeqeq
         const filterFormat = await this.allowedImageType.filter(e => e == image.files[0].type)
         if (filterFormat.length < 1) return this.$vs.notify({title:'Maaf!', text:'File bukan berupa gambar!', color:'warning'})
         const reader = new FileReader()

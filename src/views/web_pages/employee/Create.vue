@@ -105,6 +105,9 @@ export default {
       this.organizations = org.data
       const gol = await this.dispatchGetGolongans()
       this.golongans = gol.data
+      if (this.$route.params.id) {
+        await this.getDetail()
+      }
     },
     store () {
       this.$validator.validateAll().then(async res => {
@@ -121,12 +124,14 @@ export default {
           password: this.password,
           c_password: this.c_password
         }
+        this.$vs.loading()
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(payload)
           } else {
             await this.dispatchStore(payload)
           }
+          this.$vs.loading.close()
           this.$vs.notify({
             title: 'Success!',
             text: 'Data was saved successfully!',
@@ -134,6 +139,7 @@ export default {
           })
           this.$router.push({name: 'employee'})
         } catch (error) {
+          this.$vs.loading.close()
           this.$vs.notify({
             title: 'Oops!',
             text: error.data.message,
@@ -154,6 +160,7 @@ export default {
     async changeImage (e) {
       const image = e.target
       if (image.files && image.files[0]) {
+        // eslint-disable-next-line eqeqeq
         const filterFormat = await this.allowedImageType.filter(e => e == image.files[0].type)
         if (filterFormat.length < 1) return this.$vs.notify({title:'Maaf!', text:'File bukan berupa gambar!', color:'warning'})
         const reader = new FileReader()
@@ -173,10 +180,12 @@ export default {
     }
   },
   async mounted () {
-    await this.getMaster()
-    if (this.$route.params.id) {
-      this.getDetail()
-    }
+    this.$vs.loading()
+    await this.getMaster().then(() => {
+      this.$vs.loading.close()
+    }).catch(() => {
+      this.$vs.loading.close()
+    })
   }
 }
 </script>
