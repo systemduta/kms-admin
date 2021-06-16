@@ -67,9 +67,9 @@ export default {
         }
       }
       this.$store.dispatch('auth/loginJWT', payload)
-        .then(() => { 
+        .then(() => {
           this.$vs.loading.close()
-          this.$router.replace({name:`dashboard-analytics`})
+          this.$router.replace({name:'dashboard-analytics'})
         })
         .catch(error => {
           console.log(error)

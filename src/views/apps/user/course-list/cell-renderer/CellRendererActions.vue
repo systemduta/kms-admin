@@ -10,7 +10,7 @@ export default {
   name: 'CellRendererActions',
   methods: {
     editRecord () {
-      this.$router.push(`/apps/user/user-create-course`).catch(() => {})
+      this.$router.push('/apps/user/user-create-course').catch(() => {})
 
       /*
               Below line will be for actual product

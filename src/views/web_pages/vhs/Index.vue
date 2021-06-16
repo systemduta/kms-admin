@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Organization">
+      <vx-card title="All VHS Module">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{name:'vhs-create'}">Create VHS</vs-button>
@@ -21,7 +21,7 @@
               </vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `course-read`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+<!--                  <vs-button class="mr-2" :to="{name: `course-read`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>-->
                   <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
@@ -53,15 +53,18 @@ export default {
       dispatchDestroy: 'vhs/destroy'
     }),
     async confirmDelete () {
+      this.$vs.loading()
       try {
         await this.dispatchDestroy(this.idDelete)
         this.dispatchIndex()
+        this.$vs.loading.close()
         this.$vs.notify({
           title: 'Success',
           text: 'Your data has been deleted successfully',
           color: 'primary'
         })
       } catch (error) {
+        this.$vs.loading.close()
         this.$vs.notify({
           title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,

@@ -2,7 +2,7 @@ import axios from '@/axios'
 const state = {
   rows: [],
   row: {},
-  progress: 0
+  upload_progress: 0
 }
 const mutations = {
   SET_ROWS (state, data) {
@@ -11,8 +11,8 @@ const mutations = {
   SET_ROW (state, data) {
     state.row = data
   },
-  SET_PROGRESS (state, data) {
-    state.progress = data
+  SET_UPLOAD_PROGRESS (state, data) {
+    state.upload_progress = data
   }
 }
 const actions = {
@@ -51,10 +51,19 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async store (store, payload) {
+  async store ({commit}, payload) {
     try {
-      const { data } = await axios.post('api/web/course', payload)
-      console.log(data)
+      const { data } = await axios.post('api/web/course',
+        payload,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          onUploadProgress: (progressEvent) => {
+            commit('SET_UPLOAD_PROGRESS', parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100)))
+          }
+        }
+      )
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

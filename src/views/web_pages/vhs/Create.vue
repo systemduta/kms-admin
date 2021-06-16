@@ -26,8 +26,9 @@
             <input class="w-full" type="file" id="video" ref="file" @change="readVideo"/>
           </div>
         </div>
-        <vs-progress :percent="100" color="primary">primary</vs-progress>
-        <vs-button @click="store" loading :active="isLoading">Save</vs-button>
+        <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
+        <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
+        <vs-button @click="store" :disabled="isLoading">Save</vs-button>
       </vx-card>
     </div>
   </div>
@@ -36,7 +37,7 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 import imageCompression from 'browser-image-compression'
-import axios from '@/axios'
+// import axios from '@/axios'
 export default {
   data () {
     return {
@@ -44,7 +45,7 @@ export default {
       allowedImageType:['image/jpeg', 'image/png'],
       isLoading: false,
       thumbnail_preview: '',
-      upload_progress: null,
+      // upload_progress: null,
       storeData: {
         id: this.$route.params.id,
         thumbnail: '',
@@ -74,44 +75,65 @@ export default {
       })
       return data
     },
+    // store () {
+    //   this.$validator.validateAll().then(async res => {
+    //     if (!res) return false
+    //     this.isLoading = true
+    //     const formData = this.convertToFormData()
+    //     try {
+    //       if (this.$route.params.id) {
+    //         await this.dispatchUpdate(formData)
+    //       } else {
+    //         axios.post('api/web/vhs',
+    //           formData,
+    //           {
+    //             headers: {
+    //               'Content-Type': 'multipart/form-data'
+    //             },
+    //             onUploadProgress: (progressEvent) => {
+    //               this.upload_progress = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+    //             }
+    //           }
+    //         ).then(() => {
+    //           this.upload_progress = 0
+    //           this.$vs.notify({
+    //             title: 'Success!',
+    //             text: 'Data was saved successfully!',
+    //             color: 'success'
+    //           })
+    //           this.$router.push({name: 'vhs'})
+    //         })
+    //       }
+    //     } catch (error) {
+    //       this.$vs.loading.close()
+    //       this.$vs.notify({
+    //         title: 'Oops!',
+    //         text: error.data.message,
+    //         color: 'danger'
+    //       })
+    //     }
+    //   })
+    // },
     store () {
       this.$validator.validateAll().then(async res => {
         if (!res) return false
-        this.isLoading = true
         const formData = this.convertToFormData()
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0] }, ${  pair[1]}`)
-        // }
-        this.$vs.loading({
-          text: `Upload Data ${this.upload_progress}`
-        })
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(formData)
           } else {
-            axios.post('api/web/vhs',
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                },
-                onUploadProgress: (progressEvent) => {
-                  this.upload_progress = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100))
-                }
-              }
-            ).then(() => {
-              this.isLoading = false
-              this.$vs.loading.close()
-              this.$vs.notify({
-                title: 'Success!',
-                text: 'Data was saved successfully!',
-                color: 'success'
-              })
-              this.$router.push({name: 'vhs'})
-            })
+            await this.dispatchStore(formData)
           }
+          this.isLoading = false
+          this.$vs.notify({
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({name: 'vhs'})
         } catch (error) {
-          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
             title: 'Oops!',
             text: error.data.message,

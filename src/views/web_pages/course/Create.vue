@@ -56,14 +56,16 @@
             <input class="w-full" type="file" id="video" ref="file" @change="readVideo"/>
           </div>
         </div>
-        <vs-button @click="store">Save</vs-button>
+        <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
+        <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
+        <vs-button @click="store" :disabled="isLoading">Save</vs-button>
       </vx-card>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import vSelect from 'vue-select'
 export default {
   components:{
@@ -74,6 +76,7 @@ export default {
       organizations:[],
       company_id:1,
       allowedImageType:['image/jpeg', 'image/png'],
+      isLoading: false,
       storeData: {
         id: this.$route.params.id,
         organization_id:null,
@@ -86,6 +89,11 @@ export default {
         type: 4
       }
     }
+  },
+  computed:{
+    ...mapState({
+      uploadProgress: state => state.course.upload_progress
+    })
   },
   methods:{
     ...mapActions({
@@ -114,34 +122,16 @@ export default {
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0] }, ${  pair[1]}`)
         // }
-        this.$vs.loading()
-        // const vm = this
-        // axios.post('api/web/course',
-        //   formData,
-        //   {
-        //     headers: {
-        //       'Content-Type': 'multipart/form-data'
-        //     },
-        //     onUploadProgress: (progressEvent) => {
-        //       this.uploadPercentage = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100))
-        //     }
-        //   }
-        // ).then(function () {
-        //   console.log('SUCCESS!!')
-        //   vm.$vs.loading.close()
-        // })
-        //   .catch(function () {
-        //     console.log('FAILURE!!')
-        //     vm.$vs.loading.close()
-        //   })
-
+        // this.$vs.loading()
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(formData)
           } else {
             await this.dispatchStore(formData)
           }
-          this.$vs.loading.close()
+          // this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
             title: 'Success!',
             text: 'Data was saved successfully!',

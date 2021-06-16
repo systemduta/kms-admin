@@ -105,6 +105,15 @@ export default [
           auth: true,
           parent: 'leaderboard'
         }
+      },
+      {
+        path: 'exam_result',
+        name: 'leaderboard-exam-result',
+        component: () => import('@/views/web_pages/leaderboard/ExamResult.vue'),
+        meta: {
+          auth: true,
+          parent: 'leaderboard'
+        }
       }
     ]
   },
