@@ -1,24 +1,27 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Level">
+      <vx-card>
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button color="primary" type="border" icon="list" title="exam result" :to="{name:'leaderboard-exam-result'}"></vs-button>
+            <h3>
+              All Exam Result
+            </h3>
           </template>
           <template slot="thead">
-            <vs-th>Level</vs-th>
-            <vs-th>Name</vs-th>
-            <vs-th></vs-th>
+            <vs-th sort-key="name">Name</vs-th>
+            <vs-th sort-key="title">Course</vs-th>
+            <vs-th sort-key="score">Score</vs-th>
+            <vs-th sort-key="status">Status</vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="tr.code">{{tr.code}}</vs-td>
               <vs-td :data="tr.name">{{tr.name}}</vs-td>
-              <vs-td>
-                <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `leaderboard-read`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
-                </div>
+              <vs-td :data="tr.title">{{tr.title}}</vs-td>
+              <vs-td :data="tr.score">{{tr.status==1?'':tr.score}}</vs-td>
+              <vs-td :data="tr.status">
+                <vs-chip color="primary" v-if="tr.status==2">Finish</vs-chip>
+                <vs-chip color="danger" v-if="tr.status==1">On Going</vs-chip>
               </vs-td>
             </vs-tr>
           </template>
@@ -38,17 +41,17 @@ export default {
   },
   computed:{
     ...mapState({
-      data: state => state.leaderboard.rows
+      data: state => state.leaderboard.exam_result
     })
   },
   methods:{
     ...mapActions({
-      dispatchIndex: 'leaderboard/index'
+      dispatchExamResult: 'leaderboard/exam_result'
     })
   },
   mounted () {
     this.$vs.loading()
-    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id).then(() => {
+    this.dispatchExamResult().then(() => {
       this.$vs.loading.close()
     }).catch(() => {
       this.$vs.loading.close()

@@ -1,10 +1,14 @@
 import axios from '@/axios'
 const state = {
-  rows: []
+  rows: [],
+  exam_result: []
 }
 const mutations = {
   SET_ROWS (state, data) {
     state.rows = data
+  },
+  SET_EXAM_RESULT (state, data) {
+    state.exam_result = data
   }
 }
 const actions = {
@@ -23,6 +27,15 @@ const actions = {
       // const { data } = await axios.get(`/api/web/leaderboard?organization_id=${id}`)
       const { data } = await axios.get(`/api/web/leaderboard?golongan_id=${id}`)
       commit('SET_ROWS', data.data)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+  async exam_result ({commit}) {
+    try {
+      const { data } = await axios.get('/api/web/leaderboard/exam_result')
+      commit('SET_EXAM_RESULT', data.data)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

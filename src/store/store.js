@@ -25,6 +25,7 @@ import employee from './maesa/employee'
 import course from './maesa/course'
 import leaderboard from './maesa/leaderboard'
 import event from './maesa/event'
+import vhs from './maesa/vhs'
 
 export default new Vuex.Store({
   getters,
@@ -40,7 +41,8 @@ export default new Vuex.Store({
     employee,
     course,
     leaderboard,
-    event
+    event,
+    vhs
   },
   strict: process.env.NODE_ENV !== 'production'
 })
