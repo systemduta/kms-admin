@@ -8,13 +8,13 @@
 ==========================================================================================*/
 
 import jwt from '../../http/requests/auth/jwt/index.js'
-import router from '@/router'
+// import router from '@/router'
 
 export default {
   loginJWT ({ commit }, payload) {
     return new Promise((resolve, reject) => {
       jwt.login(payload.userDetails.username, payload.userDetails.password, payload.userDetails.isWeb)
-        .then(response => {          
+        .then(response => {
           if (response) {
             localStorage.setItem('accessToken', response.accessToken)
             commit('UPDATE_USER_INFO', response, {root: true})

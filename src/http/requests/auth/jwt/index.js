@@ -1,16 +1,16 @@
 import axios from '../../../axios/index.js'
-import store from '../../../../store/store.js'
+// import store from '../../../../store/store.js'
 
-let isAlreadyFetchingAccessToken = false
-let subscribers = []
+// let isAlreadyFetchingAccessToken = false
+// let subscribers = []
 
-function onAccessTokenFetched (access_token) {
-  subscribers = subscribers.filter(callback => callback(access_token))
-}
+// function onAccessTokenFetched (access_token) {
+//   subscribers = subscribers.filter(callback => callback(access_token))
+// }
 
-function addSubscriber (callback) {
-  subscribers.push(callback)
-}
+// function addSubscriber (callback) {
+//   subscribers.push(callback)
+// }
 
 export default {
   init () {
@@ -18,7 +18,7 @@ export default {
       return response
     }, function (error) {
       return Promise.reject(error)
-      
+
     })
   },
   login (username, pwd, isWeb) {

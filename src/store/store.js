@@ -36,11 +36,11 @@ export default new Vuex.Store({
     eCommerce: moduleECommerce,
 
     /* vuex untuk maesa group */
-    master: master,
-    employee: employee,
-    course: course,
-    leaderboard: leaderboard,
-    event: event
+    master,
+    employee,
+    course,
+    leaderboard,
+    event
   },
   strict: process.env.NODE_ENV !== 'production'
 })

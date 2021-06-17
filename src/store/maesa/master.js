@@ -2,7 +2,7 @@ import axios from '@/axios'
 const state = {}
 const mutations = {}
 const actions = {
-  async companies ({ commit }) {
+  async companies () {
     try {
       const { data } = await axios.get('api/web/get_company')
       return Promise.resolve(data)
@@ -10,7 +10,7 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async organizations ({ commit }) {
+  async organizations () {
     try {
       const { data } = await axios.get('api/web/get_organization')
       return Promise.resolve(data)
@@ -18,7 +18,7 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async golongans ({ commit }) {
+  async golongans () {
     try {
       const { data } = await axios.get('api/web/golongan')
       return Promise.resolve(data)
@@ -26,7 +26,7 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async detail_admin ({ commit }) {
+  async detail_admin () {
     try {
       const { data } = await axios.get('api/web/detail_admin')
       return Promise.resolve(data)
