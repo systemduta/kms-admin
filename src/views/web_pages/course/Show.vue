@@ -2,7 +2,7 @@
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
       <vx-card title="All Questions">
-        <vs-table search :data="data" class="mb-2">
+        <vs-table stripe search :data="data" class="mb-2">
         <template slot="header">
           <vs-button @click="addQuestion">Add Question</vs-button>
         </template>
@@ -10,17 +10,23 @@
           <vs-th>Question</vs-th>
         </template>
         <template slot-scope="{data}">
-            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="tr.description">
-                <p v-html="tr.description"></p>
-              </vs-td>
-              <template slot="expand">
-                <vs-chip class="w-full" v-for="(val,k) in tr.answers" :key="k" :color="val.is_true==1 ? 'success' : 'warning'">
-                  <vs-avatar icon-pack="feather" :icon="val.is_true==1 ? 'icon-check' : 'icon-x'" :color="val.is_true ? 'success' : 'warning'"></vs-avatar>
-                  {{val.name}}
-                </vs-chip>
-              </template>
-            </vs-tr>
+          <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+            <vs-td :data="tr.description">
+              <p v-html="tr.description"></p>
+            </vs-td>
+            <template class="expand-user" slot="expand">
+              <div class="con-expand-users" style="width: 100%;">
+                <vs-row vs-w="12">
+                  <vs-col vs-type="flex" vs-justify="center" vs-align="center">
+                    <vs-chip class="w-full" v-for="(val,k) in tr.answers" :key="k" :color="val.is_true==1 ? 'success' : 'warning'">
+                      <vs-avatar icon-pack="feather" :icon="val.is_true==1 ? 'icon-check' : 'icon-x'" :color="val.is_true ? 'success' : 'warning'"></vs-avatar>
+                      {{val.name}}
+                    </vs-chip>
+                  </vs-col>
+                </vs-row>
+              </div>
+            </template>
+          </vs-tr>
         </template>
         </vs-table>
         <vs-popup :active.sync="popUp" title="Add New Question">
@@ -42,7 +48,14 @@
               </td>
             </tr>
           </table>
-          <vs-button class="mt-3 w-full" @click="storeAnswer">Save</vs-button>
+          <vs-row class="mt-3" vs-type="flex" vs-justify="space-between">
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
+              <vs-button @click="storeAnswer">Save</vs-button>
+            </vs-col>
+            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
+              <vs-button color="danger" type="border" @click="clearForm">Clear</vs-button>
+            </vs-col>
+          </vs-row>
         </vs-popup>
       </vx-card>
     </div>
@@ -54,24 +67,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
-const ansDef = [
-  {
-    is_true: false,
-    name: ''
-  },
-  {
-    is_true: false,
-    name: ''
-  },
-  {
-    is_true: false,
-    name: ''
-  },
-  {
-    is_true: false,
-    name: ''
-  }
-]
+
 import {mapState, mapActions} from 'vuex'
 export default {
   components: {
@@ -80,7 +76,7 @@ export default {
   data () {
     return {
       popUp: false,
-      f_question: 'Insert question here',
+      f_question: '',
       f_answers:[
         {
           is_true: false,
@@ -118,11 +114,47 @@ export default {
     },
     clearForm () {
       this.f_question = ''
-      this.f_answers = ansDef
+      this.f_answers = [
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
+        },
+        {
+          is_true: false,
+          name: ''
+        }
+      ]
     },
     async storeAnswer () {
       // this.clearForm()
       // this.popUp = false
+      //check double answer and no answer
+      let is_ans = false
+      let double = false
+      this.f_answers.forEach(function (answer) {
+        if (answer.is_true && is_ans) {
+          is_ans = false
+          double = true
+        } else if (answer.is_true) is_ans = true
+      })
+      if (double) {
+        alert('Double Answer')
+        return null
+      }
+      if (!is_ans) {
+        alert('Answer Not Available')
+        return null
+      }
+      //end of check double answer and no answer
+
       const payload = {
         course_id: this.$route.params.id,
         description: this.f_question,

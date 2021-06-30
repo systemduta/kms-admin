@@ -1,11 +1,11 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Course">
+      <vx-card title="All Mini VHS">
         <vs-table search :data="data" class="mb-2">
-<!--          <template slot="header">-->
-<!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
-<!--          </template>-->
+          <template slot="header">
+            <vs-button :to="{name:'mini_vhs_create'}">Create Mini VHS</vs-button>
+          </template>
           <template slot="thead">
             <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>
@@ -18,7 +18,7 @@
                 <img :src="base_url_image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
               </vs-td>
               <vs-td :data="tr.title">
-                <router-link :to="{name:'course-detail', params:{id: tr.id}}">{{tr.title}}</router-link>
+                <router-link :to="{name:'mini_vhs_detail', params:{id: tr.id}}">{{tr.title}}</router-link>
               </vs-td>
               <vs-td :data="tr.description">{{tr.description}}</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 1">Hard Skill</vs-td>
@@ -36,6 +36,7 @@
 <script>
 import {mapState, mapActions} from 'vuex'
 export default {
+  name: 'MiniVHS.Index',
   data () {
     return {
       idDelete: null,
@@ -49,7 +50,7 @@ export default {
   },
   methods:{
     ...mapActions({
-      dispatchIndex: 'course/getCourse',
+      dispatchIndex: 'course/getCorporateValueCourse',
       dispatchDestroy: 'course/destroy'
     }),
     async confirmDelete () {
@@ -83,7 +84,7 @@ export default {
   },
   mounted () {
     this.$vs.loading()
-    this.dispatchIndex(this.$route.params.id).then(() => {
+    this.dispatchIndex(3).then(() => {
       this.$vs.loading.close()
     }).catch(() => {
       this.$vs.loading.close()

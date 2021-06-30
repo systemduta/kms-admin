@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="Input Data Course">
+      <vx-card title="Input Data Mini VHS">
         <div class="vx-col w-full">
             <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
@@ -28,22 +28,6 @@
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <small class="ml-2">Type</small> <br>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="4">Soft Skill</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1">Hard Skill</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="2">Our Company</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="3">Corporate Value</vs-radio>
-          </div>
-        </div>
-        <div class="vx-row mb-5" v-if="storeData.type==1">
-          <div class="vx-col w-full">
-            <small class="ml-2">Organization</small> <br>
-            <v-select v-model="storeData.organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization" :reduce="e => e.id" label="name"></v-select>
-            <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
-          </div>
-        </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
             <small class="ml-2">Upload pdf file</small> <br>
             <input class="w-full" type="file" id="file" ref="file" @change="getBase64File" name="pdf_file" v-validate="'required'"/>
             <span class="text-danger text-sm" v-show="errors.has('pdf_file')">{{errors.first('pdf_file')}}</span>
@@ -52,7 +36,6 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload video</small> <br>
-<!--            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>-->
             <input class="w-full" type="file" id="video" ref="file" @change="readVideo"/>
           </div>
         </div>
@@ -86,7 +69,7 @@ export default {
         file: '',
         video: '',
         link:'',
-        type: 4
+        type: 3
       }
     }
   },
@@ -137,7 +120,7 @@ export default {
             text: 'Data was saved successfully!',
             color: 'success'
           })
-          this.$router.push({name: 'course'})
+          this.$router.push({name: 'mini_vhs'})
         } catch (error) {
           // this.$vs.loading.close()
           this.isLoading = false
@@ -179,14 +162,6 @@ export default {
       reader.onload = () => {
         // this.file = reader.result
         this.storeData.file = reader.result
-      }
-      this.$emit('input', event.target.files[0])
-    },
-    getBase64Video (event) {
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
-      reader.onload = () => {
-        this.video = reader.result
       }
       this.$emit('input', event.target.files[0])
     },

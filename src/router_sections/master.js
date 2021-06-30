@@ -140,7 +140,7 @@ export default [
         }
       },
       {
-        path: ':id',
+        path: 'edit/:id',
         name: 'event-edit',
         component: () => import('@/views/web_pages/event/Create.vue'),
         meta: {
@@ -148,6 +148,57 @@ export default [
           parent: 'event'
         }
       }
+    ]
+  },
+  {
+    path: '/mini_vhs',
+    component: {template: '<router-view/>'},
+    children: [
+      {
+        path: '',
+        name: 'mini_vhs',
+        component: () => import('@/views/web_pages/mini_vhs/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'mini_vhs'
+        }
+      },
+      {
+        path: 'create',
+        name: 'mini_vhs_create',
+        component: () => import('@/views/web_pages/mini_vhs/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'mini_vhs'
+        }
+      },
+      {
+        path: ':id',
+        name: 'mini_vhs_detail',
+        component: () => import('@/views/web_pages/mini_vhs/Show.vue'),
+        meta: {
+          auth: true,
+          parent: 'mini_vhs'
+        }
+      }
+      // {
+      //   path: 'create',
+      //   name: 'vhs-create',
+      //   component: () => import('@/views/web_pages/vhs/Create.vue'),
+      //   meta: {
+      //     auth: true,
+      //     parent: 'vhs'
+      //   }
+      // },
+      // {
+      //   path: 'edit/:id',
+      //   name: 'vhs-edit',
+      //   component: () => import('@/views/web_pages/vhs/Create.vue'),
+      //   meta: {
+      //     auth: true,
+      //     parent: 'vhs'
+      //   }
+      // }
     ]
   },
   {
@@ -182,5 +233,5 @@ export default [
         }
       }
     ]
-  },
+  }
 ]

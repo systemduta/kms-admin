@@ -34,6 +34,15 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
+  async getCorporateValueCourse ({commit}, id) {
+    try {
+      const { data } = await axios.get(`/api/web/course?type=${id}`)
+      commit('SET_ROWS', data.data)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
   async getQuestion ({commit}, id) {
     try {
       const { data } = await axios.get(`/api/web/get_question/${id}`)

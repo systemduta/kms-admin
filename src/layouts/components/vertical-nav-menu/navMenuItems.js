@@ -49,7 +49,7 @@ export default [
   },
   {
     url: null,
-    name: 'User',
+    name: 'Knowledge',
     icon: 'PackageIcon',
     i18n: 'Knowledge',
     submenu: [
@@ -67,6 +67,19 @@ export default [
         url: {name: 'event'},
         name: 'Event',
         slug: 'event'
+      }
+    ]
+  },
+  {
+    url: null,
+    name: 'VHS',
+    icon: 'CpuIcon',
+    i18n: 'VHS',
+    submenu: [
+      {
+        url: {name: 'mini_vhs'},
+        name: 'Mini VHS',
+        slug: 'mini_vhs'
       },
       {
         url: {name: 'vhs'},
