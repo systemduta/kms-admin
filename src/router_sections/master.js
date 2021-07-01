@@ -233,5 +233,20 @@ export default [
         }
       }
     ]
+  },
+  {
+    path: '/splash_screen',
+    component: {template: '<router-view/>'},
+    children: [
+      {
+        path: '',
+        name: 'splash_screen',
+        component: () => import('@/views/web_pages/splash_screen/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'splash_screen'
+        }
+      }
+    ]
   }
 ]

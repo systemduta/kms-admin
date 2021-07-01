@@ -87,6 +87,12 @@ export default [
         slug: 'vhs'
       }
     ]
+  },
+  {
+    url: {name: 'splash_screen'},
+    name: 'splash_screen',
+    icon: 'ImageIcon',
+    i18n: 'Splash Screen'
   }
 ]
 

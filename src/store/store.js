@@ -26,6 +26,7 @@ import course from './maesa/course'
 import leaderboard from './maesa/leaderboard'
 import event from './maesa/event'
 import vhs from './maesa/vhs'
+import splash_screen from './maesa/splash_screen'
 
 export default new Vuex.Store({
   getters,
@@ -42,7 +43,8 @@ export default new Vuex.Store({
     course,
     leaderboard,
     event,
-    vhs
+    vhs,
+    splash_screen
   },
   strict: process.env.NODE_ENV !== 'production'
 })
