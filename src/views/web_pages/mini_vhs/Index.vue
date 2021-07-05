@@ -11,6 +11,7 @@
             <vs-th>Title</vs-th>
             <vs-th>Description</vs-th>
             <vs-th>Type</vs-th>
+            <vs-th></vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -25,6 +26,12 @@
               <vs-td :data="tr.type" v-if="tr.type === 4">Soft Skill</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 2">Our Company</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 3">Corporate Value</vs-td>
+              <vs-td>
+                <div class="flex">
+                  <vs-button class="mr-2" :to="{name: `mini_vhs_edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                </div>
+              </vs-td>
             </vs-tr>
           </template>
         </vs-table>
@@ -56,13 +63,12 @@ export default {
     async confirmDelete () {
       try {
         await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
         this.$vs.notify({
           title: 'Success',
           text: 'Your data has been deleted successfully',
           color: 'primary'
         })
-        this.dispatchIndex(this.$route.params.id)
+        this.dispatchIndex(3)
       } catch (error) {
         this.$vs.notify({
           title: 'Oops!',

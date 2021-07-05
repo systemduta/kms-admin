@@ -173,6 +173,15 @@ export default [
         }
       },
       {
+        path: 'edit/:id',
+        name: 'mini_vhs_edit',
+        component: () => import('@/views/web_pages/mini_vhs/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'mini_vhs'
+        }
+      },
+      {
         path: ':id',
         name: 'mini_vhs_detail',
         component: () => import('@/views/web_pages/mini_vhs/Show.vue'),

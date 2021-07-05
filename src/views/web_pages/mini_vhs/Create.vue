@@ -3,7 +3,7 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="Input Data Mini VHS">
         <div class="vx-col w-full">
-            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
+            <input class="hidden" type="file" @change="changeImage" ref="imageInput" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="storeData.image.length>0" :src="storeData.image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -138,8 +138,8 @@ export default {
       this.storeData.image = `${process.env.VUE_APP_API_URL}/files/${success.image}`
       this.storeData.title = success.title
       this.storeData.description = success.description
-      this.storeData.file = success.file
-      this.storeData.video = success.video
+      this.storeData.file = null
+      this.storeData.video = null
       this.storeData.link = success.link
       this.storeData.type = success.type
     },
