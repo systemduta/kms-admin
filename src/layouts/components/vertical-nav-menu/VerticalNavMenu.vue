@@ -167,18 +167,36 @@ export default {
       }
     },
     menuItemsUpdated () {
-      const clone = this.navMenuItems.slice()
-
-      for (const [index, item] of this.navMenuItems.entries()) {
-        if (item.header && item.items.length && (index || 1)) {
-          const i = clone.findIndex(ix => ix.header === item.header)
-          for (const [subIndex, subItem] of item.items.entries()) {
-            clone.splice(i + 1 + subIndex, 0, subItem)
-          }
+      let temp = this.navMenuItems.filter(function (item) {
+        return item
+      })
+      return temp.map(function (el) {
+        return {
+          url: el.url,
+          name: el.name,
+          icon: el.icon,
+          i18n: el.i18n,
+          submenu: el.submenu.filter(function (fill) {
+            return fill;
+          })
         }
-      }
-
-      return clone
+      })
+      // const clone = this.navMenuItems.slice()
+      // console.log(clone)
+      //
+      // for (const [index, item] of this.navMenuItems.entries()) {
+      //   if (item.header && item.items.length && (index || 1)) {
+      //     const i = clone.findIndex(ix => ix.header === item.header)
+      //     for (const [subIndex, subItem] of item.items.entries()) {
+      //       if (!subItem) continue
+      //       clone.splice(i + 1 + subIndex, 0, subItem)
+      //     }
+      //   }
+      // }
+      //
+      // console.log(clone)
+      //
+      // return clone
     },
     isVerticalNavMenuActive: {
       get ()    { return this.$store.state.isVerticalNavMenuActive },

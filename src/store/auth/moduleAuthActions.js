@@ -16,7 +16,7 @@ export default {
       jwt.login(payload.userDetails.username, payload.userDetails.password, payload.userDetails.isWeb)
         .then(response => {
           if (response) {
-            localStorage.setItem('accessToken', response.accessToken)
+            localStorage.setItem('accessToken', response.data.accessToken)
             commit('UPDATE_USER_INFO', response, {root: true})
             commit('SET_BEARER', response.accessToken)
             resolve(response)

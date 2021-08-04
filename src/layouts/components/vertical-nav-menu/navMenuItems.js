@@ -17,9 +17,10 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
+let user_info = JSON.parse(localStorage.getItem('userInfo'));
+let organization_id = user_info.data.organization_id
 
-
-export default [
+let menu = [
   {
     url: null,
     name: 'Dashboard',
@@ -53,11 +54,12 @@ export default [
     icon: 'PackageIcon',
     i18n: 'Knowledge',
     submenu: [
+      organization_id === 11 ?
       {
         url: {name: 'course'},
         name: 'Course',
         slug: 'course'
-      },
+      } : null,
       {
         url: {name: 'leaderboard'},
         name: 'Leaderboard',
@@ -70,29 +72,32 @@ export default [
       }
     ]
   },
-  {
-    url: null,
-    name: 'VHS',
-    icon: 'CpuIcon',
-    i18n: 'VHS',
-    submenu: [
-      {
-        url: {name: 'mini_vhs'},
-        name: 'Mini VHS',
-        slug: 'mini_vhs'
-      },
-      {
-        url: {name: 'vhs'},
-        name: 'VHS',
-        slug: 'vhs'
-      }
-    ]
-  },
+  organization_id === 20 ?
+    {
+      url: null,
+      name: 'VHS',
+      icon: 'CpuIcon',
+      i18n: 'VHS',
+      submenu: [
+        {
+          url: {name: 'mini_vhs'},
+          name: 'Mini VHS',
+          slug: 'mini_vhs'
+        },
+        {
+          url: {name: 'vhs'},
+          name: 'VHS',
+          slug: 'vhs'
+        }
+      ]
+    } : null,
   {
     url: {name: 'splash_screen'},
     name: 'splash_screen',
     icon: 'ImageIcon',
-    i18n: 'Splash Screen'
+    i18n: 'Splash Screen',
+    submenu: []
   }
 ]
 
+export default menu
