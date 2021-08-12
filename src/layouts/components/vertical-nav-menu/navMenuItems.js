@@ -54,7 +54,7 @@ let menu = [
     icon: 'PackageIcon',
     i18n: 'Knowledge',
     submenu: [
-      organization_id === 11 ?
+      organization_id !== 20 ?
       {
         url: {name: 'course'},
         name: 'Course',
@@ -72,7 +72,7 @@ let menu = [
       }
     ]
   },
-  organization_id === 20 ?
+  organization_id !== 11 ?
     {
       url: null,
       name: 'VHS',

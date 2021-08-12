@@ -204,6 +204,7 @@ export default {
       }
       //end of check double answer and no answer
 
+      this.$vs.loading()
       const payload = {
         course_id: this.$route.params.id,
         is_pre_test: this.f_is_pre_test,
@@ -213,7 +214,11 @@ export default {
       await this.dispatchStoreQuestion(payload)
       this.clearForm()
       this.popUp = false
-      this.dispatchAllQuestion(this.$route.params.id)
+      this.dispatchAllQuestion(this.$route.params.id).then(() => {
+        this.$vs.loading.close()
+      }).catch(() => {
+        this.$vs.loading.close()
+      })
     }
   },
   mounted () {
