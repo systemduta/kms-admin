@@ -18,7 +18,7 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 let user_info = JSON.parse(localStorage.getItem('userInfo'));
-let organization_id = user_info.data.organization_id
+let organization_id = parseInt(user_info.data.organization_id)
 
 let menu = [
   {
