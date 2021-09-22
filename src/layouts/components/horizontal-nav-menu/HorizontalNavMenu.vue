@@ -9,12 +9,10 @@
             v-for  = "(item, index) in navMenuItems"
             :key   = "index"
             :class = "{'mr-2': !(navMenuItems.length === index+1)}">
-
             <!-- If header -->
             <template v-if="item.header">
               <h-nav-menu-header :header="item" class="menu-header relative" />
             </template>
-
             <!-- If it's group -->
             <template v-else-if="item.submenu">
               <h-nav-menu-group
@@ -40,7 +38,6 @@
                   <vs-chip :color="item.tagColor" v-if="item.tag">{{ item.tag }}</vs-chip>
               </h-nav-menu-item>
             </div>
-
           </li>
         </ul>
       </vs-navbar>

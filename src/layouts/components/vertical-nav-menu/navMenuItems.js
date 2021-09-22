@@ -18,7 +18,7 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 let user_info = JSON.parse(localStorage.getItem('userInfo'));
-let organization_id = parseInt(user_info.data.organization_id)
+let organization_id = parseInt(user_info.data.organization_id);
 
 let menu = [
   {
@@ -54,7 +54,7 @@ let menu = [
     icon: 'PackageIcon',
     i18n: 'Knowledge',
     submenu: [
-      organization_id !== 20 ?
+      organization_id != 20 ?
       {
         url: {name: 'course'},
         name: 'Course',
@@ -72,7 +72,7 @@ let menu = [
       }
     ]
   },
-  organization_id !== 11 ?
+  (organization_id == 20 || organization_id == 23) ?
     {
       url: null,
       name: 'VHS',
@@ -91,13 +91,13 @@ let menu = [
         }
       ]
     } : null,
-  {
-    url: {name: 'splash_screen'},
-    name: 'splash_screen',
-    icon: 'ImageIcon',
-    i18n: 'Splash Screen',
-    submenu: []
-  }
+  // {
+  //   url: {name: 'splash_screen'},
+  //   name: 'splash_screen',
+  //   icon: 'ImageIcon',
+  //   i18n: 'Splash Screen',
+  //   submenu: []
+  // }
 ]
 
 export default menu

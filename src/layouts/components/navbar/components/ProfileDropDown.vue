@@ -1,30 +1,20 @@
 <template>
   <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
-    <!-- <div class="text-right leading-tight hidden sm:block">
-      <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-      <small>Available</small>
-    </div> -->
-    <div class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="logout">
-      <p class="font-semibold">Logout</p>
+<!--    <div class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white" @click="logout">-->
+    <div class="py-2 px-4">
+      <p class="font-semibold">{{user_info.data.name}}</p>
+      <small>{{user_info.data.company_name}}</small>
     </div>
-    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
-      <!-- <vs-dropdown-menu class="vx-navbar-dropdown"> -->
-        <!-- <ul style="min-width: 9rem"> -->
-          <!-- <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="$router.push('/pages/profile').catch(() => {})">
-            <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">Profile</span>
-          </li> -->
-          <!-- <vs-divider class="m-1" /> -->
-          <!-- <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            @click="logout">
-            <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">Logout</span>
-          </li> -->
-        <!-- </ul> -->
-      <!-- </vs-dropdown-menu> -->
+    <vs-dropdown>
+      <a class="a-icon" href.prevent>
+        <vs-avatar :src="image + user_info.data.avatar" v-if="user_info.data.avatar"/>
+        <vs-avatar :src="image + 'user_60cc4a86c8539.png'" v-else/>
+      </a>
+      <vs-dropdown-menu>
+        <vs-dropdown-item>
+          <vs-button color="primary" type="border" icon="logout" @click="logout">Logout</vs-button>
+        </vs-dropdown-item>
+      </vs-dropdown-menu>
     </vs-dropdown>
   </div>
 </template>
@@ -36,7 +26,8 @@ import 'firebase/auth'
 export default {
   data () {
     return {
-
+      image: process.env.VUE_APP_API_URL + '/files/',
+      user_info: {}
     }
   },
   computed: {
@@ -71,6 +62,9 @@ export default {
       // This is just for demo Purpose. If user clicks on logout -> redirect
       this.$router.push('/pages/login').catch(() => {})
     }
+  },
+  mounted () {
+    this.user_info = JSON.parse(localStorage.getItem('userInfo'))
   }
 }
 </script>
