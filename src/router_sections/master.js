@@ -257,5 +257,27 @@ export default [
         }
       }
     ]
+  },
+  {
+    path: '/documentation',
+    component: {template: '<router-view/>'},
+    children: [
+      {
+        path: 'general',
+        name: 'documentation_general',
+        component: () => import('@/views/web_pages/documentations/DocumentationGeneral.vue'),
+        meta: {
+          auth: true
+        }
+      },
+      {
+        path: 'mini_vhs',
+        name: 'documentation_mini_vhs',
+        component: () => import('@/views/web_pages/documentations/DocumentationMiniVHS.vue'),
+        meta: {
+          auth: true
+        }
+      }
+    ]
   }
 ]

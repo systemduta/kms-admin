@@ -93,6 +93,22 @@ export default [
     name: 'splash_screen',
     icon: 'ImageIcon',
     i18n: 'Splash Screen'
+  },
+  {
+    url: null,
+    name: 'Documentation',
+    icon: 'BookIcon',
+    i18n: 'Documentation',
+    submenu: [
+      {
+        url: {name: 'documentation_general'},
+        name: 'General'
+      },
+      {
+        url: {name: 'documentation_mini_vhs'},
+        name: 'Mini VHS'
+      }
+    ]
   }
 ]
 

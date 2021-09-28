@@ -11,7 +11,7 @@
           <vs-th>Question</vs-th>
         </template>
         <template slot-scope="{data}">
-            <vs-tr :key="indextr" v-for="(tr, indextr) in data" v-if="tr.is_pre_test===1">
+            <vs-tr :key="indextr" v-for="(tr, indextr) in data" v-if="tr.is_pre_test==1">
               <vs-td :data="tr.description">
                 <p v-html="tr.description"></p>
               </vs-td>
@@ -40,7 +40,7 @@
           <vs-th>Question</vs-th>
         </template>
         <template slot-scope="{data}">
-            <vs-tr :key="indextr" v-for="(tr, indextr) in data" v-if="tr.is_pre_test!==1">
+            <vs-tr :key="indextr" v-for="(tr, indextr) in data" v-if="tr.is_pre_test!=1">
               <vs-td :data="tr.description">
                 <p v-html="tr.description"></p>
               </vs-td>
