@@ -25,7 +25,7 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async show (id) {
+  async show ({commit}, id) {
     try {
       const { data } = await axios.get(`api/web/detail_user/${id}`)
       return Promise.resolve(data)

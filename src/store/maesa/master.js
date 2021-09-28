@@ -4,7 +4,7 @@ const mutations = {}
 const actions = {
   async companies () {
     try {
-      const { data } = await axios.get('api/web/get_company')
+      const { data } = await axios.get('api/web/companies')
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
@@ -12,7 +12,7 @@ const actions = {
   },
   async organizations () {
     try {
-      const { data } = await axios.get('api/web/get_organization')
+      const { data } = await axios.get('api/web/organization')
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

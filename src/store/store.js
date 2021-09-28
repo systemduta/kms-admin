@@ -22,6 +22,7 @@ import moduleECommerce from './eCommerce/moduleECommerce.js'
 
 import master from './maesa/master'
 import employee from './maesa/employee'
+import division from "./maesa/division";
 import course from './maesa/course'
 import leaderboard from './maesa/leaderboard'
 import event from './maesa/event'
@@ -37,9 +38,10 @@ export default new Vuex.Store({
     auth: moduleAuth,
     eCommerce: moduleECommerce,
 
-    /* vuex untuk maesa group */
+    /* vuex for maesa group */
     master,
     employee,
+    division,
     course,
     leaderboard,
     event,

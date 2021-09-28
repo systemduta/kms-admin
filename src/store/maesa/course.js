@@ -18,7 +18,7 @@ const mutations = {
 const actions = {
   async index ({commit}, payload) {
     try {
-      const { data } = await axios.get(`/api/web/organization/list_by_company?company_id=${payload}`)
+      const { data } = await axios.get(`/api/web/organization`)
       commit('SET_ROWS', data.data)
       return Promise.resolve(data)
     } catch (error) {

@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Organization">
+      <vx-card title="All Division">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{name:'course-create'}">Create Course</vs-button>

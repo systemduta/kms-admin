@@ -3,7 +3,7 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="Input Data Employee">
         <div class="vx-col w-full">
-            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="image.length<1?'required':''" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
+            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="image.length<1?'required|ext:jpg,jpeg,png|size:1024':''" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="image.length>0" :src="image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -29,7 +29,7 @@
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <small>Organization</small>
+            <small>Division</small>
             <v-select v-model="organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization"  :reduce="e => e.id" label="name"></v-select>
             <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
           </div>
@@ -56,7 +56,8 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload Foto ID Card</small> <br>
-            <input class="ml-2 mr-2" type="file" id="file" ref="file" @change="getBase64File"/>
+            <input class="ml-2 mr-2" type="file" id="file" ref="file" name="id_card" @change="getBase64File" v-validate="file.length<1?'required|ext:jpg,jpeg,png|size:1024':''"/> <br>
+            <span class="text-danger text-sm" v-show="errors.has('id_card')">{{errors.first('id_card')}}</span>
           </div>
         </div>
         <vs-button @click="store">Save</vs-button>
@@ -152,6 +153,7 @@ export default {
       const { success } = await this.dispatchShow(this.$route.params.id)
       this.name = success.name
       this.image = `${process.env.VUE_APP_API_URL  }/files/${  success.image}`
+      this.file = success.file
       this.nik = success.nik
       this.company_id = success.company_id
       this.organization_id = success.organization_id

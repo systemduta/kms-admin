@@ -38,9 +38,14 @@ let menu = [
   {
     url: null,
     name: 'User',
-    icon: 'UserIcon',
-    i18n: 'Member',
+    icon: 'UsersIcon',
+    i18n: 'Administration',
     submenu: [
+      {
+        url: {name: 'division'},
+        name: 'Division',
+        slug: 'division'
+      },
       {
         url: {name: 'employee'},
         name: 'Employee',
@@ -65,11 +70,12 @@ let menu = [
         name: 'Leaderboard',
         slug: 'leaderboard'
       },
+      (organization_id == 20 || organization_id == 23) ?
       {
         url: {name: 'event'},
         name: 'Event',
         slug: 'event'
-      }
+      } : null,
     ]
   },
   (organization_id == 20 || organization_id == 23) ?

@@ -1,35 +1,25 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Employee">
+      <vx-card title="All Division">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'employee-create'}">Create User</vs-button>
+            <vs-button :to="{name: 'division-create'}">Create Division</vs-button>
           </template>
           <template slot="thead">
-            <vs-th></vs-th>
+            <vs-th>No</vs-th>
             <vs-th>Name</vs-th>
-            <vs-th>Username</vs-th>
-            <vs-th>Company</vs-th>
-            <vs-th>Division</vs-th>
-            <vs-th>Level</vs-th>
-            <vs-th>NIK</vs-th>
+            <vs-th>Code</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td class="img-container">
-                <vs-avatar :src="image + '/files/' + tr.image"/>
-              </vs-td>
+              <vs-td :data="indextr">{{(indextr+1)}}</vs-td>
               <vs-td :data="tr.name">{{tr.name}}</vs-td>
-              <vs-td :data="tr.username">{{tr.username}}</vs-td>
-              <vs-td :data="tr.company.name">{{tr.company.name}}</vs-td>
-              <vs-td :data="tr.organization.name">{{tr.organization.name}}</vs-td>
-              <vs-td :data="tr.golongan.name">{{tr.golongan.name}}</vs-td>
-              <vs-td :data="tr.nik">{{tr.nik}}</vs-td>
+              <vs-td :data="tr.code">{{tr.code}}</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `employee-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button class="mr-2" :to="{name: `division-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
                   <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
@@ -52,18 +42,18 @@ export default {
   },
   computed:{
     ...mapState({
-      data: state => state.employee.rows
+      data: state => state.division.rows
     })
   },
   methods:{
     ...mapActions({
-      dispatchIndex: 'employee/index',
-      dispatchDestroy: 'employee/destroy'
+      dispatchIndex: 'division/index',
+      dispatchDestroy: 'division/destroy'
     }),
     async confirmDelete () {
       try {
         await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchIndex()
         this.$vs.notify({
           title: 'Success',
           text: 'Your data has been deleted successfully',

@@ -1,5 +1,38 @@
 export default [
   {
+    path: '/division',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'division',
+        component: () => import('@/views/web_pages/division/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'division'
+        }
+      },
+      {
+        path: 'create',
+        name: 'division-create',
+        component: () => import('@/views/web_pages/division/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'division'
+        }
+      },
+      {
+        path: ':id',
+        name: 'division-edit',
+        component: () => import('@/views/web_pages/division/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'division'
+        }
+      }
+    ]
+  },
+  {
     path: '/employee',
     component: { template: '<router-view/>' },
     children: [
