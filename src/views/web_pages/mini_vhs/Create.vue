@@ -3,7 +3,7 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="Input Data Mini VHS">
         <div class="vx-col w-full">
-            <input class="hidden" type="file" @change="changeImage" ref="imageInput" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
+            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required|size:1024'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="storeData.image.length>0" :src="storeData.image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -29,14 +29,15 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload pdf file</small> <br>
-            <input class="w-full" type="file" id="file" ref="file" @change="getBase64File" name="pdf_file" v-validate="'required'"/>
+            <input class="w-full" type="file" id="file" ref="file" @change="getBase64File" name="pdf_file" v-validate="'required|ext:pdf|size:3072'"/>
             <span class="text-danger text-sm" v-show="errors.has('pdf_file')">{{errors.first('pdf_file')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload video</small> <br>
-            <input class="w-full" type="file" id="video" ref="file" @change="readVideo"/>
+            <input class="w-full" type="file" id="video" ref="video" name="video_file" @change="readVideo" v-validate="'required|size:20480'"/>
+            <span class="text-danger text-sm" v-show="errors.has('video_file')">{{errors.first('video_file')}}</span>
           </div>
         </div>
         <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
