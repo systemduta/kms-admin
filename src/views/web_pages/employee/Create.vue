@@ -3,60 +3,60 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="Input Data Employee">
         <div class="vx-col w-full">
-            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="image.length<1?'required|ext:jpg,jpeg,png|size:1024':''" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
+            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="storeData.image.length<1?(this.$route.params.id?'':'required|')+'ext:jpg,jpeg,png|size:1024':''" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="image.length>0" :src="image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
         </div>
         <div class="vx-row mb-5 mt-10">
           <div class="vx-col w-full">
-            <vs-input class="w-full" v-validate="'required'" name="name" label="Name" v-model="name"></vs-input>
+            <vs-input class="w-full" v-validate="'required'" name="name" label="Name" v-model="storeData.name"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('name')">{{errors.first('name')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <vs-input class="w-full" v-validate="'required'" name="nik" label="NIK" v-model="nik"></vs-input>
+            <vs-input class="w-full" v-validate="'required'" name="nik" label="NIK" v-model="storeData.nik"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('nik')">{{errors.first('nik')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small>Companies</small>
-            <v-select @search:blur="organization_id=null" v-model="company_id" :options="companies" v-validate="'required'" name="company"  :reduce="e => e.id" label="name"></v-select>
+            <v-select @search:blur="storeData.organization_id=null" v-model="storeData.company_id" :options="companies" v-validate="'required'" name="company"  :reduce="e => e.id" label="name"></v-select>
             <span class="text-danger text-sm" v-show="errors.has('company')">{{errors.first('company')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small>Division</small>
-            <v-select v-model="organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization"  :reduce="e => e.id" label="name"></v-select>
+            <v-select v-model="storeData.organization_id" :options="organizations.filter(e => e.company_id==storeData.company_id)" v-validate="'required'" name="organization"  :reduce="e => e.id" label="name"></v-select>
             <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small>Level</small>
-            <v-select v-model="golongan_id" :options="golongans" v-validate="'required'" name="golongan_id" :reduce="e => e.id" label="name"></v-select>
+            <v-select v-model="storeData.golongan_id" :options="golongans" v-validate="'required'" name="golongan_id" :reduce="e => e.id" label="name"></v-select>
             <span class="text-danger text-sm" v-show="errors.has('golongan_id')">{{errors.first('golongan_id')}}</span>
           </div>
         </div>
         <div v-if="!this.$route.params.id" class="vx-row mb-5">
           <div class="vx-col w-full">
-            <vs-input ref="password" type="password" autocomplete="new-password" class="w-full" v-validate="'required'" name="password" label="Password" v-model="password"></vs-input>
+            <vs-input ref="password" type="password" autocomplete="new-password" class="w-full" v-validate="'required'" name="password" label="Password" v-model="storeData.password"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('password')">{{errors.first('password')}}</span>
           </div>
         </div>
         <div v-if="!this.$route.params.id" class="vx-row mb-5">
           <div class="vx-col w-full">
-            <vs-input type="password" autocomplete="new-password" class="w-full" v-validate="'required|confirmed:password'" name="c_password" label="Password Confirmation" v-model="c_password"></vs-input>
+            <vs-input type="password" autocomplete="new-password" class="w-full" v-validate="'required|confirmed:password'" name="c_password" label="Password Confirmation" v-model="storeData.c_password"></vs-input>
             <span class="text-danger text-sm" v-show="errors.has('c_password')">{{errors.first('c_password')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Upload Foto ID Card</small> <br>
-            <input class="ml-2 mr-2" type="file" id="file" ref="file" name="id_card" @change="getBase64File" v-validate="file.length<1?'required|ext:jpg,jpeg,png|size:1024':''"/> <br>
+            <input class="ml-2 mr-2" type="file" id="file" ref="file" name="id_card" @change="getBase64File" v-validate="storeData.file.length<1?(this.$route.params.id?'':'required|')+'ext:jpg,jpeg,png|size:1024':''"/> <br>
             <span class="text-danger text-sm" v-show="errors.has('id_card')">{{errors.first('id_card')}}</span>
           </div>
         </div>
@@ -72,15 +72,19 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      storeData: {
+        id: this.$route.params.id,
+        company_id:null,
+        golongan_id:null,
+        organization_id:null,
+        image: '',
+        name:'',
+        password:'',
+        c_password:'',
+        nik:'',
+        file: ''
+      },
       image: '',
-      file: '',
-      name:'',
-      password:'',
-      c_password:'',
-      nik:'',
-      company_id:null,
-      organization_id:null,
-      golongan_id:null,
       companies:[],
       organizations:[],
       golongans:[],
@@ -110,27 +114,29 @@ export default {
         await this.getDetail()
       }
     },
+    convertToFormData () {
+      const data = new FormData;
+      // eslint-disable-next-line no-unexpected-multiline
+      ['id', 'company_id', 'golongan_id', 'organization_id', 'image', 'name', 'password', 'c_password', 'nik', 'file'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      if (this.$route.params.id) data.append('_method', 'PUT')
+      return data
+    },
     store () {
       this.$validator.validateAll().then(async res => {
         if (!res) return false
-        const payload = {
-          id: this.$route.params.id,
-          image: this.image,
-          file: this.file,
-          name: this.name,
-          company_id: this.company_id,
-          organization_id: this.organization_id,
-          golongan_id: this.golongan_id,
-          nik: this.nik,
-          password: this.password,
-          c_password: this.c_password
-        }
+        const formData = this.convertToFormData()
+        // for (const pair of formData.entries()) {
+        //   console.log(`${pair[0] }, ${  pair[1]}`)
+        // }
+        // this.$vs.loading()
         this.$vs.loading()
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(payload)
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(payload)
+            await this.dispatchStore(formData)
           }
           this.$vs.loading.close()
           this.$vs.notify({
@@ -151,13 +157,12 @@ export default {
     },
     async getDetail () {
       const { success } = await this.dispatchShow(this.$route.params.id)
-      this.name = success.name
+      this.storeData.name = success.name
       this.image = `${process.env.VUE_APP_API_URL  }/files/${  success.image}`
-      this.file = success.file
-      this.nik = success.nik
-      this.company_id = success.company_id
-      this.organization_id = success.organization_id
-      this.golongan_id = success.golongan_id
+      this.storeData.nik = success.nik
+      this.storeData.company_id = success.company_id
+      this.storeData.organization_id = success.organization_id
+      this.storeData.golongan_id = success.golongan_id
     },
     async changeImage (e) {
       const image = e.target
@@ -167,6 +172,7 @@ export default {
         if (filterFormat.length < 1) return this.$vs.notify({title:'Maaf!', text:'File bukan berupa gambar!', color:'warning'})
         const reader = new FileReader()
         reader.onload = async (e) => {
+          this.storeData.image = e.target.result
           this.image = e.target.result
         }
         reader.readAsDataURL(image.files[0])
@@ -176,7 +182,7 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(event.target.files[0])
       reader.onload = () => {
-        this.file = reader.result
+        this.storeData.file = reader.result
       }
       this.$emit('input', event.target.files[0])
     }

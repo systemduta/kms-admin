@@ -3,7 +3,7 @@
     <div class="vx-col w-full mb-base">
       <vx-card title="Input Data Course">
         <div class="vx-col w-full">
-            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required|size:1024'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
+            <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required|ext:jpg,jpeg,png|size:1024'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="storeData.image.length>0" :src="storeData.image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -53,8 +53,8 @@
           <div class="vx-col w-full">
             <small class="ml-2">Upload video (mp4)</small> <br>
 <!--            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>-->
-            <input class="w-full" type="file" id="video" ref="video" name="video_file" @change="readVideo" v-validate="'required|size:20480'"/>
-            <span class="text-danger text-sm" v-show="errors.has('video_file')">{{errors.first('video_file')}}</span>
+            <input class="w-full" type="file" id="video" ref="video" name="video" @change="readVideo" v-validate="'ext:mp4|size:20480'"/>
+            <span class="text-danger text-sm" v-show="errors.has('video')">{{errors.first('video')}}</span>
           </div>
         </div>
         <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
@@ -75,7 +75,7 @@ export default {
   data () {
     return {
       organizations:[],
-      company_id:1,
+      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       allowedImageType:['image/jpeg', 'image/png'],
       isLoading: false,
       storeData: {
@@ -112,8 +112,8 @@ export default {
       // eslint-disable-next-line no-unexpected-multiline
       ['id', 'organization_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
-        if (this.$route.params.id) data.append('_method', 'PUT')
       })
+      if (this.$route.params.id) data.append('_method', 'PUT')
       return data
     },
     store () {

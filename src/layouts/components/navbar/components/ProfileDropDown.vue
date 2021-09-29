@@ -26,8 +26,8 @@ import 'firebase/auth'
 export default {
   data () {
     return {
-      image: process.env.VUE_APP_API_URL + '/files/',
-      user_info: {}
+      image: `${process.env.VUE_APP_API_URL  }/files/`,
+      user_info: JSON.parse(localStorage.getItem('userInfo'))
     }
   },
   computed: {
@@ -62,9 +62,6 @@ export default {
       // This is just for demo Purpose. If user clicks on logout -> redirect
       this.$router.push('/pages/login').catch(() => {})
     }
-  },
-  mounted () {
-    this.user_info = JSON.parse(localStorage.getItem('userInfo'))
   }
 }
 </script>

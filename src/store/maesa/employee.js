@@ -34,8 +34,12 @@ const actions = {
     }
   },
   async update (store, payload) {
+    let id = null
+    for (const pair of payload.entries()) {
+      if (pair[0] === 'id') id = pair[1]
+    }
     try {
-      const { data } = await axios.put(`api/web/update_user/${payload.id}`, payload)
+      const { data } = await axios.post(`api/web/update_user/${id}`, payload)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

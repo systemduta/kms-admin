@@ -13,18 +13,18 @@
 
     <vx-tour :steps="steps" v-if="!disableThemeTour && (windowWidth >= 1200 && mainLayoutType === 'vertical' && verticalNavMenuWidth == 'default')" />
 
-    <the-customizer
-      v-if                    = "!disableCustomizer"
-      :footerType             = "footerType"
-      :hideScrollToTop        = "hideScrollToTop"
-      :navbarType             = "navbarType"
-      :navbarColor            = "navbarColor"
-      :routerTransition       = "routerTransition"
-      @toggleHideScrollToTop  = "toggleHideScrollToTop"
-      @updateFooter           = "updateFooter"
-      @updateNavbar           = "updateNavbar"
-      @updateNavbarColor      = "updateNavbarColor"
-      @updateRouterTransition = "updateRouterTransition" />
+<!--    <the-customizer-->
+<!--      v-if                    = "!disableCustomizer"-->
+<!--      :footerType             = "footerType"-->
+<!--      :hideScrollToTop        = "hideScrollToTop"-->
+<!--      :navbarType             = "navbarType"-->
+<!--      :navbarColor            = "navbarColor"-->
+<!--      :routerTransition       = "routerTransition"-->
+<!--      @toggleHideScrollToTop  = "toggleHideScrollToTop"-->
+<!--      @updateFooter           = "updateFooter"-->
+<!--      @updateNavbar           = "updateNavbar"-->
+<!--      @updateNavbarColor      = "updateNavbarColor"-->
+<!--      @updateRouterTransition = "updateRouterTransition" />-->
 
     <v-nav-menu
       :navMenuItems = "navMenuItems"
@@ -133,7 +133,7 @@
 import BackToTop           from 'vue-backtotop'
 import HNavMenu            from '@/layouts/components/horizontal-nav-menu/HorizontalNavMenu.vue'
 import navMenuItems        from '@/layouts/components/vertical-nav-menu/navMenuItems.js'
-// import TheCustomizer       from '@/layouts/components/customizer/.vue'
+// import TheCustomizer       from '@/layouts/components/customizer.vue'
 import TheNavbarHorizontal from '@/layouts/components/navbar/TheNavbarHorizontal.vue'
 import TheNavbarVertical   from '@/layouts/components/navbar/TheNavbarVertical.vue'
 import TheFooter           from '@/layouts/components/TheFooter.vue'

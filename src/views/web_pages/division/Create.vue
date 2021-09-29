@@ -66,7 +66,7 @@ export default {
           id: this.$route.params.id,
           company_id: this.company_id,
           name: this.name,
-          code: this.code,
+          code: this.code
         }
         this.$vs.loading()
         try {

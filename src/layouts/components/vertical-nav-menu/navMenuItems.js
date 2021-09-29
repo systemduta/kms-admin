@@ -17,10 +17,10 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-let user_info = JSON.parse(localStorage.getItem('userInfo'));
-let organization_id = parseInt(user_info.data.organization_id);
+const user_info = JSON.parse(localStorage.getItem('userInfo'))
+const organization_id = parseInt(user_info.data.organization_id)
 
-let menu = [
+const menu = [
   {
     url: null,
     name: 'Dashboard',
@@ -60,22 +60,22 @@ let menu = [
     i18n: 'Knowledge',
     submenu: [
       organization_id != 20 ?
-      {
-        url: {name: 'course'},
-        name: 'Course',
-        slug: 'course'
-      } : null,
+        {
+          url: {name: 'course'},
+          name: 'Course',
+          slug: 'course'
+        } : null,
       {
         url: {name: 'leaderboard'},
         name: 'Leaderboard',
         slug: 'leaderboard'
       },
       (organization_id == 20 || organization_id == 23) ?
-      {
-        url: {name: 'event'},
-        name: 'Event',
-        slug: 'event'
-      } : null,
+        {
+          url: {name: 'event'},
+          name: 'Event',
+          slug: 'event'
+        } : null
     ]
   },
   (organization_id == 20 || organization_id == 23) ?
@@ -96,7 +96,7 @@ let menu = [
           slug: 'vhs'
         }
       ]
-    } : null,
+    } : null
   // {
   //   url: {name: 'splash_screen'},
   //   name: 'splash_screen',
