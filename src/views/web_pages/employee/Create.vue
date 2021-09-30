@@ -158,7 +158,7 @@ export default {
     async getDetail () {
       const { success } = await this.dispatchShow(this.$route.params.id)
       this.storeData.name = success.name
-      this.image = `${process.env.VUE_APP_API_URL  }/files/${  success.image}`
+      this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}`: ''
       this.storeData.nik = success.nik
       this.storeData.company_id = success.company_id
       this.storeData.organization_id = success.organization_id

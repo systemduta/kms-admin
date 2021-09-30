@@ -4,8 +4,8 @@
       <vx-card title="Input Data Course">
         <div class="vx-col w-full">
             <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required|ext:jpg,jpeg,png|size:1024'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
-            <img v-if="storeData.image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
-            <img v-if="storeData.image.length>0" :src="storeData.image" alt="" class="preview" @click="$refs.imageInput.click()">
+            <img v-if="image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
+            <img v-if="image.length>0" :src="image" alt="" class="preview" @click="$refs.imageInput.click()">
             <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
         </div>
         <div class="vx-row mb-5 mt-10">
@@ -78,6 +78,7 @@ export default {
       company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       allowedImageType:['image/jpeg', 'image/png'],
       isLoading: false,
+      image: '',
       storeData: {
         id: this.$route.params.id,
         organization_id:null,
@@ -153,7 +154,7 @@ export default {
     async getDetail () {
       const { success } = await this.dispatchShow(this.$route.params.id)
       this.storeData.organization_id = success.organization_id
-      this.storeData.image = `${process.env.VUE_APP_API_URL}/files/${success.image}`
+      this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}`: ''
       this.storeData.title = success.title
       this.storeData.description = success.description
       this.storeData.file = success.file
@@ -170,6 +171,7 @@ export default {
         reader.onload = async (e) => {
           // this.image = e.target.result
           this.storeData.image = e.target.result
+          this.image = e.target.result
         }
         reader.readAsDataURL(image.files[0])
       }
