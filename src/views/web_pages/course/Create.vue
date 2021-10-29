@@ -29,10 +29,10 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <small class="ml-2">Type</small> <br>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="4">Soft Skill</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="4" v-if="company_id == 1">Soft Skill</vs-radio>
             <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1">Hard Skill</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="2">Our Company</vs-radio>
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="3">Corporate Value</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="2" v-if="company_id == 1">Our Company</vs-radio>
+            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="3" v-if="company_id == 1">Corporate Value</vs-radio>
           </div>
         </div>
         <div class="vx-row mb-5" v-if="storeData.type==1">
@@ -40,6 +40,13 @@
             <small class="ml-2">Organization</small> <br>
             <v-select v-model="storeData.organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization" :reduce="e => e.id" label="name"></v-select>
             <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
+          </div>
+        </div>
+        <div class="vx-row mb-5" v-if="storeData.type==1">
+          <div class="vx-col w-full">
+            <small class="ml-2">Level</small> <br>
+            <v-select v-model="storeData.golongan_id" :options="golongans" v-validate="'required'" name="level" :reduce="e => e.id" label="name"></v-select>
+            <span class="text-danger text-sm" v-show="errors.has('level')">{{errors.first('level')}}</span>
           </div>
         </div>
         <div class="vx-row mb-5">
@@ -75,6 +82,7 @@ export default {
   data () {
     return {
       organizations:[],
+      golongans:[],
       company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       allowedImageType:['image/jpeg', 'image/png'],
       isLoading: false,
@@ -82,13 +90,14 @@ export default {
       storeData: {
         id: this.$route.params.id,
         organization_id:null,
+        golongan_id:null,
         image: '',
         title:'',
         description:'',
         file: '',
         video: '',
         link:'',
-        type: 4
+        type: 1
       }
     }
   },
@@ -102,16 +111,19 @@ export default {
       dispatchStore: 'course/store',
       dispatchUpdate: 'course/update',
       dispatchShow: 'course/show',
-      dispatchGetOrganizations: 'master/organizations'
+      dispatchGetOrganizations: 'master/organizations',
+      dispatchGetGolongans: 'master/golongans'
     }),
     async getMaster () {
       const org = await this.dispatchGetOrganizations()
       this.organizations = org.data
+      const gol = await this.dispatchGetGolongans()
+      this.golongans = gol.data
     },
     convertToFormData () {
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
-      ['id', 'organization_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
+      ['id', 'organization_id', 'golongan_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       if (this.$route.params.id) data.append('_method', 'PUT')
