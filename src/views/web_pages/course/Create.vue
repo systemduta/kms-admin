@@ -64,9 +64,43 @@
             <span class="text-danger text-sm" v-show="errors.has('video')">{{errors.first('video')}}</span>
           </div>
         </div>
+        <hr style="margin-top: 30px;"/>
+        <div class="vx-row mt-3 mb-10">
+          <div class="vx-col w-full">
+            <h4><b>List Pertanyaan</b></h4>
+          </div>
+        </div>
+        <div class="vx-row mb-5" v-for="(item, index) in storeData.questions" :key="index">
+          <div class="vx-col w-full">
+            <h6 class="mb-2">Soal No. {{index+1}}</h6>
+            <quill-editor v-model="item.description"/>
+            <table class="w-full">
+              <thead>
+              <tr>
+                <th>Answer List</th>
+                <th width="110">True Answer</th>
+              </tr>
+              </thead>
+              <tr v-for="(tr, i) in item.answers" :key="i">
+                <td>
+                  <vs-input class="w-full" label-placeholder="Answer" v-model="tr.name"></vs-input>
+                </td>
+                <td class="text-center">
+                  <vs-checkbox vs-name="radio-answer" class="mt-5" v-model="tr.is_true"></vs-checkbox>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <vs-button color="primary" type="border" size="small" icon="add" @click="addQuestion">Soal</vs-button>
         <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
         <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
-        <vs-button @click="store" :disabled="isLoading">Save</vs-button>
+        <hr class="mt-10 mb-5"/>
+        <div class="vx-row">
+          <div class="vx-col w-full text-right">
+            <vs-button @click="store" :disabled="isLoading">Save</vs-button>
+          </div>
+        </div>
       </vx-card>
     </div>
   </div>
@@ -75,9 +109,16 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+
 export default {
+  name: "CreateCourse",
   components:{
-    vSelect
+    vSelect,
+    quillEditor
   },
   data () {
     return {
@@ -86,6 +127,7 @@ export default {
       company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       allowedImageType:['image/jpeg', 'image/png'],
       isLoading: false,
+      isQuestionComplete: false,
       image: '',
       storeData: {
         id: this.$route.params.id,
@@ -97,7 +139,31 @@ export default {
         file: '',
         video: '',
         link:'',
-        type: 1
+        type: 1,
+        questions: [
+          {
+            is_pre_test: '',
+            description: '',
+            answers: [
+              {
+                name: '',
+                is_true: 0
+              },
+              {
+                name: '',
+                is_true: 0
+              },
+              {
+                name: '',
+                is_true: 0
+              },
+              {
+                name: '',
+                is_true: 0
+              },
+            ]
+          }
+        ]
       }
     }
   },
@@ -120,23 +186,87 @@ export default {
       const gol = await this.dispatchGetGolongans()
       this.golongans = gol.data
     },
+    addQuestion() {
+      const blank_question= {
+        is_pre_test: '',
+        description: '',
+        answers: [
+        {
+          name: '',
+          is_true: 0
+        },
+        {
+          name: '',
+          is_true: 0
+        },
+        {
+          name: '',
+          is_true: 0
+        },
+        {
+          name: '',
+          is_true: 0
+        }
+        ]
+      };
+      this.storeData.questions.push(blank_question);
+    },
+    checkQuestion() {
+      let vm = this;
+      this.storeData.questions.every(function (item, index) {
+        if (!item.description) {
+          vm.isQuestionComplete = false;
+          alert(`Soal nomor ${index+1} belum terisi`);
+          return false;
+        } else {
+          let key = false;
+          let choose = true;
+          item.answers.forEach(function (answer, i) {
+            if (!answer.name) {
+              choose = false;
+              alert(`Ada pilihan jawaban untuk soal nomor ${index+1} belum terisi`);
+              return false;
+            } else if (answer.is_true == true) key = true;
+          });
+          if (!key) {
+            vm.isQuestionComplete = false;
+            alert(`Kunci jawaban untuk soal nomor ${index+1} belum ada`);
+            return false;
+          } else {
+            vm.isQuestionComplete = choose;
+          }
+        }
+      });
+    },
     convertToFormData () {
+      this.checkQuestion();
+      if (!this.isQuestionComplete) return false;
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
-      ['id', 'organization_id', 'golongan_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type'].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      ['id', 'organization_id', 'golongan_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type', 'questions'].forEach((key) => {
+        if (key == 'questions') {
+          this.storeData.questions.forEach(function (question, index) {
+            data.append(`questions[${index}][is_pre_test]`,question.is_pre_test);
+            data.append(`questions[${index}][description]`,question.description);
+            question.answers.forEach(function (answer, i) {
+              data.append(`questions[${index}][answers][${i}][name]`,answer.name);
+              data.append(`questions[${index}][answers][${i}][is_true]`,answer.is_true?1:0);
+            })
+          });
+        } else if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       if (this.$route.params.id) data.append('_method', 'PUT')
       return data
     },
     store () {
       this.$validator.validateAll().then(async res => {
-        if (!res) return false
+        if (!res) return false;
         const formData = this.convertToFormData()
+        if (!formData) return false;
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0] }, ${  pair[1]}`)
         // }
-        // this.$vs.loading()
+        this.$vs.loading()
         this.isLoading = true
         try {
           if (this.$route.params.id) {
@@ -144,7 +274,7 @@ export default {
           } else {
             await this.dispatchStore(formData)
           }
-          // this.$vs.loading.close()
+          this.$vs.loading.close()
           this.isLoading = false
           this.$vs.notify({
             title: 'Success!',
@@ -153,7 +283,7 @@ export default {
           })
           this.$router.push({name: 'course'})
         } catch (error) {
-          // this.$vs.loading.close()
+          this.$vs.loading.close()
           this.isLoading = false
           this.$vs.notify({
             title: 'Oops!',
