@@ -1,6 +1,6 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="All Course">
         <vs-table search :data="data" class="mb-2">
 <!--          <template slot="header">-->
@@ -12,6 +12,7 @@
             <vs-th>Description</vs-th>
             <vs-th>Type</vs-th>
             <vs-th>Level</vs-th>
+            <vs-th>Action</vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -27,6 +28,7 @@
               <vs-td :data="tr.type" v-if="tr.type === 2">Our Company</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 3">Corporate Value</vs-td>
               <vs-td :data="'kosong'">{{tr.golongan_name}}</vs-td>
+
             </vs-tr>
           </template>
         </vs-table>

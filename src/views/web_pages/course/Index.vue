@@ -1,6 +1,6 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="All Division">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
