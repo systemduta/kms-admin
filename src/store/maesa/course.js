@@ -60,6 +60,22 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
+  async delete (store, id) {
+    try {
+      const { data } = await axios.delete(`api/web/delete_answer/${id}`)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+  async deletes (store, id) {
+    try {
+      const { data } = await axios.delete(`api/web/delete_question/${id}`)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
   async store ({commit}, payload) {
     try {
       const { data } = await axios.post('api/web/course',
@@ -113,6 +129,36 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
+  async details ({commit}, id) {
+    try {
+      const { data } = await axios.get(`api/web/detail_question/${id}`)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+    // try {
+    //   const { data } = await axios.get(`api/web/detail_question/${id}`)
+    //   commit('SET_ROW', data.data)
+    //   return Promise.resolve(data)
+    // } catch (error) {
+    //   return Promise.reject(error.response)
+    // }
+  },
+  async detail_answer ({commit}, id) {
+    try {
+      const { data } = await axios.get(`api/web/detail_answer/${id}`)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+    // try {
+    //   const { data } = await axios.get(`api/web/detail_answer/${id}`)
+    //   commit('SET_ROW', data.data)
+    //   return Promise.resolve(data)
+    // } catch (error) {
+    //   return Promise.reject(error.response)
+    // }
+  },
   async update (store, payload) {
     let id = null
     for (const pair of payload.entries()) {
@@ -120,6 +166,39 @@ const actions = {
     }
     try {
       const { data } = await axios.post(`api/web/course/${id}`, payload)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+  async update_answer (store, payload) {
+    // console.log(id);
+    try {
+      const { data } = await axios.put(`api/web/update_answer/${payload.id}`, payload)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+  async edits (store, payload) {
+    let id = null
+    for (const pair of payload.entries()) {
+      if (pair[0] === 'id') id = pair[1]
+    }
+    try {
+      const { data } = await axios.post(`api/web/update_question/${id}`, payload)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+  async edit (store, payload) {
+    let id = null
+    for (const pair of payload.entries()) {
+      if (pair[0] === 'id') id = pair[1]
+    }
+    try {
+      const { data } = await axios.post(`api/web/update_answer/${id}`, payload)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

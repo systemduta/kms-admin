@@ -114,6 +114,57 @@ export default [
           auth: true,
           parent: 'course'
         }
+      },
+      {
+        path: 'update-question/:id',
+        name: 'question-edit',
+        component: () => import('@/views/web_pages/course/Update.vue'),
+        meta: {
+          auth: true,
+          parent: 'update'
+        }
+      },
+      {
+        path: 'update-answer/:id',
+        name: 'updater',
+        component: () => import('@/views/web_pages/course/Answer.vue'),
+        meta: {
+          auth: true,
+          parent: 'answer'
+        }
+      }
+    ]
+  },
+  {
+    path: '/book',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'book',
+        component: () => import('@/views/web_pages/book/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'book'
+        }
+      },
+      {
+        path: 'create',
+        name: 'book-create',
+        component: () => import('@/views/web_pages/book/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'book'
+        }
+      },
+      {
+        path: ':id',
+        name: 'book-edit',
+        component: () => import('@/views/web_pages/book/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'book'
+        }
       }
     ]
   },

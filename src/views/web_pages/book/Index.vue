@@ -1,35 +1,27 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Employee">
+      <vx-card title="All Book">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'employee-create'}">Create User</vs-button>
+            <vs-button :to="{name: 'book-create'}">Create Book</vs-button>
           </template>
           <template slot="thead">
-            <vs-th></vs-th>
-            <vs-th>Name</vs-th>
-            <vs-th>Username</vs-th>
-            <vs-th>Company</vs-th>
-            <vs-th>Division</vs-th>
-            <vs-th>Level</vs-th>
-            <vs-th>NIK</vs-th>
+            <vs-th>Image</vs-th>
+            <vs-th>Title</vs-th>
+            <vs-th>Description</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td class="img-container">
-                <vs-avatar :src="image + '/files/' + tr.image"/>
+                <img :src="image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
               </vs-td>
-              <vs-td :data="tr.name">{{tr.name}}</vs-td>
-              <vs-td :data="tr.username">{{tr.username}}</vs-td>
-              <vs-td :data="tr.company.name">{{tr.company.name}}</vs-td>
-              <vs-td :data="tr.organization.name">{{tr.organization.name}}</vs-td>
-              <vs-td :data="tr.golongan.name">{{tr.golongan.name}}</vs-td>
-              <vs-td :data="tr.nik">{{tr.nik}}</vs-td>
+              <vs-td :data="tr.title">{{tr.title}}</vs-td>
+              <vs-td :data="tr.description"><p v-html="tr.description"></p></vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `employee-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button class="mr-2" :to="{name: `book-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
                   <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
@@ -52,13 +44,13 @@ export default {
   },
   computed:{
     ...mapState({
-      data: state => state.employee.rows
+      data: state => state.book.rows
     })
   },
   methods:{
     ...mapActions({
-      dispatchIndex: 'employee/index',
-      dispatchDestroy: 'employee/destroy'
+      dispatchIndex: 'book/index',
+      dispatchDestroy: 'book/destroy'
     }),
     async confirmDelete () {
       try {

@@ -50,12 +50,12 @@
           </div>
         </div>
         <div v-if="!this.$route.params.id" class="mb-5 vx-row">
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row"> -->
             <div class="w-full vx-col">
               <vs-input type="password" autocomplete="new-password" class="w-full" v-validate="'required|confirmed:password'" name="c_password" label="Password Confirmation" v-model="storeData.c_password"></vs-input>
               <span class="text-sm text-danger" v-show="errors.has('c_password')">{{errors.first('c_password')}}</span>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">

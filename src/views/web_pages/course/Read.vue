@@ -28,7 +28,12 @@
               <vs-td :data="tr.type" v-if="tr.type === 2">Our Company</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 3">Corporate Value</vs-td>
               <vs-td :data="'kosong'">{{tr.golongan_name}}</vs-td>
-
+              <vs-td>
+                <div class="flex">
+                  <vs-button class="mr-2" :to="{name: `course-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                </div>
+              </vs-td>
             </vs-tr>
           </template>
         </vs-table>

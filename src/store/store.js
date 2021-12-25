@@ -24,10 +24,12 @@ import master from './maesa/master'
 import employee from './maesa/employee'
 import division from "./maesa/division";
 import course from './maesa/course'
+import question from './maesa/question'
 import leaderboard from './maesa/leaderboard'
 import event from './maesa/event'
 import vhs from './maesa/vhs'
 import splash_screen from './maesa/splash_screen'
+import book from './maesa/book'
 
 export default new Vuex.Store({
   getters,
@@ -43,10 +45,12 @@ export default new Vuex.Store({
     employee,
     division,
     course,
+    question,
     leaderboard,
     event,
     vhs,
-    splash_screen
+    splash_screen,
+    book,
   },
   strict: process.env.NODE_ENV !== 'production'
 })

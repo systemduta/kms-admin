@@ -55,6 +55,19 @@ const menu = [
   },
   {
     url: null,
+    name: 'Book',
+    icon: 'BookIcon',
+    i18n: 'Book',
+    submenu: [
+      {
+        url: {name: 'book'},
+        name: 'Book',
+        slug: 'book'
+      }
+    ]
+  },
+  {
+    url: null,
     name: 'Knowledge',
     icon: 'PackageIcon',
     i18n: 'Knowledge',

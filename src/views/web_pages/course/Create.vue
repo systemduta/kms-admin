@@ -1,33 +1,33 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="Input Data Course">
-        <div class="vx-col w-full">
+        <div class="w-full vx-col">
             <input class="hidden" type="file" @change="changeImage" ref="imageInput" v-validate="'required|ext:jpg,jpeg,png|size:1024'" data-vv-as="Course Image" name="image" accept="image/jpeg,image/png"><br>
             <img v-if="image.length<1" src="@/assets/images/upload.png" width="100" height="100" alt="" class="preview" @click="$refs.imageInput.click()">
             <img v-if="image.length>0" :src="image" alt="" class="preview" @click="$refs.imageInput.click()">
-            <span class="text-danger text-sm center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
+            <span class="text-sm text-danger center" v-show="errors.has('image')">{{ errors.first('image') }}</span>
         </div>
-        <div class="vx-row mb-5 mt-10">
-          <div class="vx-col w-full">
+        <div class="mt-10 mb-5 vx-row">
+          <div class="w-full vx-col">
             <vs-input class="w-full" v-validate="'required'" name="title" label="Title" v-model="storeData.title"></vs-input>
-            <span class="text-danger text-sm" v-show="errors.has('title')">{{errors.first('title')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('title')">{{errors.first('title')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <vs-input class="w-full" v-validate="'required'" name="description" label="Description" v-model="storeData.description"></vs-input>
-            <span class="text-danger text-sm" v-show="errors.has('description')">{{errors.first('description')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('description')">{{errors.first('description')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <vs-input class="w-full" name="link" label="Link" v-model="storeData.link"></vs-input>
-            <span class="text-danger text-sm" v-show="errors.has('link')">{{errors.first('link')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('link')">{{errors.first('link')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <small class="ml-2">Type</small> <br>
             <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="4" v-if="company_id == 1">Soft Skill</vs-radio>
             <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1">Hard Skill</vs-radio>
@@ -35,69 +35,71 @@
             <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="3" v-if="company_id == 1">Corporate Value</vs-radio>
           </div>
         </div>
-        <div class="vx-row mb-5" v-if="storeData.type==1">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row" v-if="storeData.type==1">
+          <div class="w-full vx-col">
             <small class="ml-2">Organization</small> <br>
             <v-select v-model="storeData.organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="organization" :reduce="e => e.id" label="name"></v-select>
-            <span class="text-danger text-sm" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('organization')">{{errors.first('organization')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5" v-if="storeData.type==1">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row" v-if="storeData.type==1">
+          <div class="w-full vx-col">
             <small class="ml-2">Level</small> <br>
             <v-select v-model="storeData.golongan_id" :options="golongans" v-validate="'required'" name="level" :reduce="e => e.id" label="name"></v-select>
-            <span class="text-danger text-sm" v-show="errors.has('level')">{{errors.first('level')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('level')">{{errors.first('level')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <small class="ml-2">Upload pdf file</small> <br>
             <input class="w-full" type="file" id="file" ref="file" @change="getBase64File" name="pdf_file" v-validate="'required|ext:pdf|size:3072'"/>
-            <span class="text-danger text-sm" v-show="errors.has('pdf_file')">{{errors.first('pdf_file')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('pdf_file')">{{errors.first('pdf_file')}}</span>
           </div>
         </div>
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <small class="ml-2">Upload video (mp4)</small> <br>
 <!--            <input class="ml-2 mr-2" type="file" id="video" ref="file" @change="getBase64Video"/>-->
             <input class="w-full" type="file" id="video" ref="video" name="video" @change="readVideo" v-validate="'ext:mp4|size:20480'"/>
-            <span class="text-danger text-sm" v-show="errors.has('video')">{{errors.first('video')}}</span>
+            <span class="text-sm text-danger" v-show="errors.has('video')">{{errors.first('video')}}</span>
           </div>
         </div>
-        <hr style="margin-top: 30px;"/>
-        <div class="vx-row mt-3 mb-10">
-          <div class="vx-col w-full">
-            <h4><b>List Pertanyaan</b></h4>
+        <div v-if="!this.$route.params.id" class="mb-5 vx-row">
+          <hr style="margin-top: 30px;"/>
+          <div class="mt-3 mb-10 vx-row">
+            <div class="w-full vx-col">
+              <h4><b>List Pertanyaan</b></h4>
+            </div>
           </div>
-        </div>
-        <div class="vx-row mb-5" v-for="(item, index) in storeData.questions" :key="index">
-          <div class="vx-col w-full">
-            <h6 class="mb-2">Soal No. {{index+1}}</h6>
-            <quill-editor v-model="item.description"/>
-            <table class="w-full">
-              <thead>
-              <tr>
-                <th>Answer List</th>
-                <th width="110">True Answer</th>
-              </tr>
-              </thead>
-              <tr v-for="(tr, i) in item.answers" :key="i">
-                <td>
-                  <vs-input class="w-full" label-placeholder="Answer" v-model="tr.name"></vs-input>
-                </td>
-                <td class="text-center">
-                  <vs-checkbox vs-name="radio-answer" class="mt-5" v-model="tr.is_true"></vs-checkbox>
-                </td>
-              </tr>
-            </table>
+          <div class="mb-5 vx-row" v-for="(item, index) in storeData.questions" :key="index">
+            <div class="w-full vx-col">
+              <h6 class="mb-2">Soal No. {{index+1}}</h6>
+              <quill-editor v-model="item.description"/>
+              <table class="w-full">
+                <thead>
+                <tr>
+                  <th>Answer List</th>
+                  <th width="110">True Answer</th>
+                </tr>
+                </thead>
+                <tr v-for="(tr, i) in item.answers" :key="i">
+                  <td>
+                    <vs-input class="w-full" label-placeholder="Answer" v-model="tr.name"></vs-input>
+                  </td>
+                  <td class="text-center">
+                    <vs-checkbox vs-name="radio-answer" class="mt-5" v-model="tr.is_true"></vs-checkbox>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
+          <vs-button color="primary" type="border" size="small" icon="add" @click="addQuestion">Soal</vs-button>
+          <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
+          <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
+          <hr class="mt-10 mb-5"/>
         </div>
-        <vs-button color="primary" type="border" size="small" icon="add" @click="addQuestion">Soal</vs-button>
-        <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
-        <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
-        <hr class="mt-10 mb-5"/>
         <div class="vx-row">
-          <div class="vx-col w-full text-right">
+          <div class="w-full text-right vx-col">
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
         </div>
@@ -215,9 +217,9 @@ export default {
       let vm = this;
       this.storeData.questions.every(function (item, index) {
         if (!item.description) {
-          vm.isQuestionComplete = false;
-          alert(`Soal nomor ${index+1} belum terisi`);
-          return false;
+          vm.isQuestionComplete = true;
+          // alert(`Soal nomor ${index+1} belum terisi`);
+          return true;
         } else {
           let key = false;
           let choose = true;
@@ -303,6 +305,7 @@ export default {
       this.storeData.video = success.video
       this.storeData.link = success.link
       this.storeData.type = success.type
+      // this.storeData.questions = success.description
     },
     async changeImage (e) {
       const image = e.target
