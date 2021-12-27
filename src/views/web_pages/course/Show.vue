@@ -41,7 +41,6 @@
           </template>
         </vs-table>
         <vs-popup :active.sync="popUp" title="Add New Question">
-<!--          <vs-input v-model="f_question" class="w-full" label-placeholder="Question"></vs-input>-->
           <quill-editor v-model="f_question"/>
           <table class="w-full">
             <thead>
@@ -122,7 +121,7 @@ export default {
       f_question: '',
       id: '',
       f_name: '',
-      f_is_true: '',
+      f_is_true: false,
       storeData :{
         id: this.$route.params.id,
       },
@@ -162,8 +161,6 @@ export default {
 
     }),
     addQuestion () {
-      // this.f_question = ''
-      // this.f_answers = ansDef
       this.popUp = true
     },
     clearFormmm () {
@@ -191,31 +188,8 @@ export default {
         }
       ]
     },
-    // storeUpdate () {
-    //   // this.$vs.loading()
-    //   const payload = {
-    //     id: this.$route.params.id,
-    //     name: this.f_name,
-    //     is_true: this.f_is_true
-    //   }
-    //   await this.dispatchUpdates(payload).then(() => {
-    //       this.$vs.loading()
-    //       this.dispatchAllQuestion(this.$route.params.id).then(() => {
-    //         this.$vs.loading.close()
-    //       }).catch(() => {
-    //         this.$vs.loading.close()
-    //       })
-    //     })
-    //   this.clearFormmm()
-    //   this.updatePopUp = false
-    // },
     async confirmUpdates () {
-      // this.$vs.loading()
-      // this.dispatchAllQuestion(this.$route.params.id).then(() => {
-      //   this.$vs.loading.close()
-      // }).catch(() => {
-      //   this.$vs.loading.close()
-      // })
+
       const payload = {
         id: this.id,
         name: this.f_name,
@@ -238,11 +212,6 @@ export default {
       this.idUpdate = id
       this.updatePopUp = true
     },
-    // updateAswer (id) {
-    //   // this.f_question = ''
-    //   // this.f_answers = ansDef
-    //   this.updatePopUp = true
-    // },
     async storeAnswer () {
       let is_ans = false
       let double = false

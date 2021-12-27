@@ -94,24 +94,7 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  // async store (store, payload) {
-  //   try {
-  //     const { data } = await axios.post( 'api/web/course',
-  //       payload,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data'
-  //         },
-  //         onUploadProgress: function( progressEvent ) {
-  //           this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ),
-  //         }.bind(this),
-  //       }
-  //     )
-  //     return Promise.resolve(data)
-  //   } catch (error) {
-  //     return Promise.reject(error.response)
-  //   }
-  // },
+
   async store_question (store, payload) {
     try {
       const { data } = await axios.post('api/web/store_question', payload)
@@ -136,13 +119,6 @@ const actions = {
     } catch (error) {
       return Promise.reject(error.response)
     }
-    // try {
-    //   const { data } = await axios.get(`api/web/detail_question/${id}`)
-    //   commit('SET_ROW', data.data)
-    //   return Promise.resolve(data)
-    // } catch (error) {
-    //   return Promise.reject(error.response)
-    // }
   },
   async detail_answer ({commit}, id) {
     try {
@@ -151,13 +127,6 @@ const actions = {
     } catch (error) {
       return Promise.reject(error.response)
     }
-    // try {
-    //   const { data } = await axios.get(`api/web/detail_answer/${id}`)
-    //   commit('SET_ROW', data.data)
-    //   return Promise.resolve(data)
-    // } catch (error) {
-    //   return Promise.reject(error.response)
-    // }
   },
   async update (store, payload) {
     let id = null
