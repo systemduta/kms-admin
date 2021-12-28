@@ -21,10 +21,12 @@
                     <vs-col vs-type="flex" vs-justify="center" vs-align="center">
                       <vs-chip class="w-full" v-for="(val,k) in tr.answers" :key="k" :color="val.is_true==1 ? 'success' : 'warning'">
                         {{val.name}}
-                        <!-- <vs-avatar icon-pack="feather" :icon="val.is_true==1 ? 'icon-check' : 'icon-edit'" :color="val.is_true ? 'success' : 'warning'"></vs-avatar> -->
-                        <!-- <vs-avatar class="mr-1" @click="updateAswer" :to="{name: `update-answer`, params: {id: val.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-avatar> -->
-                        <vs-avatar @click="updates(val.id)" icon-pack="feather" icon="icon-edit" size="small"></vs-avatar>
-                        <vs-avatar color="danger" @click="deletess(val.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-avatar>
+                        <div class="modal-footer">
+                          <vs-chip :color="val.is_true==1 ? 'success' : 'warning'">
+                            <vs-avatar color="danger" @click="updates(val.id)" icon-pack="feather" icon="icon-edit" size="small"></vs-avatar>
+                            <!-- <vs-avatar color="danger" @click="deletess(val.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-avatar> -->
+                          </vs-chip>
+                        </div>
                       </vs-chip>
                     </vs-col>
                   </vs-row>
