@@ -1,10 +1,10 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="All VHS Module">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name:'vhs-create'}">Create VHS</vs-button>
+            <vs-button v-if="company_id == 1" :to="{name:'vhs-create'}">Create VHS</vs-button>
           </template>
           <template slot="thead">
             <vs-th>Title</vs-th>
@@ -22,7 +22,7 @@
               <vs-td>
                 <div class="flex">
 <!--                  <vs-button class="mr-2" :to="{name: `course-read`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>-->
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button v-if="company_id == 1" color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       base_url_image: process.env.VUE_APP_API_URL,
+      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       idDelete: null
     }
   },

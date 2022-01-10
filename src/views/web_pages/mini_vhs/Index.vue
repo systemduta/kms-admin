@@ -1,10 +1,10 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="All Mini VHS">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name:'mini_vhs_create'}">Create Mini VHS</vs-button>
+            <vs-button v-if="company_id == 1" :to="{name:'mini_vhs_create'}">Create Mini VHS</vs-button>
           </template>
           <template slot="thead">
             <vs-th>Image</vs-th>
@@ -19,7 +19,7 @@
                 <img :src="base_url_image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
               </vs-td>
               <vs-td :data="tr.title">
-                <router-link :to="{name:'mini_vhs_detail', params:{id: tr.id}}">{{tr.title}}</router-link>
+                <router-link v-if="company_id == 1" :to="{name:'mini_vhs_detail', params:{id: tr.id}}">{{tr.title}}</router-link>
               </vs-td>
               <vs-td :data="tr.description">{{tr.description}}</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 1">Hard Skill</vs-td>
@@ -28,8 +28,8 @@
               <vs-td :data="tr.type" v-if="tr.type === 3">Corporate Value</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `mini_vhs_edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button v-if="company_id == 1" class="mr-2" :to="{name: `mini_vhs_edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button v-if="company_id == 1" color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -47,6 +47,7 @@ export default {
   data () {
     return {
       idDelete: null,
+      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       base_url_image: process.env.VUE_APP_API_URL
     }
   },

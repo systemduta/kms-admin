@@ -55,19 +55,6 @@ const menu = [
   },
   {
     url: null,
-    name: 'Book',
-    icon: 'BookIcon',
-    i18n: 'Book',
-    submenu: [
-      {
-        url: {name: 'book'},
-        name: 'Book',
-        slug: 'book'
-      }
-    ]
-  },
-  {
-    url: null,
     name: 'Knowledge',
     icon: 'PackageIcon',
     i18n: 'Knowledge',
@@ -94,6 +81,19 @@ const menu = [
   (organization_id == 20 || organization_id == 23) ?
     {
       url: null,
+      name: 'Book',
+      icon: 'BookIcon',
+      i18n: 'Book',
+      submenu: [
+        {
+          url: {name: 'book'},
+          name: 'Book',
+          slug: 'book'
+        }
+      ]
+    }: null,
+    {
+      url: null,
       name: 'VHS',
       icon: 'CpuIcon',
       i18n: 'VHS',
@@ -109,7 +109,7 @@ const menu = [
           slug: 'vhs'
         }
       ]
-    } : null
+    }
   // {
   //   url: {name: 'splash_screen'},
   //   name: 'splash_screen',

@@ -4,7 +4,7 @@
       <vx-card title="All Book">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'book-create'}">Create Book</vs-button>
+            <vs-button v-if="company_id == 1" :to="{name: 'book-create'}">Create Book</vs-button>
           </template>
           <template slot="thead">
             <vs-th>Image</vs-th>
@@ -21,8 +21,8 @@
               <vs-td :data="tr.description"><p v-html="tr.description"></p></vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `book-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button v-if="company_id == 1" class="mr-2" :to="{name: `book-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button v-if="company_id == 1" color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -39,13 +39,14 @@ export default {
   data () {
     return {
       idDelete: null,
+      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       image: process.env.VUE_APP_API_URL
     }
   },
   computed:{
     ...mapState({
-      data: state => state.book.rows
-    })
+      data: state => state.book.rows,
+    }),
   },
   methods:{
     ...mapActions({
