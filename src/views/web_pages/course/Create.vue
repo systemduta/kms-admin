@@ -64,8 +64,9 @@
             <span class="text-sm text-danger" v-show="errors.has('video')">{{errors.first('video')}}</span>
           </div>
         </div>
-        <div v-if="!this.$route.params.id" class="mb-5 vx-row">
-          <hr style="margin-top: 30px;"/>
+        <hr style="margin-top: 30px;"/>
+        <!-- <div v-if="!this.$route.params.id" class="mb-10 vx-row"> -->
+        <div v-if="!this.$route.params.id">
           <div class="mt-3 mb-10 vx-row">
             <div class="w-full vx-col">
               <h4><b>List Pertanyaan</b></h4>
@@ -96,7 +97,6 @@
           <vs-button color="primary" type="border" size="small" icon="add" @click="addQuestion">Soal</vs-button>
           <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
           <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
-          <hr class="mt-10 mb-5"/>
         </div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">

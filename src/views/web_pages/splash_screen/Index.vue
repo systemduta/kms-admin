@@ -1,6 +1,6 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
+    <div class="w-full vx-col mb-base">
       <vx-card title="Splash Screen">
         <vs-table :data="data" class="mb-2">
           <template slot="header"></template>
@@ -23,8 +23,8 @@
         </vs-table>
       </vx-card>
       <vs-popup :active.sync="popUp" title="Edit Splash Screen">
-        <div class="vx-row mb-5">
-          <div class="vx-col w-full">
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <small class="ml-2">Upload video</small> <br>
             <input class="w-full" type="file" id="image" name="image" accept="image/jpeg,image/png" ref="file" @change="readImage"/>
           </div>

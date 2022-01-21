@@ -17,8 +17,12 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
+
 const user_info = JSON.parse(localStorage.getItem('userInfo'))
 const organization_id = parseInt(user_info.data.organization_id)
+
+const company = JSON.parse(localStorage.getItem('userInfo'))
+const company_id = parseInt(company.data.company_id)
 
 const menu = [
   {
@@ -92,6 +96,7 @@ const menu = [
         }
       ]
     }: null,
+    (organization_id == 20 || organization_id == 23) ?
     {
       url: null,
       name: 'VHS',
@@ -109,7 +114,7 @@ const menu = [
           slug: 'vhs'
         }
       ]
-    }
+    }: null,
   // {
   //   url: {name: 'splash_screen'},
   //   name: 'splash_screen',
