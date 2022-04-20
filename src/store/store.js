@@ -22,7 +22,7 @@ import moduleECommerce from './eCommerce/moduleECommerce.js'
 
 import master from './maesa/master'
 import employee from './maesa/employee'
-import division from "./maesa/division";
+import division from "./maesa/division"
 import course from './maesa/course'
 import question from './maesa/question'
 import leaderboard from './maesa/leaderboard'
@@ -30,6 +30,10 @@ import event from './maesa/event'
 import vhs from './maesa/vhs'
 import splash_screen from './maesa/splash_screen'
 import book from './maesa/book'
+import sop from './maesa/sop'
+import lampiran from './maesa/lampiran'
+import crossfunction from './maesa/crossfunction'
+import lamcross from './maesa/lamcross'
 
 export default new Vuex.Store({
   getters,
@@ -51,6 +55,10 @@ export default new Vuex.Store({
     vhs,
     splash_screen,
     book,
+    sop,
+    lampiran,
+    crossfunction,
+    lamcross
   },
   strict: process.env.NODE_ENV !== 'production'
 })

@@ -125,7 +125,7 @@ export default {
       f_name: '',
       f_is_true: false,
       storeData :{
-        id: this.$route.params.id,
+        id: this.$route.params.id
       },
       f_answers:[
         {
@@ -195,7 +195,7 @@ export default {
       const payload = {
         id: this.id,
         name: this.f_name,
-        is_true: this.f_is_true,
+        is_true: this.f_is_true
       }
         // console.log(payload);
       await this.dispatchUpdates(payload).then(() => {

@@ -10,7 +10,7 @@ z<template>
         label-placeholder="Username"
         v-model="username"
         class="w-full mt-10"/>
-    <span class="text-danger text-sm">{{ errors.first('username') }}</span>
+    <span class="text-sm text-danger">{{ errors.first('username') }}</span>
     <vs-input
         v-validate="'required'"
         data-vv-validate-on="blur"
@@ -22,7 +22,7 @@ z<template>
         label-placeholder="Password"
         v-model="password"
         class="w-full mt-10" />
-    <span class="text-danger text-sm">{{ errors.first('password') }}</span>
+    <span class="text-sm text-danger">{{ errors.first('password') }}</span>
     <vs-divider></vs-divider>
     <vs-button class="float-right mt-1 mb-5" :disabled="!validateForm" @click="loginJWT">Login</vs-button>
   </div>

@@ -1,4 +1,6 @@
 export default [
+
+  // Divisin
   {
     path: '/division',
     component: { template: '<router-view/>' },
@@ -32,6 +34,8 @@ export default [
       }
     ]
   },
+
+  // Employee
   {
     path: '/employee',
     component: { template: '<router-view/>' },
@@ -65,6 +69,8 @@ export default [
       }
     ]
   },
+
+  // Course
   {
     path: '/course',
     component: {template: '<router-view/>'},
@@ -135,6 +141,8 @@ export default [
       }
     ]
   },
+
+  // Book
   {
     path: '/book',
     component: { template: '<router-view/>' },
@@ -168,6 +176,183 @@ export default [
       }
     ]
   },
+
+  // Lampiran
+  {
+    path: '/lampiran',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'lampiran',
+        component: () => import('@/views/web_pages/lampiran/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'lampiran'
+        }
+      },
+      {
+        path: 'create',
+        name: 'lampiran-create',
+        component: () => import('@/views/web_pages/lampiran/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'lampiran'
+        }
+      },
+      {
+        path: ':id',
+        name: 'lampiran-edit',
+        component: () => import('@/views/web_pages/lampiran/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'lampiran'
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/lamcross',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'lamcross',
+        component: () => import('@/views/web_pages/lamcross/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'lamcross'
+        }
+      },
+      {
+        path: 'create',
+        name: 'lamcross-create',
+        component: () => import('@/views/web_pages/lamcross/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'lamcross'
+        }
+      },
+      {
+        path: ':id',
+        name: 'lamcross-edit',
+        component: () => import('@/views/web_pages/lamcross/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'lamcross'
+        }
+      }
+    ]
+  },
+
+  // SOP
+  {
+    path: '/sop',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'sop',
+        component: () => import('@/views/web_pages/sop/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'sop'
+        }
+      },
+      {
+        path: 'create',
+        name: 'sop-create',
+        component: () => import('@/views/web_pages/sop/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'sop'
+        }
+      },
+      {
+        path: ':id',
+        name: 'sop-edit',
+        component: () => import('@/views/web_pages/sop/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'sop'
+        }
+      },
+      {
+        path: ':id',
+        name: 'sop-red',
+        component: () => import('@/views/web_pages/sop/Read.vue'),
+        meta: {
+          auth: true,
+          parent: 'sop'
+        }
+      },
+      {
+        path: 'sop-detail/:id',
+        name: 'sop-detail',
+        component: () => import('@/views/web_pages/sop/Show.vue'),
+        meta: {
+          auth: true,
+          parent: 'sop'
+        }
+      }
+    ]
+  },
+  // crossfunction
+  {
+    path: '/crossfunction',
+    component: { template: '<router-view/>' },
+    children: [
+      {
+        path: '',
+        name: 'crossfunction',
+        component: () => import('@/views/web_pages/crossfunction/Index.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
+      },
+      {
+        path: 'create',
+        name: 'crossfunction-create',
+        component: () => import('@/views/web_pages/crossfunction/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
+      },
+      {
+        path: ':id',
+        name: 'crossfunction-edit',
+        component: () => import('@/views/web_pages/crossfunction/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
+      },
+      {
+        path: ':id',
+        name: 'crossfunction-red',
+        component: () => import('@/views/web_pages/crossfunction/Read.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
+      },
+      {
+        path: 'crossfunction-detail/:id',
+        name: 'crossfunction-detail',
+        component: () => import('@/views/web_pages/crossfunction/Show.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
+      },
+    ]
+  },
+
+
+  // Leaderboard
   {
     path: '/leaderboard',
     component: {template: '<router-view/>'},
@@ -201,6 +386,8 @@ export default [
       }
     ]
   },
+
+  // Event
   {
     path: '/event',
     component: {template: '<router-view/>'},
@@ -234,6 +421,8 @@ export default [
       }
     ]
   },
+
+  // VHS
   {
     path: '/mini_vhs',
     component: {template: '<router-view/>'},
@@ -294,6 +483,8 @@ export default [
       // }
     ]
   },
+
+  // VHS
   {
     path: '/vhs',
     component: {template: '<router-view/>'},
@@ -327,6 +518,8 @@ export default [
       }
     ]
   },
+
+  // Splash Screen
   {
     path: '/splash_screen',
     component: {template: '<router-view/>'},

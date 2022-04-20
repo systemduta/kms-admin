@@ -26,6 +26,23 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
+  async sops () {
+    try {
+      const { data } = await axios.get('api/web/get_sop')
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
+
+  async crossfunctions () {
+    try {
+      const { data } = await axios.get('api/web/get_cross')
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+  },
   async detail_admin () {
     try {
       const { data } = await axios.get('api/web/detail_admin')
