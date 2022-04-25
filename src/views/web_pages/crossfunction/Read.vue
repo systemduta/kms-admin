@@ -14,8 +14,11 @@
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="tr.status">
-                <vs-button color="danger" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Non Aktifkan</vs-button>
-                <vs-button color="success" v-if="tr.status == 0" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
+                <div v-if="tr.status == 0">
+                  No Request
+                </div>
+                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Aktifkan</vs-button>
+                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
               </vs-td>
               <vs-td class="img-container">
                 <img :src="base_url_image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
@@ -27,7 +30,8 @@
               <vs-td :data="tr.description">{{tr.description}}</vs-td>
               <vs-td :data="tr.status">
                 <vs-chip color="danger" v-if="tr.status == 0">Non Active</vs-chip>
-                <vs-chip color="success" v-if="tr.status == 1">Active</vs-chip>
+                <vs-chip color="warning" v-if="tr.status == 1">Pending</vs-chip>
+                <vs-chip color="success" v-if="tr.status == 2">Active</vs-chip>
               </vs-td>
               <vs-td>
                 <div class="flex">

@@ -16,14 +16,18 @@
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="tr.status">
-                <vs-button color="danger" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Non Akatifkan</vs-button>
-                <vs-button color="success" v-if="tr.status == 0" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
+                <div v-if="tr.status == 0">
+                  No Request
+                </div>
+                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Akatifkan</vs-button>
+                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
               </vs-td>
               <vs-td :data="tr.name">{{tr.name}}</vs-td>
               <vs-td :data="tr.sop.title">{{tr.sop.title}}</vs-td>
               <vs-td :data="tr.status">
                 <vs-chip color="danger" v-if="tr.status == 0">Non Active</vs-chip>
-                <vs-chip color="success" v-if="tr.status == 1">Active</vs-chip>
+                <vs-chip color="warning" v-if="tr.status == 1">Pending</vs-chip>
+                <vs-chip color="success" v-if="tr.status == 2">Active</vs-chip>
               </vs-td>
               <vs-td>
                 <div class="flex">
