@@ -212,40 +212,6 @@ export default [
     ]
   },
 
-  {
-    path: '/lamcross',
-    component: { template: '<router-view/>' },
-    children: [
-      {
-        path: '',
-        name: 'lamcross',
-        component: () => import('@/views/web_pages/lamcross/Index.vue'),
-        meta: {
-          auth: true,
-          parent: 'lamcross'
-        }
-      },
-      {
-        path: 'create',
-        name: 'lamcross-create',
-        component: () => import('@/views/web_pages/lamcross/Create.vue'),
-        meta: {
-          auth: true,
-          parent: 'lamcross'
-        }
-      },
-      {
-        path: ':id',
-        name: 'lamcross-edit',
-        component: () => import('@/views/web_pages/lamcross/Create.vue'),
-        meta: {
-          auth: true,
-          parent: 'lamcross'
-        }
-      }
-    ]
-  },
-
   // SOP
   {
     path: '/sop',
@@ -320,34 +286,7 @@ export default [
           auth: true,
           parent: 'crossfunction'
         }
-      },
-      {
-        path: ':id',
-        name: 'crossfunction-edit',
-        component: () => import('@/views/web_pages/crossfunction/Create.vue'),
-        meta: {
-          auth: true,
-          parent: 'crossfunction'
-        }
-      },
-      {
-        path: ':id',
-        name: 'crossfunction-red',
-        component: () => import('@/views/web_pages/crossfunction/Read.vue'),
-        meta: {
-          auth: true,
-          parent: 'crossfunction'
-        }
-      },
-      {
-        path: 'crossfunction-detail/:id',
-        name: 'crossfunction-detail',
-        component: () => import('@/views/web_pages/crossfunction/Show.vue'),
-        meta: {
-          auth: true,
-          parent: 'crossfunction'
-        }
-      },
+      }
     ]
   },
 

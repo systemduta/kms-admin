@@ -70,31 +70,36 @@ const menu = [
           slug: 'sop'
         },
         {
+          url: {name: 'crossfunction'},
+          name: 'Crossfunction',
+          slug: 'crossfunction'
+        },
+        {
           url: {name: 'lampiran'},
           name: 'Lampiran',
           slug: 'lampiran'
         },
       ]
     }: null,
-  (company_id == 13 || company_id == 1) ?
-    {
-      url: null,
-      name: 'Crossfunction',
-      icon: 'ActivityIcon',
-      i18n: 'Crossfunction',
-      submenu: [
-        {
-          url: {name: 'crossfunction'},
-          name: 'Crossfunction',
-          slug: 'crossfunction'
-        },
-        {
-          url: {name: 'lamcross'},
-          name: 'Lampiran',
-          slug: 'lamcross'
-        },
-      ]
-    }: null,
+  // (company_id == 13 || company_id == 1) ?
+  //   {
+  //     url: null,
+  //     name: 'Crossfunction',
+  //     icon: 'ActivityIcon',
+  //     i18n: 'Crossfunction',
+  //     submenu: [
+  //       {
+  //         url: {name: 'crossfunction'},
+  //         name: 'Crossfunction',
+  //         slug: 'crossfunction'
+  //       },
+  //       {
+  //         url: {name: 'lamcross'},
+  //         name: 'Lampiran',
+  //         slug: 'lamcross'
+  //       },
+  //     ]
+  //   }: null,
   {
     url: null,
     name: 'Knowledge',

@@ -7,28 +7,26 @@
             <vs-button :to="{name:'lampiran-create'}">Create Lampiran</vs-button>
           </template>
           <template slot="thead">
-            <vs-th>Request Download</vs-th>
             <vs-th>Name Lampiran</vs-th>
             <vs-th>Name SOP</vs-th>
-            <vs-th>Status Download</vs-th>
             <vs-th>Action</vs-th>
           </template>
           <template slot-scope="{data}">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="tr.status">
+              <!-- <vs-td :data="tr.status">
                 <div v-if="tr.status == 0">
                   No Request
                 </div>
-                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Akatifkan</vs-button>
-                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
-              </vs-td>
+                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Active</vs-button>
+                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Active</vs-button>
+              </vs-td> -->
               <vs-td :data="tr.name">{{tr.name}}</vs-td>
               <vs-td :data="tr.sop.title">{{tr.sop.title}}</vs-td>
-              <vs-td :data="tr.status">
+              <!-- <vs-td :data="tr.status">
                 <vs-chip color="danger" v-if="tr.status == 0">Non Active</vs-chip>
                 <vs-chip color="warning" v-if="tr.status == 1">Pending</vs-chip>
                 <vs-chip color="success" v-if="tr.status == 2">Active</vs-chip>
-              </vs-td>
+              </vs-td> -->
               <vs-td>
                 <div class="flex">
                   <vs-button class="mr-2" :to="{name: `lampiran-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>

@@ -19,8 +19,8 @@
                 <div v-if="tr.status == 0">
                   No Request
                 </div>
-                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Aktifkan</vs-button>
-                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
+                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Active</vs-button>
+                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Active</vs-button>
               </vs-td>
               <vs-td :data="tr.name">{{tr.name}}</vs-td>
               <vs-td :data="tr.crossfunction.title">{{tr.crossfunction.title}}</vs-td>

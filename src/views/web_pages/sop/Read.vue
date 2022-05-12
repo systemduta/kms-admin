@@ -17,8 +17,8 @@
                 <div v-if="tr.status == 0">
                   No Request
                 </div>
-                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Aktifkan</vs-button>
-                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Aktifkan</vs-button>
+                <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Active</vs-button>
+                <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Active</vs-button>
               </vs-td>
               <vs-td class="img-container">
                 <img :src="base_url_image + '/files/' + tr.image" width="150" height="100" class="product-img"/>

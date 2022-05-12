@@ -18,7 +18,7 @@ const mutations = {
 const actions = {
   async index ({commit}, payload) {
     try {
-      const { data } = await axios.get(`/api/web/organization`)
+      const { data } = await axios.get(`/api/web/crossfunction`)
       commit('SET_ROWS', data.data)
       return Promise.resolve(data)
     } catch (error) {
@@ -26,16 +26,28 @@ const actions = {
     }
   },
 
-  async getSop ({commit}, id) {
+  async show ({commit}, id) {
     try {
-      const { data } = await axios.get(`/api/web/crossfunction?organization_id=${id}`)
-      commit('SET_ROWS', data.data)
+      const { data } = await axios.get(`api/web/crossfunction/${id}`)
+      commit('SET_ROW', data.data)
+      return Promise.resolve(data)
+    } catch (error) {
+      return Promise.reject(error.response)
+    }
+    //   return Promise.resolve(data)
+    // } catch (error) {
+    //   return Promise.reject(error.response)
+    // }
+  },
+
+  async destroy (store, id) {
+    try {
+      const { data } = await axios.delete(`api/web/crossfunction/${id}`)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
     }
   },
-
   async store ({commit}, payload) {
     try {
       const { data } = await axios.post('api/web/crossfunction',
@@ -54,67 +66,13 @@ const actions = {
       return Promise.reject(error.response)
     }
   },
-  async show ({commit}, id) {
-    try {
-      const { data } = await axios.get(`api/web/crossfunction/${id}`)
-      commit('SET_ROW', data.data)
-      return Promise.resolve(data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-    //   return Promise.resolve(data)
-    // } catch (error) {
-    //   return Promise.reject(error.response)
-    // }
-  },
   async update (store, payload) {
     let id = null
     for (const pair of payload.entries()) {
       if (pair[0] === 'id') id = pair[1]
     }
     try {
-      const { data } = await axios.post(`api/web/update_book/${id}`, payload)
-      return Promise.resolve(data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-  },
-  async destroy (store, id) {
-    try {
-      const { data } = await axios.delete(`api/web/crossfunction/${id}`)
-      return Promise.resolve(data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-  },
-  async delete (store, id) {
-    try {
-      const { data } = await axios.delete(`api/web/delete_cross/${id}`)
-      return Promise.resolve(data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-  },
-  async store_cross (store, payload) {
-    try {
-      const { data } = await axios.post('api/web/store_cross', payload)
-      return Promise.resolve(data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-  },
-  async getCross ({commit}, id) {
-    try {
-      const { data } = await axios.get(`/api/web/getcross/${id}`)
-      commit('SET_ROWS', data.data)
-    } catch (error) {
-      return Promise.reject(error.response)
-    }
-  },
-  async update_answer (store, payload) {
-    // console.log(id);
-    try {
-      const { data } = await axios.put(`api/web/sop_status/${payload.id}`, payload)
+      const { data } = await axios.post(`api/web/crossfunction/${id}`, payload)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)
@@ -122,7 +80,7 @@ const actions = {
   },
   async status (store, id) {
     try {
-      const { data } = await axios.get(`api/web/cross_status/${id}`)
+      const { data } = await axios.get(`api/web/lamp_status/${id}`)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

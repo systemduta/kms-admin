@@ -34,6 +34,25 @@
             <span class="text-sm text-danger" v-show="errors.has('file')">{{errors.first('file')}}</span>
           </div>
         </div>
+        <!-- <hr style="margin-top: 30px;"/> -->
+        <!-- <div v-if="!this.$route.params.id" class="mb-10 vx-row"> -->
+        <!-- <div v-if="!this.$route.params.id">
+          <div class="mt-3 mb-10 vx-row">
+            <div class="w-full vx-col">
+              <h4><b>List Pertanyaan</b></h4>
+            </div>
+          </div>
+          <div class="mb-5 vx-row" v-for="(item, index) in storeData.crossfunction" :key="index">
+            <div class="w-full vx-col">
+              <h6 class="mb-2">Cross No. {{index+1}}</h6> <br>
+              <v-select v-model="item.organization_id" :options="organizations.filter(e => e.company_id==company_id)" v-validate="'required'" name="crossfunction" :reduce="e => e.id" label="name"></v-select>
+              <span class="text-sm text-danger" v-show="errors.has('crossfunction')">{{errors.first('crossfunction')}}</span>
+            </div>
+          </div>
+          <vs-button color="primary" type="border" size="small" icon="add" @click="addQuestion">Soal</vs-button>
+          <vs-progress :percent="uploadProgress" color="primary" v-if="isLoading">primary</vs-progress>
+          <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
+        </div> -->
         <div class="vx-row">
           <div class="w-full text-right vx-col">
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
@@ -157,6 +176,7 @@ export default {
       this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}`: ''
       this.storeData.title = success.title
       this.storeData.description = success.description
+      this.storeData.file = success.file
       this.storeData.file = success.file
       this.storeData.video = success.video
       this.storeData.crossfunction = success.name
