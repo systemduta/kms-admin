@@ -57,30 +57,30 @@ const menu = [
       },
     ]
   },
-  (company_id == 13 || company_id == 1) ?
-    {
-      url: null,
-      name: 'SOP',
-      icon: 'CreditCardIcon',
-      i18n: 'SOP',
-      submenu: [
-        {
-          url: {name: 'sop'},
-          name: 'SOP',
-          slug: 'sop'
-        },
-        {
-          url: {name: 'crossfunction'},
-          name: 'Crossfunction',
-          slug: 'crossfunction'
-        },
-        {
-          url: {name: 'lampiran'},
-          name: 'Lampiran',
-          slug: 'lampiran'
-        },
-      ]
-    }: null,
+  // (company_id == 13 || company_id == 1) ?
+  {
+    url: null,
+    name: 'SOP',
+    icon: 'CreditCardIcon',
+    i18n: 'SOP',
+    submenu: [
+      {
+        url: {name: 'sop'},
+        name: 'SOP',
+        slug: 'sop'
+      },
+      {
+        url: {name: 'crossfunction'},
+        name: 'Crossfunction',
+        slug: 'crossfunction'
+      },
+      {
+        url: {name: 'lampiran'},
+        name: 'Lampiran',
+        slug: 'lampiran'
+      }
+    ]
+  },
   // (company_id == 13 || company_id == 1) ?
   //   {
   //     url: null,
