@@ -73,7 +73,7 @@ const actions = {
       if (pair[0] === 'id') id = pair[1]
     }
     try {
-      const { data } = await axios.post(`api/web/update_book/${id}`, payload)
+      const { data } = await axios.post(`api/web/sop/${id}`, payload)
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error.response)

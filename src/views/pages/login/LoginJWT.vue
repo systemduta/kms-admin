@@ -3,14 +3,14 @@ z<template>
     <vs-input
         v-validate="'required'"
         data-vv-validate-on="blur"
-        name="username"
+        name="nik"
         icon-no-border
         icon="icon icon-user"
         icon-pack="feather"
-        label-placeholder="Username"
-        v-model="username"
+        label-placeholder="NIK"
+        v-model="nik"
         class="w-full mt-10"/>
-    <span class="text-sm text-danger">{{ errors.first('username') }}</span>
+    <span class="text-sm text-danger">{{ errors.first('nik') }}</span>
     <vs-input
         v-validate="'required'"
         data-vv-validate-on="blur"
@@ -32,14 +32,14 @@ z<template>
 export default {
   data () {
     return {
-      username: '',
+      nik: '',
       password: '',
       isWeb: 1
     }
   },
   computed: {
     validateForm () {
-      return !this.errors.any() && this.username !== '' && this.password !== ''
+      return !this.errors.any() && this.nik !== '' && this.password !== ''
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
       this.$vs.loading()
       const payload = {
         userDetails: {
-          username: this.username,
+          nik: this.nik,
           password: this.password,
           isWeb: this.isWeb
         }

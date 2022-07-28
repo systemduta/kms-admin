@@ -286,6 +286,15 @@ export default [
           auth: true,
           parent: 'crossfunction'
         }
+      },
+      {
+        path: ':id',
+        name: 'crossfunction-edit',
+        component: () => import('@/views/web_pages/crossfunction/Create.vue'),
+        meta: {
+          auth: true,
+          parent: 'crossfunction'
+        }
       }
     ]
   },

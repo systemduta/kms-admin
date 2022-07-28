@@ -13,7 +13,7 @@ import jwt from '../../http/requests/auth/jwt/index.js'
 export default {
   loginJWT ({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      jwt.login(payload.userDetails.username, payload.userDetails.password, payload.userDetails.isWeb)
+      jwt.login(payload.userDetails.nik, payload.userDetails.password, payload.userDetails.isWeb)
         .then(response => {
           if (response) {
             localStorage.setItem('accessToken', response.data.accessToken)
@@ -21,7 +21,7 @@ export default {
             commit('SET_BEARER', response.accessToken)
             resolve(response)
           } else {
-            reject({message: 'Wrong Username or Password'})
+            reject({message: 'Wrong NIK or Password'})
           }
         })
         .catch(error => { reject(error) })

@@ -21,9 +21,9 @@ export default {
 
     })
   },
-  login (username, pwd, isWeb) {
+  login (nik, pwd, isWeb) {
     return axios.post('api/login', {
-      username,
+      nik,
       password: pwd,
       isWeb
     })
