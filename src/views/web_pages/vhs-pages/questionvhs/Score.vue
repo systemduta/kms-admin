@@ -160,7 +160,7 @@ export default {
           this.isLoading = false;
           this.$vs.notify({
             title: "Oops!",
-            text: error.data.message,
+            text: error.data.error,
             color: "danger",
           });
         }

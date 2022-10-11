@@ -2,9 +2,9 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Employee">
-        <vs-table search :data="data" class="mb-2">
+        <vs-table pagination search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'employee-create'}">Create User</vs-button>
+            <vs-button :to="{ name: 'employee-create' }">Create User</vs-button>
           </template>
           <template slot="thead">
             <vs-th></vs-th>
@@ -16,21 +16,35 @@
             <vs-th>NIK</vs-th>
             <vs-th></vs-th>
           </template>
-          <template slot-scope="{data}">
+          <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td class="img-container">
-                <vs-avatar :src="image + '/files/' + tr.image"/>
+                <vs-avatar :src="image + '/files/' + tr.image" />
               </vs-td>
-              <vs-td :data="tr.name">{{tr.name}}</vs-td>
-              <vs-td :data="tr.username">{{tr.username}}</vs-td>
-              <vs-td :data="tr.company.name">{{tr.company.name}}</vs-td>
-              <vs-td :data="tr.organization.name">{{tr.organization.name}}</vs-td>
-              <vs-td :data="tr.golongan.name">{{tr.golongan.name}}</vs-td>
-              <vs-td :data="tr.nik">{{tr.nik}}</vs-td>
+              <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+              <vs-td :data="tr.username">{{ tr.username }}</vs-td>
+              <vs-td :data="tr.company.name">{{ tr.company.name }}</vs-td>
+              <vs-td :data="tr.organization.name">{{
+                tr.organization.name
+              }}</vs-td>
+              <vs-td :data="tr.golongan.name">{{ tr.golongan.name }}</vs-td>
+              <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `employee-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    :to="{ name: `employee-edit`, params: { id: tr.id } }"
+                    icon-pack="feather"
+                    icon="icon-edit"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    color="danger"
+                    @click="deletes(tr.id)"
+                    icon-pack="feather"
+                    icon="icon-delete"
+                    size="small"
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -42,59 +56,61 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       idDelete: null,
-      image: process.env.VUE_APP_API_URL
-    }
+      image: process.env.VUE_APP_API_URL,
+    };
   },
-  computed:{
+  computed: {
     ...mapState({
-      data: state => state.employee.rows
-    })
-  },
-  methods:{
-    ...mapActions({
-      dispatchIndex: 'employee/index',
-      dispatchDestroy: 'employee/destroy'
+      data: (state) => state.employee.rows,
     }),
-    async confirmDelete () {
+  },
+  methods: {
+    ...mapActions({
+      dispatchIndex: "employee/index",
+      dispatchDestroy: "employee/destroy",
+    }),
+    async confirmDelete() {
       try {
-        await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
-    }
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
+    },
   },
-  mounted () {
-    this.$vs.loading()
-    this.dispatchIndex().then(() => {
-      this.$vs.loading.close()
-    }).catch(() => {
-      this.$vs.loading.close()
-    })
-  }
-}
+  mounted() {
+    this.$vs.loading();
+    this.dispatchIndex()
+      .then(() => {
+        this.$vs.loading.close();
+      })
+      .catch(() => {
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>
