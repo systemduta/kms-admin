@@ -301,7 +301,7 @@ export default {
       this.disableThemeTour = true
       this.dynamicWatchers.rtl()
     })
-    console.log('load-main')
+    // console.log('load-main')
   },
   beforeDestroy () {
     Object.keys(this.dynamicWatchers).map(i => {

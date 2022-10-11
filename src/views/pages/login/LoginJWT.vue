@@ -7,7 +7,7 @@ z<template>
         icon-no-border
         icon="icon icon-user"
         icon-pack="feather"
-        label-placeholder="NIK"
+        label-placeholder="masukkan nik"
         v-model="nik"
         class="w-full mt-10"/>
     <span class="text-sm text-danger">{{ errors.first('nik') }}</span>

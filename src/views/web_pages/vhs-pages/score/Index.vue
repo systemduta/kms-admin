@@ -1,33 +1,32 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
-      <vx-card title="All Level">
-        <vs-table search :data="data" class="mb-2">
+    <div class="w-full vx-col mb-base">
+      <vx-card title="All Score VHS">
+        <vs-table pagination search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button
-              color="primary"
-              type="border"
-              icon="list"
-              title="exam result"
-              :to="{ name: 'leaderboard-exam-result' }"
-            ></vs-button>
+            <vs-button :to="{ name: 'vhs-pages/score/all' }">
+              All Score
+            </vs-button>
           </template>
           <template slot="thead">
-            <vs-th>Level</vs-th>
-            <vs-th>Name</vs-th>
+            <vs-th>No</vs-th>
+            <vs-th>Company</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="tr.code">{{ tr.code }}</vs-td>
+              <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `leaderboard-read`, params: { id: tr.id } }"
+                    :to="{
+                      name: `vhs-pages/scorecompany`,
+                      params: { id: tr.id },
+                    }"
                     icon-pack="feather"
-                    icon="icon-edit"
+                    icon="icon-eye"
                     size="small"
                   ></vs-button>
                 </div>
@@ -42,23 +41,29 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+// import moment from "moment";
 export default {
   data() {
-    return {};
+    return {
+      idDelete: null,
+      cekData: [],
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.leaderboard.rows,
+      data: (state) => state.score.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "leaderboard/index",
+      dispatchIndex: "score/getCompany",
+
+      dispatchGetUserPerCompany: "score/getuserpercompany",
     }),
   },
   mounted() {
     this.$vs.loading();
-    this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
+    this.dispatchIndex()
       .then(() => {
         this.$vs.loading.close();
       })
