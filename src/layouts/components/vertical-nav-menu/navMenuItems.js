@@ -152,27 +152,16 @@ const menu = [
             name: "VHS",
             slug: "vhs",
           },
-          {
-            url: { name: "jadwal" },
-            name: "Jadwal",
-            slug: "jadwal",
-          },
-          // {
-          //   url: { name: "daftar_user" },
-          //   name: "Daftar User",
-          //   slug: "daftar_user",
-          // },
 
-          //TODO tambahan
-          {
-            url: { name: "zoom-vhs" },
-            name: "Zoom",
-            slug: "zoom",
-          },
           {
             url: { name: "vhs-pages/materi" },
             name: "Materi",
             slug: "materi",
+          },
+          {
+            url: { name: "zoom-vhs" },
+            name: "Zoom",
+            slug: "zoom",
           },
           {
             url: { name: "vhs-pages/questionvhs" },
@@ -184,21 +173,24 @@ const menu = [
             name: "Score vhs",
             slug: "scorevhs",
           },
-          // {
-          //   url: { name: "vhs-pages/questionvhs/answer" },
-          //   name: "Question answer vhs",
-          //   slug: "questionanswervhs",
-          // },
-          // {
-          //   url: { name: "##" },
-          //   name: "Leaderboard",
-          //   slug: "leaderboard",
-          // },
-          // {
-          //   url: { name: "##" },
-          //   name: "Profile",
-          //   slug: "profile",
-          // },
+
+          {
+            url: null,
+            name: "Jadwal",
+            slug: "jadwal",
+            submenu: [
+              {
+                url: { name: "jadwal" },
+                name: "Jadwal VHS",
+                slug: "jadwal_vhs",
+              },
+              {
+                url: { name: "jadwaluservhs" },
+                name: "Jadwal User",
+                slug: "jadwal_user",
+              },
+            ],
+          },
         ],
       }
     : null,

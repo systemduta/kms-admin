@@ -99,11 +99,13 @@ export default {
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",
-          text: `Looks like something went wrong. please try again later (${error.data.message})`,
+          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
           color: "danger",
         });
       }
     },
+
+    //URUNG erorr delete
     deletes(id) {
       this.idDelete = id;
       this.$vs.dialog({

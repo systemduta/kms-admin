@@ -623,7 +623,7 @@ export default [
         },
       },
       {
-        path: "",
+        path: "/vhs-pages/score/all",
         name: "vhs-pages/score/all",
         component: () =>
           import("@/views/web_pages/vhs-pages/score/AllScore.vue"),
@@ -640,6 +640,26 @@ export default [
         meta: {
           auth: true,
           parent: "vhs-pages/score",
+        },
+      },
+      {
+        path: "/show/:id",
+        name: "vhs-pages/score/all/show",
+        component: () => import("@/views/web_pages/vhs-pages/score/Show.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/score/all",
+        },
+      },
+      //URUNG::blm selesai
+      {
+        path: "/edit/:id",
+        name: "vhs-pages/score/all/edit",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/score/AllScoreEdit.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/score/all",
         },
       },
       // {
@@ -666,17 +686,35 @@ export default [
   },
 
   // Splash Screen
+  // {
+  //   path: "/splash_screen",
+  //   component: { template: "<router-view/>" },
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "splash_screen",
+  //       component: () => import("@/views/web_pages/splash_screen/Index.vue"),
+  //       meta: {
+  //         auth: true,
+  //         parent: "splash_screen",
+  //       },
+  //     },
+  //   ],
+  // },
+
+  // Jadwal User vhs
   {
-    path: "/splash_screen",
+    path: "/jadwaluservhs",
     component: { template: "<router-view/>" },
     children: [
       {
         path: "",
-        name: "splash_screen",
-        component: () => import("@/views/web_pages/splash_screen/Index.vue"),
+        name: "jadwaluservhs",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/jadwal_user/Index.vue"),
         meta: {
           auth: true,
-          parent: "splash_screen",
+          parent: "jadwaluservhs",
         },
       },
     ],

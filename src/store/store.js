@@ -38,6 +38,7 @@ import zoom from "./maesa/zoom";
 import materi from "./maesa/vhs/materi";
 import questionvhs from "./maesa/vhs/questionvhs";
 import score from "./maesa/vhs/score";
+import jadwalUser from "./maesa/vhs/jadwalUser";
 
 export default new Vuex.Store({
   getters,
@@ -68,6 +69,7 @@ export default new Vuex.Store({
     materi,
     questionvhs,
     score,
+    jadwalUser,
   },
   strict: process.env.NODE_ENV !== "production",
 });

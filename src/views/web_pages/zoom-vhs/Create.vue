@@ -106,6 +106,10 @@
         <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
+            <vs-button color="dark" type="flat" :to="{ name: `zoom-vhs` }"
+              >Back</vs-button
+            >
+            &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
         </div>

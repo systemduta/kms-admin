@@ -4,7 +4,9 @@
       <vx-card title="Jadwal VHS">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'jadwal-create' }">Create Jadwal</vs-button>
+            <vs-button :to="{ name: 'jadwal-create' }"
+              >Create Jadwal vhs</vs-button
+            >
           </template>
           <template slot="thead">
             <vs-th>No</vs-th>
@@ -66,6 +68,11 @@ export default {
       dispatchIndex: "jadwal/index",
       dispatchDestroy: "jadwal/destroy",
     }),
+
+    btnCLick() {
+      console.log("btn klik");
+    },
+
     format_date(value) {
       if (value) {
         return moment(String(value)).format("DD/MM/YYYY");
@@ -85,7 +92,7 @@ export default {
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",
-          text: `Looks like something went wrong. please try again later (${error.data.message})`,
+          text: `Jadwal ini sudah ada materi didalamnya, harap hapus terlebih dahulu`,
           color: "danger",
         });
       }
