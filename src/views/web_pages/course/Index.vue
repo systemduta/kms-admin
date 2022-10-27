@@ -2,7 +2,7 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Division">
-        <vs-table search :data="data" class="mb-2">
+        <vs-table pagination max-items="20" search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'course-create' }">Create Course</vs-button>
           </template>

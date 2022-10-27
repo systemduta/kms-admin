@@ -2,7 +2,7 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Lampiran">
-        <vs-table search :data="data" class="mb-2">
+        <vs-table pagination max-items="10" search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'lampiran-create' }"
               >Create Lampiran</vs-button
