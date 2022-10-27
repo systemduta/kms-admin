@@ -105,7 +105,6 @@ export default {
       }
     },
 
-    //URUNG erorr delete
     deletes(id) {
       this.idDelete = id;
       this.$vs.dialog({

@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Materi VHS">
+      <vx-card title="Question VHS">
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <small>Nama VHS</small>
@@ -97,6 +97,7 @@ export default {
     async getMaster() {
       const co = await this.dispatchGetCompanies();
       this.materivhs = co.data;
+      console.log(this.materivhs);
       if (this.$route.params.id) {
         await this.getDetail();
       }

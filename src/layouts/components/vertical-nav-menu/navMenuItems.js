@@ -45,15 +45,20 @@ const menu = [
     icon: "UsersIcon",
     i18n: "Administration",
     submenu: [
-      {
-        url: { name: "division" },
-        name: "Division",
-        slug: "division",
-      },
+      // {
+      //   url: { name: "division" },
+      //   name: "Division",
+      //   slug: "division",
+      // },
       {
         url: { name: "employee" },
         name: "Employee",
         slug: "employee",
+      },
+      {
+        url: { name: "company" },
+        name: "Company",
+        slug: "company",
       },
     ],
   },

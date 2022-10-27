@@ -69,6 +69,41 @@ export default [
     ],
   },
 
+  // Employee
+  {
+    path: "/company",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "company",
+        component: () => import("@/views/web_pages/company/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "company",
+        },
+      },
+      {
+        path: ":id",
+        name: "companydetail",
+        component: () => import("@/views/web_pages/company/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "company",
+        },
+      },
+      {
+        path: "/editcompany/:id",
+        name: "division-edit",
+        component: () => import("@/views/web_pages/division/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "company",
+        },
+      },
+    ],
+  },
+
   // Course
   {
     path: "/course",

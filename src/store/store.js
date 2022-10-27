@@ -39,6 +39,7 @@ import materi from "./maesa/vhs/materi";
 import questionvhs from "./maesa/vhs/questionvhs";
 import score from "./maesa/vhs/score";
 import jadwalUser from "./maesa/vhs/jadwalUser";
+import company from "./maesa/company";
 
 export default new Vuex.Store({
   getters,
@@ -70,6 +71,7 @@ export default new Vuex.Store({
     questionvhs,
     score,
     jadwalUser,
+    company,
   },
   strict: process.env.NODE_ENV !== "production",
 });
