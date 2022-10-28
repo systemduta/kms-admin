@@ -5,7 +5,7 @@
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'vhs-pages/questionvhs/create' }"
-              >Tambah Materi</vs-button
+              >Tambah Pertanyaan</vs-button
             >
           </template>
           <template slot="thead">

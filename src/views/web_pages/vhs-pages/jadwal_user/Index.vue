@@ -210,7 +210,7 @@ export default {
       const co = await this.dispatchGetCompany();
       this.companyArr = co.data;
       this.companyArr.map(function (x) {
-        return (x.company_data = x.idCompany + " - " + x.nameCompany);
+        return (x.company_data = x.nameCompany);
       });
     },
     convertToFormData() {

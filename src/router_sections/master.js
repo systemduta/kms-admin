@@ -686,7 +686,6 @@ export default [
           parent: "vhs-pages/score/all",
         },
       },
-      //URUNG::blm selesai
       {
         path: "/edit/:id",
         name: "vhs-pages/score/all/edit",
