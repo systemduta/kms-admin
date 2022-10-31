@@ -2,7 +2,7 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Employee">
-        <vs-table pagination search :data="data" class="mb-2">
+        <vs-table pagination max-items="10" search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'employee-create' }">Create User</vs-button>
           </template>

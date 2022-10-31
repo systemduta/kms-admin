@@ -25,17 +25,19 @@
               <vs-td>
                 <div class="flex">
                   <vs-button
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    @click="getID(tr.id)"
+                    size="small"
+                  ></vs-button>
+                  &nbsp;
+                  <vs-button
                     class="mr-2"
                     :to="{ name: `division-edit`, params: { id: tr.id } }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
-                  <!-- <vs-button
-                    icon-pack="feather"
-                    icon="icon-eye"
-                    size="small"
-                  ></vs-button> -->
                 </div>
               </vs-td>
             </vs-tr>
@@ -102,6 +104,42 @@
             </div>
           </template>
         </vs-popup>
+
+        <vs-popup
+          fullscreen
+          class="holamundo"
+          title="Daftar User"
+          :active.sync="popupActivo2"
+        >
+          <template>
+            <div class="vx-row">
+              <div class="w-full vx-col mb-base">
+                <vx-card>
+                  <vs-table
+                    pagination
+                    max-items="10"
+                    search
+                    :data="getDetailUsers"
+                    class="mb-2"
+                  >
+                    <template slot="thead">
+                      <vs-th>No</vs-th>
+                      <vs-th>NIK</vs-th>
+                      <vs-th>Name</vs-th>
+                    </template>
+                    <template slot-scope="{ data }">
+                      <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                        <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+                        <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
+                        <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+                      </vs-tr>
+                    </template>
+                  </vs-table>
+                </vx-card>
+              </div>
+            </div>
+          </template>
+        </vs-popup>
       </vx-card>
     </div>
   </div>
@@ -109,16 +147,19 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "@/axios";
 export default {
   data() {
     return {
       popupActivo: false,
+      popupActivo2: false,
       name: "",
       code: "",
       company_id: null,
       getDetail2: [],
       getList: [],
       getResponse: [],
+      getDetailUsers: [],
     };
   },
   computed: {
@@ -134,7 +175,16 @@ export default {
     }),
 
     getID(id) {
-      console.log(id);
+      axios
+        .post("/api/web/getdetailcompany", {
+          idcompany: this.$route.params.id,
+          iddivision: id,
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          this.getDetailUsers = res.data.data;
+          this.popupActivo2 = true;
+        });
     },
 
     store() {
