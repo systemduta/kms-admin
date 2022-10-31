@@ -50,7 +50,7 @@
           :active.sync="popupActivo"
         >
           <template>
-            <div class="vx-row">
+            <div v-if="getDetail2.length > 0" class="vx-row">
               <div class="w-full vx-col mb-base">
                 <vx-card>
                   <div class="vx-row mb-5">
@@ -102,6 +102,7 @@
                 </vx-card>
               </div>
             </div>
+            <div v-else></div>
           </template>
         </vs-popup>
 
@@ -181,7 +182,6 @@ export default {
           iddivision: id,
         })
         .then((res) => {
-          console.log(res.data.data);
           this.getDetailUsers = res.data.data;
           this.popupActivo2 = true;
         });
