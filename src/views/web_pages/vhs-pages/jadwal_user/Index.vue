@@ -1,12 +1,14 @@
 <template>
   <div class="centerx">
     <vx-card title="Jadwal User VHS">
-      <vs-button @click="popupActivo = true" color="primary" type="border"
+      <vs-button
+        :to="{ name: 'jadwaluservhs/create' }"
+        color="primary"
+        type="border"
         >Buat Jadwal User</vs-button
       >
-      <vs-table search :data="data" class="mb-2">
+      <vs-table pagination max-items="10" search :data="data" class="mb-2">
         <template slot="thead">
-          <vs-th>No</vs-th>
           <vs-th sort-key="namauser">Nama </vs-th>
           <vs-th sort-key="jadwalvhsname">Jadwal VHS</vs-th>
           <vs-th sort-key="start">Jadwal Mulai</vs-th>
@@ -16,7 +18,6 @@
         </template>
         <template slot-scope="{ data }">
           <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
             <vs-td :data="tr.namauser">{{ tr.namauser }}</vs-td>
             <vs-td :data="tr.jadwalvhsname">{{ tr.jadwalvhsname }}</vs-td>
             <vs-td :data="tr.start">{{ format_date(tr.start) }}</vs-td>
@@ -38,7 +39,10 @@
                 <vs-button
                   class="mr-2"
                   icon-pack="feather"
-                  @click="cekBtn(tr.id)"
+                  :to="{
+                    name: `jadwaluservhs/edit`,
+                    params: { id: tr.id },
+                  }"
                   icon="icon-edit"
                   size="small"
                 ></vs-button>
@@ -170,49 +174,49 @@ export default {
     ...mapActions({
       dispatchIndex: "jadwalUser/index",
       dispatchDestroy: "jadwalUser/destroy",
-      dispatchStore: "jadwalUser/store",
-      dispatchShow: "jadwalUser/show",
-      dispatchUpdate: "jadwalUser/update",
+      // dispatchStore: "jadwalUser/store",
+      // dispatchShow: "jadwalUser/show",
+      // dispatchUpdate: "jadwalUser/update",
 
-      dispatchGetVhs: "jadwalUser/getvhs",
-      dispatchGetUser: "jadwalUser/getuser",
-      dispatchGetCompany: "jadwalUser/getcompany",
+      // dispatchGetVhs: "jadwalUser/getvhs",
+      // dispatchGetUser: "jadwalUser/getuser",
+      // dispatchGetCompany: "jadwalUser/getcompany",
     }),
-    async cekBtn(id) {
-      this.popupActivo = true;
-      const dt = await this.dispatchShow(id);
-      this.storeData.id = dt.data.id;
-      this.storeData.jadwal_id = dt.data.jadwal_id;
-      this.storeData.user_id = dt.data.user_id;
-      this.storeData.company_id = dt.data.company_id;
-      // console.log(dt);
-    },
+    // async cekBtn(id) {
+    //   this.popupActivo = true;
+    //   const dt = await this.dispatchShow(id);
+    //   this.storeData.id = dt.data.id;
+    //   this.storeData.jadwal_id = dt.data.jadwal_id;
+    //   this.storeData.user_id = dt.data.user_id;
+    //   this.storeData.company_id = dt.data.company_id;
+    //   // console.log(dt);
+    // },
     format_date(value) {
       if (value) {
         return moment(String(value)).format("MM/DD/YYYY");
       }
     },
-    async getJadwal() {
-      const co = await this.dispatchGetVhs();
-      this.jadwalArr = co.data;
-      this.jadwalArr.map(function (x) {
-        return (x.item_data = x.name + " - " + x.batch + " - " + x.start);
-      });
-    },
-    async getUser() {
-      const co = await this.dispatchGetUser();
-      this.userArr = co.data;
-      this.userArr.map(function (x) {
-        return (x.user_data = x.name + " - " + x.company.name);
-      });
-    },
-    async getCompany() {
-      const co = await this.dispatchGetCompany();
-      this.companyArr = co.data;
-      this.companyArr.map(function (x) {
-        return (x.company_data = x.nameCompany);
-      });
-    },
+    // async getJadwal() {
+    //   const co = await this.dispatchGetVhs();
+    //   this.jadwalArr = co.data;
+    //   this.jadwalArr.map(function (x) {
+    //     return (x.item_data = x.name + " - " + x.batch + " - " + x.start);
+    //   });
+    // },
+    // async getUser() {
+    //   const co = await this.dispatchGetUser();
+    //   this.userArr = co.data;
+    //   this.userArr.map(function (x) {
+    //     return (x.user_data = x.name + " - " + x.company.name);
+    //   });
+    // },
+    // async getCompany() {
+    //   const co = await this.dispatchGetCompany();
+    //   this.companyArr = co.data;
+    //   this.companyArr.map(function (x) {
+    //     return (x.company_data = x.nameCompany);
+    //   });
+    // },
     convertToFormData() {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
@@ -271,7 +275,9 @@ export default {
           color: "primary",
         });
 
-        window.location.reload();
+        // window.location.reload();
+
+        this.$router.push({ name: "jadwaluservhs" });
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",
@@ -293,9 +299,6 @@ export default {
   },
   mounted() {
     this.$vs.loading();
-    this.getJadwal();
-    this.getUser();
-    this.getCompany();
     this.dispatchIndex()
       .then(() => {
         this.$vs.loading.close();

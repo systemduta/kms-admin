@@ -159,7 +159,8 @@ export default {
   data() {
     return {
       isVisible: true,
-      urlImage: "http://localhost:8000/file/materivhs/image/", //TODO jangan lupa diganti
+      // urlImage: "http://localhost:8000/file/materivhs/image/", //TODO jangan lupa diganti
+      urlImage: "http://testing.maesagroup.co.id/file/materivhs/image/", //TODO jangan lupa diganti
       isLoading: false,
       previewImage: null,
       allowedImageType: ["image/jpeg", "image/png"],

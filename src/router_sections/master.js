@@ -751,6 +751,26 @@ export default [
           parent: "jadwaluservhs",
         },
       },
+      {
+        path: "create",
+        name: "jadwaluservhs/create",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/jadwal_user/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "jadwaluservhs",
+        },
+      },
+      {
+        path: ":id",
+        name: "jadwaluservhs/edit",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/jadwal_user/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "jadwaluservhs",
+        },
+      },
     ],
   },
 ];
