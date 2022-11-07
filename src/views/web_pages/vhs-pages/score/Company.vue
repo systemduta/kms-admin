@@ -53,7 +53,6 @@ export default {
     async getDataCompany(id) {
       const co = await this.dispatchIndex(id);
       this.dataCompany = co.company;
-      //   console.log(this.dataCompany);
     },
   },
   mounted() {

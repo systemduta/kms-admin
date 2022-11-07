@@ -189,10 +189,9 @@ export default {
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
-          console.log(error);
           this.$vs.notify({
             title: "Oops!",
-            text: error,
+            text: "Ada data sama, hubungi administrator",
             color: "danger",
           });
         }
