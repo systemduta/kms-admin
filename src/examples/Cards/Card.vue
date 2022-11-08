@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-4 card">
-    <div class="p-3 card-body" @click="onCLick(onclick)">
+  <div class="mb-4 card div-hover">
+    <div class="p-3 card-body" @click="onCLick(onclick)" :style="style">
       <div class="d-flex" :class="directionReverse ? reverseDirection : ''">
         <div>
           <div
@@ -9,11 +9,11 @@
               this.$store.state.isRTL ? 'border-radius-md' : 'border-radius-2xl'
             }`"
           >
-            <i
+            <!-- <i
               class="text-lg opacity-10"
               :class="iconClass"
               aria-hidden="true"
-            ></i>
+            ></i> -->
           </div>
         </div>
         <div :class="contentClass">
@@ -43,7 +43,6 @@
             <span class="text-sm" :class="percentageColor">{{
               percentage
             }}</span>
-            {{ detail }}
           </div>
         </div>
       </div>
@@ -89,7 +88,6 @@ export default {
     percentage: String,
     iconClass: {
       type: String,
-      required: true,
     },
     percentageColor: {
       type: String,
@@ -105,3 +103,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.div-hover:hover {
+  background-color: rgb(16, 191, 69);
+  color: white;
+  cursor: pointer;
+}
+</style>
