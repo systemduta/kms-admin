@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4 card">
-    <div class="p-3 card-body">
+    <div class="p-3 card-body" @click="onCLick(onclick)">
       <div class="d-flex" :class="directionReverse ? reverseDirection : ''">
         <div>
           <div
@@ -59,15 +59,23 @@ export default {
       reverseDirection: "flex-row-reverse justify-content-between",
     };
   },
+  methods: {
+    onCLick(onclick) {
+      this.$router.push({ name: onclick });
+    },
+  },
   props: {
     directionReverse: Boolean,
+    onclick: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
     },
     detail: {
       type: String,
-      required: true,
     },
     titleColor: {
       type: String,

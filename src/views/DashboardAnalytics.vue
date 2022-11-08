@@ -21,6 +21,7 @@
                 :iconClass="stats.courses.iconClass"
                 :iconBackground="stats.courses.iconBackground"
                 :detail="stats.courses.detail"
+                :onclick="stats.courses.onclick"
                 directionReverse
               ></card>
             </div>
@@ -32,6 +33,7 @@
                 :iconClass="stats.users.iconClass"
                 :iconBackground="stats.users.iconBackground"
                 :detail="stats.users.detail"
+                :onclick="stats.users.onclick"
                 directionReverse
               ></card>
             </div>
@@ -44,6 +46,7 @@
                 :iconBackground="stats.sop.iconBackground"
                 :percentageColor="stats.sop.percentageColor"
                 :detail="stats.sop.detail"
+                :onclick="stats.sop.onclick"
                 directionReverse
               ></card>
             </div>
@@ -55,6 +58,7 @@
                 :iconClass="stats.vhs.iconClass"
                 :iconBackground="stats.vhs.iconBackground"
                 :detail="stats.vhs.detail"
+                :onclick="stats.vhs.onclick"
                 directionReverse
               ></card>
             </div>
@@ -121,6 +125,7 @@ export default {
           iconClass: "ni ni-air-baloon",
           // detail: "==================",
           iconBackground: "bg-gradient-primary",
+          onclick: "course",
         },
         users: {
           title: "Today's Users",
@@ -129,6 +134,7 @@ export default {
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
           // detail: "==================",
+          onclick: "employee",
         },
         sop: {
           title: "Today's SOP",
@@ -138,6 +144,7 @@ export default {
           percentageColor: "text-danger",
           iconBackground: "bg-gradient-success",
           // detail: "==================",
+          onclick: "sop",
         },
         vhs: {
           title: "Total VHS",
@@ -146,6 +153,7 @@ export default {
           iconClass: "ni ni-cart",
           iconBackground: "bg-gradient-warning",
           // detail: "==================",
+          onclick: "jadwal",
         },
       },
     };
