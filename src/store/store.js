@@ -40,6 +40,7 @@ import questionvhs from "./maesa/vhs/questionvhs";
 import score from "./maesa/vhs/score";
 import jadwalUser from "./maesa/vhs/jadwalUser";
 import company from "./maesa/company";
+import dashboard from "./maesa/dashboard";
 
 export default new Vuex.Store({
   getters,
@@ -72,6 +73,7 @@ export default new Vuex.Store({
     score,
     jadwalUser,
     company,
+    dashboard,
   },
   strict: process.env.NODE_ENV !== "production",
 });
