@@ -9,7 +9,10 @@
 
 <template>
   <div>
-    <div class="py-4 container-fluid">
+    <div
+      v-if="organization_id == 20 || organization_id == 23"
+      class="py-4 container-fluid"
+    >
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
@@ -110,13 +113,12 @@ import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import Carousel from "./components/Carousel.vue";
 import CategoriesCard from "./components/CategoriesCard.vue";
 
-import { mapState, mapActions } from "vuex";
-
 export default {
   name: "dashboard-default",
   data() {
     return {
       checkpointReward: {},
+      organization_id: null,
       stats: {
         courses: {
           title: "Today's Courses",
@@ -159,12 +161,7 @@ export default {
     };
   },
   methods: {
-    // ...mapActions({
-    //   dispatchIndex: "dashboard/index",
-    // }),
     async getMaster() {
-      // const responses = await this.dispatchIndex;
-      // console.log(responses);
       this.$http
         .get("api/web/dashbrd")
         .then((response) => {
@@ -172,6 +169,7 @@ export default {
           this.stats.courses.value = response.data.courses;
           this.stats.sop.value = response.data.sop;
           this.stats.vhs.value = response.data.vhs;
+          // window.location.reload(0);
         })
         .catch((error) => {
           console.log(error);
@@ -185,21 +183,12 @@ export default {
     Carousel,
     CategoriesCard,
   },
-  // created() {
-  //   this.$http
-  //     .get("/api/user/checkpoint-reward")
-  //     .then((response) => {
-  //       this.checkpointReward = response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // },
   mounted() {
+    const user_info = JSON.parse(localStorage.getItem("userInfo"));
+    this.organization_id = parseInt(user_info.data.organization_id);
     this.$vs.loading();
     this.getMaster()
       .then(() => {
-        console.log();
         this.$vs.loading.close();
       })
       .catch(() => {
