@@ -147,16 +147,16 @@ const menu = [
         icon: "CpuIcon",
         i18n: "VHS",
         submenu: [
-          {
-            url: { name: "mini_vhs" },
-            name: "Mini VHS",
-            slug: "mini_vhs",
-          },
-          {
-            url: { name: "vhs" },
-            name: "VHS",
-            slug: "vhs",
-          },
+          // {
+          //   url: { name: "mini_vhs" },
+          //   name: "Mini VHS",
+          //   slug: "mini_vhs",
+          // },
+          // {
+          //   url: { name: "vhs" },
+          //   name: "VHS",
+          //   slug: "vhs",
+          // },
 
           {
             url: { name: "vhs-pages/materi" },
