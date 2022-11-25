@@ -7,7 +7,12 @@
         <h4 v-else>-</h4>
         <vs-table pagination max-items="10" search :data="getList" class="mb-2">
           <template slot="header">
-            <vs-button @click="popupActivo = true" color="primary" type="border"
+            <vs-button
+              @click="popupActivo = true"
+              type="filled"
+              icon-pack="feather"
+              icon="icon-edit"
+              :color="colorx"
               >Create Division</vs-button
             >
           </template>
@@ -47,6 +52,8 @@
         <vs-popup
           class="holamundo"
           title="Tambah Divisi"
+          background-color="rgba(152,152,152,.7)"
+          :background-color-popup="colorx"
           :active.sync="popupActivo"
         >
           <template>
