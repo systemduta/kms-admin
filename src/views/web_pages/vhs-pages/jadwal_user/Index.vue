@@ -174,49 +174,12 @@ export default {
     ...mapActions({
       dispatchIndex: "jadwalUser/index",
       dispatchDestroy: "jadwalUser/destroy",
-      // dispatchStore: "jadwalUser/store",
-      // dispatchShow: "jadwalUser/show",
-      // dispatchUpdate: "jadwalUser/update",
-
-      // dispatchGetVhs: "jadwalUser/getvhs",
-      // dispatchGetUser: "jadwalUser/getuser",
-      // dispatchGetCompany: "jadwalUser/getcompany",
     }),
-    // async cekBtn(id) {
-    //   this.popupActivo = true;
-    //   const dt = await this.dispatchShow(id);
-    //   this.storeData.id = dt.data.id;
-    //   this.storeData.jadwal_id = dt.data.jadwal_id;
-    //   this.storeData.user_id = dt.data.user_id;
-    //   this.storeData.company_id = dt.data.company_id;
-    //   // console.log(dt);
-    // },
     format_date(value) {
       if (value) {
         return moment(String(value)).format("MM/DD/YYYY");
       }
     },
-    // async getJadwal() {
-    //   const co = await this.dispatchGetVhs();
-    //   this.jadwalArr = co.data;
-    //   this.jadwalArr.map(function (x) {
-    //     return (x.item_data = x.name + " - " + x.batch + " - " + x.start);
-    //   });
-    // },
-    // async getUser() {
-    //   const co = await this.dispatchGetUser();
-    //   this.userArr = co.data;
-    //   this.userArr.map(function (x) {
-    //     return (x.user_data = x.name + " - " + x.company.name);
-    //   });
-    // },
-    // async getCompany() {
-    //   const co = await this.dispatchGetCompany();
-    //   this.companyArr = co.data;
-    //   this.companyArr.map(function (x) {
-    //     return (x.company_data = x.nameCompany);
-    //   });
-    // },
     convertToFormData() {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline

@@ -19,6 +19,7 @@ const actions = {
   async index({ commit }, payload) {
     try {
       const { data } = await axios.get(`api/web/jadwalvhsuser`);
+      console.log(data);
       commit("SET_ROWS", data.data);
       return Promise.resolve(data);
     } catch (error) {

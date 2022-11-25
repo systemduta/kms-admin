@@ -68,6 +68,7 @@
           </div>
         </div>
       </div>
+      <!-- <button @click="ujiClick("1")"></button> -->
     </div>
 
     <div id="dashboard-analytics">
@@ -165,6 +166,7 @@ export default {
       this.$http
         .get("api/web/dashbrd")
         .then((response) => {
+          console.log(response);
           this.stats.users.value = response.data.users;
           this.stats.courses.value = response.data.courses;
           this.stats.sop.value = response.data.sop;
