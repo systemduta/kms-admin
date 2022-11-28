@@ -198,7 +198,7 @@ export default {
           this.stats.sop.value = response.data.sop;
           this.stats.vhs.value = response.data.vhs;
           this.lastUser = response.data.lastuser;
-          console.log("check => " + this.lastUser);
+          // console.log("check => " + this.lastUser);
           // window.location.reload(0);
         })
         .catch((error) => {
