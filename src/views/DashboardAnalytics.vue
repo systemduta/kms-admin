@@ -104,6 +104,31 @@
         </div>
       </vs-row>
     </div>
+
+    <div
+      v-if="organization_id == 20 || organization_id == 23"
+      class="py-4 container-fluid"
+    >
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <vs-chip transparent color="primary"> Last User added: </vs-chip>
+            <div class="col-lg-3 col-md-6 col-12" v-for="lastuser in lastUser">
+              <card
+                :title="lastuser.name"
+                :value="lastuser.nik"
+                :percentage="stats.courses.percentage"
+                :iconClass="stats.courses.iconClass"
+                :iconBackground="stats.courses.iconBackground"
+                :detail="lastuser.username"
+                :onclick="employee"
+                directionReverse
+              ></card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -119,6 +144,7 @@ export default {
   data() {
     return {
       checkpointReward: {},
+      lastUser: [],
       organization_id: null,
       stats: {
         courses: {
@@ -171,6 +197,8 @@ export default {
           this.stats.courses.value = response.data.courses;
           this.stats.sop.value = response.data.sop;
           this.stats.vhs.value = response.data.vhs;
+          this.lastUser = response.data.lastuser;
+          console.log("check => " + this.lastUser);
           // window.location.reload(0);
         })
         .catch((error) => {
