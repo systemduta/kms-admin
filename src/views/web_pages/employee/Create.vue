@@ -69,7 +69,6 @@
             }}</span>
           </div>
         </div>
-
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <small>Companies</small>
@@ -111,14 +110,14 @@
         </div>
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
-            <small>Golongan</small>
+            <small>Level</small>
             <v-select
               v-model="storeData.golongan_id"
               :options="golongans"
               v-validate="'required'"
               name="golongan_id"
               :reduce="(e) => e.id"
-              label="golongan_data"
+              label="name"
             ></v-select>
             <span
               class="text-sm text-danger"
@@ -187,15 +186,7 @@
             }}</span>
           </div>
         </div>
-        <div class="vx-row">
-          <div class="w-full text-right vx-col">
-            <vs-button color="dark" type="flat" :to="{ name: `employee` }"
-              >Back</vs-button
-            >
-            &nbsp; &nbsp;
-            <vs-button @click="store">Save</vs-button>
-          </div>
-        </div>
+        <vs-button @click="store">Save</vs-button>
       </vx-card>
     </div>
   </div>
@@ -247,7 +238,6 @@ export default {
       this.organizations = org.data;
       const gol = await this.dispatchGetGolongans();
       this.golongans = gol.data;
-      console.log(this.golongans);
       if (this.$route.params.id) {
         await this.getDetail();
       }
@@ -271,34 +261,37 @@ export default {
       });
       if (this.$route.params.id) data.append("_method", "PUT");
 
+      console.log("=======");
+      console.log("company id -> " + this.storeData.id);
+      console.log("=======");
       return data;
     },
     store() {
       this.$validator.validateAll().then(async (res) => {
         if (!res) return false;
         const formData = this.convertToFormData();
-        this.$vs.loading();
-        try {
-          if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
-          } else {
-            await this.dispatchStore(formData);
-          }
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "employee" });
-        } catch (error) {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Oops!",
-            text: error.data.message,
-            color: "danger",
-          });
-        }
+        // this.$vs.loading();
+        // try {
+        //   if (this.$route.params.id) {
+        //     await this.dispatchUpdate(formData);
+        //   } else {
+        //     await this.dispatchStore(formData);
+        //   }
+        //   this.$vs.loading.close();
+        //   this.$vs.notify({
+        //     title: "Success!",
+        //     text: "Data was saved successfully!",
+        //     color: "success",
+        //   });
+        //   this.$router.push({ name: "employee" });
+        // } catch (error) {
+        //   this.$vs.loading.close();
+        //   this.$vs.notify({
+        //     title: "Oops!",
+        //     text: error.data.message,
+        //     color: "danger",
+        //   });
+        // }
       });
     },
     async getDetail() {
@@ -353,9 +346,6 @@ export default {
       .catch(() => {
         this.$vs.loading.close();
       });
-    this.golongans.map(function (x) {
-      return (x.golongan_data = x.code + " - " + x.name);
-    });
   },
 };
 </script>

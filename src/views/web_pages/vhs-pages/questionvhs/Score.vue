@@ -1,3 +1,5 @@
+//TODO kurang search dan pagination
+
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
@@ -73,16 +75,6 @@
 
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button
-              color="dark"
-              type="flat"
-              :to="{
-                name: `vhs-pages/questionvhs/answer`,
-                params: { id: id_question },
-              }"
-              >Back</vs-button
-            >
-            &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
         </div>
@@ -102,7 +94,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      id_question: null,
       storeData: {
         id: this.$route.params.id,
         materi_id: "",
@@ -148,9 +139,6 @@ export default {
         const formData = this.convertToFormData();
         if (!formData) return false;
 
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0]}, ${pair[1]}`);
-        // }
         this.$vs.loading();
         this.isLoading = true;
         try {
@@ -172,7 +160,7 @@ export default {
           this.isLoading = false;
           this.$vs.notify({
             title: "Oops!",
-            text: error.data.error,
+            text: error.data.message,
             color: "danger",
           });
         }
@@ -180,14 +168,11 @@ export default {
     },
     async getDetail() {
       const success = await this.dispatchGetSingleAnswer(this.$route.params.id);
-      // console.log(success.success);
       this.storeData.materi_id = success.success.id_materi;
       this.storeData.user_id = success.success.id_user;
       this.storeData.nama_materi = success.success.nama_materi;
       this.storeData.nama_user = success.success.name;
       this.storeData.answer = success.success.answer;
-      this.id_question = success.success.id_question;
-      // console.log(this.storeData.materi_id);
     },
   },
   async mounted() {

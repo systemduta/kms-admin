@@ -8,217 +8,233 @@
 ========================================================================================== -->
 
 <template>
-  <div>
-    <div
-      v-if="organization_id == 20 || organization_id == 23"
-      class="py-4 container-fluid"
-    >
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 col-12">
-              <card
-                :title="stats.courses.title"
-                :value="stats.courses.value"
-                :percentage="stats.courses.percentage"
-                :iconClass="stats.courses.iconClass"
-                :iconBackground="stats.courses.iconBackground"
-                :detail="stats.courses.detail"
-                :onclick="stats.courses.onclick"
-                directionReverse
-              ></card>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <card
-                :title="stats.users.title"
-                :value="stats.users.value"
-                :percentage="stats.users.percentage"
-                :iconClass="stats.users.iconClass"
-                :iconBackground="stats.users.iconBackground"
-                :detail="stats.users.detail"
-                :onclick="stats.users.onclick"
-                directionReverse
-              ></card>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <card
-                :title="stats.sop.title"
-                :value="stats.sop.value"
-                :percentage="stats.sop.percentage"
-                :iconClass="stats.sop.iconClass"
-                :iconBackground="stats.sop.iconBackground"
-                :percentageColor="stats.sop.percentageColor"
-                :detail="stats.sop.detail"
-                :onclick="stats.sop.onclick"
-                directionReverse
-              ></card>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <card
-                :title="stats.vhs.title"
-                :value="stats.vhs.value"
-                :percentage="stats.vhs.percentage"
-                :iconClass="stats.vhs.iconClass"
-                :iconBackground="stats.vhs.iconBackground"
-                :detail="stats.vhs.detail"
-                :onclick="stats.vhs.onclick"
-                directionReverse
-              ></card>
-            </div>
-          </div>
-        </div>
+  <div id="dashboard-analytics">
+    <div class="vx-row">
+      <!-- greeting card -->
+      <div class="vx-col w-full mb-base ">
+        <vx-card slot="no-body" class="text-center bg-greet-user greet-user rounded-card">
+                    <img src="@/assets/images/card-dashboard.png" class="decore-bg rounded-card" alt="Decore Left" width="200">
+                    <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left" width="200" >
+                    <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right" width="175">
+          <feather-icon icon="AwardIcon" class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow" svgClasses="h-8 w-8"></feather-icon>
+          <h1 class="mb-6 text-black text-dashboard">Hello Team,</h1>
+          <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-black text-dashboard">Selamat datang di Dashboard Knowledge Management System Maesa Grow.</p>
+        </vx-card>
       </div>
-    </div>
 
-    <div id="dashboard-analytics">
-      <vs-row vs-justify="center">
-        <div class="vx-col w-full lg:w-1/2 mb-base">
-          <vx-card
-            slot="no-body"
-            class="text-center bg-primary-gradient greet-user"
-          >
-            <img
-              src="@/assets/images/elements/decore-left.png"
-              class="decore-left"
-              alt="Decore Left"
-              width="200"
-            />
-            <img
-              src="@/assets/images/elements/decore-right.png"
-              class="decore-right"
-              alt="Decore Right"
-              width="175"
-            />
-            <feather-icon
-              icon="AwardIcon"
-              class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow"
-              svgClasses="h-8 w-8"
-            ></feather-icon>
-            <h1 class="mb-6 text-white">Hello Team,</h1>
-            <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white">
-              Selamat datang di Dashboard Knowledge Management System Maesa
-              Grow.
-            </p>
-          </vx-card>
-        </div>
-      </vs-row>
+      <!-- sop -->
+      <div class="vx-col w-full mb-base">
+          <vx-card title="SOP Terbaru" class="overflow-hidden rounded-card">
+            <template slot="no-body">
+                <div class="chat-card-log">
+                  <component :is="scrollbarTag" class="scroll-area pt-6 px-6" >
+                    <ul ref="chatLog">
+                            <li class="flex items-start" >
+                                <div  class="vx-col w-full lg:w-1/2  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <div slot="no-body" style="background-color: #D2A40D;">
+                                      <h5 class="pt-2 pb-2 text-center text-white">SOP CSO</h5>
+                                    </div>
+                                    <h6 class="mb-2">{{ card_1.title }}</h6>
+                                    <p class="text-black">{{ card_1.subtitle }}</p>
+                                    <p class="text-black">{{ card_1.subtitle_2 }}</p>
+                                  </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/2  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <div slot="no-body" style="background-color: #D2A40D;">
+                                       <h5 class="pt-2 pb-2 text-center text-white">SOP CSO</h5>
+                                    </div>
+                                    <h6 class="mb-2">{{ card_1.title }}</h6>
+                                    <p class="text-black">{{ card_1.subtitle }}</p>
+                                    <p class="text-black">{{ card_1.subtitle_2 }}</p>
+                                </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/2  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <div slot="no-body" style="background-color: #D2A40D;">
+                                       <h5 class="pt-2 pb-2 text-center text-white">SOP CSO</h5>
+                                    </div>
+                                    <h6 class="mb-2">{{ card_1.title }}</h6>
+                                    <p class="text-black">{{ card_1.subtitle }}</p>
+                                    <p class="text-black">{{ card_1.subtitle_2 }}</p>
+                                  </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/2  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <div slot="no-body" style="background-color: #D2A40D;">
+                                       <h5 class="pt-2 pb-2 text-center text-white">SOP CSO</h5>
+                                    </div>
+                                    <h6 class="mb-2">{{ card_1.title }}</h6>
+                                    <p class="text-black">{{ card_1.subtitle }}</p>
+                                    <p class="text-black">{{ card_1.subtitle_2 }}</p>
+                                </vx-card>
+                                </div>
+                                
+                            </li>
+                    </ul>
+                </component>
+              </div>
+              </template>
+        </vx-card>
+      </div>
+
+      <!-- employee -->
+      <div class="vx-col w-full mb-base">
+          <vx-card title="Employee" class="overflow-hidden rounded-card">
+            <template slot="no-body">
+                <div class="chat-card-log">
+                  <component :is="scrollbarTag" class="scroll-area pt-6 px-6" >
+                    <ul ref="chatLog"> 
+                            <li class="flex items-start" >
+                                <div  class="vx-col w-full lg:w-1/4  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <img src="@/assets/images/logo/logo_maesa.png" alt="content-img" class="card-img-top">
+                                </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/4  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <img src="@/assets/images/logo/logo_maesa.png" alt="content-img" class="card-img-top">
+                                </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/4  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <img src="@/assets/images/logo/logo_maesa.png" alt="content-img" class="card-img-top">
+                                </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/4  mr-5">
+                                  <vx-card class="rounded-card">
+                                    <img src="@/assets/images/logo/logo_maesa.png" alt="content-img" class="card-img-top">
+                                </vx-card>
+                                </div>
+                                <div  class="vx-col w-full lg:w-1/4  mr-5">
+                                  <vx-card>
+                                    <img src="@/assets/images/logo/logo_maesa.png" alt="content-img" class="card-img-top">
+                                </vx-card>
+                                </div>
+                            </li>
+                            
+                    </ul>
+                </component>
+              </div>
+              </template>
+        </vx-card>
+      </div>
+      <!-- user -->
+      <!-- <div class="vx-col w-full mb-base">
+          <div class="w-full vx-col mb-base">
+            <vx-card title="User" class="rounded-card">
+              <vs-table class="mb-2">
+                <template slot="thead">
+                  <vs-th>Code</vs-th>
+                  <vs-th>Name</vs-th>
+                  <vs-th></vs-th>
+                </template>
+                <template slot-scope="{data}">
+                  <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                    <vs-td :data="tr.code">{{tr.code}}</vs-td>
+                    <vs-td :data="tr.name">{{tr.name}}</vs-td>
+                    <vs-td>
+                      <div class="flex">
+                        <vs-button class="mr-2" :to="{name: `sop-red`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                      </div>
+                    </vs-td>
+                  </vs-tr>
+                </template>
+              </vs-table>
+            </vx-card>
+          </div>
+        </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import VueApexCharts from "vue-apexcharts";
-import Card from "@/examples/Cards/Card.vue";
-import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
-import Carousel from "./components/Carousel.vue";
-import CategoriesCard from "./components/CategoriesCard.vue";
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import VueApexCharts from 'vue-apexcharts'
 
 export default {
-  name: "dashboard-default",
-  data() {
+  data () {
     return {
       checkpointReward: {},
-      organization_id: null,
-      stats: {
-        courses: {
-          title: "Today's Courses",
-          value: null,
-          // percentage: "+55%",
-          iconClass: "ni ni-air-baloon",
-          // detail: "==================",
-          iconBackground: "bg-gradient-primary",
-          onclick: "course",
-        },
-        users: {
-          title: "Today's Users",
-          value: null,
-          // percentage: "+3%",
-          iconClass: "ni ni-world",
-          iconBackground: "bg-gradient-danger",
-          // detail: "==================",
-          onclick: "employee",
-        },
-        sop: {
-          title: "Today's SOP",
-          value: null,
-          // percentage: "-2%",
-          iconClass: "ni ni-paper-diploma",
-          percentageColor: "text-danger",
-          iconBackground: "bg-gradient-success",
-          // detail: "==================",
-          onclick: "sop",
-        },
-        vhs: {
-          title: "Total VHS",
-          value: null,
-          // percentage: "+5%",
-          iconClass: "ni ni-cart",
-          iconBackground: "bg-gradient-warning",
-          // detail: "==================",
-          onclick: "jadwal",
-        },
-      },
-    };
+      card_1: {},
+      chatLog: [],
+      settings: { // perfectscrollbar settings
+        maxScrollbarLength: 60,
+        wheelSpeed: .60
+      }
+    }
+    
   },
-  methods: {
-    async getMaster() {
-      this.$http
-        .get("api/web/dashbrd")
-        .then((response) => {
-          this.stats.users.value = response.data.users;
-          this.stats.courses.value = response.data.courses;
-          this.stats.sop.value = response.data.sop;
-          this.stats.vhs.value = response.data.vhs;
-          // window.location.reload(0);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+  computed: {
+    scrollbarTag () { return this.$store.getters.scrollbarTag }
+  },
+  mounted () {
+    const scroll_el = this.$refs.chatLogPS.$el || this.$refs.chatLogPS
+    scroll_el.scrollTop = this.$refs.chatLog.scrollHeight
   },
   components: {
     VueApexCharts,
-    Card,
-    GradientLineChart,
-    Carousel,
-    CategoriesCard,
+    VuePerfectScrollbar,
   },
-  mounted() {
-    const user_info = JSON.parse(localStorage.getItem("userInfo"));
-    this.organization_id = parseInt(user_info.data.organization_id);
-    this.$vs.loading();
-    this.getMaster()
-      .then(() => {
-        this.$vs.loading.close();
-      })
-      .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+  created () {
+    this.$http.get('/api/user/checkpoint-reward')
+      .then((response) => { this.checkpointReward = response.data })
+      .catch((error)   => { console.log(error) }),
+      // Card 1
+    this.$http.get('/api/users/pixinvent/product/1')
+      .then((response) => { this.card_1 = response.data })
+      .catch((error)   => { console.log(error) })
+      // Chat Log
+    this.$http.get('/api/chat/demo-1/log')
+      .then((response) => { this.chatLog = response.data })
+      .catch((error)   => { console.log(error) })
+  }
+}
 </script>
 
 <style lang="scss">
 #dashboard-analytics {
-  .greet-user {
+  .greet-user{
     position: relative;
 
-    .decore-left {
+    .decore-left{
       position: absolute;
-      left: 0;
+      left:0;
       top: 0;
     }
-    .decore-right {
+    .decore-right{
       position: absolute;
+      right:0;
+      top: 0;
+    }
+    .decore-bg{
+      position: absolute;
+      left:0;
+      width: 100%;
+      height: 100%;
       right: 0;
       top: 0;
+      opacity: 0.6;
+    }
+    .text-dashboard{
+      position: relative;
     }
   }
-  @media (max-width: 576px) {
-    .decore-left,
-    .decore-right {
+
+  // .bg-greet-user {
+  //   background-image: url("@/assets/images/card-dashboard.png");
+  // }
+
+  .rounded-card{
+    border-radius: 30px;
+  }
+
+  @media(max-width: 576px) {
+    .decore-left, .decore-right{
       width: 140px;
     }
   }
 }
 </style>
+

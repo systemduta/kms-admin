@@ -34,6 +34,23 @@ export default [
     ],
   },
 
+  // Company
+  {
+    path: "/company",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "company",
+        component: () => import("@/views/web_pages/company/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "company",
+        },
+      },
+    ],
+  },
+
   // Employee
   {
     path: "/employee",
@@ -64,41 +81,6 @@ export default [
         meta: {
           auth: true,
           parent: "employee",
-        },
-      },
-    ],
-  },
-
-  // Employee
-  {
-    path: "/company",
-    component: { template: "<router-view/>" },
-    children: [
-      {
-        path: "",
-        name: "company",
-        component: () => import("@/views/web_pages/company/Index.vue"),
-        meta: {
-          auth: true,
-          parent: "company",
-        },
-      },
-      {
-        path: ":id",
-        name: "companydetail",
-        component: () => import("@/views/web_pages/company/Detail.vue"),
-        meta: {
-          auth: true,
-          parent: "company",
-        },
-      },
-      {
-        path: "/editcompany/:id",
-        name: "division-edit",
-        component: () => import("@/views/web_pages/division/Create.vue"),
-        meta: {
-          auth: true,
-          parent: "company",
         },
       },
     ],
@@ -658,7 +640,7 @@ export default [
         },
       },
       {
-        path: "/vhs-pages/score/all",
+        path: "",
         name: "vhs-pages/score/all",
         component: () =>
           import("@/views/web_pages/vhs-pages/score/AllScore.vue"),
@@ -677,23 +659,40 @@ export default [
           parent: "vhs-pages/score",
         },
       },
+      // {
+      //   path: "create",
+      //   name: "vhs-pages/materi/create",
+      //   component: () =>
+      //     import("@/views/web_pages/vhs-pages/materi/Create.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "vhs-pages/materi",
+      //   },
+      // },
+      // {
+      //   path: ":id",
+      //   name: "vhs-pages/materi/edit",
+      //   component: () =>
+      //     import("@/views/web_pages/vhs-pages/materi/Create.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "vhs-pages/materi",
+      //   },
+      // },
+    ],
+  },
+
+  {
+    path: "jadwal-user",
+    component: { template: "<router-view/>" },
+    children: [
       {
-        path: "/show/:id",
-        name: "vhs-pages/score/all/show",
-        component: () => import("@/views/web_pages/vhs-pages/score/Show.vue"),
+        path: "",
+        name: "jadwal-user",
+        component: () => import("@/views/web_pages/jadwal_user/Index.vue"),
         meta: {
           auth: true,
-          parent: "vhs-pages/score/all",
-        },
-      },
-      {
-        path: "/edit/:id",
-        name: "vhs-pages/score/all/edit",
-        component: () =>
-          import("@/views/web_pages/vhs-pages/score/AllScoreEdit.vue"),
-        meta: {
-          auth: true,
-          parent: "vhs-pages/score/all",
+          parent: "jadwal-user",
         },
       },
       // {
@@ -720,55 +719,17 @@ export default [
   },
 
   // Splash Screen
-  // {
-  //   path: "/splash_screen",
-  //   component: { template: "<router-view/>" },
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "splash_screen",
-  //       component: () => import("@/views/web_pages/splash_screen/Index.vue"),
-  //       meta: {
-  //         auth: true,
-  //         parent: "splash_screen",
-  //       },
-  //     },
-  //   ],
-  // },
-
-  // Jadwal User vhs
   {
-    path: "/jadwaluservhs",
+    path: "/splash_screen",
     component: { template: "<router-view/>" },
     children: [
       {
         path: "",
-        name: "jadwaluservhs",
-        component: () =>
-          import("@/views/web_pages/vhs-pages/jadwal_user/Index.vue"),
+        name: "splash_screen",
+        component: () => import("@/views/web_pages/splash_screen/Index.vue"),
         meta: {
           auth: true,
-          parent: "jadwaluservhs",
-        },
-      },
-      {
-        path: "create",
-        name: "jadwaluservhs/create",
-        component: () =>
-          import("@/views/web_pages/vhs-pages/jadwal_user/Create.vue"),
-        meta: {
-          auth: true,
-          parent: "jadwaluservhs",
-        },
-      },
-      {
-        path: ":id",
-        name: "jadwaluservhs/edit",
-        component: () =>
-          import("@/views/web_pages/vhs-pages/jadwal_user/Create.vue"),
-        meta: {
-          auth: true,
-          parent: "jadwaluservhs",
+          parent: "splash_screen",
         },
       },
     ],

@@ -9,33 +9,27 @@
           {{ dataJudul }}
         </h4>
         <h4 v-else>-</h4>
-        <vs-table
-          pagination
-          max-items="10"
-          search
-          :data="dataAnswer"
-          class="mb-2"
-        >
+        <vs-table pagination :data="dataAnswer" class="mb-2">
           <template slot="thead">
             <vs-th>No</vs-th>
             <vs-th>Nama user</vs-th>
             <vs-th>Answer</vs-th>
-            <!-- <vs-th>Tanggal</vs-th> -->
+            <vs-th>Tanggal</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
-            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+            <vs-tr :key="indextr" v-for="(item, indextr) in dataAnswer">
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
-              <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-              <vs-td :data="tr.answer">{{ tr.answer }}</vs-td>
-              <!-- <vs-td :data="item.date_update">{{ item.date_update }}</vs-td> -->
+              <vs-td :data="item.name">{{ item.name }}</vs-td>
+              <vs-td :data="item.answer">{{ item.answer }}</vs-td>
+              <vs-td :data="item.date_update">{{ item.date_update }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
                     class="mr-2"
                     :to="{
                       name: `vhs-pages/questionvhs/score`,
-                      params: { id: tr.id_answer },
+                      params: { id: item.id_answer },
                     }"
                     icon-pack="feather"
                     icon="icon-edit"
@@ -80,7 +74,7 @@ export default {
       const co = await this.dispatchShowAnswer(id);
       this.dataAnswer = co.success;
       this.dataJudul = co.question.question;
-      // console.log(this.dataAnswer);
+      // console.log(this.dataJudul);
     },
   },
   async mounted() {

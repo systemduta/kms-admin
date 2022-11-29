@@ -1,8 +1,8 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Score VHS">
-        <vs-table pagination search :data="data" class="mb-2">
+      <vx-card title="All Score VHS" class="rounded-card">
+        <vs-table pagination search :data="data" class="mb-base">
           <template slot="header">
             <vs-button :to="{ name: 'vhs-pages/score/all' }">
               All Score
@@ -45,6 +45,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
+      colorx: '#D2A40D',
       idDelete: null,
       cekData: [],
     };
@@ -73,3 +74,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.rounded-card{
+    border-radius: 30px;
+  }
+</style>

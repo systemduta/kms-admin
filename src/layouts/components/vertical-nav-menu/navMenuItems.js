@@ -25,6 +25,7 @@ const company = JSON.parse(localStorage.getItem("userInfo"));
 const company_id = parseInt(company.data.company_id);
 
 const menu = [
+  // dashboard
   {
     url: null,
     name: "Dashboard",
@@ -39,17 +40,13 @@ const menu = [
       },
     ],
   },
+  // administration
   {
     url: null,
     name: "User",
     icon: "UsersIcon",
     i18n: "Administration",
     submenu: [
-      // {
-      //   url: { name: "division" },
-      //   name: "Division",
-      //   slug: "division",
-      // },
       {
         url: { name: "employee" },
         name: "Employee",
@@ -60,8 +57,14 @@ const menu = [
         name: "Company",
         slug: "company",
       },
+      // {
+      //   url: { name: "division" },
+      //   name: "Division",
+      //   slug: "division",
+      // },
     ],
   },
+  // SOP
   {
     url: null,
     name: "SOP",
@@ -71,6 +74,7 @@ const menu = [
       {
         url: { name: "sop" },
         name: "SOP",
+        icon: "CreditCardIcon",
         slug: "sop",
       },
       {
@@ -85,23 +89,23 @@ const menu = [
       },
     ],
   },
-
+  // knowledge
   {
     url: null,
     name: "Leaderboard",
-    icon: "FlagIcon",
+    icon: "StarIcon",
     i18n: "Leaderboard",
     submenu: [
-      {
-        url: { name: "leaderboard" },
-        name: "Leaderboard",
-        slug: "PackageIcon",
-        i18n: "Leaderboard",
-        submenu: null,
-      },
+        {
+          url: { name: "leaderboard" },
+          name: "Leaderboard",
+          slug: "PackageIcon",
+          i18n: "Leaderboard",
+          submenu: null,
+        }
     ],
   },
-
+  // KMS
   {
     url: null,
     name: "KMS",
@@ -125,6 +129,7 @@ const menu = [
         : null,
     ],
   },
+  // Book
   organization_id == 20 || organization_id == 23
     ? {
         url: null,
@@ -140,6 +145,7 @@ const menu = [
         ],
       }
     : null,
+  // VHS
   organization_id == 20 || organization_id == 23
     ? {
         url: null,
@@ -147,17 +153,6 @@ const menu = [
         icon: "CpuIcon",
         i18n: "VHS",
         submenu: [
-          // {
-          //   url: { name: "mini_vhs" },
-          //   name: "Mini VHS",
-          //   slug: "mini_vhs",
-          // },
-          // {
-          //   url: { name: "vhs" },
-          //   name: "VHS",
-          //   slug: "vhs",
-          // },
-
           {
             url: { name: "vhs-pages/materi" },
             name: "Materi",
@@ -178,24 +173,62 @@ const menu = [
             name: "Score vhs",
             slug: "scorevhs",
           },
-
           {
             url: null,
             name: "Jadwal",
-            slug: "jadwal",
+            i18n: "Jadwal",
             submenu: [
               {
-                url: { name: "jadwal" },
-                name: "Jadwal VHS",
-                slug: "jadwal_vhs",
-              },
-              {
-                url: { name: "jadwaluservhs" },
-                name: "Jadwal User",
-                slug: "jadwal_user",
-              },
+                  url: { name: "jadwal" },
+                  name: "Jadwal VHS",
+                  slug: "jadwal v",
+                },
+                {
+                    url: { name: "jadwal-user" },
+                    name: "Jadwal User",
+                    slug: "jadwal-user",
+                  },
             ],
           },
+          // {
+          //   url: { name: "mini_vhs" },
+          //   name: "Mini VHS",
+          //   slug: "mini_vhs",
+          // },
+          // {
+          //   url: { name: "vhs" },
+          //   name: "VHS",
+          //   slug: "vhs",
+          // },
+          // {
+          //   url: { name: "jadwal" },
+          //   name: "Jadwal",
+          //   slug: "jadwal",
+          // },
+          // {
+          //   url: { name: "daftar_user" },
+          //   name: "Daftar User",
+          //   slug: "daftar_user",
+          // },
+
+          // //TODO tambahan
+          
+          
+          // {
+          //   url: { name: "vhs-pages/questionvhs/answer" },
+          //   name: "Question answer vhs",
+          //   slug: "questionanswervhs",
+          // },
+          // {
+          //   url: { name: "##" },
+          //   name: "Leaderboard",
+          //   slug: "leaderboard",
+          // },
+          // {
+          //   url: { name: "##" },
+          //   name: "Profile",
+          //   slug: "profile",
+          // },
         ],
       }
     : null,

@@ -27,7 +27,7 @@
         <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button @click="store" :disabled="isLoading">Save</vs-button>
+            <vs-button @click="store" :disabled="isLoading" class="right">Save</vs-button>
           </div>
         </div>
       </vx-card>

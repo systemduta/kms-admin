@@ -133,13 +133,6 @@
 
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button
-              color="dark"
-              type="flat"
-              :to="{ name: `vhs-pages/materi` }"
-              >Back</vs-button
-            >
-            &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
         </div>
@@ -159,8 +152,7 @@ export default {
   data() {
     return {
       isVisible: true,
-      // urlImage: "http://localhost:8000/file/materivhs/image/", //TODO jangan lupa diganti
-      urlImage: "http://testing.maesagroup.co.id/file/materivhs/image/", //TODO jangan lupa diganti
+      urlImage: "http://localhost:8000/file/materivhs/image/", //TODO jangan lupa diganti
       isLoading: false,
       previewImage: null,
       allowedImageType: ["image/jpeg", "image/png"],
@@ -252,9 +244,9 @@ export default {
         const formData = this.convertToFormData();
         if (!formData) return false;
 
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0]}, ${pair[1]}`);
-        // }
+        for (const pair of formData.entries()) {
+          console.log(`${pair[0]}, ${pair[1]}`);
+        }
 
         this.$vs.loading();
         this.isLoading = true;

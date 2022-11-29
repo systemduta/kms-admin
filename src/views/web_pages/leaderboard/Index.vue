@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="vx-col w-full mb-base">
-      <vx-card title="All Level">
+      <vx-card title="All Level" class="rounded-card">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
             <vs-button
@@ -68,3 +68,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+    .rounded-card{
+    border-radius: 30px;
+  }
+</style>

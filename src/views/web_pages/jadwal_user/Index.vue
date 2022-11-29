@@ -1,42 +1,55 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Question materi VHS" class="rounded-card">
+      <vx-card title="Jadwal VHS" class="rounded-card">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <!-- <vs-button :to="{ name: 'vhs-pages/questionvhs/create' }"  >Tambah Materi</vs-button> -->
-            <vs-button @click="popupActivo=true">Tambah Zooms</vs-button>
-            <vs-popup class="holamundo"  title="Input Zoom" :active.sync="popupActivo">
+            <!-- <vs-button :to="{ name: 'jadwal-create' }">Create Jadwal</vs-button> -->
+            <vs-button @click="popupActivo=true">Create Jadwal User</vs-button>
+            <vs-popup class="holamundo"  title="Input Jadwal User" :active.sync="popupActivo">
               <vx-card>
                 <div class="mb-5 vx-row">
                   <div class="w-full vx-col">
-                    <small>Nama VHS</small>
+                    <span>Jadwal VHS</span>
                     <v-select
-                      v-model="storeData.materi_id"
-                      :options="materivhs"
-                      v-validate="'required'"
-                      name="materi_id"
-                      :reduce="(e) => e.id"
-                      label="item_data"
-                    ></v-select>
-                    <span
-                      class="text-sm text-danger"
-                      v-show="errors.has('materivhs')"
-                      >{{ errors.first("materivhs") }}</span
-                    >
+                      v-model="storeData.name"
+                      :options="[]"
+                      :value="storeData.name"
+                      name="name"
+                      label="Nama"
+                    />
+                    <span class="text-sm text-danger" v-show="errors.has('name')">{{
+                      errors.first("name")
+                    }}</span>
                   </div>
                 </div>
-
-                <div class="vx-row mb-5">
-                  <div class="vx-col w-full">
-                    <vs-textarea
-                      v-model="storeData.question"
-                      v-validate="'required'"
-                      name="question"
-                      label="Question"
+                <div class="mb-5 vx-row">
+                  <div class="w-full vx-col">
+                    <span>User</span>
+                    <v-select
+                      v-model="storeData.batch"
+                      :options="[]"
+                      :value="storeData.batch"
+                      name="batch"
+                      label="Batch"
                     />
-                    <span class="text-danger text-sm" v-show="errors.has('question')">{{
-                      errors.first("question")
+                    <span class="text-sm text-danger" v-show="errors.has('batch')">{{
+                      errors.first("batch")
+                    }}</span>
+                  </div>
+                </div>
+                <div class="mb-5 vx-row">
+                  <div class="w-full vx-col">
+                    <span>Company</span>
+                    <v-select
+                      v-model="storeData.batch"
+                      :options="[]"
+                      :value="storeData.batch"
+                      name="batch"
+                      label="Batch"
+                    />
+                    <span class="text-sm text-danger" v-show="errors.has('batch')">{{
+                      errors.first("batch")
                     }}</span>
                   </div>
                 </div>
@@ -54,41 +67,32 @@
             </vs-popup>
           </template>
           <template slot="thead">
-            <vs-th>No</vs-th>
-            <vs-th>Nama Materi</vs-th>
-            <vs-th>Question</vs-th>
+            <vs-th>Nama</vs-th>
+            <vs-th>Jadwal VHS</vs-th>
+            <vs-th>Jadwal Mulai</vs-th>
+            <vs-th>Nama Perusahaan</vs-th>
+            <vs-th>Status</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-              <vs-td :data="tr.question">{{ tr.question }}</vs-td>
+              <vs-td :data="tr.batch">{{ tr.batch }}</vs-td>
+              <vs-td :data="tr.start">{{ format_date(tr.start) }}</vs-td>
+              <vs-td :data="tr.end">{{ format_date(tr.end) }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    icon-pack="feather"
-                    icon="icon-eye"
-                    :to="{
-                      name: `vhs-pages/questionvhs/answer`,
-                      params: { id: tr.id_question },
-                    }"
-                    size="small"
-                  ></vs-button>
-                  <vs-button
-                    class="mr-2"
-                    :to="{
-                      name: `vhs-pages/questionvhs/edit`,
-                      params: { id: tr.id_question },
-                    }"
+                    :to="{ name: `jadwal-edit`, params: { id: tr.id } }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
                   <vs-button
                     color="danger"
-                    @click="ujiClick(tr.id_question)"
+                    @click="deletes(tr.id)"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
@@ -104,26 +108,25 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import vSelect from "vue-select";
+import moment from "moment";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
-// import moment from "moment";
 export default {
   data() {
     return {
+      popupActivo:false,
       idDelete: null,
-      popupActivo: false,
-      cekData: [],
       isLoading: false,
       storeData: {
         id: this.$route.params.id,
-        materi_id: null,
-        question: "",
+        name: "",
+        batch: "",
+        start: "",
+        end: "",
       },
-
-      materivhs: [],
     };
   },
   components: {
@@ -131,37 +134,18 @@ export default {
   },
   computed: {
     ...mapState({
-      data: (state) => state.questionvhs.rows,
-      uploadProgress: (state) => state.questionvhs.upload_progress,
+      data: (state) => state.jadwal.rows,
+      uploadProgress: (state) => state.jadwal.upload_progress,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "questionvhs/index",
-      dispatchDestroy: "questionvhs/destroy",
-
-      dispatchShowAnswer: "questionvhs/getanswer",
-      dispatchStore: "questionvhs/store",
-      dispatchUpdate: "questionvhs/update",
-      dispatchShow: "questionvhs/show",
-
-      dispatchGetCompanies: "questionvhs/getmateri",
+      dispatchIndex: "jadwal/index",
+      dispatchDestroy: "jadwal/destroy",
+      dispatchStore: "jadwal/store",
+      dispatchUpdate: "jadwal/update",
+      dispatchShow: "jadwal/show",
     }),
-
-    async ujiClick(id) {
-      const co = await this.dispatchShowAnswer(id);
-      this.cekData = co.success;
-      if (this.cekData.length > 0) {
-        this.$vs.notify({
-          title: "Oops!",
-          text: `Maaf, Ada data jawaban`,
-          color: "danger",
-        });
-      } else {
-        this.deletes(id);
-      }
-    },
-
     async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete);
@@ -171,6 +155,7 @@ export default {
           text: "Your data has been deleted successfully",
           color: "primary",
         });
+
         this.dispatchIndex(this.$route.params.id);
       } catch (error) {
         this.$vs.notify({
@@ -191,22 +176,13 @@ export default {
       });
     },
     
-    async getMaster() {
-      const co = await this.dispatchGetCompanies();
-      this.materivhs = co.data;
-      if (this.$route.params.id) {
-        await this.getDetail();
-      }
-    },
-
     convertToFormData() {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
-      ["id", "materi_id", "question"].forEach((key) => {
+      ["id", "name", "batch", "start", "end"].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
       });
       if (this.$route.params.id) data.append("_method", "PUT");
-
       return data;
     },
     store() {
@@ -214,7 +190,9 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-
+        // for (const pair of formData.entries()) {
+        //   console.log(`${pair[0] }, ${  pair[1]}`)
+        // }
         this.$vs.loading();
         this.isLoading = true;
         try {
@@ -230,7 +208,7 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          this.$router.push({ name: "vhs-pages/questionvhs" });
+          this.$router.push({ name: "jadwal" });
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
@@ -243,9 +221,9 @@ export default {
       });
     },
     async getDetail() {
-      const success = await this.dispatchShow(this.$route.params.id);
-      this.storeData.materi_id = success.data.materi_id;
-      this.storeData.question = success.data.question;
+      const { success } = await this.dispatchShow(this.$route.params.id);
+      this.storeData.name = success.name;
+      this.storeData.batch = success.batch;
     },
   },
   mounted() {
@@ -257,9 +235,9 @@ export default {
       .catch(() => {
         this.$vs.loading.close();
       });
-      this.materivhs.map(function (x) {
-      return (x.item_data = x.name + " - " + x.type);
-    });
+      if (this.$route.params.id) {
+      this.getDetail();
+    }
   },
 };
 </script>

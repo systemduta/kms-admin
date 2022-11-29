@@ -14,12 +14,6 @@ import App from "./App.vue";
 import Vuesax from "vuesax";
 import "material-icons/iconfont/material-icons.css"; //Material Icons
 import "vuesax/dist/vuesax.css"; // Vuesax
-
-import "./assets/js/nav-pills.js";
-import "./assets/scss/argon-dashboard.scss";
-import "./assets/css/nucleo-icons.css";
-import "./assets/css/nucleo-svg.css";
-
 Vue.use(Vuesax);
 
 // axios
