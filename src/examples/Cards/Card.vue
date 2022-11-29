@@ -61,7 +61,7 @@ export default {
     directionReverse: Boolean,
     onclick: {
       type: String,
-      required: true,
+      // required: true,
     },
     title: {
       type: String,
@@ -99,7 +99,7 @@ export default {
 </script>
 <style scoped>
 .div-hover:hover {
-  background-color: rgb(16, 191, 69);
+  background-color: rgb(67, 193, 231);
   color: white;
   cursor: pointer;
 }

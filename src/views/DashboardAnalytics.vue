@@ -112,9 +112,11 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <vs-chip transparent color="primary" style="margin-bottom: 10px">
-              <b>Last User added: </b>
-            </vs-chip>
+            <div class="center">
+              <vs-chip transparent color="primary" style="margin-bottom: 10px">
+                <b>Last User added: </b>
+              </vs-chip>
+            </div>
             <div class="col-lg-3 col-md-6 col-12" v-for="lastuser in lastUser">
               <card
                 :title="lastuser.name"
@@ -123,7 +125,6 @@
                 :iconClass="stats.courses.iconClass"
                 :iconBackground="stats.courses.iconBackground"
                 :detail="lastuser.username"
-                :onclick="employee"
                 directionReverse
               ></card>
             </div>
@@ -152,38 +153,30 @@ export default {
         courses: {
           title: "Today's Courses",
           value: null,
-          // percentage: "+55%",
           iconClass: "ni ni-air-baloon",
-          // detail: "==================",
           iconBackground: "bg-gradient-primary",
           onclick: "course",
         },
         users: {
           title: "Today's Users",
           value: null,
-          // percentage: "+3%",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
-          // detail: "==================",
           onclick: "employee",
         },
         sop: {
           title: "Today's SOP",
           value: null,
-          // percentage: "-2%",
           iconClass: "ni ni-paper-diploma",
           percentageColor: "text-danger",
           iconBackground: "bg-gradient-success",
-          // detail: "==================",
           onclick: "sop",
         },
         vhs: {
           title: "Total VHS",
           value: null,
-          // percentage: "+5%",
           iconClass: "ni ni-cart",
           iconBackground: "bg-gradient-warning",
-          // detail: "==================",
           onclick: "jadwal",
         },
       },
@@ -200,8 +193,6 @@ export default {
           this.stats.sop.value = response.data.sop;
           this.stats.vhs.value = response.data.vhs;
           this.lastUser = response.data.lastuser;
-          // console.log("check => " + this.lastUser);
-          // window.location.reload(0);
         })
         .catch((error) => {
           console.log(error);
