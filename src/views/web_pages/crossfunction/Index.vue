@@ -25,6 +25,14 @@
               <vs-td>
                 <div class="flex">
                   <vs-button
+                    @click="downData(tr.id)"
+                    color="warning"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-download"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
                     class="mr-2"
                     :to="{ name: `crossfunction-edit`, params: { id: tr.id } }"
                     icon-pack="feather"
@@ -69,6 +77,21 @@ export default {
       dispatchDestroy: "crossfunction/destroy",
       dispatchUpdates: "crossfunction/status",
     }),
+    async downData(id) {
+      this.$http
+        .get("api/web/downcf/" + id)
+        .then((response) => {
+          const link = document.createElement("a");
+          link.href =
+            process.env.VUE_APP_API_URL + "/files/" + response.data.data;
+          link.setAttribute("download", response.data.data);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete);

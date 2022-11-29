@@ -112,7 +112,9 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <vs-chip transparent color="primary"> Last User added: </vs-chip>
+            <vs-chip transparent color="primary" style="margin-bottom: 10px">
+              <b>Last User added: </b>
+            </vs-chip>
             <div class="col-lg-3 col-md-6 col-12" v-for="lastuser in lastUser">
               <card
                 :title="lastuser.name"

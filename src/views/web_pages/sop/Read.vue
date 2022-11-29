@@ -109,7 +109,6 @@ export default {
       this.$http
         .get("api/web/downsop/" + id)
         .then((response) => {
-          // console.log(response.data.data);
           const link = document.createElement("a");
           link.href =
             process.env.VUE_APP_API_URL + "/files/" + response.data.data;
