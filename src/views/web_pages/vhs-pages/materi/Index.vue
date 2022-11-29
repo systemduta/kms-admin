@@ -35,6 +35,14 @@
               <vs-td>
                 <div class="flex">
                   <vs-button
+                    @click="downData(tr.id)"
+                    color="warning"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-download"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
                     class="mr-2"
                     :to="{
                       name: `vhs-pages/materi/edit`,
@@ -80,11 +88,24 @@ export default {
       dispatchIndex: "materi/index",
       dispatchDestroy: "materi/destroy",
     }),
-    // format_date(value) {
-    //   if (value) {
-    //     return moment(String(value)).format("DD/MM/YYYY");
-    //   }
-    // },
+    async downData(id) {
+      // console.log(id);
+      this.$http
+        .get("api/web/downmateri/" + id)
+        .then((response) => {
+          const link = document.createElement("a");
+          link.href =
+            process.env.VUE_APP_API_URL +
+            "/file/materivhs/file/" +
+            response.data.data;
+          link.setAttribute("download", response.data.data);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete);
