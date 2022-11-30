@@ -53,6 +53,16 @@ const actions = {
       return Promise.reject(error.response);
     }
   },
+
+  // async status(store,id)
+  // {
+  //   try {
+  //     const { data } = await axios.delete(`api/web/delete_user/${id}`);
+  //     return Promise.resolve(data);
+  //   } catch (error) {
+  //     return Promise.reject(error.response);
+  //   }
+  // }
 };
 
 export default {

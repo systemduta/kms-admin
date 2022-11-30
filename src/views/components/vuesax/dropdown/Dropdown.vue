@@ -7,33 +7,32 @@
     Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
 
-
 <template>
-    <div id="dropdown-demo">
-        <dropdown-default></dropdown-default>
-        <dropdown-color></dropdown-color>
-        <dropdown-group-option></dropdown-group-option>
-        <dropdown-custom-content></dropdown-custom-content>
-        <dropdown-button></dropdown-button>
-    </div>
+  <div id="dropdown-demo">
+    <dropdown-default></dropdown-default>
+    <dropdown-color></dropdown-color>
+    <dropdown-group-option></dropdown-group-option>
+    <dropdown-custom-content></dropdown-custom-content>
+    <dropdown-button></dropdown-button>
+  </div>
 </template>
 
 <script>
-import DropdownDefault from './DropdownDefault.vue'
-import DropdownColor from './DropdownColor.vue'
-import DropdownGroupOption from './DropdownGroupOption.vue'
-import DropdownCustomContent from './DropdownCustomContent.vue'
-import DropdownButton from './DropdownButton.vue'
+import DropdownDefault from "./DropdownDefault.vue";
+import DropdownColor from "./DropdownColor.vue";
+import DropdownGroupOption from "./DropdownGroupOption.vue";
+import DropdownCustomContent from "./DropdownCustomContent.vue";
+import DropdownButton from "./DropdownButton.vue";
 
-export default{
+export default {
   components: {
     DropdownDefault,
     DropdownColor,
     DropdownGroupOption,
     DropdownCustomContent,
-    DropdownButton
-  }
-}
+    DropdownButton,
+  },
+};
 </script>
 
 <style lang="scss">
