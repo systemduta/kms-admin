@@ -147,55 +147,60 @@ const menu = [
         icon: "CpuIcon",
         i18n: "VHS",
         submenu: [
-          // {
-          //   url: { name: "mini_vhs" },
-          //   name: "Mini VHS",
-          //   slug: "mini_vhs",
-          // },
-          // {
-          //   url: { name: "vhs" },
-          //   name: "VHS",
-          //   slug: "vhs",
-          // },
-
           {
-            url: { name: "vhs-pages/materi" },
-            name: "Materi",
-            slug: "materi",
+            url: { name: "mini_vhs" },
+            name: "Mini VHS",
+            slug: "mini_vhs",
           },
           {
-            url: { name: "zoom-vhs" },
-            name: "Zoom",
-            slug: "zoom",
+            url: { name: "vhs" },
+            name: "VHS",
+            slug: "vhs",
           },
           {
-            url: { name: "vhs-pages/questionvhs" },
-            name: "Question vhs",
-            slug: "questionvhs",
-          },
-          {
-            url: { name: "vhs-pages/score" },
-            name: "Score vhs",
-            slug: "scorevhs",
+            url: { name: "vhs-pages/sertifikat" },
+            name: "Sertifkat",
+            slug: "sertifikat",
           },
 
-          {
-            url: null,
-            name: "Jadwal",
-            slug: "jadwal",
-            submenu: [
-              {
-                url: { name: "jadwal" },
-                name: "Jadwal VHS",
-                slug: "jadwal_vhs",
-              },
-              {
-                url: { name: "jadwaluservhs" },
-                name: "Jadwal User",
-                slug: "jadwal_user",
-              },
-            ],
-          },
+          //penggabungan
+          // {
+          //   url: { name: "vhs-pages/materi" },
+          //   name: "Materi",
+          //   slug: "materi",
+          // },
+          // {
+          //   url: { name: "zoom-vhs" },
+          //   name: "Zoom",
+          //   slug: "zoom",
+          // },
+          // {
+          //   url: { name: "vhs-pages/questionvhs" },
+          //   name: "Question vhs",
+          //   slug: "questionvhs",
+          // },
+          // {
+          //   url: { name: "vhs-pages/score" },
+          //   name: "Score vhs",
+          //   slug: "scorevhs",
+          // },
+          // {
+          //   url: null,
+          //   name: "Jadwal",
+          //   slug: "jadwal",
+          //   submenu: [
+          //     {
+          //       url: { name: "jadwal" },
+          //       name: "Jadwal VHS",
+          //       slug: "jadwal_vhs",
+          //     },
+          //     {
+          //       url: { name: "jadwaluservhs" },
+          //       name: "Jadwal User",
+          //       slug: "jadwal_user",
+          //     },
+          //   ],
+          // },
         ],
       }
     : null,
