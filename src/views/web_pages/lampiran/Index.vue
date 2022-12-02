@@ -32,6 +32,14 @@
               <vs-td>
                 <div class="flex">
                   <vs-button
+                    @click="downData(tr.id)"
+                    color="warning"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-download"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
                     class="mr-2"
                     :to="{ name: `lampiran-edit`, params: { id: tr.id } }"
                     icon-pack="feather"
@@ -76,6 +84,21 @@ export default {
       dispatchDestroy: "lampiran/destroy",
       dispatchUpdates: "lampiran/status",
     }),
+    async downData(id) {
+      this.$http
+        .get("api/web/downlamp/" + id)
+        .then((response) => {
+          const link = document.createElement("a");
+          link.href =
+            process.env.VUE_APP_API_URL + "/files/" + response.data.data;
+          link.setAttribute("target", "_blank");
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete);

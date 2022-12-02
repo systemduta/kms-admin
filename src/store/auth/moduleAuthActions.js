@@ -15,7 +15,7 @@ export default {
     return new Promise((resolve, reject) => {
       jwt
         .login(
-          payload.userDetails.nik,
+          payload.userDetails.username,
           payload.userDetails.password,
           payload.userDetails.isWeb
         )

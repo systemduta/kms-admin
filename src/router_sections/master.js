@@ -681,4 +681,42 @@ export default [
       },
     ],
   },
+
+  //sertifikat vhs
+  {
+    path: "/vhs-pages/sertifikat",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "vhs-pages/sertifikat",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/sertifikat/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/sertifikat",
+        },
+      },
+      {
+        path: "create",
+        name: "vhs-pages/sertifikat/create",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/sertifikat/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/sertifikat",
+        },
+      },
+      {
+        path: ":id",
+        name: "vhs-pages/sertifikat/edit",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/sertifikat/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/sertifikat",
+        },
+      },
+    ],
+  },
 ];

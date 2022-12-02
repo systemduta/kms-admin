@@ -152,38 +152,44 @@ const menu = [
             name: "VHS",
             slug: "vhs",
           },
+
           {
-            url: { name: "jadwal" },
-            name: "Jadwal",
-            slug: "jadwal",
+            url: { name: "vhs-pages/sertifikat" },
+            name: "Sertifkat",
+            slug: "sertifikat",
           },
           // {
-          //   url: { name: "daftar_user" },
-          //   name: "Daftar User",
-          //   slug: "daftar_user",
+          //   url: { name: "jadwal" },
+          //   name: "Jadwal",
+          //   slug: "jadwal",
           // },
+          // // {
+          // //   url: { name: "daftar_user" },
+          // //   name: "Daftar User",
+          // //   slug: "daftar_user",
+          // // },
 
-          //TODO tambahan
-          {
-            url: { name: "zoom-vhs" },
-            name: "Zoom",
-            slug: "zoom",
-          },
-          {
-            url: { name: "vhs-pages/materi" },
-            name: "Materi",
-            slug: "materi",
-          },
-          {
-            url: { name: "vhs-pages/questionvhs" },
-            name: "Question vhs",
-            slug: "questionvhs",
-          },
-          {
-            url: { name: "vhs-pages/score" },
-            name: "Score vhs",
-            slug: "scorevhs",
-          },
+          // //TODO tambahan
+          // {
+          //   url: { name: "zoom-vhs" },
+          //   name: "Zoom",
+          //   slug: "zoom",
+          // },
+          // {
+          //   url: { name: "vhs-pages/materi" },
+          //   name: "Materi",
+          //   slug: "materi",
+          // },
+          // {
+          //   url: { name: "vhs-pages/questionvhs" },
+          //   name: "Question vhs",
+          //   slug: "questionvhs",
+          // },
+          // {
+          //   url: { name: "vhs-pages/score" },
+          //   name: "Score vhs",
+          //   slug: "scorevhs",
+          // },
           // {
           //   url: { name: "vhs-pages/questionvhs/answer" },
           //   name: "Question answer vhs",
