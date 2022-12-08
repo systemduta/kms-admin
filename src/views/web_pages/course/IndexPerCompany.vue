@@ -1,12 +1,10 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Company">
-        <vs-table search :data="data" class="mb-2">
+      <vx-card title="All Course">
+        <vs-table pagination max-items="15" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'company-create' }"
-              >Tambah Perusahaan</vs-button
-            >
+            <vs-button :to="{ name: 'course-create' }">Create Course</vs-button>
           </template>
           <template slot="thead">
             <vs-th>No</vs-th>
@@ -26,27 +24,11 @@
                     icon-pack="feather"
                     icon="icon-eye"
                     :to="{
-                      name: `companydetail`,
+                      name: `coursepercom`,
                       params: { id: tr.id },
                     }"
                     size="small"
                   ></vs-button>
-                  <vs-button
-                    class="mr-2"
-                    icon-pack="feather"
-                    icon="icon-edit"
-                    size="small"
-                    :to="{
-                      name: `company-edit`,
-                      params: { id: tr.id },
-                    }"
-                  ></vs-button>
-                  <!-- <vs-button
-                    color="danger"
-                    icon-pack="feather"
-                    icon="icon-delete"
-                    size="small"
-                  ></vs-button> -->
                 </div>
               </vs-td>
             </vs-tr>
@@ -65,23 +47,13 @@ export default {
   },
   computed: {
     ...mapState({
-      data: (state) => state.company.rows,
+      data: (state) => state.sop.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "company/index",
-      // dispatchGetList: "company/getlistcompany",
+      dispatchIndex: "sop/getall",
     }),
-
-    // async getListCompany(id) {
-    //   const datas = await this.dispatchGetList(id);
-    //   console.log(datas);
-    // },
-
-    // check(id) {
-    //   console.log(id);
-    // },
   },
   mounted() {
     this.$vs.loading();

@@ -7,12 +7,16 @@
             <vs-button :to="{ name: 'course-create' }">Create Course</vs-button>
           </template>
           <template slot="thead">
+            <vs-th>No.</vs-th>
+            <vs-th>Company</vs-th>
             <vs-th>Code</vs-th>
             <vs-th>Name</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+              <vs-td :data="tr.name_company">{{ tr.name_company }}</vs-td>
               <vs-td :data="tr.code">{{ tr.code }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td>

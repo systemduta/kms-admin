@@ -238,6 +238,16 @@
         </div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
+            <vs-button
+              color="dark"
+              type="flat"
+              :to="{
+                name: `course-read`,
+                params: { id: this.$route.params.id },
+              }"
+              >Back</vs-button
+            >
+            &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
         </div>
@@ -431,7 +441,7 @@ export default {
         const formData = this.convertToFormData();
         if (!formData) return false;
         // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0] }, ${  pair[1]}`)
+        //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
         this.$vs.loading();
         this.isLoading = true;
@@ -462,6 +472,7 @@ export default {
     },
     async getDetail() {
       const { success } = await this.dispatchShow(this.$route.params.id);
+      console.log(success);
       this.storeData.organization_id = success.organization_id;
       this.image = success.image
         ? `${process.env.VUE_APP_API_URL}/files/${success.image}`

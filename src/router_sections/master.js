@@ -1,4 +1,39 @@
 export default [
+  // set admin
+  {
+    path: "/setadmin",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "set-admin",
+        component: () => import("@/views/web_pages/setadmin/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "set-admin",
+        },
+      },
+      // {
+      //   path: "create",
+      //   name: "division-create",
+      //   component: () => import("@/views/web_pages/division/Create.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "division",
+      //   },
+      // },
+      // {
+      //   path: ":id",
+      //   name: "division-edit",
+      //   component: () => import("@/views/web_pages/division/Create.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "division",
+      //   },
+      // },
+    ],
+  },
+
   // Divisin
   {
     path: "/division",
@@ -84,6 +119,15 @@ export default [
         },
       },
       {
+        path: "create",
+        name: "company-create",
+        component: () => import("@/views/web_pages/company/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "company",
+        },
+      },
+      {
         path: ":id",
         name: "companydetail",
         component: () => import("@/views/web_pages/company/Detail.vue"),
@@ -94,8 +138,8 @@ export default [
       },
       {
         path: "/editcompany/:id",
-        name: "division-edit",
-        component: () => import("@/views/web_pages/division/Create.vue"),
+        name: "company-edit",
+        component: () => import("@/views/web_pages/company/Create.vue"),
         meta: {
           auth: true,
           parent: "company",
@@ -112,7 +156,18 @@ export default [
       {
         path: "",
         name: "course",
-        component: () => import("@/views/web_pages/course/Index.vue"),
+        // component: () => import("@/views/web_pages/course/Index.vue"),
+        component: () => import("@/views/web_pages/course/IndexPerCompany.vue"),
+        meta: {
+          auth: true,
+          parent: "course",
+        },
+      },
+      {
+        path: "coursepercom/:id",
+        name: "coursepercom",
+        // component: () => import("@/views/web_pages/course/Index.vue"),
+        component: () => import("@/views/web_pages/course/DetailCompany.vue"),
         meta: {
           auth: true,
           parent: "course",
@@ -254,7 +309,17 @@ export default [
       {
         path: "",
         name: "sop",
-        component: () => import("@/views/web_pages/sop/Index.vue"),
+        // component: () => import("@/views/web_pages/sop/Index.vue"),
+        component: () => import("@/views/web_pages/sop/IndexPerCompany.vue"),
+        meta: {
+          auth: true,
+          parent: "sop",
+        },
+      },
+      {
+        path: "sopall/:id",
+        name: "sopallorg",
+        component: () => import("@/views/web_pages/sop/DetailCompany.vue"),
         meta: {
           auth: true,
           parent: "sop",

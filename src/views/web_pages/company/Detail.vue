@@ -132,12 +132,33 @@
                   >
                     <template slot="thead">
                       <vs-th>No</vs-th>
+                      <vs-th>Status</vs-th>
                       <vs-th>NIK</vs-th>
                       <vs-th>Name</vs-th>
                     </template>
                     <template slot-scope="{ data }">
                       <vs-tr :key="indextr" v-for="(tr, indextr) in data">
                         <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+                        <vs-td :data="tr.status"
+                          ><span
+                            v-if="tr.status == 1"
+                            style="
+                              color: white;
+                              background-color: green;
+                              padding: 5px;
+                            "
+                            >Ada</span
+                          >
+                          <span
+                            v-if="tr.status == 0"
+                            style="
+                              color: white;
+                              background-color: red;
+                              padding: 5px;
+                            "
+                            >Resign</span
+                          ></vs-td
+                        >
                         <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
                         <vs-td :data="tr.name">{{ tr.name }}</vs-td>
                       </vs-tr>

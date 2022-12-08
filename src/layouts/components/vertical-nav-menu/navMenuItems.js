@@ -45,21 +45,35 @@ const menu = [
     icon: "UsersIcon",
     i18n: "Administration",
     submenu: [
-      // {
-      //   url: { name: "division" },
-      //   name: "Division",
-      //   slug: "division",
-      // },
       {
         url: { name: "employee" },
         name: "Employee",
         slug: "employee",
       },
-      {
-        url: { name: "company" },
-        name: "Company",
-        slug: "company",
-      },
+      organization_id == 20 ||
+      organization_id == 23 ||
+      organization_id == 177 ||
+      organization_id == 420
+        ? {
+            url: { name: "company" },
+            name: "Company",
+            slug: "company",
+          }
+        : {
+            url: { name: "division" },
+            name: "Division",
+            slug: "division",
+          },
+      // organization_id == 20 ||
+      // organization_id == 23 ||
+      // organization_id == 177 ||
+      // organization_id == 420
+      //   ? {
+      //       url: { name: "set-admin" },
+      //       name: "Set Admin",
+      //       slug: "setadmin",
+      //     }
+      //   : null,
     ],
   },
   {
@@ -116,7 +130,10 @@ const menu = [
           }
         : null,
 
-      organization_id == 20 || organization_id == 23
+      organization_id == 20 ||
+      organization_id == 23 ||
+      organization_id == 177 ||
+      organization_id == 420
         ? {
             url: { name: "event" },
             name: "Event",
@@ -125,7 +142,10 @@ const menu = [
         : null,
     ],
   },
-  organization_id == 20 || organization_id == 23
+  organization_id == 20 ||
+  organization_id == 23 ||
+  organization_id == 177 ||
+  organization_id == 420
     ? {
         url: null,
         name: "Book",
@@ -140,7 +160,10 @@ const menu = [
         ],
       }
     : null,
-  organization_id == 20 || organization_id == 23
+  organization_id == 20 ||
+  organization_id == 23 ||
+  organization_id == 177 ||
+  organization_id == 420
     ? {
         url: null,
         name: "VHS",
@@ -159,48 +182,48 @@ const menu = [
           },
           {
             url: { name: "vhs-pages/sertifikat" },
-            name: "Sertifkat",
+            name: "Sertifikat",
             slug: "sertifikat",
           },
 
           //penggabungan
-          // {
-          //   url: { name: "vhs-pages/materi" },
-          //   name: "Materi",
-          //   slug: "materi",
-          // },
-          // {
-          //   url: { name: "zoom-vhs" },
-          //   name: "Zoom",
-          //   slug: "zoom",
-          // },
-          // {
-          //   url: { name: "vhs-pages/questionvhs" },
-          //   name: "Question vhs",
-          //   slug: "questionvhs",
-          // },
-          // {
-          //   url: { name: "vhs-pages/score" },
-          //   name: "Score vhs",
-          //   slug: "scorevhs",
-          // },
-          // {
-          //   url: null,
-          //   name: "Jadwal",
-          //   slug: "jadwal",
-          //   submenu: [
-          //     {
-          //       url: { name: "jadwal" },
-          //       name: "Jadwal VHS",
-          //       slug: "jadwal_vhs",
-          //     },
-          //     {
-          //       url: { name: "jadwaluservhs" },
-          //       name: "Jadwal User",
-          //       slug: "jadwal_user",
-          //     },
-          //   ],
-          // },
+          {
+            url: { name: "vhs-pages/materi" },
+            name: "Materi",
+            slug: "materi",
+          },
+          {
+            url: { name: "zoom-vhs" },
+            name: "Zoom",
+            slug: "zoom",
+          },
+          {
+            url: { name: "vhs-pages/questionvhs" },
+            name: "Question vhs",
+            slug: "questionvhs",
+          },
+          {
+            url: { name: "vhs-pages/score" },
+            name: "Score vhs",
+            slug: "scorevhs",
+          },
+          {
+            url: null,
+            name: "Jadwal",
+            slug: "jadwal",
+            submenu: [
+              {
+                url: { name: "jadwal" },
+                name: "Jadwal VHS",
+                slug: "jadwal_vhs",
+              },
+              {
+                url: { name: "jadwaluservhs" },
+                name: "Jadwal User",
+                slug: "jadwal_user",
+              },
+            ],
+          },
         ],
       }
     : null,

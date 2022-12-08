@@ -109,6 +109,7 @@
             >
           </div>
         </div>
+
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <small>Golongan</small>
@@ -125,6 +126,37 @@
               v-show="errors.has('golongan_id')"
               >{{ errors.first("golongan_id") }}</span
             >
+          </div>
+        </div>
+
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
+            <small>Status Pegawai : </small><br />
+            <vs-radio
+              class="ml-2 mr-2"
+              v-model="storeData.status"
+              name="status"
+              vs-value="1"
+              >Aktif / Ada</vs-radio
+            >
+            <vs-radio
+              class="ml-2 mr-2"
+              v-model="storeData.status"
+              name="status"
+              vs-value="0"
+              >Resign</vs-radio
+            >
+            <!-- <v-select
+              v-model="storeData.golongan_id"
+              :options="golongans"
+              v-validate="'required'"
+              name="golongan_id"
+              :reduce="(e) => e.id"
+              label="golongan_data"
+            ></v-select> -->
+            <span class="text-sm text-danger" v-show="errors.has('status')">{{
+              errors.first("status")
+            }}</span>
           </div>
         </div>
         <!-- <div v-if="!this.$route.params.id" class="mb-5 vx-row"> -->
@@ -153,7 +185,7 @@
               class="w-full"
               v-validate="'required|confirmed:password'"
               name="c_password"
-              label="Password Confirmation"
+              label="Konfirmasi Password"
               v-model="storeData.c_password"
             ></vs-input>
             <span
@@ -212,6 +244,7 @@ export default {
         company_id: null,
         golongan_id: null,
         organization_id: null,
+        status: null,
         image: "",
         name: "",
         password: "",
@@ -247,7 +280,7 @@ export default {
       this.organizations = org.data;
       const gol = await this.dispatchGetGolongans();
       this.golongans = gol.data;
-      console.log(this.golongans);
+      // console.log(this.golongans);
       if (this.$route.params.id) {
         await this.getDetail();
       }
@@ -262,6 +295,7 @@ export default {
         "organization_id",
         "image",
         "name",
+        "status",
         "password",
         "c_password",
         "nik",
@@ -277,6 +311,9 @@ export default {
       this.$validator.validateAll().then(async (res) => {
         if (!res) return false;
         const formData = this.convertToFormData();
+        // for (const pair of formData.entries()) {
+        //   console.log(`${pair[0]}, ${pair[1]}`);
+        // }
         this.$vs.loading();
         try {
           if (this.$route.params.id) {
@@ -311,6 +348,7 @@ export default {
       this.storeData.company_id = success.company_id;
       this.storeData.organization_id = success.organization_id;
       this.storeData.golongan_id = success.golongan_id;
+      this.storeData.status = success.status;
       // const dataku = CryptoJS.AES.encrypt(success.password).toString();
       this.storeData.password = bcrypt(success.password);
     },

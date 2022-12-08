@@ -9,12 +9,16 @@
             >
           </template>
           <template slot="thead">
+            <vs-th>No.</vs-th>
+            <vs-th>Name Perusahaan</vs-th>
             <vs-th>Name Crossfunction</vs-th>
             <vs-th>Name SOP</vs-th>
             <vs-th>Action</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+              <vs-td :data="tr.company['name']">{{ tr.company["name"] }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td :data="tr.sop.title">{{ tr.sop.title }}</vs-td>
               <!-- <vs-td :data="tr.status">

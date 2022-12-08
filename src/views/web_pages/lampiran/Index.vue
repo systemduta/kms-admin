@@ -9,6 +9,8 @@
             >
           </template>
           <template slot="thead">
+            <vs-th>No.</vs-th>
+            <vs-th>Nama Perusahaan</vs-th>
             <vs-th>Name Lampiran</vs-th>
             <vs-th>Name SOP</vs-th>
             <vs-th>Action</vs-th>
@@ -22,6 +24,8 @@
                 <vs-button color="danger" v-if="tr.status == 2" @click="statusUpdate(tr.id)">Non Active</vs-button>
                 <vs-button color="success" v-if="tr.status == 1" @click="statusUpdate(tr.id)">Active</vs-button>
               </vs-td> -->
+              <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+              <vs-td :data="tr.company['name']">{{ tr.company["name"] }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td :data="tr.sop.title">{{ tr.sop.title }}</vs-td>
               <!-- <vs-td :data="tr.status">
@@ -91,7 +95,9 @@ export default {
           const link = document.createElement("a");
           link.href =
             process.env.VUE_APP_API_URL + "/files/" + response.data.data;
-          link.setAttribute("download", response.data.data);
+          // link.setAttribute("download", response.data.data);
+
+          link.setAttribute("target", "_blank");
           document.body.appendChild(link);
           link.click();
         })

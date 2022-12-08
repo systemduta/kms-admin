@@ -1,7 +1,65 @@
 <template>
   <div class="vx-row">
-    <div class="vx-col w-full mb-base">
-      <vx-card title="Input Data Division">
+    <div v-if="this.$route.params.id" class="vx-col w-full mb-base">
+      <vx-card title="Edit Data Division">
+        <div class="vx-row mb-5" v-if="auth.role == 1">
+          <div class="vx-col w-full">
+            <small>Companies</small>
+            <v-select
+              @search:blur="organization_id = null"
+              v-model="company_id"
+              :options="companies"
+              v-validate="'required'"
+              name="company"
+              :reduce="(e) => e.id"
+              label="name"
+            ></v-select>
+            <span class="text-danger text-sm" v-show="errors.has('company')">{{
+              errors.first("company")
+            }}</span>
+          </div>
+        </div>
+        <div class="vx-row mb-5">
+          <div class="vx-col w-full">
+            <vs-input
+              class="w-full"
+              v-validate="'required'"
+              name="name"
+              label="Name"
+              v-model="name"
+            ></vs-input>
+            <span class="text-danger text-sm" v-show="errors.has('name')">{{
+              errors.first("name")
+            }}</span>
+          </div>
+        </div>
+        <div class="vx-row mb-5 mt-10">
+          <div class="vx-col w-full">
+            <vs-input
+              class="w-full"
+              v-validate="'required'"
+              name="code"
+              label="Code"
+              v-model="code"
+            ></vs-input>
+            <span class="text-danger text-sm" v-show="errors.has('code')">{{
+              errors.first("code")
+            }}</span>
+          </div>
+        </div>
+
+        <div class="vx-row">
+          <div class="w-full text-right vx-col">
+            <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
+            &nbsp; &nbsp;
+            <vs-button @click="store">Save</vs-button>
+          </div>
+        </div>
+      </vx-card>
+    </div>
+
+    <div v-else class="vx-col w-full mb-base">
+      <vx-card title="Edit Data Division">
         <div class="vx-row mb-5" v-if="auth.role == 1">
           <div class="vx-col w-full">
             <small>Companies</small>

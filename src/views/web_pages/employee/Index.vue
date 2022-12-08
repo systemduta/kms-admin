@@ -53,21 +53,16 @@
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
-                  <!-- <vs-button
-                    color="warning"
-                    @click="status(tr.id)"
-                    icon="note"
-                    size="small"
-                  ></vs-button> -->
                   <vs-button
+                    class="mr-2"
                     @click="getDetail(tr.id)"
                     color="warning"
-                    icon="note"
+                    icon="visibility"
                     size="small"
                   ></vs-button>
                   <vs-popup
                     class="holamundo"
-                    title="Status pegawai"
+                    title="Detail Pegawai"
                     :active.sync="popupActivo2"
                     background-color="rgba(152,152,152,.1)"
                   >
@@ -75,6 +70,15 @@
                       <div class="vx-row">
                         <div class="w-full vx-col mb-base">
                           <vx-card>
+                            <div v-if="detailUser" class="vx-row mb-5">
+                              <img
+                                :src="image + '/files/' + detailUser['image']"
+                                width="100"
+                                height="100"
+                                alt=""
+                                class="preview"
+                              />
+                            </div>
                             <div v-if="detailUser" class="vx-row mb-5">
                               <div class="vx-col w-full">
                                 <vs-input
@@ -85,34 +89,57 @@
                                   label="Nama"
                                   :disabled="true"
                                 ></vs-input>
+                              </div>
+                            </div>
+                            <div v-if="detailUser" class="vx-row mb-5">
+                              <div class="vx-col w-full">
                                 <vs-input
-                                  v-model="detailUser['id']"
+                                  v-model="detailUser['company']['name']"
                                   v-validate="'required'"
-                                  name="id"
+                                  name="company"
                                   class="w-full"
-                                  hidden
+                                  label="Nama Perusahaan"
+                                  :disabled="true"
                                 ></vs-input>
                               </div>
-                              <div class="vx-col w-full"></div>
                             </div>
-                            <div v-else></div>
-                            <div class="vx-row">
-                              <div class="w-full text-right vx-col">
-                                <vs-button>Save</vs-button>
+                            <div v-if="detailUser" class="vx-row mb-5">
+                              <div class="vx-col w-full">
+                                <vs-input
+                                  v-model="detailUser['nik']"
+                                  v-validate="'required'"
+                                  name="nik"
+                                  class="w-full"
+                                  label="NIK"
+                                  :disabled="true"
+                                ></vs-input>
                               </div>
                             </div>
+                            <div v-if="detailUser" class="vx-row mb-5">
+                              <div class="vx-col w-full">
+                                <vs-input
+                                  v-model="detailUser['golongan']['name']"
+                                  v-validate="'required'"
+                                  name="golongan"
+                                  class="w-full"
+                                  label="Level"
+                                  :disabled="true"
+                                ></vs-input>
+                              </div>
+                            </div>
+                            <div v-else></div>
                           </vx-card>
                         </div>
                       </div>
                     </template>
                   </vs-popup>
-                  <!-- <vs-button
+                  <vs-button
                     color="danger"
                     @click="deletes(tr.id)"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
-                  ></vs-button> -->
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -149,6 +176,7 @@ export default {
     async getDetail(id) {
       try {
         const data = await this.dispatchShow(id);
+        // console.log(data);
         this.detailUser = data.success;
         this.popupActivo2 = true;
       } catch (error) {
@@ -199,3 +227,25 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.preview {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.text-small {
+  font-size: 12px;
+  padding-left: 5px;
+}
+</style>
