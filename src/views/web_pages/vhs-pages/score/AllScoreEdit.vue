@@ -178,7 +178,12 @@ export default {
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
         this.isLoading = true;
         try {
           if (this.$route.params.id) {
@@ -208,7 +213,12 @@ export default {
     },
   },
   mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     this.getUser(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();

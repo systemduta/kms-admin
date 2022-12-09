@@ -160,7 +160,12 @@ export default {
           name: this.name,
           code: this.code,
         };
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(payload);
@@ -196,7 +201,12 @@ export default {
     },
   },
   async mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     await this.getMaster()
       .then(() => {
         this.$vs.loading.close();

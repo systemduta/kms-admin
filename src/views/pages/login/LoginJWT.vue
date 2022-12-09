@@ -66,7 +66,12 @@ export default {
     },
     loginJWT() {
       if (!this.checkLogin()) return;
-      this.$vs.loading();
+      this.$vs.loading({
+        type: "radius",
+        color: "blue",
+        textAfter: true,
+        text: "Please Wait ...",
+      });
       const payload = {
         userDetails: {
           nik: this.nik,

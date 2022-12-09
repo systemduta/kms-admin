@@ -224,7 +224,12 @@ export default {
           name: this.name,
           code: this.code,
         };
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
         try {
           await this.dispatchStore(payload);
           this.$vs.loading.close();

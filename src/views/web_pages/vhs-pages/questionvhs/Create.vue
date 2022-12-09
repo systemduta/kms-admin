@@ -119,7 +119,12 @@ export default {
         const formData = this.convertToFormData();
         if (!formData) return false;
 
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
         this.isLoading = true;
         try {
           if (this.$route.params.id) {
@@ -153,7 +158,12 @@ export default {
     },
   },
   async mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     await this.getMaster()
       .then(() => {
         this.$vs.loading.close();

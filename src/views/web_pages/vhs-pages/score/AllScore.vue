@@ -109,7 +109,12 @@ export default {
     },
   },
   mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     // console.log(this.dispatchIndex);
     this.dispatchIndex()
       .then(() => {

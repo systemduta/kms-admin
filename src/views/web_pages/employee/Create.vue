@@ -314,7 +314,12 @@ export default {
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
         try {
           if (this.$route.params.id) {
             await this.dispatchUpdate(formData);
@@ -383,7 +388,12 @@ export default {
     },
   },
   async mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     await this.getMaster()
       .then(() => {
         this.$vs.loading.close();

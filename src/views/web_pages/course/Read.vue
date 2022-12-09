@@ -144,7 +144,12 @@ export default {
     },
   },
   mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     this.dispatchIndex(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();

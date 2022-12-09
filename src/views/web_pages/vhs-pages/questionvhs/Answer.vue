@@ -84,7 +84,12 @@ export default {
     },
   },
   async mounted() {
-    this.$vs.loading();
+    this.$vs.loading({
+      type: "radius",
+      color: "blue",
+      textAfter: true,
+      text: "Please Wait ...",
+    });
     await this.getAnswer(this.$route.params.id)
       // this.dispatchIndex()
       .then(() => {
