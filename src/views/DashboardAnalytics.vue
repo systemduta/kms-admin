@@ -9,10 +9,7 @@
 
 <template>
   <div>
-    <div
-      v-if="organization_id == 20 || organization_id == 23"
-      class="py-4 container-fluid"
-    >
+    <div class="py-4 container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
@@ -53,7 +50,8 @@
                 directionReverse
               ></card>
             </div>
-            <div class="col-lg-3 col-md-6 col-12">
+
+            <div v-if="user_company == 1" class="col-lg-3 col-md-6 col-12">
               <card
                 :title="stats.vhs.title"
                 :value="stats.vhs.value"
@@ -72,7 +70,7 @@
     </div>
 
     <div id="dashboard-analytics">
-      <vs-row vs-justify="center">
+      <!-- <vs-row vs-justify="center">
         <div class="vx-col w-full lg:w-1/2 mb-base">
           <vx-card
             slot="no-body"
@@ -102,13 +100,52 @@
             </p>
           </vx-card>
         </div>
-      </vs-row>
+      </vs-row> -->
+      <div class="vx-row">
+        <div class="vx-col w-full mb-base">
+          <vx-card
+            slot="no-body"
+            class="text-center bg-greet-user greet-user rounded-card"
+          >
+            <img
+              src="@/assets/images/card-dashboard.png"
+              class="decore-bg rounded-card"
+              alt="Decore Left"
+              width="200"
+            />
+            <img
+              src="@/assets/images/elements/decore-left.png"
+              class="decore-left"
+              alt="Decore Left"
+              width="200"
+            />
+            <img
+              src="@/assets/images/elements/decore-right.png"
+              class="decore-right"
+              alt="Decore Right"
+              width="175"
+            />
+            <feather-icon
+              icon="AwardIcon"
+              class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow"
+              svgClasses="h-8 w-8"
+            ></feather-icon>
+            <h1 class="mb-6 text-black text-dashboard text-bold underline">
+              Hello Team,
+            </h1>
+            <p
+              style="font-weight: bold"
+              class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-black text-dashboard underline decoration-indigo-500"
+            >
+              Selamat datang di Dashboard Knowledge Management System Maesa
+              Grow.
+            </p>
+          </vx-card>
+        </div>
+      </div>
     </div>
 
-    <div
-      v-if="organization_id == 20 || organization_id == 23"
-      class="py-4 container-fluid"
-    >
+    <div class="py-4 container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
@@ -124,7 +161,7 @@
                 :percentage="stats.courses.percentage"
                 :iconClass="stats.courses.iconClass"
                 :iconBackground="stats.courses.iconBackground"
-                :detail="lastuser.username"
+                :detail="lastuser.name_company"
                 directionReverse
               ></card>
             </div>
@@ -146,6 +183,7 @@ export default {
   name: "dashboard-default",
   data() {
     return {
+      user_company: this.$store.state.AppActiveUser.data.company_id,
       checkpointReward: {},
       lastUser: [],
       organization_id: null,
@@ -187,7 +225,7 @@ export default {
       this.$http
         .get("api/web/dashbrd")
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           this.stats.users.value = response.data.users;
           this.stats.courses.value = response.data.courses;
           this.stats.sop.value = response.data.sop;
@@ -236,6 +274,21 @@ export default {
       right: 0;
       top: 0;
     }
+    .decore-bg {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      right: 0;
+      top: 0;
+      opacity: 0.6;
+    }
+    .text-dashboard {
+      position: relative;
+    }
+  }
+  .rounded-card {
+    border-radius: 30px;
   }
   @media (max-width: 576px) {
     .decore-left,

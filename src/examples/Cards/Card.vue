@@ -33,6 +33,7 @@
             >
               {{ title }}
             </p>
+            <span class="font-weight-light text-sm"> {{ detail }}</span>
             <h5 class="font-weight-bolder" :class="valueColor">{{ value }}</h5>
             <span class="text-sm" :class="percentageColor">{{
               percentage
