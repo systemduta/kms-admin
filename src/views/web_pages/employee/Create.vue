@@ -261,37 +261,37 @@ export default {
       });
       if (this.$route.params.id) data.append("_method", "PUT");
 
-      console.log("=======");
-      console.log("company id -> " + this.storeData.id);
-      console.log("=======");
       return data;
     },
     store() {
       this.$validator.validateAll().then(async (res) => {
         if (!res) return false;
         const formData = this.convertToFormData();
-        // this.$vs.loading();
-        // try {
-        //   if (this.$route.params.id) {
-        //     await this.dispatchUpdate(formData);
-        //   } else {
-        //     await this.dispatchStore(formData);
-        //   }
-        //   this.$vs.loading.close();
-        //   this.$vs.notify({
-        //     title: "Success!",
-        //     text: "Data was saved successfully!",
-        //     color: "success",
-        //   });
-        //   this.$router.push({ name: "employee" });
-        // } catch (error) {
-        //   this.$vs.loading.close();
-        //   this.$vs.notify({
-        //     title: "Oops!",
-        //     text: error.data.message,
-        //     color: "danger",
-        //   });
-        // }
+        for (const pair of formData.entries()) {
+          console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        this.$vs.loading();
+        try {
+          if (this.$route.params.id) {
+            await this.dispatchUpdate(formData);
+          } else {
+            await this.dispatchStore(formData);
+          }
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Success!",
+            text: "Data was saved successfully!",
+            color: "success",
+          });
+          this.$router.push({ name: "employee" });
+        } catch (error) {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Oops!",
+            text: error.data.message,
+            color: "danger",
+          });
+        }
       });
     },
     async getDetail() {
