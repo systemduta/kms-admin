@@ -100,7 +100,7 @@ export default {
           const link = document.createElement("a");
           link.href =
             process.env.VUE_APP_API_URL + "/files/" + response.data.data;
-          link.setAttribute("download", response.data.data);
+          link.setAttribute("target", "_blank");
           document.body.appendChild(link);
           link.click();
         })

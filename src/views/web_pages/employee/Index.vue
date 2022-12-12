@@ -60,6 +60,7 @@
                     icon="visibility"
                     size="small"
                   ></vs-button>
+
                   <vs-popup
                     class="holamundo"
                     title="Detail Pegawai"
@@ -127,6 +128,37 @@
                                 ></vs-input>
                               </div>
                             </div>
+                            <div v-if="detailUser" class="vx-row mb-5">
+                              <div
+                                v-if="detailUser['status'] == 1"
+                                class="vx-col w-full"
+                              >
+                                <vs-input
+                                  v-model="Ada"
+                                  name="golongan"
+                                  class="w-full"
+                                  label="Status Pegawai"
+                                  :disabled="true"
+                                ></vs-input>
+                              </div>
+                              <div
+                                v-if="detailUser['status'] == 0"
+                                class="vx-col w-full"
+                              >
+                                <vs-input
+                                  v-model="Resign"
+                                  class="w-full"
+                                  label="Status Pegawai"
+                                  :disabled="true"
+                                ></vs-input>
+                                <vs-input
+                                  v-model="detailUser['resign_date']"
+                                  class="w-full"
+                                  label="Tanggal Resign"
+                                  :disabled="true"
+                                ></vs-input>
+                              </div>
+                            </div>
                             <div v-else></div>
                           </vx-card>
                         </div>
@@ -156,6 +188,8 @@ import dropdwon from "../../components/vuesax/dropdown/Dropdown.vue";
 export default {
   data() {
     return {
+      Ada: "Ada",
+      Resign: "Resign",
       popupActivo2: false,
       idDelete: null,
       image: process.env.VUE_APP_API_URL,

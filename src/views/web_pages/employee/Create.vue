@@ -146,19 +146,30 @@
               vs-value="0"
               >Resign</vs-radio
             >
-            <!-- <v-select
-              v-model="storeData.golongan_id"
-              :options="golongans"
-              v-validate="'required'"
-              name="golongan_id"
-              :reduce="(e) => e.id"
-              label="golongan_data"
-            ></v-select> -->
             <span class="text-sm text-danger" v-show="errors.has('status')">{{
               errors.first("status")
             }}</span>
           </div>
         </div>
+
+        <div v-if="storeData.status == 0" class="mb-5 vx-row">
+          <div class="w-full vx-col">
+            <small>Tanggal Resign : </small><br />
+            <vs-input
+              type="date"
+              class="w-full"
+              v-validate="'required'"
+              name="resign_date"
+              v-model="storeData.resign_date"
+            ></vs-input>
+            <span
+              class="text-sm text-danger"
+              v-show="errors.has('resign_date')"
+              >{{ errors.first("resign_date") }}</span
+            >
+          </div>
+        </div>
+
         <!-- <div v-if="!this.$route.params.id" class="mb-5 vx-row"> -->
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
@@ -245,6 +256,7 @@ export default {
         golongan_id: null,
         organization_id: null,
         status: null,
+        resign_date: null,
         image: "",
         name: "",
         password: "",
@@ -293,6 +305,7 @@ export default {
         "company_id",
         "golongan_id",
         "organization_id",
+        "resign_date",
         "image",
         "name",
         "status",
@@ -354,6 +367,7 @@ export default {
       this.storeData.organization_id = success.organization_id;
       this.storeData.golongan_id = success.golongan_id;
       this.storeData.status = success.status;
+      this.storeData.resign_date = success.resign_date;
       // const dataku = CryptoJS.AES.encrypt(success.password).toString();
       this.storeData.password = bcrypt(success.password);
     },
