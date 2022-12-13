@@ -132,13 +132,15 @@
               v-model="storeData.golongan_id"
               :options="golongans"
               v-validate="'required'"
-              name="level"
+              name="golongan_id"
               :reduce="(e) => e.id"
-              label="name"
+              label="golongan_data"
             ></v-select>
-            <span class="text-sm text-danger" v-show="errors.has('level')">{{
-              errors.first("level")
-            }}</span>
+            <span
+              class="text-sm text-danger"
+              v-show="errors.has('golongan_id')"
+              >{{ errors.first("golongan_id") }}</span
+            >
           </div>
         </div>
         <div class="mb-5 vx-row">
@@ -535,6 +537,9 @@ export default {
   },
   async mounted() {
     await this.getMaster();
+    this.golongans.map(function (x) {
+      return (x.golongan_data = x.code + " - " + x.name);
+    });
     if (this.$route.params.id) {
       this.getDetail();
     }
