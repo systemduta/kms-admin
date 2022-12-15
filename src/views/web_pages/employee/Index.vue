@@ -44,7 +44,6 @@
               <vs-td :data="tr.golongan.name">{{ tr.golongan.name }}</vs-td>
               <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
               <vs-td>
-                <!-- TODO: popo up update status blm bisa -->
                 <div class="flex">
                   <vs-button
                     class="mr-2"

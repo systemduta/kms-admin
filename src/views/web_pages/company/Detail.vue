@@ -12,7 +12,6 @@
               type="filled"
               icon-pack="feather"
               icon="icon-edit"
-              :color="colorx"
               >Create Division</vs-button
             >
           </template>
@@ -43,6 +42,14 @@
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    color="danger"
+                    @click="cekClick(tr.id)"
+                    icon-pack="feather"
+                    icon="icon-delete"
+                    size="small"
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -53,7 +60,6 @@
           class="holamundo"
           title="Tambah Divisi"
           background-color="rgba(152,152,152,.7)"
-          :background-color-popup="colorx"
           :active.sync="popupActivo"
         >
           <template>
@@ -180,6 +186,7 @@ import axios from "@/axios";
 export default {
   data() {
     return {
+      idOrg: null,
       popupActivo: false,
       popupActivo2: false,
       name: "",
@@ -201,7 +208,35 @@ export default {
       dispatchIndex: "company/getlistcompany",
       dispatchStore: "division/store",
       dispatchUpdate: "division/update",
+      dispatchDelOrg: "division/deleteDiv",
     }),
+
+    async cekClick(id) {
+      try {
+        const message = await this.dispatchDelOrg(id);
+        if ("error" in message) {
+          this.$vs.notify({
+            title: "Oops!",
+            text: message["error"],
+            color: "danger",
+          });
+        } else {
+          this.$vs.notify({
+            title: "Success!",
+            text: "Data was deleted successfully!",
+            color: "success",
+          });
+          window.location.reload();
+        }
+      } catch (error) {
+        this.$vs.loading.close();
+        this.$vs.notify({
+          title: "Oops!",
+          text: error.error,
+          color: "danger",
+        });
+      }
+    },
 
     getID(id) {
       axios
