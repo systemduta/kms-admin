@@ -8,7 +8,7 @@
             type="file"
             @change="changeImage"
             ref="imageInput"
-            v-validate="'required|ext:jpg,jpeg,png|size:1024'"
+            v-validate="'ext:jpg,jpeg,png|size:1024'"
             data-vv-as="Course Image"
             name="image"
             accept="image/jpeg,image/png"
@@ -107,12 +107,33 @@
             >
           </div>
         </div>
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
+            <small class="ml-2">Company</small> <br />
+            <v-select
+              @search:blur="storeData.company_id"
+              v-model="storeData.company_id"
+              :options="companies"
+              v-validate="'required'"
+              name="company"
+              :reduce="(e) => e.id"
+              label="name"
+            ></v-select>
+            <span class="text-sm text-danger" v-show="errors.has('company')">{{
+              errors.first("company")
+            }}</span>
+          </div>
+        </div>
         <div class="mb-5 vx-row" v-if="storeData.type == 1">
           <div class="w-full vx-col">
             <small class="ml-2">Organization</small> <br />
             <v-select
               v-model="storeData.organization_id"
-              :options="organizations.filter((e) => e.company_id == company_id)"
+              :options="
+                organizations.filter(
+                  (e) => e.company_id == storeData.company_id
+                )
+              "
               v-validate="'required'"
               name="organization"
               :reduce="(e) => e.id"
@@ -274,6 +295,7 @@ export default {
   },
   data() {
     return {
+      companies: [],
       organizations: [],
       golongans: [],
       company_id: JSON.parse(localStorage.getItem("userInfo")).data.company_id,
@@ -285,6 +307,7 @@ export default {
         id: this.$route.params.id,
         organization_id: null,
         golongan_id: null,
+        company_id: null,
         image: "",
         title: "",
         description: "",
@@ -329,10 +352,13 @@ export default {
       dispatchStore: "course/store",
       dispatchUpdate: "course/update",
       dispatchShow: "course/show",
+      dispatchGetCompanies: "master/companies",
       dispatchGetOrganizations: "master/organizations",
       dispatchGetGolongans: "master/golongans",
     }),
     async getMaster() {
+      const co = await this.dispatchGetCompanies();
+      this.companies = co.data;
       const org = await this.dispatchGetOrganizations();
       this.organizations = org.data;
       const gol = await this.dispatchGetGolongans();
@@ -401,6 +427,7 @@ export default {
         "id",
         "organization_id",
         "golongan_id",
+        "company_id",
         "image",
         "title",
         "description",
@@ -490,6 +517,7 @@ export default {
       this.storeData.video = success.video;
       this.storeData.link = success.link;
       this.storeData.type = success.type;
+      this.storeData.company_id = success.company_id;
       // this.storeData.questions = success.description
     },
     async changeImage(e) {

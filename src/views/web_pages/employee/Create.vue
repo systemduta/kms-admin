@@ -99,7 +99,6 @@
               "
               v-validate="'required'"
               name="organization"
-              :reduce="(e) => e.id"
               label="name"
             ></v-select>
             <span
@@ -187,6 +186,7 @@
             }}</span>
           </div>
         </div>
+
         <div v-if="!this.$route.params.id" class="mb-5 vx-row">
           <!-- <div class="mb-5 vx-row"> -->
           <div class="w-full vx-col">
@@ -292,7 +292,7 @@ export default {
       this.organizations = org.data;
       const gol = await this.dispatchGetGolongans();
       this.golongans = gol.data;
-      // console.log(this.golongans);
+      // console.log(this.organizations);
       if (this.$route.params.id) {
         await this.getDetail();
       }

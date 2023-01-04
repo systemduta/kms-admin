@@ -18,7 +18,7 @@ const actions = {
   },
   async index({ commit }) {
     try {
-      const { data } = await axios.get("api/web/organization");
+      const { data } = await axios.get("api/web/organizationcompany");
       commit("SET_ROWS", data.data);
       return Promise.resolve(data);
     } catch (error) {
