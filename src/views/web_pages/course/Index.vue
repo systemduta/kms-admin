@@ -23,7 +23,11 @@
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `course-read`, params: { id: tr.id } }"
+                    :to="{
+                      name: `course-read`,
+                      props: {name: tr.name},
+                      params: { id: tr.id },
+                    }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"

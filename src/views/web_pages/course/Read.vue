@@ -2,6 +2,8 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Course">
+        <!-- Division:
+        <h4></h4> -->
         <vs-table search :data="data" class="mb-2">
           <!--          <template slot="header">-->
           <!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
@@ -74,8 +76,10 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+  props: ["namediv"],
   data() {
     return {
+      name_div: "",
       idDelete: null,
       base_url_image: process.env.VUE_APP_API_URL,
     };
@@ -150,6 +154,8 @@ export default {
       textAfter: true,
       text: "Please Wait ...",
     });
+    // console.log(this.$route.name_div);
+    // this.name_div = this.$route.params.name;
     this.dispatchIndex(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();

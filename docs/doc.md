@@ -16,7 +16,7 @@
 ## file/folder yang harus diketahui
 
 - file ' router.js ' -> digunakan untuk mengatur seluruh route dalam project dibantu dengan master.js. jadi saat kita ingin melihat kemana atau dimana letak suatu proses/view tinggal masuk ke router dan melihat dimana letaknya
-- file ' master.js ' -> sama seperti router.js
+- file ' router_section/master.js ' -> sama seperti router.js
 - file ' axios.js ' -> digunakan untuk mengatur default axios
 - folder ' maesa ' letaknya di /src/store/ -> digunakan untuk mengatur API dari server untuk mendapat/mengirim/menghapus data
 - file ' store.js ' -> singkatnya digunakan untuk mendaftarkan file js yang sudah dibuat dalam folder maesa agar dapat digunakan.
