@@ -63,4 +63,4 @@ npm run serve
 
 ## Documentation
 
-[Documentation](https://linktodocumentation)
+[Documentation](https://github.com/systemduta/kms-admin/blob/dev/docs/doc.md)
