@@ -1,0 +1,1 @@
+lihat readme.md untuk melihat cara instalasi

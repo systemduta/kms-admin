@@ -4,7 +4,7 @@
       <vx-card title="All Book">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{name: 'book-create'}">Create Book</vs-button>
+            <vs-button :to="{ name: 'book-create' }">Create Book</vs-button>
           </template>
           <template slot="thead">
             <vs-th>Image</vs-th>
@@ -12,17 +12,36 @@
             <vs-th>Description</vs-th>
             <vs-th></vs-th>
           </template>
-          <template slot-scope="{data}">
+          <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td class="img-container">
-                <img :src="image + '/files/' + tr.image" width="150" height="100" class="product-img"/>
+                <img
+                  :src="image + '/files/' + tr.image"
+                  width="150"
+                  height="100"
+                  class="product-img"
+                />
               </vs-td>
-              <vs-td :data="tr.title">{{tr.title}}</vs-td>
-              <vs-td :data="tr.description"><p v-html="tr.description"></p></vs-td>
+              <vs-td :data="tr.title">{{ tr.title }}</vs-td>
+              <vs-td :data="tr.description"
+                ><p v-html="tr.description"></p
+              ></vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `book-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    :to="{ name: `book-edit`, params: { id: tr.id } }"
+                    icon-pack="feather"
+                    icon="icon-edit"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    color="danger"
+                    @click="deletes(tr.id)"
+                    icon-pack="feather"
+                    icon="icon-delete"
+                    size="small"
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -34,61 +53,63 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  name: 'Book.Index',
-  data () {
+  name: "Book.Index",
+  data() {
     return {
       idDelete: null,
-      image: process.env.VUE_APP_API_URL
-    }
+      image: process.env.VUE_APP_API_URL,
+    };
   },
-  computed:{
+  computed: {
     ...mapState({
-      data: state => state.book.rows,
+      data: (state) => state.book.rows,
     }),
   },
-  methods:{
+  methods: {
     ...mapActions({
-      dispatchIndex: 'book/index',
-      dispatchDestroy: 'book/destroy'
+      dispatchIndex: "book/index",
+      dispatchDestroy: "book/destroy",
     }),
-    async confirmDelete () {
+    async confirmDelete() {
       try {
-        await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
-        this.dispatchIndex(3)
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+        this.dispatchIndex(3);
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
-    }
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
+    },
   },
-  mounted () {
-    this.$vs.loading()
-    this.dispatchIndex(3).then(() => {
-      this.$vs.loading.close()
-    }).catch(() => {
-      this.$vs.loading.close()
-    })
-  }
-}
+  mounted() {
+    this.$vs.loading();
+    this.dispatchIndex(3)
+      .then(() => {
+        this.$vs.loading.close();
+      })
+      .catch(() => {
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>
