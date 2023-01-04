@@ -85,7 +85,7 @@
               class="ml-2 mr-2"
               v-model="storeData.type"
               vs-value="4"
-              v-if="company_id == 1"
+              v-if="company_id == 1 || company_id == 18"
               >Soft Skill</vs-radio
             >
             <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1"
@@ -95,14 +95,14 @@
               class="ml-2 mr-2"
               v-model="storeData.type"
               vs-value="2"
-              v-if="company_id == 1"
+              v-if="company_id == 1 || company_id == 18"
               >Our Company</vs-radio
             >
             <vs-radio
               class="ml-2 mr-2"
               v-model="storeData.type"
               vs-value="3"
-              v-if="company_id == 1"
+              v-if="company_id == 1 || company_id == 18"
               >Corporate Value</vs-radio
             >
           </div>

@@ -51,7 +51,10 @@
               ></card>
             </div>
 
-            <div v-if="user_company == 1" class="col-lg-3 col-md-6 col-12">
+            <div
+              v-if="user_company == 1 || user_company == 18"
+              class="col-lg-3 col-md-6 col-12"
+            >
               <card
                 :title="stats.vhs.title"
                 :value="stats.vhs.value"
