@@ -876,4 +876,14 @@ export default [
       },
     ],
   },
+  //profile
+  {
+    path: "profile",
+    name: "profile",
+    component: () => import("@/views/web_pages/profile/Index.vue"),
+    meta: {
+      auth: true,
+      parent: "profile",
+    },
+  },
 ];

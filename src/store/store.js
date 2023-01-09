@@ -43,6 +43,7 @@ import company from "./maesa/company";
 import dashboard from "./maesa/dashboard";
 import sertif from "./maesa/vhs/sertif";
 import setadmin from "./maesa/setadmin";
+import profile from "./maesa/profile";
 
 export default new Vuex.Store({
   getters,
@@ -78,6 +79,7 @@ export default new Vuex.Store({
     dashboard,
     sertif,
     setadmin,
+    profile,
   },
   strict: process.env.NODE_ENV !== "production",
 });

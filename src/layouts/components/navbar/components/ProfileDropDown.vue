@@ -20,6 +20,16 @@
       </a>
       <vs-dropdown-menu>
         <vs-dropdown-item>
+          <vs-button
+            color="primary"
+            type="border"
+            :to="{ name: 'profile' }"
+            style="margin-bottom: 0.5em"
+            icon="person"
+            >Profile</vs-button
+          >
+        </vs-dropdown-item>
+        <vs-dropdown-item>
           <vs-button color="primary" type="border" icon="logout" @click="logout"
             >Logout</vs-button
           >
