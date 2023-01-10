@@ -469,9 +469,6 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0]}, ${pair[1]}`);
-        // }
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -498,7 +495,7 @@ export default {
           this.isLoading = false;
           this.$vs.notify({
             title: "Oops!",
-            text: error.data.message,
+            text: error,
             color: "danger",
           });
         }
