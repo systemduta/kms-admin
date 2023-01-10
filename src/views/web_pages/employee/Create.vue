@@ -298,6 +298,7 @@ export default {
       }
     },
     convertToFormData() {
+      this.storeData.organization_id = this.storeData.organization_id["id"];
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
       [
@@ -327,6 +328,7 @@ export default {
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
+        // console.log(this.storeData.organization_id["id"]);
         this.$vs.loading({
           type: "radius",
           color: "blue",
