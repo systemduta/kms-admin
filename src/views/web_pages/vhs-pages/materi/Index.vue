@@ -1,64 +1,50 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Materi VHS">
-        <vs-table search :data="data" class="mb-2">
+      <vx-card title="Materi 1VHS">
+        <vs-table pagination max-items="10" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'vhs-pages/materi/create' }"
-              >Tambah Materi</vs-button
-            >
+            <vs-button :to="{ name: 'vhs-pages/materi/create' }" size="small">
+              Tambah Materi
+            </vs-button>
           </template>
           <template slot="thead">
-            <vs-th>No</vs-th>
-            <vs-th>Nama Materi</vs-th>
-            <vs-th>Deskripsi</vs-th>
-            <vs-th>Tipe</vs-th>
-            <vs-th>Jadwal</vs-th>
-            <vs-th>Image</vs-th>
-            <vs-th>File PDF</vs-th>
-            <vs-th>Video</vs-th>
+            <vs-th sort-key="no">No </vs-th>
+            <vs-th sort-key="namauser">Nama Jadwal </vs-th>
+            <vs-th sort-key="type">Tipe </vs-th>
+            <vs-th sort-key="jadwalvhsname">Start</vs-th>
+            <vs-th sort-key="start">End</vs-th>
+            <vs-th sort-key="total">Total Materi</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-              <vs-td :data="tr.desc">{{ tr.desc }}</vs-td>
               <vs-td :data="tr.type">{{ tr.type }}</vs-td>
-              <vs-td :data="tr.jadwal_vhs_name">{{ tr.jadwal_vhs_name }}</vs-td>
-              <vs-td :data="tr.image">{{ tr.image }}</vs-td>
-              <vs-td :data="tr.file">{{ tr.file }}</vs-td>
-              <vs-td v-if="tr.video != 'error'" :data="tr.video">{{
-                tr.video
-              }}</vs-td>
-              <vs-td v-else :data="tr.video">kosong / tidak diisi</vs-td>
+              <vs-td :data="tr.start">{{ format_date(tr.start) }}</vs-td>
+              <vs-td :data="tr.end">{{ format_date(tr.end) }}</vs-td>
+              <vs-td :data="tr.total">{{ tr.total }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
-                    @click="downData(tr.id)"
-                    color="warning"
-                    class="mr-2"
                     icon-pack="feather"
-                    icon="icon-download"
+                    icon="icon-eye"
                     size="small"
-                  ></vs-button>
-                  <vs-button
-                    class="mr-2"
                     :to="{
-                      name: `vhs-pages/materi/edit`,
+                      name: `vhsmateri-detail`,
                       params: { id: tr.id },
                     }"
-                    icon-pack="feather"
-                    icon="icon-edit"
-                    size="small"
-                  ></vs-button>
+                  >
+                  </vs-button>
+                  <!-- &nbsp;
                   <vs-button
                     color="danger"
-                    @click="deletes(tr.id)"
                     icon-pack="feather"
+                    @click="deletes(tr.id)"
                     icon="icon-delete"
                     size="small"
-                  ></vs-button>
+                  ></vs-button> -->
                 </div>
               </vs-td>
             </vs-tr>
@@ -71,11 +57,14 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-// import moment from "moment";
+import moment from "moment";
 export default {
   data() {
     return {
       idDelete: null,
+      urlImage: process.env.VUE_APP_API_URL + "/file/materivhs/image/",
+      urlFile: process.env.VUE_APP_API_URL + "/file/materivhs/file/",
+      urlVideo: process.env.VUE_APP_API_URL + "/file/materivhs/video/",
     };
   },
   computed: {
@@ -88,23 +77,10 @@ export default {
       dispatchIndex: "materi/index",
       dispatchDestroy: "materi/destroy",
     }),
-    async downData(id) {
-      // console.log(id);
-      this.$http
-        .get("api/web/downmateri/" + id)
-        .then((response) => {
-          const link = document.createElement("a");
-          link.href =
-            process.env.VUE_APP_API_URL +
-            "/file/materivhs/file/" +
-            response.data.data;
-          link.setAttribute("target", "_blank");
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    format_date(value) {
+      if (value) {
+        return moment(String(value)).format("MM/DD/YYYY");
+      }
     },
     async confirmDelete() {
       try {

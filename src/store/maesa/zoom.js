@@ -75,7 +75,6 @@ const actions = {
       const { data } = await axios.delete(`api/web/zoom/${id}`);
       return Promise.resolve(data);
     } catch (error) {
-      console.log(error);
       return Promise.reject(error.response);
     }
   },

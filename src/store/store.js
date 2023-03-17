@@ -44,6 +44,9 @@ import dashboard from "./maesa/dashboard";
 import sertif from "./maesa/vhs/sertif";
 import setadmin from "./maesa/setadmin";
 import profile from "./maesa/profile";
+import quotaap from "./maesa/quotaap";
+import jadwalap from "./maesa/adminap/jadwalap";
+import user from "./maesa/vhs/user";
 
 export default new Vuex.Store({
   getters,
@@ -80,6 +83,9 @@ export default new Vuex.Store({
     sertif,
     setadmin,
     profile,
+    quotaap,
+    jadwalap,
+    user,
   },
   strict: process.env.NODE_ENV !== "production",
 });

@@ -19,6 +19,7 @@
             <vs-th>No</vs-th>
             <vs-th>Name</vs-th>
             <vs-th>Code</vs-th>
+            <vs-th>Jenis</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -26,6 +27,8 @@
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td :data="tr.code">{{ tr.code }}</vs-td>
+              <vs-td :data="tr.isAdm" v-if="tr.isAdm">Administratif</vs-td>
+              <vs-td :data="tr.isAdm" v-else>Lapangan</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
@@ -107,6 +110,27 @@
                       ></vs-input>
                     </div>
                   </div>
+
+                  <div class="vx-row mb-5">
+                    <div class="vx-col w-full">
+                      <span>Pilih Status : </span>
+                      <select
+                        class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
+                        v-model="isAdm"
+                      >
+                        <option v-for="option in options" :value="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+
+                      <span
+                        class="text-sm text-danger"
+                        v-show="errors.has('type')"
+                        >{{ errors.first("type") }}</span
+                      >
+                    </div>
+                  </div>
+
                   <div class="vx-row">
                     <div class="w-full text-right vx-col">
                       <vs-button @click="store">Save</vs-button>
@@ -192,10 +216,15 @@ export default {
       name: "",
       code: "",
       company_id: null,
+      isAdm: null,
       getDetail2: [],
       getList: [],
       getResponse: [],
       getDetailUsers: [],
+      options: [
+        { value: 1, text: "Administratif" },
+        { value: 0, text: "Lapangan" },
+      ],
     };
   },
   computed: {
@@ -258,7 +287,9 @@ export default {
           company_id: this.company_id,
           name: this.name,
           code: this.code,
+          isAdm: this.isAdm,
         };
+        // console.log(payload);
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -273,7 +304,8 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          window.location.reload();
+          this.popupActivo = false;
+          await this.getDetail();
         } catch (error) {
           this.$vs.loading.close();
           this.$vs.notify({

@@ -3,7 +3,7 @@
     <div v-if="dataUser.length > 0" class="w-full vx-col mb-base">
       <!-- <h4 v-if="dataUser.length > 0">{{ dataCompany[0].name }}</h4>
       <h4 v-else>-</h4> -->
-      <vx-card title="Detail Score VHS" elevation="9" shaped>
+      <vx-card title="Detail Score 1VHS" elevation="9" shaped>
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
             <vs-input
@@ -34,7 +34,7 @@
             <vs-input
               class="w-full"
               v-validate="'required'"
-              label="Tipe VHS"
+              label="Tipe 1VHS"
               v-model="dataUser[0].type"
               :disabled="true"
             ></vs-input>

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4 card div-hover">
-    <div class="p-3 card-body" @click="onCLick(onclick)" :style="style">
+    <div class="p-3 card-body" @click="onCLick(onclick)">
       <div class="d-flex" :class="directionReverse ? reverseDirection : ''">
         <div>
           <div

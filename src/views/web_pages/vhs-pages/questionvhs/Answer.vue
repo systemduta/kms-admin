@@ -1,9 +1,7 @@
-//TODO kurang search dan pagination
-
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="User Answer VHS">
+      <vx-card title="User Answer 1VHS">
         Question:
         <h4 v-if="dataJudul">
           {{ dataJudul }}

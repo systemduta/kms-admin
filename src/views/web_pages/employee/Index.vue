@@ -2,9 +2,52 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Employee">
-        <vs-table pagination max-items="10" search :data="data" class="mb-2">
+        <vs-table pagination max-items="20" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'employee-create' }">Create User</vs-button>
+            <vs-button :to="{ name: 'employee-create' }" size="small">
+              Create User</vs-button
+            >
+            &nbsp;
+            <a :href="urlDownload" target="_blank" rel="noopener noreferrer"
+              ><vs-button size="small" icon-pack="feather" icon="icon-download"
+                >Download Data</vs-button
+              ></a
+            >
+            <vs-popup
+              title="Export"
+              :active.sync="showDropdown"
+              position="bottom-right"
+            >
+              <div class="mb-5 vx-row">
+                <div class="w-full vx-col">
+                  <span>Pilih Status : </span>
+                  <select
+                    class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
+                    v-model="selectedOption"
+                  >
+                    <option v-for="option in options" :value="option.value">
+                      {{ option.text }}
+                    </option>
+                  </select>
+
+                  <span
+                    class="text-sm text-danger"
+                    v-show="errors.has('type')"
+                    >{{ errors.first("type") }}</span
+                  >
+                </div>
+              </div>
+              <div class="w-full text-right vx-col">
+                <vs-button
+                  color="dark"
+                  type="flat"
+                  @click="showDropdown = false"
+                  >Back</vs-button
+                >
+                &nbsp; &nbsp;
+                <vs-button @click="download">Save</vs-button>
+              </div>
+            </vs-popup>
           </template>
           <template slot="thead">
             <vs-th>Status</vs-th>
@@ -183,7 +226,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import dropdwon from "../../components/vuesax/dropdown/Dropdown.vue";
 export default {
   data() {
     return {
@@ -192,7 +234,15 @@ export default {
       popupActivo2: false,
       idDelete: null,
       image: process.env.VUE_APP_API_URL,
+      urlDownload: process.env.VUE_APP_API_URL + "/api/web/download1",
       detailUser: null,
+
+      options: [
+        { value: 0, text: "SPV" },
+        { value: 1, text: "Staff" },
+      ],
+      selectedOption: null,
+      showDropdown: false,
     };
   },
   computed: {
@@ -206,6 +256,9 @@ export default {
       dispatchDestroy: "employee/destroy",
       dispatchShow: "employee/show",
     }),
+    download() {
+      console.log(this.selectedOption);
+    },
     async getDetail(id) {
       try {
         const data = await this.dispatchShow(id);

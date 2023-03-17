@@ -48,6 +48,25 @@
           </div>
         </div>
 
+        <div class="vx-row mb-5">
+          <div class="vx-col w-full">
+            <span>Pilih Status : </span>
+            <select
+              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
+              v-model="isAdm"
+              required
+            >
+              <option v-for="option in options" :value="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+
+            <span class="text-sm text-danger" v-show="errors.has('type')">{{
+              errors.first("type")
+            }}</span>
+          </div>
+        </div>
+
         <div class="vx-row">
           <div class="w-full text-right vx-col">
             <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
@@ -106,6 +125,24 @@
           </div>
         </div>
 
+        <div class="vx-row mb-5">
+          <div class="vx-col w-full">
+            <span>Pilih Status : </span>
+            <select
+              class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
+              v-model="isAdm"
+            >
+              <option v-for="option in options" :value="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+
+            <span class="text-sm text-danger" v-show="errors.has('type')">{{
+              errors.first("type")
+            }}</span>
+          </div>
+        </div>
+
         <div class="vx-row">
           <div class="w-full text-right vx-col">
             <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
@@ -128,7 +165,12 @@ export default {
       name: "",
       code: "",
       company_id: null,
+      isAdm: null,
       companies: [],
+      options: [
+        { value: 1, text: "Administratif" },
+        { value: 0, text: "Lapangan" },
+      ],
     };
   },
   components: {
@@ -159,6 +201,7 @@ export default {
           company_id: this.company_id,
           name: this.name,
           code: this.code,
+          isAdm: this.isAdm,
         };
         this.$vs.loading({
           type: "radius",
@@ -179,12 +222,13 @@ export default {
             color: "success",
           });
           // this.$router.push({name: 'division'})
-          this.$router.push({ name: "company" });
+
+          this.$router.go(-1);
         } catch (error) {
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Oops!",
-            text: error.data.message,
+            text: "Dimohon isi semua Inputan",
             color: "danger",
           });
         }
@@ -195,6 +239,7 @@ export default {
       this.name = data.name;
       this.code = data.code;
       this.company_id = data.company_id;
+      this.isAdm = data.isAdm;
     },
     goBack() {
       this.$router.go(-1);

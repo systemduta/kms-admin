@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Set Nilai User VHS">
+      <vx-card title="Set Nilai User 1VHS">
         <!-- {{ this.$route.params.id }} -->
         <div class="vx-row mb-5">
           <div class="vx-col w-full">

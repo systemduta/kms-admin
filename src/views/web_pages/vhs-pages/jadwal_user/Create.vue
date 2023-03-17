@@ -1,10 +1,10 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Jadwal User VHS">
+      <vx-card title="Jadwal User 1VHS">
         <div class="vx-row mb-5">
           <div class="vx-col w-full">
-            <small>Jadwal VHS</small>
+            <small>Jadwal 1VHS</small>
             <v-select
               v-model="storeData.jadwal_id"
               :options="jadwalArr"

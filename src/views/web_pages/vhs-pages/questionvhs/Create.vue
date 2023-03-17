@@ -1,10 +1,10 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Question VHS">
+      <vx-card title="Question 1VHS">
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
-            <small>Nama VHS</small>
+            <small>Materi 1VHS</small>
             <v-select
               v-model="storeData.materi_id"
               :options="materivhs"
@@ -41,12 +41,7 @@
         <div v-if="isLoading">Saving data progress: {{ uploadProgress }} %</div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button
-              color="dark"
-              type="flat"
-              :to="{ name: `vhs-pages/questionvhs` }"
-              >Back</vs-button
-            >
+            <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
             &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
@@ -93,11 +88,12 @@ export default {
 
       dispatchGetCompanies: "questionvhs/getmateri",
     }),
-
+    goBack() {
+      this.$router.go(-1);
+    },
     async getMaster() {
       const co = await this.dispatchGetCompanies();
       this.materivhs = co.data;
-      console.log(this.materivhs);
       if (this.$route.params.id) {
         await this.getDetail();
       }
@@ -176,9 +172,7 @@ export default {
       return (x.item_data = x.name + " - " + x.type);
     });
 
-    // if (this.$route.params.id) {
-    //   this.getDetail();
-    // }
+    // window.location.reload();
   },
 };
 </script>

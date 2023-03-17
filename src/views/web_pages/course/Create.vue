@@ -503,7 +503,6 @@ export default {
     },
     async getDetail() {
       const { success } = await this.dispatchShow(this.$route.params.id);
-      console.log(success);
       this.storeData.organization_id = success.organization_id;
       this.image = success.image
         ? `${process.env.VUE_APP_API_URL}/files/${success.image}`

@@ -16,6 +16,15 @@ const mutations = {
   },
 };
 const actions = {
+  async detail({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/materidetail/${id}`);
+      commit("SET_ROW", data.data);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
   async index({ commit }, payload) {
     try {
       const { data } = await axios.get(`api/web/materivhs`);
@@ -27,7 +36,6 @@ const actions = {
   },
 
   async store({ commit }, payload) {
-    console.log(payload);
     try {
       const { data } = await axios.post("api/web/materivhs", payload, {
         headers: {
@@ -66,7 +74,6 @@ const actions = {
       const { data } = await axios.delete(`api/web/materivhs/${id}`);
       return Promise.resolve(data);
     } catch (error) {
-      console.log(error);
       return Promise.reject(error.response);
     }
   },

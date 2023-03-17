@@ -1,44 +1,49 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Jadwal Zoom meeting 1VHS">
+      <vx-card title="Question materi 1VHS">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'zoom-vhs-create' }">Create zoom</vs-button>
+            <vs-button :to="{ name: 'vhs-pages/questionvhs/create' }"
+              >Tambah Pertanyaan</vs-button
+            >
           </template>
           <template slot="thead">
             <vs-th>No</vs-th>
-            <vs-th>Nama 1VHS</vs-th>
-            <vs-th>Nama Batch</vs-th>
-            <vs-th>Judul Zoom</vs-th>
-            <vs-th>Time</vs-th>
-            <vs-th>Link</vs-th>
-            <vs-th>Meeting id</vs-th>
-            <vs-th>Password</vs-th>
+            <vs-th>Nama Materi</vs-th>
+            <vs-th>Question</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
-              <vs-td :data="tr.jadwalvhs_name">{{ tr.jadwalvhs_name }}</vs-td>
-              <vs-td :data="tr.batch">{{ tr.batch }}</vs-td>
-              <vs-td :data="tr.zoom_name">{{ tr.zoom_name }}</vs-td>
-              <vs-td :data="tr.times">{{ tr.times }}</vs-td>
-              <vs-td :data="tr.link">{{ tr.link }}</vs-td>
-              <vs-td :data="tr.meeting_id">{{ tr.meeting_id }}</vs-td>
-              <vs-td :data="tr.password">{{ tr.password }}</vs-td>
+              <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+              <vs-td :data="tr.question">{{ tr.question }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `zoom-vhs-edit`, params: { id: tr.zoom_id } }"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    :to="{
+                      name: `vhs-pages/questionvhs/answer`,
+                      params: { id: tr.id_question },
+                    }"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    :to="{
+                      name: `vhs-pages/questionvhs/edit`,
+                      params: { id: tr.id_question },
+                    }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
                   <vs-button
                     color="danger"
-                    @click="deletes(tr.zoom_id)"
+                    @click="ujiClick(tr.id_question)"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
@@ -60,23 +65,36 @@ export default {
   data() {
     return {
       idDelete: null,
+      cekData: [],
     };
   },
   computed: {
     ...mapState({
-      data: (state) => state.zoom.rows,
+      data: (state) => state.questionvhs.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "zoom/index",
-      dispatchDestroy: "zoom/destroy",
+      dispatchIndex: "questionvhs/index",
+      dispatchDestroy: "questionvhs/destroy",
+
+      dispatchShowAnswer: "questionvhs/getanswer",
     }),
-    // format_date(value) {
-    //   if (value) {
-    //     return moment(String(value)).format("DD/MM/YYYY");
-    //   }
-    // },
+
+    async ujiClick(id) {
+      const co = await this.dispatchShowAnswer(id);
+      this.cekData = co.success;
+      if (this.cekData.length > 0) {
+        this.$vs.notify({
+          title: "Oops!",
+          text: `Maaf, Ada data jawaban`,
+          color: "danger",
+        });
+      } else {
+        this.deletes(id);
+      }
+    },
+
     async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete);
@@ -86,7 +104,6 @@ export default {
           text: "Your data has been deleted successfully",
           color: "primary",
         });
-
         this.dispatchIndex(this.$route.params.id);
       } catch (error) {
         this.$vs.notify({

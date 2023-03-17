@@ -27,6 +27,41 @@ const actions = {
     }
   },
 
+  async showMateri({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/materi_sc/${id}`);
+      // commit("SET_ROW", data.success);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+  async showQue({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/quest_sc/${id}`);
+      // commit("SET_ROW", data.success);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+
+  async showAnswer({ commit }, payload) {
+    // console.log(payload);
+    try {
+      const { data } = await axios.post("api/web/answer_sc", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+
+  // =======================================
+
   async getCompany({ commit }, payload) {
     try {
       const { data } = await axios.get(`api/web/get_company`);
@@ -87,7 +122,6 @@ const actions = {
       const { data } = await axios.delete(`api/web/userscorevhs/${id}`);
       return Promise.resolve(data);
     } catch (error) {
-      console.log(error);
       return Promise.reject(error.response);
     }
   },

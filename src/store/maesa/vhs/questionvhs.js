@@ -16,6 +16,25 @@ const mutations = {
   },
 };
 const actions = {
+  async indexdet({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/indexdet/${id}`);
+      commit("SET_ROW", data.success);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+  async indexmat({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/indexmat/${id}`);
+      commit("SET_ROW", data.success);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+
   async index({ commit }, payload) {
     try {
       const { data } = await axios.get(`api/web/questionvhs`);

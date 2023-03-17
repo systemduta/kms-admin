@@ -1,10 +1,10 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Create Zoom VHS">
+      <vx-card title="Create Zoom 1VHS">
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
-            <small>Nama VHS</small>
+            <small>Nama 1VHS</small>
             <v-select
               v-model="storeData.jadwal_id"
               :options="jadwalvhs"

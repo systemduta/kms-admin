@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Sertifikat VHS">
+      <vx-card title="Sertifikat 1VHS">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'vhs-pages/sertifikat/create' }"

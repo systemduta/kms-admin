@@ -18,19 +18,8 @@ const mutations = {
 const actions = {
   async index({ commit }, payload) {
     try {
-      const { data } = await axios.get(`api/web/companies`);
-      // console.log(data);
+      const { data } = await axios.get(`api/web/jadwaladminap`);
       commit("SET_ROWS", data.data);
-      return Promise.resolve(data);
-    } catch (error) {
-      return Promise.reject(error.response);
-    }
-  },
-  async getlistcompany({ commit }, id) {
-    try {
-      const { data } = await axios.get(`api/web/getcompany/${id}`);
-      //   console.log(data);
-      commit("SET_ROW", data);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);
@@ -39,7 +28,7 @@ const actions = {
 
   async store({ commit }, payload) {
     try {
-      const { data } = await axios.post("api/web/companies", payload, {
+      const { data } = await axios.post("api/web/jadwaladminap", payload, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -58,32 +47,31 @@ const actions = {
     }
   },
 
-  async update(store, payload) {
-    let id = null;
-    for (const pair of payload.entries()) {
-      if (pair[0] === "id") id = pair[1];
-    }
+  //   async update(store, payload) {
+  //     let id = null;
+  //     for (const pair of payload.entries()) {
+  //       if (pair[0] === "id") id = pair[1];
+  //     }
+  //     try {
+  //       const { data } = await axios.post(`api/web/update_jadwal/${id}`, payload);
+  //       return Promise.resolve(data);
+  //     } catch (error) {
+  //       return Promise.reject(error.response);
+  //     }
+  //   },
+
+  async destroy(store, id) {
     try {
-      const { data } = await axios.post(`api/web/companies/${id}`, payload);
+      const { data } = await axios.delete(`api/web/jadwaladminap/${id}`);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);
     }
   },
 
-  //   async destroy(store, id) {
-  //     try {
-  //       const { data } = await axios.delete(`api/web/materivhs/${id}`);
-  //       return Promise.resolve(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //       return Promise.reject(error.response);
-  //     }
-  //   },
-
   async show({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/companies/${id}`);
+      const { data } = await axios.get(`api/web/jadwaladminap/${id}`);
       commit("SET_ROW", data.data);
       return Promise.resolve(data);
     } catch (error) {

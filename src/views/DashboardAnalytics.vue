@@ -190,6 +190,19 @@ export default {
           onclick: "jadwal",
         },
       },
+      options: [
+        { value: 1, text: "Dalam Kota" },
+        { value: 2, text: "Luar Kota" },
+      ],
+      selectedOption: "",
+      options2: [
+        { value: "option1", text: "Option 1" },
+        { value: "option2", text: "Option 2" },
+        { value: "option3", text: "Option 3" },
+      ],
+      formItems: [{ selectedOption: "", textValue: null }],
+      maxvalue: null,
+      sumvalue: null,
     };
   },
   methods: {
@@ -207,6 +220,21 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    addItem() {
+      let sum = this.formItems.reduce(
+        (n, { textValue }) => n + parseInt(textValue),
+        0
+      );
+      // console.log(sum);
+      if (sum > this.maxvalue) {
+        alert("KELEBIHAN BOS ku");
+      } else {
+        this.formItems.push({ selectedOption: "", textValue: null });
+      }
+    },
+    deleteItem() {
+      this.formItems.pop({ selectedOption: "", textValue: null });
     },
   },
   components: {

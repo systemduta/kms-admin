@@ -1,4 +1,3 @@
-z
 <template>
   <div>
     <vs-input

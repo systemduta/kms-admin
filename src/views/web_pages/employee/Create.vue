@@ -58,6 +58,7 @@
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <vs-input
+              type="number"
               class="w-full"
               v-validate="'required'"
               name="nik"
@@ -366,8 +367,8 @@ export default {
         : "";
       this.storeData.nik = success.nik;
       this.storeData.company_id = success.company_id;
-      this.storeData.organization_id = success.organization_id;
-      this.storeData.golongan_id = success.golongan_id;
+      // this.storeData.organization_id = success.organization_id;
+      // this.storeData.golongan_id = success.golongan_id;
       this.storeData.status = success.status;
       this.storeData.resign_date = success.resign_date;
       // const dataku = CryptoJS.AES.encrypt(success.password).toString();

@@ -28,7 +28,6 @@ const actions = {
   },
 
   async store({ commit }, payload) {
-    console.log(payload);
     try {
       const { data } = await axios.post("api/web/vhscerti", payload, {
         headers: {
@@ -67,7 +66,6 @@ const actions = {
       const { data } = await axios.delete(`api/web/vhscerti/${id}`);
       return Promise.resolve(data);
     } catch (error) {
-      console.log(error);
       return Promise.reject(error.response);
     }
   },

@@ -649,6 +649,16 @@ export default [
           parent: "vhs-pages/materi",
         },
       },
+      {
+        path: "detail/:id",
+        name: "vhsmateri-detail",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/materi/IndexDetail.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/materi",
+        },
+      },
     ],
   },
 
@@ -701,6 +711,26 @@ export default [
         name: "vhs-pages/questionvhs/score",
         component: () =>
           import("@/views/web_pages/vhs-pages/questionvhs/Score.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/questionvhs",
+        },
+      },
+      {
+        path: "/indexmat/:id",
+        name: "indexmat",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/questionvhs/IndexMateri.vue"),
+        meta: {
+          auth: true,
+          parent: "vhs-pages/questionvhs",
+        },
+      },
+      {
+        path: "/indexdet/:id",
+        name: "indexdet",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/questionvhs/IndexDetail.vue"),
         meta: {
           auth: true,
           parent: "vhs-pages/questionvhs",
@@ -838,6 +868,22 @@ export default [
       },
     ],
   },
+  {
+    path: "indexdetail",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: ":id",
+        name: "indexdetail",
+        component: () =>
+          import("@/views/web_pages/vhs-pages/jadwal_user/Index2.vue"),
+        meta: {
+          auth: true,
+          parent: "indexdetail",
+        },
+      },
+    ],
+  },
 
   //sertifikat vhs
   {
@@ -885,5 +931,82 @@ export default [
       auth: true,
       parent: "profile",
     },
+  },
+  //profile
+  {
+    path: "quotaap",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: ":id",
+        name: "quotaap",
+        component: () => import("@/views/web_pages/jadwal/updateQ.vue"),
+        meta: {
+          auth: true,
+          parent: "quotaap",
+        },
+      },
+    ],
+  },
+  {
+    path: "quotaAnak",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: ":id",
+        name: "quotaAnak",
+        component: () => import("@/views/web_pages/jadwal/updateAP.vue"),
+        meta: {
+          auth: true,
+          parent: "quotaAnak",
+        },
+      },
+    ],
+  },
+  {
+    path: "jadwalap",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "jadwalap",
+        component: () => import("@/views/web_pages/jadwal/jadwalAP/index.vue"),
+        meta: {
+          auth: true,
+          parent: "jadwalap",
+        },
+      },
+    ],
+  },
+  {
+    path: "permit",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: ":id",
+        name: "permit",
+        component: () => import("@/views/web_pages/jadwal/permit.vue"),
+        meta: {
+          auth: true,
+          parent: "permit",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "uservhs",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "uservhs",
+        component: () => import("@/views/web_pages/vhs-pages/user/index.vue"),
+        meta: {
+          auth: true,
+          parent: "uservhs",
+        },
+      },
+    ],
   },
 ];

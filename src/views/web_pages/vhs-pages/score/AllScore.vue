@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Score VHS">
+      <vx-card title="All Score 1VHS">
         <vs-table pagination search :data="data" class="mb-2">
           <template slot="thead">
             <vs-th>No</vs-th>

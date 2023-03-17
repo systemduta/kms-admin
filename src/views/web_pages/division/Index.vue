@@ -28,13 +28,13 @@
                     icon="icon-edit"
                     size="small"
                   ></vs-button>
-                  <vs-button
+                  <!-- <vs-button
                     color="danger"
                     @click="deletes(tr.id)"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
-                  ></vs-button>
+                  ></vs-button> -->
                 </div>
               </vs-td>
             </vs-tr>

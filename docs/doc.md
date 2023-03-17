@@ -21,3 +21,4 @@
 - folder ' maesa ' letaknya di /src/store/ -> digunakan untuk mengatur API dari server untuk mendapat/mengirim/menghapus data
 - file ' store.js ' -> singkatnya digunakan untuk mendaftarkan file js yang sudah dibuat dalam folder maesa agar dapat digunakan.
 - folder ' web-pages ' -> digunakan untuk mengatur tampilan dari website
+- file '/src/layouts/components/vertical-nav-menu/navMenuItems.js' -> digunakan untuk mengatur komposisi tampilan navigation menu

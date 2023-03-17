@@ -206,9 +206,9 @@ export default {
       // console.log(success.data.code);
       this.storeData.code = success.data.code;
       this.storeData.name = success.data.name;
+      console.log("masuk");
     },
   },
-  //URUNG blm selesai
   async mounted() {
     // this.$vs.loading({
     //   type: "radius",

@@ -20,7 +20,7 @@
 
 const user_info = JSON.parse(localStorage.getItem("userInfo"));
 const organization_id = parseInt(user_info.data.organization_id);
-
+// console.log(user_info);
 const company = JSON.parse(localStorage.getItem("userInfo"));
 const company_id = parseInt(company.data.company_id);
 
@@ -166,9 +166,9 @@ const menu = [
   organization_id == 420
     ? {
         url: null,
-        name: "VHS",
+        name: "1VHS",
         icon: "CpuIcon",
-        i18n: "VHS",
+        i18n: "1VHS",
         submenu: [
           // {
           //   url: { name: "mini_vhs" },
@@ -181,12 +181,10 @@ const menu = [
           //   slug: "vhs",
           // },
           {
-            url: { name: "vhs-pages/sertifikat" },
-            name: "Sertifikat",
-            slug: "sertifikat",
+            url: { name: "uservhs" },
+            name: "Riwayat User",
+            slug: "user",
           },
-
-          //penggabungan
           {
             url: { name: "vhs-pages/materi" },
             name: "Materi",
@@ -199,13 +197,18 @@ const menu = [
           },
           {
             url: { name: "vhs-pages/questionvhs" },
-            name: "Question vhs",
+            name: "Question 1VHS",
             slug: "questionvhs",
           },
           {
             url: { name: "vhs-pages/score" },
-            name: "Score vhs",
-            slug: "scorevhs",
+            name: "Answer 1VHS",
+            slug: "answer1vhs",
+          },
+          {
+            url: { name: "vhs-pages/sertifikat" },
+            name: "Sertifikat",
+            slug: "sertifikat",
           },
           {
             url: null,
@@ -214,7 +217,7 @@ const menu = [
             submenu: [
               {
                 url: { name: "jadwal" },
-                name: "Jadwal VHS",
+                name: "Jadwal 1VHS",
                 slug: "jadwal_vhs",
               },
               {
@@ -224,9 +227,34 @@ const menu = [
               },
             ],
           },
+          {
+            url: null,
+            name: "1VHS",
+            icon: "CpuIcon",
+            i18n: "1VHS",
+            submenu: [
+              {
+                url: { name: "jadwalap" },
+                name: "Jadwal VHS",
+                slug: "jadwal_vhs",
+              },
+            ],
+          },
         ],
       }
-    : null,
+    : {
+        url: null,
+        name: "VHS",
+        icon: "CpuIcon",
+        i18n: "1VHS",
+        submenu: [
+          {
+            url: { name: "jadwalap" },
+            name: "Jadwal VHS",
+            slug: "jadwal_vhs",
+          },
+        ],
+      },
 ];
 
 export default menu;

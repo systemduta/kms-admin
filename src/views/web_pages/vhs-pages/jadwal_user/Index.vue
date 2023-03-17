@@ -1,58 +1,38 @@
 <template>
   <div class="centerx">
-    <vx-card title="Jadwal User VHS">
-      <vs-button
-        :to="{ name: 'jadwaluservhs/create' }"
-        color="primary"
-        type="border"
-        >Buat Jadwal User</vs-button
-      >
+    <vx-card title="Jadwal User 1VHS">
       <vs-table pagination max-items="10" search :data="data" class="mb-2">
         <template slot="thead">
+          <vs-th sort-key="no">No </vs-th>
           <vs-th sort-key="namauser">Nama </vs-th>
-          <vs-th sort-key="jadwalvhsname">Jadwal VHS</vs-th>
-          <vs-th sort-key="start">Jadwal Mulai</vs-th>
-          <vs-th sort-key="companyname">Nama Perusahaan</vs-th>
-          <vs-th sort-key="is_take">Status</vs-th>
+          <vs-th sort-key="jadwalvhsname">Start</vs-th>
+          <vs-th sort-key="start">End</vs-th>
+          <vs-th sort-key="quota">Kuota</vs-th>
+          <vs-th sort-key="total0">Total user belum disetujui</vs-th>
+          <vs-th sort-key="total1">Total user disetujui</vs-th>
           <vs-th></vs-th>
         </template>
         <template slot-scope="{ data }">
           <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td :data="tr.namauser">{{ tr.namauser }}</vs-td>
-            <vs-td :data="tr.jadwalvhsname">{{ tr.jadwalvhsname }}</vs-td>
+            <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+            <vs-td :data="tr.name">{{ tr.name }}</vs-td>
             <vs-td :data="tr.start">{{ format_date(tr.start) }}</vs-td>
-            <vs-td :data="tr.companyname">{{ tr.companyname }}</vs-td>
-            <vs-td v-if="tr.is_take == 0" :data="tr.is_take" style="color: red"
-              >Belum Di Kerjakan</vs-td
-            >
-            <vs-td v-if="tr.is_take == 1" :data="tr.is_take" style="color: blue"
-              >Sedang Di Kerjakan</vs-td
-            >
-            <vs-td
-              v-if="tr.is_take == 2"
-              :data="tr.is_take"
-              style="color: green"
-              >Sudah Selesai dikerjakan</vs-td
-            >
+            <vs-td :data="tr.end">{{ format_date(tr.end) }}</vs-td>
+            <vs-td :data="tr.quota">{{ tr.quota }}</vs-td>
+            <vs-td :data="tr.total0">{{ tr.total0 }}</vs-td>
+            <vs-td :data="tr.total1">{{ tr.total1 }}</vs-td>
             <vs-td>
               <div class="flex">
                 <vs-button
-                  class="mr-2"
                   icon-pack="feather"
+                  icon="icon-eye"
+                  size="small"
                   :to="{
-                    name: `jadwaluservhs/edit`,
+                    name: `indexdetail`,
                     params: { id: tr.id },
                   }"
-                  icon="icon-edit"
-                  size="small"
-                ></vs-button>
-                <vs-button
-                  color="danger"
-                  icon-pack="feather"
-                  @click="deletes(tr.id)"
-                  icon="icon-delete"
-                  size="small"
-                ></vs-button>
+                >
+                </vs-button>
               </div>
             </vs-td>
           </vs-tr>
@@ -69,7 +49,7 @@
               <vx-card>
                 <div class="vx-row mb-5">
                   <div class="vx-col w-full">
-                    <small>Jadwal VHS</small>
+                    <small>Jadwal 1VHS</small>
                     <v-select
                       v-model="storeData.jadwal_id"
                       :options="jadwalArr"
@@ -223,7 +203,6 @@ export default {
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
-          console.log(error);
           this.$vs.notify({
             title: "Oops!",
             text: error,
