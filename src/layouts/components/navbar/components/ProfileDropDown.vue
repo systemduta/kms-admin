@@ -74,6 +74,7 @@ export default {
       // If JWT login
       if (localStorage.getItem("accessToken")) {
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("reload");
         this.$router.push("/pages/login").catch(() => {});
       }
 

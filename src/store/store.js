@@ -47,6 +47,8 @@ import profile from "./maesa/profile";
 import quotaap from "./maesa/quotaap";
 import jadwalap from "./maesa/adminap/jadwalap";
 import user from "./maesa/vhs/user";
+import message from "./maesa/message";
+import softskill from "./maesa/softskill";
 
 export default new Vuex.Store({
   getters,
@@ -86,6 +88,8 @@ export default new Vuex.Store({
     quotaap,
     jadwalap,
     user,
+    message,
+    softskill,
   },
   strict: process.env.NODE_ENV !== "production",
 });

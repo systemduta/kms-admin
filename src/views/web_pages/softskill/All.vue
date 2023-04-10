@@ -2,12 +2,7 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Course">
-        <!-- Division:
-        <h4></h4> -->
-        <vs-table search :data="data" class="mb-2">
-          <!--          <template slot="header">-->
-          <!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
-          <!--          </template>-->
+        <vs-table search :data="datas" class="mb-2">
           <template slot="thead">
             <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>
@@ -51,7 +46,7 @@
                   ></vs-button>
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `course-edit`, params: { id: tr.id } }"
+                    :to="{ name: `create-softskill`, params: { id: tr.id } }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
@@ -76,82 +71,31 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  props: ["namediv"],
   data() {
     return {
-      name_div: "",
       idDelete: null,
+      datas: [],
       base_url_image: process.env.VUE_APP_API_URL,
     };
   },
   computed: {
     ...mapState({
-      data: (state) => state.course.rows,
+      data: (state) => state.softskill.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "course/getCourse",
-      dispatchDestroy: "course/destroy",
-      dispatchDown: "course/getDown",
+      dispatchIndex: "softskill/showall",
     }),
 
-    async downData(id) {
-      this.$http
-        .get("api/web/downcourse/" + id)
-        .then((response) => {
-          // console.log(response.data.data);
-          const link = document.createElement("a");
-          link.href =
-            process.env.VUE_APP_API_URL + "/files/" + response.data.data;
-          link.setAttribute("target", "_blank");
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    async confirmDelete() {
-      try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
-        this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
-        this.dispatchIndex(this.$route.params.id);
-      } catch (error) {
-        this.$vs.notify({
-          title: "Oops!",
-          text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
-      }
-    },
-    deletes(id) {
-      this.idDelete = id;
-      this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+    async master($id) {
+      const data = await this.dispatchIndex($id);
+      this.datas = data.data;
     },
   },
   mounted() {
-    this.$vs.loading({
-      type: "radius",
-      color: "blue",
-      textAfter: true,
-      text: "Please Wait ...",
-    });
-    // console.log(this.$route.name_div);
-    // this.name_div = this.$route.params.name;
-    this.dispatchIndex(this.$route.params.id)
+    this.$vs.loading();
+    this.master(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();
       })

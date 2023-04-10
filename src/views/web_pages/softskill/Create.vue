@@ -81,70 +81,12 @@
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <small class="ml-2">Type</small> <br />
-            <!-- <vs-radio
+            <vs-radio
               class="ml-2 mr-2"
               v-model="storeData.type"
               vs-value="4"
               v-if="company_id == 1 || company_id == 18"
               >Soft Skill</vs-radio
-            > -->
-            <vs-radio class="ml-2 mr-2" v-model="storeData.type" vs-value="1">
-              Hard Skill
-            </vs-radio>
-            <!-- <vs-radio
-              class="ml-2 mr-2"
-              v-model="storeData.type"
-              vs-value="2"
-              v-if="company_id == 1 || company_id == 18"
-              >Our Company</vs-radio
-            >
-            <vs-radio
-              class="ml-2 mr-2"
-              v-model="storeData.type"
-              vs-value="3"
-              v-if="company_id == 1 || company_id == 18"
-              >Corporate Value</vs-radio
-            > -->
-          </div>
-        </div>
-        <div class="mb-5 vx-row">
-          <div class="w-full vx-col">
-            <small class="ml-2">Company</small> <br />
-            <v-select
-              v-model="storeData.company_id"
-              :options="companies"
-              v-validate="'required'"
-              name="company"
-              :reduce="(e) => e.id"
-              label="name"
-            ></v-select>
-            <span class="text-sm text-danger" v-show="errors.has('company')">{{
-              errors.first("company")
-            }}</span>
-          </div>
-        </div>
-        <div
-          class="mb-5 vx-row"
-          v-if="storeData.type == 1 || storeData.type == 4"
-        >
-          <div class="w-full vx-col">
-            <small class="ml-2">Organization</small> <br />
-            <v-select
-              v-model="storeData.organization_id"
-              :options="
-                organizations.filter(
-                  (e) => e.company_id == storeData.company_id
-                )
-              "
-              v-validate="'required'"
-              name="organization"
-              :reduce="(e) => e.id"
-              label="name"
-            ></v-select>
-            <span
-              class="text-sm text-danger"
-              v-show="errors.has('organization')"
-              >{{ errors.first("organization") }}</span
             >
           </div>
         </div>
@@ -349,17 +291,17 @@ export default {
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.course.upload_progress,
+      uploadProgress: (state) => state.softskill.upload_progress,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchStore: "course/store",
-      dispatchUpdate: "course/update",
-      dispatchShow: "course/show",
+      dispatchStore: "softskill/store",
+      dispatchUpdate: "softskill/update",
+      dispatchShow: "softskill/show",
       dispatchGetCompanies: "master/companies",
       dispatchGetOrganizations: "master/organizations",
-      dispatchGetGolongans: "master/golongans",
+      dispatchGetGolongans: "softskill/index",
     }),
     async getMaster() {
       const co = await this.dispatchGetCompanies();
@@ -495,7 +437,7 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          this.$router.push({ name: "course" });
+          this.$router.push({ name: "softskill" });
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
@@ -568,7 +510,8 @@ export default {
   async mounted() {
     await this.getMaster();
     this.golongans.map(function (x) {
-      return (x.golongan_data = x.code + " - " + x.name);
+      //   return (x.golongan_data = x.id + " - " + x.name);
+      return (x.golongan_data = x.name);
     });
     if (this.$route.params.id) {
       this.getDetail();

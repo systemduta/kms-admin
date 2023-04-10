@@ -209,6 +209,7 @@
           <div class="vx-col w-full">
             <span>Deskripsi : </span>
             <quill-editor
+              style="height: 250px"
               v-model="storeData.desc"
               v-validate="'required'"
               name="desc"

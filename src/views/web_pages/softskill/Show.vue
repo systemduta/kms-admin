@@ -2,12 +2,7 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="All Course">
-        <!-- Division:
-        <h4></h4> -->
-        <vs-table search :data="data" class="mb-2">
-          <!--          <template slot="header">-->
-          <!--            <vs-button :to="{name:'course-create',params:{organizationId: $route.params.id}}">Create Course</vs-button>-->
-          <!--          </template>-->
+        <vs-table search :data="datas" class="mb-2">
           <template slot="thead">
             <vs-th>Image</vs-th>
             <vs-th>Title</vs-th>
@@ -51,7 +46,7 @@
                   ></vs-button>
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `course-edit`, params: { id: tr.id } }"
+                    :to="{ name: `create-softskill`, params: { id: tr.id } }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
@@ -81,20 +76,25 @@ export default {
     return {
       name_div: "",
       idDelete: null,
+      datas: [],
       base_url_image: process.env.VUE_APP_API_URL,
     };
   },
   computed: {
     ...mapState({
-      data: (state) => state.course.rows,
+      data: (state) => state.softskill.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "course/getCourse",
-      dispatchDestroy: "course/destroy",
+      dispatchIndex: "softskill/showsoftskill",
+      dispatchDestroy: "softskill/destroy",
       dispatchDown: "course/getDown",
     }),
+    async master($id) {
+      const data = await this.dispatchIndex($id);
+      this.datas = data.success;
+    },
 
     async downData(id) {
       this.$http
@@ -149,9 +149,9 @@ export default {
       textAfter: true,
       text: "Please Wait ...",
     });
-    // console.log(this.$route.name_div);
-    // this.name_div = this.$route.params.name;
-    this.dispatchIndex(this.$route.params.id)
+    // console.log(this.$route.params.id);
+    // this.dispatchIndex(this.$route.params.id)
+    this.master(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();
       })

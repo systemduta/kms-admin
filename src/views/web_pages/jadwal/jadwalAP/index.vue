@@ -23,8 +23,8 @@
               <vs-td :data="tr.type">{{ tr.type }}</vs-td>
               <vs-td :data="tr.start">{{ format_date(tr.start) }}</vs-td>
               <vs-td :data="tr.end">{{ format_date(tr.end) }}</vs-td>
-              <vs-td :data="tr.quotautama"
-                ><span
+              <vs-td :data="tr.quotautama">
+                <span
                   v-if="
                     tr.quotautama == 'null' ||
                     tr.quotautama == '0' ||
@@ -33,10 +33,10 @@
                 >
                   Tidak ditentukan
                 </span>
-                <span v-else>{{ tr.quotautama }}</span></vs-td
-              >
-              <vs-td :data="tr.quota"
-                ><span
+                <span v-else>{{ tr.quotautama }}</span>
+              </vs-td>
+              <vs-td :data="tr.quota">
+                <span
                   v-if="
                     tr.quota == 'null' || tr.quota == '0' || tr.quota == null
                   "
@@ -102,6 +102,7 @@
         </div>
       </div>
     </vs-popup>
+    <!-- 6UXV3PzDyzcr -->
 
     <vs-popup title="Status Peserta" :active.sync="popUpShow" fullscreen>
       <table class="table">

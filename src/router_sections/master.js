@@ -434,39 +434,39 @@ export default [
   },
 
   // Event
-  {
-    path: "/event",
-    component: { template: "<router-view/>" },
-    children: [
-      {
-        path: "",
-        name: "event",
-        component: () => import("@/views/web_pages/event/Index.vue"),
-        meta: {
-          auth: true,
-          parent: "event",
-        },
-      },
-      {
-        path: "create",
-        name: "event-create",
-        component: () => import("@/views/web_pages/event/Create.vue"),
-        meta: {
-          auth: true,
-          parent: "event",
-        },
-      },
-      {
-        path: "edit/:id",
-        name: "event-edit",
-        component: () => import("@/views/web_pages/event/Create.vue"),
-        meta: {
-          auth: true,
-          parent: "event",
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/event",
+  //   component: { template: "<router-view/>" },
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "event",
+  //       component: () => import("@/views/web_pages/event/Index.vue"),
+  //       meta: {
+  //         auth: true,
+  //         parent: "event",
+  //       },
+  //     },
+  //     {
+  //       path: "create",
+  //       name: "event-create",
+  //       component: () => import("@/views/web_pages/event/Create.vue"),
+  //       meta: {
+  //         auth: true,
+  //         parent: "event",
+  //       },
+  //     },
+  //     {
+  //       path: "edit/:id",
+  //       name: "event-edit",
+  //       component: () => import("@/views/web_pages/event/Create.vue"),
+  //       meta: {
+  //         auth: true,
+  //         parent: "event",
+  //       },
+  //     },
+  //   ],
+  // },
 
   // VHS
   {
@@ -1005,6 +1005,66 @@ export default [
         meta: {
           auth: true,
           parent: "uservhs",
+        },
+      },
+    ],
+  },
+
+  {
+    path: "message",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "message",
+        component: () => import("@/views/web_pages/message/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "message",
+        },
+      },
+    ],
+  },
+
+  //softskill
+  {
+    path: "softskill",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "softskill",
+        component: () => import("@/views/web_pages/softskill/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "softskill",
+        },
+      },
+      {
+        path: "",
+        name: "create-softskill",
+        component: () => import("@/views/web_pages/softskill/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "softskill",
+        },
+      },
+      {
+        path: ":id",
+        name: "showsoftskill",
+        component: () => import("@/views/web_pages/softskill/Show.vue"),
+        meta: {
+          auth: true,
+          parent: "softskill",
+        },
+      },
+      {
+        path: "/allsoftskill/:id",
+        name: "allsoftskill",
+        component: () => import("@/views/web_pages/softskill/All.vue"),
+        meta: {
+          auth: true,
+          parent: "softskill",
         },
       },
     ],

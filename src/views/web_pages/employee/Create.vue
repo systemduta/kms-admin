@@ -3,6 +3,7 @@
     <div class="w-full vx-col mb-base">
       <vx-card title="Input Data Employee">
         <div class="w-full vx-col">
+          <!-- {{ image }} -->
           <input
             class="hidden"
             type="file"

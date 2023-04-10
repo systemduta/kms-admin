@@ -1,7 +1,7 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Course">
+      <vx-card title="All Course : per perusahaan">
         <vs-table pagination max-items="15" search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'course-create' }">Create Course</vs-button>

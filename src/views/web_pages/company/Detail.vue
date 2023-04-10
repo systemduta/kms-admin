@@ -27,8 +27,9 @@
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td :data="tr.code">{{ tr.code }}</vs-td>
-              <vs-td :data="tr.isAdm" v-if="tr.isAdm">Administratif</vs-td>
-              <vs-td :data="tr.isAdm" v-else>Lapangan</vs-td>
+              <vs-td :data="tr.isAdm" v-if="tr.isAdm == 1">Administratif</vs-td>
+              <vs-td :data="tr.isAdm" v-else-if="tr.isAdm == 0">Lapangan</vs-td>
+              <vs-td :data="tr.isAdm" v-else>Kosong</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button

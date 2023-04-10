@@ -116,50 +116,84 @@ const menu = [
     ],
   },
 
-  {
-    url: null,
-    name: "KMS",
-    icon: "PackageIcon",
-    i18n: "KMS",
-    submenu: [
-      organization_id != 20
-        ? {
-            url: { name: "course" },
-            name: "Course",
-            slug: "course",
-          }
-        : null,
-
-      organization_id == 20 ||
-      organization_id == 23 ||
-      organization_id == 177 ||
-      organization_id == 420
-        ? {
-            url: { name: "event" },
-            name: "Event",
-            slug: "event",
-          }
-        : null,
-    ],
-  },
   organization_id == 20 ||
   organization_id == 23 ||
   organization_id == 177 ||
   organization_id == 420
     ? {
         url: null,
-        name: "Book",
-        icon: "BookIcon",
-        i18n: "Book",
+        name: "KMS",
+        icon: "PackageIcon",
+        i18n: "KMS",
         submenu: [
           {
-            url: { name: "book" },
-            name: "Book",
-            slug: "book",
+            url: { name: "course" },
+            name: "Hardskill ",
+            slug: "hardskill",
           },
+          {
+            url: { name: "softskill" },
+            name: "Softskill",
+            slug: "softskill",
+          },
+          // {
+          //   url: { name: "hardskill" },
+          //   name: "Hardskill",
+          //   slug: "hardskill",
+          // },
+          // {
+          //   url: { name: "ourcompany" },
+          //   name: "Our Company",
+          //   slug: "ourcompany",
+          // },
+
+          // organization_id == 20 ||
+          // organization_id == 23 ||
+          // organization_id == 177 ||
+          // organization_id == 420
+          //   ? {
+          //       url: { name: "event" },
+          //       name: "Event",
+          //       slug: "event",
+          //     }
+          //   : null,
         ],
       }
-    : null,
+    : {
+        url: null,
+        name: "KMS",
+        icon: "PackageIcon",
+        i18n: "KMS",
+        submenu: [
+          {
+            url: { name: "course" },
+            name: "Course ",
+            slug: "course",
+          },
+        ],
+      },
+
+  // Book
+  // organization_id == 20 ||
+  // organization_id == 23 ||
+  // organization_id == 177 ||
+  // organization_id == 420
+  //   ? {
+  //       url: null,
+  //       name: "Book",
+  //       icon: "BookIcon",
+  //       i18n: "Book",
+  //       submenu: [
+  //         {
+  //           url: { name: "book" },
+  //           name: "Book",
+  //           slug: "book",
+  //         },
+  //       ],
+  //     }
+  //   : null,
+  //endBook
+
   organization_id == 20 ||
   organization_id == 23 ||
   organization_id == 177 ||
@@ -255,6 +289,21 @@ const menu = [
           },
         ],
       },
+
+  //message
+  // {
+  //   url: null,
+  //   name: "Message",
+  //   icon: "MailIcon",
+  //   i18n: "Message",
+  //   submenu: [
+  //     {
+  //       url: { name: "message" },
+  //       name: "Message",
+  //       slug: "message",
+  //     },
+  //   ],
+  // },
 ];
 
 export default menu;
