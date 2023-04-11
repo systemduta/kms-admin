@@ -133,6 +133,16 @@ const actions = {
       return Promise.reject(error.response);
     }
   },
+
+  async leaderboard({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/showscore/${id}`);
+      commit("SET_ROW", data.data);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
 };
 
 export default {

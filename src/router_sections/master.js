@@ -1067,6 +1067,59 @@ export default [
           parent: "softskill",
         },
       },
+      {
+        path: "/leaderboard/:id",
+        name: "leaderboard-soft",
+        component: () => import("@/views/web_pages/softskill/Leaderboard.vue"),
+        meta: {
+          auth: true,
+          parent: "softskill",
+        },
+      },
+    ],
+  },
+
+  // ourcompany
+  {
+    path: "ourcompany",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "ourcompany",
+        component: () => import("@/views/web_pages/ourcompany/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "ourcompany",
+        },
+      },
+      {
+        path: "",
+        name: "create-ourcompany",
+        component: () => import("@/views/web_pages/ourcompany/Create.vue"),
+        meta: {
+          auth: true,
+          parent: "ourcompany",
+        },
+      },
+      // {
+      //   path: ":id",
+      //   name: "showsourcompany",
+      //   component: () => import("@/views/web_pages/ourcompany/Show.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "ourcompany",
+      //   },
+      // },
+      // {
+      //   path: "/allourcompany/:id",
+      //   name: "allourcompany",
+      //   component: () => import("@/views/web_pages/ourcompany/All.vue"),
+      //   meta: {
+      //     auth: true,
+      //     parent: "ourcompany",
+      //   },
+      // },
     ],
   },
 ];

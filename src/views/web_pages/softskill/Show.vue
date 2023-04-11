@@ -38,6 +38,13 @@
               <vs-td>
                 <div class="flex">
                   <vs-button
+                    :to="{ name: 'leaderboard-soft', params: { id: tr.id } }"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
                     @click="downData(tr.id)"
                     class="mr-2"
                     icon-pack="feather"
@@ -88,9 +95,14 @@ export default {
   methods: {
     ...mapActions({
       dispatchIndex: "softskill/showsoftskill",
-      dispatchDestroy: "softskill/destroy",
+      dispatchDestroy: "course/destroy",
       dispatchDown: "course/getDown",
     }),
+
+    // cekid(id) {
+    //   console.log(id);
+    // },
+
     async master($id) {
       const data = await this.dispatchIndex($id);
       this.datas = data.success;
@@ -122,7 +134,7 @@ export default {
           text: "Your data has been deleted successfully",
           color: "primary",
         });
-        this.dispatchIndex(this.$route.params.id);
+        this.master(this.$route.params.id);
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",

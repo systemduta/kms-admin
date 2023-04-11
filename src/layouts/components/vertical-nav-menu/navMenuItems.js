@@ -128,7 +128,7 @@ const menu = [
         submenu: [
           {
             url: { name: "course" },
-            name: "Hardskill ",
+            name: "Hardskill",
             slug: "hardskill",
           },
           {

@@ -86,11 +86,41 @@ export default {
   methods: {
     ...mapActions({
       dispatchIndex: "softskill/showall",
+      dispatchDestroy: "course/destroy",
     }),
 
     async master($id) {
       const data = await this.dispatchIndex($id);
       this.datas = data.data;
+    },
+
+    async confirmDelete() {
+      try {
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
+        this.$vs.notify({
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+        this.dispatchIndex(this.$route.params.id);
+      } catch (error) {
+        this.$vs.notify({
+          title: "Oops!",
+          text: `Looks like something went wrong. please try again later (${error.data.message})`,
+          color: "danger",
+        });
+      }
+    },
+    deletes(id) {
+      this.idDelete = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
   },
   mounted() {
