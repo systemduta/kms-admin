@@ -50,6 +50,17 @@ import user from "./maesa/vhs/user";
 import message from "./maesa/message";
 import softskill from "./maesa/softskill";
 
+/**PAS Project */
+import masterpas from "./maesa/pas/masterpas";
+//people
+import dimensi from "./maesa/pas/people/dimensi";
+import kpi from "./maesa/pas/people/kpi";
+import indPenilaian from "./maesa/pas/people/indPenilaian";
+//process
+import processDimensi from "./maesa/pas/process/processDimensi";
+
+/**akhir PAS Project */
+
 export default new Vuex.Store({
   getters,
   mutations,
@@ -90,6 +101,19 @@ export default new Vuex.Store({
     user,
     message,
     softskill,
+
+    /**PAS project */
+
+    //people
+    dimensi,
+    masterpas,
+    kpi,
+    indPenilaian,
+
+    //process
+    processDimensi,
+
+    /**akhir PAS project */
   },
   strict: process.env.NODE_ENV !== "production",
 });

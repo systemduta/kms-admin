@@ -304,6 +304,24 @@ const menu = [
   //     },
   //   ],
   // },
+
+  /***************** PAS-project *****************/
+
+  {
+    url: null,
+    name: "VHS",
+    icon: "AwardIcon",
+    i18n: "PAS",
+    submenu: [
+      {
+        url: { name: "dimensipas" },
+        name: "Konfigurasi PAS",
+        slug: "dimensi_pas",
+      },
+    ],
+  },
+
+  /***************** PAS-project *****************/
 ];
 
 export default menu;

@@ -1,5 +1,4 @@
 <template>
-  <!-- //URUNG cek alur softskill -->
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="Semua Materi Softskill">

@@ -1122,4 +1122,98 @@ export default [
       // },
     ],
   },
+
+  /***************** PAS-project *****************/
+  //people khusus dimensipas -> untuk semua
+  {
+    path: "dimensipas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "dimensipas",
+        component: () => import("@/views/web_pages/pas/dimensi/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "dimensipas",
+        },
+      },
+      {
+        path: "",
+        name: "people",
+        component: () =>
+          import("@/views/web_pages/pas/dimensi/people/People.vue"),
+        meta: {
+          auth: true,
+          parent: "dimensipas",
+        },
+      },
+    ],
+  },
+  {
+    path: "kpipas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "kpipas",
+        component: () => import("@/views/web_pages/pas/kpi/people/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "kpipas",
+        },
+      },
+    ],
+  },
+  {
+    path: "indPenilaianPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "indPenilaianPas",
+        component: () =>
+          import("@/views/web_pages/pas/indPenilaian/people/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "indPenilaianPas",
+        },
+      },
+    ],
+  },
+
+  //process
+  {
+    path: "processDimensiPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "processDimensiPas",
+        component: () =>
+          import("@/views/web_pages/pas/dimensi/process/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "processDimensiPas",
+        },
+      },
+    ],
+  },
+  {
+    path: "processKpiPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "processKpiPas",
+        component: () => import("@/views/web_pages/pas/kpi/process/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "processKpiPas",
+        },
+      },
+    ],
+  },
+
+  /***************** PAS-project *****************/
 ];
