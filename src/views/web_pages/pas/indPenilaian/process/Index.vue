@@ -1,56 +1,62 @@
 <template>
   <div class="vx-row">
-    <div class="w-full vx-col mb-base">
-      <vs-button
-        color="primary"
-        type="flat"
-        icon="arrow_back_ios"
-        @click="goBack"
-        >Kembali</vs-button
-      >
-      <vx-card title="Indikator Penilaian PAS">
+    <div class="w-full vx-col mb-base" v-if="listInd">
+      <vx-card title="KPI PAS">
         <table>
           <tr>
             <td>Nama Parameter</td>
             <td>&nbsp;:&nbsp;</td>
-            <td>{{ nama3p }}</td>
+            <td>{{ listInd.name3p }}</td>
           </tr>
           <tr>
             <td>Nama Dimensi</td>
             <td>&nbsp;:&nbsp;</td>
             <td>
-              {{ namaDimensi }}
+              {{ listInd.nameDimensi }}
             </td>
           </tr>
           <tr>
             <td>Nama KPI</td>
             <td>&nbsp;:&nbsp;</td>
             <td>
-              {{ namaKpi }}
+              {{ listInd.nameKpi }}
+            </td>
+          </tr>
+          <tr>
+            <td>Nama Perusahaan</td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>
+              {{ listInd.nameCompany }}
+            </td>
+          </tr>
+          <tr>
+            <td>Nama Divisi</td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>
+              {{ listInd.nameDivisi }}
             </td>
           </tr>
         </table>
       </vx-card>
-
       <hr />
-      <vx-card>
+
+      <vx-card title="Daftar KPI">
         <vs-table
-          pagination
-          max-items="15"
           search
-          :data="listIndikator"
+          v-if="listInd && Array.isArray(listInd.data)"
+          :data="listInd.data"
           class="mb-2"
         >
           <template slot="header">
             <vs-button size="small" @click="isAdd = true">
-              Tambah Indikator
+              Tambah Indikator Penilaian
             </vs-button>
           </template>
           <template slot="thead">
-            <vs-th sort-key="no">No</vs-th>
-            <vs-th sort-key="desc">Desc</vs-th>
-            <vs-th sort-key="nilai">Nilai</vs-th>
-            <vs-th sort-key="grade">Grade</vs-th>
+            <vs-th>No</vs-th>
+            <vs-th>Deskripsi</vs-th>
+            <vs-th>Nilai</vs-th>
+            <vs-th>Grade</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -61,16 +67,14 @@
               <vs-td :data="tr.grade">{{ tr.grade }}</vs-td>
               <vs-td>
                 <div class="flex">
-                  &nbsp;
                   <vs-button
+                    class="mr-2"
                     icon-pack="feather"
                     icon="icon-edit"
                     color="warning"
                     size="small"
                     @click="getUpdate(tr.id)"
-                  >
-                  </vs-button>
-                  &nbsp;
+                  ></vs-button>
                   <vs-button
                     color="danger"
                     icon-pack="feather"
@@ -85,7 +89,7 @@
         </vs-table>
       </vx-card>
 
-      <vs-popup :active.sync="isAdd" title="Tambah Indikator PAS">
+      <vs-popup :active.sync="isAdd" title="Tambah Indikator">
         <vx-card title="Tambah Indikator">
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
@@ -109,6 +113,8 @@
                 <select
                   class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                   v-model="storeData.grade"
+                  v-validate="'required'"
+                  name="grade"
                 >
                   <option v-for="option in options" :value="option.value">
                     {{ option.text }}
@@ -129,8 +135,8 @@
                 </div>
                 <span
                   class="text-sm text-danger"
-                  v-show="errors.has('isPreTest')"
-                  >{{ errors.first("isPreTest") }}</span
+                  v-show="errors.has('grade')"
+                  >{{ errors.first("grade") }}</span
                 >
               </div>
             </div>
@@ -187,6 +193,8 @@
                 <select
                   class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                   v-model="updateData.grade"
+                  v-validate="'required'"
+                  name="grade"
                 >
                   <option v-for="option in options" :value="option.value">
                     {{ option.text }}
@@ -207,8 +215,8 @@
                 </div>
                 <span
                   class="text-sm text-danger"
-                  v-show="errors.has('isPreTest')"
-                  >{{ errors.first("isPreTest") }}</span
+                  v-show="errors.has('grade')"
+                  >{{ errors.first("grade") }}</span
                 >
               </div>
             </div>
@@ -241,8 +249,11 @@
         </vx-card>
       </vs-popup>
     </div>
+
+    <div class="w-full vx-col mb-base" v-else>Something wrong</div>
   </div>
 </template>
+
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
@@ -251,21 +262,21 @@ export default {
       isAdd: false,
       isUpdate: false,
       idDelete: null,
-      id3p: this.$route.params.id3p,
-      idKpi: this.$route.params.idKpi,
-      idDimensi: this.$route.params.idDimensi,
-      nama3p: this.$route.params.name3p,
-      namaDimensi: this.$route.params.nameDimensi,
-      namaKpi: this.$route.params.nameKpi,
-      listIndikator: [],
+      nama3p: "",
+      namaDimensi: "",
+      namaCompany: "",
+      namaDivisi: "",
+      listInd: [],
       options: [
         { value: "a", text: "a" },
         { value: "b", text: "b" },
         { value: "c", text: "c" },
       ],
       storeData: {
-        id_3p: this.$route.params.id3p,
-        kpi_id: this.$route.params.idKpi,
+        id3p: this.$route.params.id3p,
+        idKpi: this.$route.params.idKpi,
+        idCompany: this.$route.params.idCompany,
+        idDivisi: this.$route.params.idDivisi,
         nilai: null,
         grade: "",
         desc: "",
@@ -273,72 +284,153 @@ export default {
 
       updateData: {
         id: null,
-        id_3p: this.$route.params.id3p,
-        kpi_id: this.$route.params.idKpi,
+        id3p: this.$route.params.id3p,
+        idKpi: this.$route.params.idKpi,
+        idCompany: this.$route.params.idCompany,
+        idDivisi: this.$route.params.idDivisi,
         nilai: null,
         grade: "",
         desc: "",
       },
+
+      //dikirim ke page selanjutnya
+      id3p: this.$route.params.id3p,
+      idDimensi: this.$route.params.idDimensi,
+      idKpi: this.$route.params.idKpi,
+      idCompany: this.$route.params.idCompany,
+      idDivisi: this.$route.params.idDivisi,
     };
   },
   computed: {
     ...mapState({
-      data: (state) => state.indPenilaian.rows,
+      data: (state) => state.processInd.rows,
     }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "indPenilaian/index_per_kpi",
-      dispatchStore: "indPenilaian/store",
-      dispatchDestroy: "indPenilaian/destroy",
-      dispatchShow: "indPenilaian/show",
-      dispatchUpdate: "indPenilaian/update",
+      dispatchIndex: "processInd/index",
+      dispatchStore: "processInd/store",
+      dispatchDestroy: "processInd/destroy",
+      dispatchShow: "processInd/show",
+      dispatchUpdate: "processInd/update",
+
+      dispatchCompany: "masterpas/index_company",
+      dispatchDivisi: "masterpas/index_divisi",
     }),
-    goBack() {
-      this.$router.go(-2);
-    },
-    async datas(id) {
-      try {
-        const datas = await this.dispatchIndex(id);
-        this.listIndikator = datas.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async confirmDelete() {
-      try {
-        await this.dispatchDestroy(this.idDelete);
-        this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+    // goBack() {
+    //   this.$router.push({
+    //     name: "processDimensiPas",
+    //     params: {
+    //       id: this.id3p,
+    //     },
+    //   });
+    // },
 
-        this.datas(this.$route.params.idKpi);
-      } catch (error) {
-        this.$vs.notify({
-          title: "Oops!",
-          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
-          color: "danger",
-        });
-      }
-    },
+    // async getUpdate($id) {
+    //   try {
+    //     const kpiDatas = await this.dispatchShow($id);
+    //     this.updateData.id = kpiDatas.data["id"];
+    //     this.updateData.name = kpiDatas.data["name"];
+    //     this.updateData.max_nilai = kpiDatas.data["max_nilai"];
 
-    deletes(id) {
-      this.idDelete = id;
-      this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+    //     this.isUpdate = true;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    // async update() {
+    //   const send = new FormData();
+    //   send.append("id", this.updateData.id);
+    //   send.append("id3p", this.updateData.id3p);
+    //   send.append("idDimensi", this.updateData.idDimensi);
+    //   send.append("idCompany", this.updateData.idCompany);
+    //   send.append("idDivisi", this.updateData.idDivisi);
+    //   send.append("name", this.updateData.name);
+    //   send.append("max_nilai", this.updateData.max_nilai);
+    //   send.append("_method", "PUT");
+
+    //   this.$vs.loading({
+    //     type: "radius",
+    //     color: "blue",
+    //     textAfter: true,
+    //     text: "Please Wait ...",
+    //   });
+
+    //   try {
+    //     await this.dispatchUpdate(send);
+    //     this.$vs.loading.close();
+    //     this.$vs.notify({
+    //       title: "Success!",
+    //       text: "Data was saved successfully!",
+    //       color: "success",
+    //     });
+    //     this.getDatas();
+    //     this.isUpdate = false;
+    //   } catch (error) {
+    //     this.$vs.loading.close();
+    //     this.isLoading = false;
+    //     this.$vs.notify({
+    //       title: "Oops!",
+    //       text: error.data.message,
+    //       color: "danger",
+    //     });
+    //   }
+    // },
+
+    // async store() {
+    //   const send = new FormData();
+    //   send.append("id3p", this.storeData.id3p);
+    //   send.append("idDimensi", this.storeData.idDimensi);
+    //   send.append("idCompany", this.storeData.idCompany);
+    //   send.append("idDivisi", this.storeData.idDivisi);
+    //   send.append("name", this.storeData.name);
+    //   send.append("max_nilai", this.storeData.max_nilai);
+
+    //   this.$vs.loading({
+    //     type: "radius",
+    //     color: "blue",
+    //     textAfter: true,
+    //     text: "Please Wait ...",
+    //   });
+
+    //   try {
+    //     await this.dispatchStore(send);
+    //     this.$vs.loading.close();
+    //     this.$vs.notify({
+    //       title: "Success!",
+    //       text: "Data was saved successfully!",
+    //       color: "success",
+    //     });
+    //     this.getDatas();
+    //     this.isAdd = false;
+    //   } catch (error) {
+    //     this.$vs.loading.close();
+    //     this.isLoading = false;
+    //     this.$vs.notify({
+    //       title: "Oops!",
+    //       text: error.data.error,
+    //       color: "danger",
+    //     });
+    //   }
+    // },
+    async getDatas() {
+      const send = new FormData();
+      send.append("id3p", this.id3p);
+      send.append("idDimensi", this.idDimensi);
+      send.append("idKpi", this.idKpi);
+      send.append("idCompany", this.idCompany);
+      send.append("idDivisi", this.idDivisi);
+
+      const datas = await this.dispatchIndex(send);
+      this.listInd = datas;
     },
 
     async store() {
       const send = new FormData();
-      send.append("id_3p", this.storeData.id_3p);
-      send.append("kpi_id", this.storeData.kpi_id);
+      send.append("id3p", this.storeData.id3p);
+      send.append("idKpi", this.storeData.idKpi);
+      send.append("idCompany", this.storeData.idCompany);
+      send.append("idDivisi", this.storeData.idDivisi);
       send.append("nilai", this.storeData.nilai);
       send.append("grade", this.storeData.grade);
       send.append("desc", this.storeData.desc);
@@ -358,7 +450,7 @@ export default {
           text: "Data was saved successfully!",
           color: "success",
         });
-        this.datas(this.$route.params.idKpi);
+        this.getDatas();
         this.storeData.nilai = null;
         this.storeData.grade = "";
         this.storeData.desc = "";
@@ -372,6 +464,37 @@ export default {
           color: "danger",
         });
       }
+    },
+
+    async confirmDelete() {
+      try {
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
+        this.$vs.notify({
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+
+        this.getDatas();
+      } catch (error) {
+        this.$vs.notify({
+          title: "Oops!",
+          text: error.data.message,
+          color: "danger",
+        });
+      }
+    },
+
+    deletes(id) {
+      this.idDelete = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
 
     async getUpdate($id) {
@@ -391,8 +514,10 @@ export default {
     async update() {
       const send = new FormData();
       send.append("id", this.updateData.id);
-      send.append("id_3p", this.updateData.id_3p);
-      send.append("kpi_id", this.updateData.kpi_id);
+      send.append("id3p", this.updateData.id3p);
+      send.append("idKpi", this.updateData.idKpi);
+      send.append("idCompany", this.updateData.idCompany);
+      send.append("idDivisi", this.updateData.idDivisi);
       send.append("nilai", this.updateData.nilai);
       send.append("grade", this.updateData.grade);
       send.append("desc", this.updateData.desc);
@@ -413,14 +538,14 @@ export default {
           text: "Data was updated successfully!",
           color: "success",
         });
-        this.datas(this.$route.params.idKpi);
+        this.getDatas();
         this.isUpdate = false;
       } catch (error) {
         this.$vs.loading.close();
         this.isLoading = false;
         this.$vs.notify({
           title: "Oops!",
-          text: error.data.error,
+          text: error.data.message,
           color: "danger",
         });
       }
@@ -433,7 +558,7 @@ export default {
       textAfter: true,
       text: "Please Wait ...",
     });
-    this.datas(this.$route.params.idKpi)
+    this.getDatas()
       .then(() => {
         this.$vs.loading.close();
       })

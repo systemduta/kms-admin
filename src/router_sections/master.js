@@ -1212,6 +1212,31 @@ export default [
           parent: "processKpiPas",
         },
       },
+      {
+        path: "",
+        name: "processDetailKpiPas",
+        component: () => import("@/views/web_pages/pas/kpi/process/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "processKpiPas",
+        },
+      },
+    ],
+  },
+  {
+    path: "processIndPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "processIndPas",
+        component: () =>
+          import("@/views/web_pages/pas/indPenilaian/process/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "processIndPas",
+        },
+      },
     ],
   },
 

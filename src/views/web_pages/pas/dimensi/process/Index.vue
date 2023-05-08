@@ -40,6 +40,13 @@
                     size="small"
                     :to="{
                       name: `processKpiPas`,
+                      params: {
+                        id: tr.id,
+                        idKpi: tr.pas_3p_id,
+                        id3p: id_3p,
+                        name3p: tr.name_3p,
+                        nameDimensi: tr.name,
+                      },
                     }"
                   >
                   </vs-button>
@@ -62,7 +69,21 @@
                   ></vs-button>
                 </div>
                 <div class="flex" v-else>
-                  <vs-button icon-pack="feather" icon="icon-eye" size="small">
+                  <vs-button
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                    :to="{
+                      name: `processKpiPas`,
+                      params: {
+                        id: tr.id,
+                        idKpi: tr.pas_3p_id,
+                        id3p: id_3p,
+                        name3p: tr.name_3p,
+                        nameDimensi: tr.name,
+                      },
+                    }"
+                  >
                   </vs-button>
                 </div>
               </vs-td>
