@@ -52,6 +52,12 @@
                   icon-pack="feather"
                   icon="icon-eye"
                   size="small"
+                  :to="{
+                    name: `performDimensiPas`,
+                    params: {
+                      id: item.id,
+                    },
+                  }"
                   >Lihat dimensi</vs-button
                 >
               </div>

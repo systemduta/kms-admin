@@ -1240,5 +1240,65 @@ export default [
     ],
   },
 
+  //performance
+  {
+    path: "performDimensiPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "performDimensiPas",
+        component: () =>
+          import("@/views/web_pages/pas/dimensi/performance/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "performDimensiPas",
+        },
+      },
+    ],
+  },
+  {
+    path: "performKpiPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "performKpiPas",
+        component: () =>
+          import("@/views/web_pages/pas/kpi/performance/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "performKpiPas",
+        },
+      },
+      {
+        path: "",
+        name: "performDetailKpiPas",
+        component: () =>
+          import("@/views/web_pages/pas/kpi/performance/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "performKpiPas",
+        },
+      },
+    ],
+  },
+  {
+    path: "performIndPas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "performIndPas",
+        component: () =>
+          import("@/views/web_pages/pas/indPenilaian/performance/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "performIndPas",
+        },
+      },
+    ],
+  },
+
   /***************** PAS-project *****************/
 ];
