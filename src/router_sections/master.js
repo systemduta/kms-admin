@@ -1314,6 +1314,25 @@ export default [
           parent: "penilaianpas",
         },
       },
+      {
+        path: "",
+        name: "detailpenilaianpas",
+        component: () => import("@/views/web_pages/pas/penilaian/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
+      {
+        path: "",
+        name: "penilaianpenilaianpas",
+        component: () =>
+          import("@/views/web_pages/pas/penilaian/Penilaian.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
     ],
   },
   //nilai pas

@@ -16,6 +16,14 @@ const mutations = {
   },
 };
 const actions = {
+  async index_employee(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/pas_master_employee", payload);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
   async index_divisi({ commit }, id) {
     try {
       const { data } = await axios.get(`api/web/pas_master_division/${id}`);

@@ -46,6 +46,8 @@ const actions = {
     }
   },
 
+  // ssdasdasdhji sjia nsd assnn shieme she d askkjhkskdjhskjcjoawehooeoihhhdh bnnnnnbbxcvbvkjasssssssssssdhhhh dsudaisd yo ag abayu  anggan apra syaha ajs  yo ga  bay i> sksdjs>sdasdkasd>skaSD>sdk
+
   async show({ commit }, id) {
     try {
       const { data } = await axios.get(`api/web/pas_performance_kpi/${id}`);
