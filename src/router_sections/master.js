@@ -1300,5 +1300,38 @@ export default [
     ],
   },
 
+  //penilaian pas
+  {
+    path: "penilaianpas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "penilaianpas",
+        component: () => import("@/views/web_pages/pas/penilaian/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
+    ],
+  },
+  //nilai pas
+  {
+    path: "nilaipas",
+    component: { template: "<router-view/>" },
+    children: [
+      {
+        path: "",
+        name: "nilaipas",
+        component: () => import("@/views/web_pages/pas/nilai/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "nilaipas",
+        },
+      },
+    ],
+  },
+
   /***************** PAS-project *****************/
 ];

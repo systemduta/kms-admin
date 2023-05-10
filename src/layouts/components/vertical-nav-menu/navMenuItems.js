@@ -318,6 +318,16 @@ const menu = [
         name: "Konfigurasi PAS",
         slug: "dimensi_pas",
       },
+      {
+        url: { name: "penilaianpas" },
+        name: "Penilaian PAS",
+        slug: "penilaian_pas",
+      },
+      {
+        url: { name: "nilaipas" },
+        name: "Nilai PAS",
+        slug: "nilai_pas",
+      },
     ],
   },
 

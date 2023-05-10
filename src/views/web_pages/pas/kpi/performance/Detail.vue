@@ -240,11 +240,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "processKpi/index",
-      dispatchStore: "processKpi/store",
-      dispatchDestroy: "processKpi/destroy",
-      dispatchShow: "processKpi/show",
-      dispatchUpdate: "processKpi/update",
+      dispatchIndex: "performKpi/index",
+      dispatchStore: "performKpi/store",
+      dispatchDestroy: "performKpi/destroy",
+      dispatchShow: "performKpi/show",
+      dispatchUpdate: "performKpi/update",
 
       dispatchCompany: "masterpas/index_company",
       dispatchDivisi: "masterpas/index_divisi",
@@ -353,6 +353,7 @@ export default {
       send.append("idDivisi", this.idDivisi);
 
       const datas = await this.dispatchIndex(send);
+      console.log(datas);
       this.listKpi = datas;
     },
 

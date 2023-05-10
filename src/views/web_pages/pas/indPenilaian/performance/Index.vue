@@ -308,11 +308,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "processInd/index",
-      dispatchStore: "processInd/store",
-      dispatchDestroy: "processInd/destroy",
-      dispatchShow: "processInd/show",
-      dispatchUpdate: "processInd/update",
+      dispatchIndex: "performInd/index",
+      dispatchStore: "performInd/store",
+      dispatchDestroy: "performInd/destroy",
+      dispatchShow: "performInd/show",
+      dispatchUpdate: "performInd/update",
 
       dispatchCompany: "masterpas/index_company",
       dispatchDivisi: "masterpas/index_divisi",

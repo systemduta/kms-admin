@@ -62,6 +62,8 @@ import processKpi from "./maesa/pas/process/processKpi";
 import processInd from "./maesa/pas/process/processInd";
 //performance
 import performDimensi from "./maesa/pas/performance/performDimensi";
+import performKpi from "./maesa/pas/performance/performKpi";
+import performInd from "./maesa/pas/performance/performInd";
 
 /**akhir PAS Project */
 
@@ -121,6 +123,8 @@ export default new Vuex.Store({
 
     //performance
     performDimensi,
+    performKpi,
+    performInd,
 
     /**akhir PAS project */
   },

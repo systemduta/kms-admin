@@ -1,4 +1,3 @@
-//URUNG pisahkan JS dengan people
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
