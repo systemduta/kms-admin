@@ -121,32 +121,43 @@
                   </vs-td>
 
                   <template class="expand-user" slot="expand">
-                    <!-- <vs-table :data="filterKpi" class="mb-2">
-                      <template slot="thead">
-                        <vs-th sort-key="no">No</vs-th>
-                        <vs-th sort-key="kpi">KPI</vs-th>
-                        <vs-th sort-key="max_nilai">Nilai Maksimal</vs-th>
-                        <vs-th></vs-th>
-                      </template>
-                      <template slot-scope="{ data }">
-                        <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                          <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
-                          <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-                          <vs-td :data="tr.max_nilai">{{ tr.max_nilai }}</vs-td>
-                          <vs-td>
-                            <div class="flex">
-                              <vs-button
-                                icon-pack="feather"
-                                icon="icon-eye"
-                                size="small"
-                              >
-                              </vs-button>
-                            </div>
-                          </vs-td>
-                        </vs-tr>
-                      </template>
-                    </vs-table> -->
                     <vx-card>
+                      <div class="vx-row">
+                        <div class="w-full vx-col">
+                          <vs-table :data="filterKpi" class="mb-2">
+                            <template slot="thead">
+                              <vs-th sort-key="no">No</vs-th>
+                              <vs-th sort-key="kpi">KPI</vs-th>
+                              <vs-th sort-key="max_nilai">Nilai Maksimal</vs-th>
+                              <vs-th></vs-th>
+                            </template>
+                            <template slot-scope="{ data }">
+                              <vs-tr
+                                :key="indextr"
+                                v-for="(tr, indextr) in data"
+                              >
+                                <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
+                                <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+                                <vs-td :data="tr.max_nilai">{{
+                                  tr.max_nilai
+                                }}</vs-td>
+                                <vs-td>
+                                  <div class="flex">
+                                    <vs-button
+                                      icon-pack="feather"
+                                      icon="icon-eye"
+                                      size="small"
+                                    >
+                                    </vs-button>
+                                  </div>
+                                </vs-td>
+                              </vs-tr>
+                            </template>
+                          </vs-table>
+                        </div></div
+                    ></vx-card>
+
+                    <!-- <vx-card>
                       <div class="vx-row">
                         <div class="w-full text-right vx-col">
                           //URUNG blm selesai
@@ -179,7 +190,7 @@
                           </table>
                         </div>
                       </div>
-                    </vx-card>
+                    </vx-card> -->
                   </template>
                 </vs-tr>
               </template>
