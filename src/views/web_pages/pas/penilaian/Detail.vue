@@ -36,7 +36,7 @@
             <vs-th>No</vs-th>
             <vs-th>NIK</vs-th>
             <vs-th>Nama</vs-th>
-            <vs-th>Aksi</vs-th>
+            <vs-th>Beri Nilai</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -86,9 +86,6 @@ export default {
       dispatchEmployee: "masterpas/index_employee",
     }),
     toPenilaian(id) {
-      console.log(this.idCompany);
-      console.log(this.idDivisi);
-      console.log(id);
       this.$router.push({
         name: "penilaianpenilaianpas",
         params: {
