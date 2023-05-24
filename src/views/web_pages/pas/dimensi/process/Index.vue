@@ -16,11 +16,11 @@
           :data="datasDimensi"
           class="mb-2"
         >
-          <template slot="header" v-if="isAdmin">
+          <!-- <template slot="header" v-if="isAdmin">
             <vs-button size="small" @click="getMaster">
               Tambah Dimensi
             </vs-button>
-          </template>
+          </template> -->
           <template slot="thead">
             <vs-th sort-key="no">No </vs-th>
             <vs-th sort-key="namauser">3P </vs-th>

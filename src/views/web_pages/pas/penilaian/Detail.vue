@@ -22,6 +22,13 @@
             <td style="width: 5%">:</td>
             <td>{{ datas && datas.divisi && datas.divisi.name }}</td>
           </tr>
+          <tr>
+            <td style="width: 40%">Tanggal Penilaian</td>
+            <td style="width: 5%">:</td>
+            <td>
+              <vs-input type="date" v-model="formattedDate" />
+            </td>
+          </tr>
         </table>
       </vx-card>
       <hr />
@@ -72,12 +79,30 @@ export default {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
       datas: [],
+      date: null,
     };
   },
   computed: {
     ...mapState({
       data: (state) => state.masterpas.rows,
     }),
+    formattedDate: {
+      get() {
+        if (this.date) {
+          const [year, month, day] = this.date.split("-");
+          return `${year}-${month}-${day}`;
+        }
+        return "";
+      },
+      set(value) {
+        if (value) {
+          const [year, month, day] = value.split("-");
+          this.date = `${year}-${month}-${day}`;
+        } else {
+          this.date = "";
+        }
+      },
+    },
   },
   methods: {
     ...mapActions({
@@ -86,14 +111,19 @@ export default {
       dispatchEmployee: "masterpas/index_employee",
     }),
     toPenilaian(id) {
-      this.$router.push({
-        name: "penilaianpenilaianpas",
-        params: {
-          idCompany: this.idCompany,
-          idDivisi: this.idDivisi,
-          idUser: id,
-        },
-      });
+      if (this.date) {
+        this.$router.push({
+          name: "penilaianpenilaianpas",
+          params: {
+            idCompany: this.idCompany,
+            idDivisi: this.idDivisi,
+            idUser: id,
+            date: this.date,
+          },
+        });
+      } else {
+        alert("Silahkan isi Tanggal Penilaian");
+      }
     },
     goBack() {
       this.$router.push({

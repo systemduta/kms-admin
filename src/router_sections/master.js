@@ -1326,8 +1326,31 @@ export default [
       {
         path: "",
         name: "penilaianpenilaianpas",
+        // component: () =>
+        //   import("@/views/web_pages/pas/penilaian/Penilaian.vue"),
+        // component: () =>
+        //   import("@/views/web_pages/pas/penilaian/Penilaiann.vue"),
+        component: () => import("@/views/web_pages/pas/penilaian/Menu.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
+      {
+        path: "",
+        name: "peoplepenilaianpas",
         component: () =>
-          import("@/views/web_pages/pas/penilaian/Penilaian.vue"),
+          import("@/views/web_pages/pas/penilaian/people/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
+      {
+        path: "",
+        name: "processpenilaianpas",
+        component: () =>
+          import("@/views/web_pages/pas/penilaian/process/Index.vue"),
         meta: {
           auth: true,
           parent: "penilaianpas",

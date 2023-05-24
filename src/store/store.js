@@ -65,6 +65,10 @@ import performDimensi from "./maesa/pas/performance/performDimensi";
 import performKpi from "./maesa/pas/performance/performKpi";
 import performInd from "./maesa/pas/performance/performInd";
 
+/**penilaian */
+///people
+import pen_people from "./maesa/pas/penilaian/people/pen_people";
+
 /**akhir PAS Project */
 
 export default new Vuex.Store({
@@ -125,6 +129,9 @@ export default new Vuex.Store({
     performDimensi,
     performKpi,
     performInd,
+
+    //penilaian
+    pen_people,
 
     /**akhir PAS project */
   },

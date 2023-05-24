@@ -1,4 +1,3 @@
-//URUNG ssok
 <!-- {{ idCompany }}
     {{ idDivisi }}
     {{ idUser }} -->
@@ -124,7 +123,7 @@
                     <vx-card>
                       <div class="vx-row">
                         <div class="w-full vx-col">
-                          <vs-table :data="filterKpi" class="mb-2">
+                          <!-- <vs-table :data="filterKpi" class="mb-2">
                             <template slot="thead">
                               <vs-th sort-key="no">No</vs-th>
                               <vs-th sort-key="kpi">KPI</vs-th>
@@ -153,44 +152,36 @@
                                 </vs-td>
                               </vs-tr>
                             </template>
-                          </vs-table>
-                        </div></div
-                    ></vx-card>
+                          </vs-table> -->
 
-                    <!-- <vx-card>
-                      <div class="vx-row">
-                        <div class="w-full text-right vx-col">
-                          //URUNG blm selesai
-
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>Keterangan</th>
-                                <th>Hari</th>
-                                <th>%</th>
-                                <th>Skor</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <input type="text" v-model="keterangan" />
-                                </td>
-                                <td><input type="number" v-model="hari" /></td>
-                                <td>
-                                  <input
-                                    type="number"
-                                    step="0.001"
-                                    v-model="persentase"
-                                  />
-                                </td>
-                                <td><input type="number" v-model="skor" /></td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div
+                            v-for="(item, index) in filterKpi"
+                            :key="index"
+                            class="vx-row mb-5"
+                          >
+                            <div class="vx-col w-full">
+                              <vs-input
+                                class="w-full"
+                                v-model="storeData[item.name]"
+                                :label="item.name"
+                                :name="item.name"
+                              ></vs-input>
+                              <span
+                                class="text-danger text-sm"
+                                v-show="errors.has(item.name)"
+                              >
+                                {{ errors.first(item.name) }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="vx-row">
+                            <div class="w-full text-right vx-col">
+                              <vs-button @click="store">Save</vs-button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </vx-card> -->
+                    </vx-card>
                   </template>
                 </vs-tr>
               </template>
@@ -295,6 +286,9 @@ export default {
       id3p: null,
       iddimensi: null,
       idkpi: null,
+
+      //storeData
+      storeData: {},
     };
   },
   computed: {
@@ -323,10 +317,17 @@ export default {
       this.isPerformance = false;
       this.isProcess = false;
     },
+    store() {
+      console.log(this.storeData);
+    },
 
     ceknilai(id) {
       const kpi = this.listAllKpi.filter((item) => item.dimensi_id === id);
       this.filterKpi = kpi;
+      kpi.forEach((item) => {
+        this.storeData[item.name] = null;
+      });
+      console.log(this.storeData);
     },
 
     async people() {
