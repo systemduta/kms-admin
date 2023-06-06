@@ -8,7 +8,7 @@
         @click="goBack"
         >Kembali</vs-button
       >
-      <vx-card title="Penilaian KPI PAS">
+      <vx-card title="Lihat Penilaian PAS">
         <table>
           <tr>
             <td style="width: 40%">Nama Perusahaan</td>
@@ -113,7 +113,7 @@ export default {
     toPenilaian(id) {
       if (this.date) {
         this.$router.push({
-          name: "penilaianpenilaianpas",
+          name: "shownilaipas",
           params: {
             idCompany: this.idCompany,
             idDivisi: this.idDivisi,
@@ -122,19 +122,15 @@ export default {
           },
         });
       } else {
-        // alert("Silahkan isi Tanggal Penilaian");
-        this.$vs.dialog({
-          color: "warning",
-          title: "Warning",
-          text: "Silahkan di pilih tanggal terlebih dahulu",
-        });
+        alert("Silahkan isi Tanggal");
       }
     },
     goBack() {
       this.$router.push({
-        name: "penilaianpas",
+        name: "nilaipas",
       });
     },
+
     async getEmployee() {
       const send = new FormData();
       send.append("idCompany", this.idCompany);

@@ -85,10 +85,13 @@ date, user_id, id_3p,dimensi_id
               </div>
             </div>
           </div>
-
-          <vs-button color="primary" type="flat" icon="print" @click="cekBefore"
-            >Cek</vs-button
-          >
+          <hr />
+          <hr />
+          <center>
+            <vs-button color="dark" type="line" icon="print" @click="cekBefore">
+              Cek Data
+            </vs-button>
+          </center>
         </div>
       </vx-card>
       <hr />
@@ -231,13 +234,14 @@ date, user_id, id_3p,dimensi_id
         <vs-card>
           <div class="mb-5 vx-row">
             <div class="w-full vx-col">
-              <small>Nilai 4:</small>
+              <small>Nilai A:</small>
               <select
                 class="ml-3 px-4 py-2 border rounded-lg w-80"
-                v-model="tempValue4"
+                v-model="tempValueA"
               >
+                <option disabled selected>nilai - deskripsi</option>
                 <option
-                  v-for="item in nilai4"
+                  v-for="item in nilaiA"
                   :key="item.id"
                   :value="item.nilai"
                 >
@@ -249,13 +253,14 @@ date, user_id, id_3p,dimensi_id
 
           <div class="mb-5 vx-row">
             <div class="w-full vx-col">
-              <small>Nilai 3:</small>
+              <small>Nilai B:</small>
               <select
                 class="ml-3 px-4 py-2 border rounded-lg w-80"
-                v-model="tempValue3"
+                v-model="tempValueB"
               >
+                <option disabled selected>nilai - deskripsi</option>
                 <option
-                  v-for="item in nilai3"
+                  v-for="item in nilaiB"
                   :key="item.id"
                   :value="item.nilai"
                 >
@@ -267,31 +272,14 @@ date, user_id, id_3p,dimensi_id
 
           <div class="mb-5 vx-row">
             <div class="w-full vx-col">
-              <small>Nilai 2:</small>
+              <small>Nilai C:</small>
               <select
                 class="ml-3 px-4 py-2 border rounded-lg w-80"
-                v-model="tempValue2"
+                v-model="tempValueC"
               >
+                <option disabled selected>nilai - deskripsi</option>
                 <option
-                  v-for="item in nilai2"
-                  :key="item.id"
-                  :value="item.nilai"
-                >
-                  {{ item.name }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <div class="mb-5 vx-row">
-            <div class="w-full vx-col">
-              <small>Nilai 1:</small>
-              <select
-                class="ml-3 px-4 py-2 border rounded-lg w-80"
-                v-model="tempValue1"
-              >
-                <option
-                  v-for="item in nilai1"
+                  v-for="item in nilaiC"
                   :key="item.id"
                   :value="item.nilai"
                 >
@@ -301,8 +289,16 @@ date, user_id, id_3p,dimensi_id
             </div>
           </div>
           <hr />
-          <div class="mb-5 vx-row">
-            <div class="w-full vx-col">Nilai Akhir: {{ perata }}</div>
+          <div class="mb-5 vx-col">
+            <!-- <div class="row">
+              <div class="col-md-4">Nilai Asli:</div>
+              <div class="col-md-4">: {{ perasli }}</div>
+            </div> -->
+            <div class="row">
+              <!-- <div class="col-md-4">Nilai Akhir (Pembulatan):</div> -->
+              <div class="col-md-4">Nilai Akhir:</div>
+              <div class="col-md-4">: {{ perata }}</div>
+            </div>
           </div>
 
           <div class="vx-row">
@@ -514,6 +510,7 @@ export default {
       date: this.$route.params.date,
       datas3: [],
       datas4: [],
+      data3p: {},
       // listDimensiPeople: [],
       // listDimensiProcess: [],
       // listDimensiPerformance: [],
@@ -558,14 +555,12 @@ export default {
       //untuk dropdown
       isInd: false,
       tempIdKpi: null,
-      tempValue4: null,
-      tempValue3: null,
-      tempValue2: null,
-      tempValue1: null,
-      nilai4: [],
-      nilai3: [],
-      nilai2: [],
-      nilai1: [],
+      tempValueC: null,
+      tempValueB: null,
+      tempValueA: null,
+      nilaiC: [],
+      nilaiB: [],
+      nilaiA: [],
     };
   },
   computed: {
@@ -604,13 +599,12 @@ export default {
       this.nilaiakhirabsen = result.toFixed(1);
       return result.toFixed(1);
     },
-    perata() {
+    perasli() {
       const total =
-        (Number(this.tempValue4) || 0) +
-        (Number(this.tempValue3) || 0) +
-        (Number(this.tempValue2) || 0) +
-        (Number(this.tempValue1) || 0);
-      const count = 4;
+        (Number(this.tempValueC) || 0) +
+        (Number(this.tempValueB) || 0) +
+        (Number(this.tempValueA) || 0);
+      const count = 3; //ganti ini jika umlah A,B,C berubah
       const avg = total / count;
 
       if (avg < 1) {
@@ -621,18 +615,28 @@ export default {
         return avg;
       }
     },
+    perata() {
+      const total =
+        (Number(this.tempValueC) || 0) +
+        (Number(this.tempValueB) || 0) +
+        (Number(this.tempValueA) || 0);
+      const count = 3; //ganti ini jika umlah A,B,C berubah
+      const avg = total / count;
+
+      if (avg < 1) {
+        return 1;
+      } else if (avg > 4) {
+        return 4;
+      } else {
+        // return Math.round(avg);
+        return avg.toFixed(1);
+      }
+    },
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "masterpas/index_company",
-      dispatchDivisi: "masterpas/index_divisi",
-      dispatchEmployee: "masterpas/index_employee",
-
       dispatchMaster: "masterpas/index",
       dispatchMasterDatas: "masterpas/index_datas",
-      dispatchMasterAllDimensi: "masterpas/all_dimensi",
-      dispatchMasterAllKpi: "masterpas/all_kpi",
-      dispatchMasterAllInd: "masterpas/all_ind",
 
       //people
       dispatchPeople: "pen_people/index",
@@ -676,23 +680,25 @@ export default {
         }
       }
     },
-
     goBack() {
-      if (
-        confirm(
-          "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?"
-        )
-      ) {
-        this.$router.push({
-          name: "penilaianpenilaianpas",
-          params: {
-            idCompany: this.idCompany,
-            idDivisi: this.idDivisi,
-            idUser: this.idUser,
-            date: this.date,
-          },
-        });
-      }
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: `Confirm`,
+        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        accept: this.acceptBack,
+      });
+    },
+    acceptBack() {
+      this.$router.push({
+        name: "penilaianpenilaianpas",
+        params: {
+          idCompany: this.idCompany,
+          idDivisi: this.idDivisi,
+          idUser: this.idUser,
+          date: this.date,
+        },
+      });
     },
 
     async getDatas() {
@@ -700,11 +706,13 @@ export default {
       send.append("idCompany", this.idCompany);
       send.append("idDivisi", this.idDivisi);
       send.append("idUser", this.idUser);
+      send.append("date", this.date);
       const datas3 = await this.dispatchMasterDatas(send);
       this.datas3 = datas3;
 
       ///people
       const datas4 = await this.dispatchPeople();
+      this.data3p = datas4.p3;
       this.datas4 = datas4;
       this.itemArrays = datas4.dimensi;
       this.itemArraysKpi = datas4.kpi;
@@ -717,10 +725,6 @@ export default {
     },
 
     async getInd(id3p, idkpi) {
-      this.tempValue4 = 0;
-      this.tempValue3 = 0;
-      this.tempValue2 = 0;
-      this.tempValue1 = 0;
       this.tempIdKpi = idkpi;
       const send = new FormData();
       send.append("id3p", id3p);
@@ -728,47 +732,36 @@ export default {
 
       try {
         const Ind = await this.dispatchPeopleInd(send);
-        (this.nilai4 = Ind.nilai4.map((item) => ({
+        (this.nilaiC = Ind.nilaiC.map((item) => ({
           id: item.id,
           "3p_id": item["3p_id"],
           kpi_id: item.kpi_id,
           company_id: item.company_id,
           division_id: item.division_id,
           nilai: item.nilai,
-          name: item.grade + " - " + item.desc,
+          name: item.nilai + " - " + item.desc,
           created_at: item.created_at,
           updated_at: item.updated_at,
         }))),
-          (this.nilai3 = Ind.nilai3.map((item) => ({
+          (this.nilaiB = Ind.nilaiB.map((item) => ({
             id: item.id,
             "3p_id": item["3p_id"],
             kpi_id: item.kpi_id,
             company_id: item.company_id,
             division_id: item.division_id,
             nilai: item.nilai,
-            name: item.grade + " - " + item.desc,
+            name: item.nilai + " - " + item.desc,
             created_at: item.created_at,
             updated_at: item.updated_at,
           }))),
-          (this.nilai2 = Ind.nilai2.map((item) => ({
+          (this.nilaiA = Ind.nilaiA.map((item) => ({
             id: item.id,
             "3p_id": item["3p_id"],
             kpi_id: item.kpi_id,
             company_id: item.company_id,
             division_id: item.division_id,
             nilai: item.nilai,
-            name: item.grade + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.nilai1 = Ind.nilai1.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.grade + " - " + item.desc,
+            name: item.nilai + " - " + item.desc,
             created_at: item.created_at,
             updated_at: item.updated_at,
           }))),
@@ -841,6 +834,10 @@ export default {
           [this.tempIdDimensi.name]: this.tempArray,
         };
       }
+
+      this.tempValueA = null;
+      this.tempValueB = null;
+      this.tempValueC = null;
     },
     simpanOthers() {
       this.isOthers = false;
@@ -853,42 +850,52 @@ export default {
     },
 
     hitungNilaiAkhir() {
-      // Menghitung sum_max_nilai
-      this.final_people = 0;
-      let sum_max_nilai = 0;
-      Object.values(this.storeData).forEach((item) => {
-        if (Array.isArray(item)) {
-          item.forEach((subItem) => {
-            sum_max_nilai += subItem.max_nilai;
-          });
-        } else {
-          sum_max_nilai += item.max_nilai;
-        }
-      });
-      // sum_max_nilai -= 16;
+      try {
+        this.final_people = 0;
+        let sum_max_nilai = 0;
+        Object.values(this.storeData).forEach((item) => {
+          if (Array.isArray(item)) {
+            item.forEach((subItem) => {
+              sum_max_nilai += subItem.max_nilai;
+            });
+          } else {
+            sum_max_nilai += item.max_nilai;
+          }
+        });
 
-      // Menghitung sum_value
-      let sum_value = 0;
-      Object.values(this.storeData).forEach((item) => {
-        if (Array.isArray(item)) {
-          item.forEach((subItem) => {
-            if (subItem.name !== "Absen") {
-              sum_value += subItem.value;
-            }
-          });
-        } else {
-          sum_value += parseFloat(item.nilaiAkhir);
-        }
-      });
-      sum_value = (sum_value / sum_max_nilai) * 100;
-      let final_people2 = (sum_value * 20) / 100;
-      this.final_people = Math.round(final_people2);
+        let sum_value = 0;
+        Object.values(this.storeData).forEach((item) => {
+          if (Array.isArray(item)) {
+            item.forEach((subItem) => {
+              if (subItem.name !== "Absen") {
+                sum_value += parseFloat(subItem.value);
+              }
+            });
+          } else {
+            sum_value += parseFloat(item.nilaiAkhir);
+          }
+        });
+        sum_value = (sum_value / sum_max_nilai) * 100;
+        let final_people2 = Math.round(
+          (sum_value * this.data3p.persentase) / 100
+        );
+        this.final_people = parseInt(final_people2.toFixed(0));
+      } catch (error) {
+        console.log(error);
+        this.$vs.notify({
+          time: 4000,
+          title: "Error",
+          text: "Unknow Error, Please report" + error,
+          color: "warning",
+          icon: "error",
+        });
+      }
     },
 
     async finalSend() {
       if (confirm("Pastikan data sudah benar. Tetap lanjutkan penyimpanan ?")) {
         if (isNaN(this.final_people) || this.final_people == null) {
-          alert("Nilai Akhir adalah bernilai 'null', data tidak bisa dikirim");
+          alert("Nilai Akhir bernilai 'null', data tidak bisa dikirim");
         } else {
           this.storeData = {
             ...this.storeData,
@@ -938,7 +945,7 @@ export default {
             this.$vs.notify({
               time: 4000,
               title: "Error",
-              text: "User sudah dinilai pada bulan yang dipilih",
+              text: error.data.message,
               color: "warning",
               icon: "error",
             });

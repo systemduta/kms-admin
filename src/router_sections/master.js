@@ -1356,6 +1356,16 @@ export default [
           parent: "penilaianpas",
         },
       },
+      {
+        path: "",
+        name: "performancepenilaianpas",
+        component: () =>
+          import("@/views/web_pages/pas/penilaian/performance/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "penilaianpas",
+        },
+      },
     ],
   },
   //nilai pas
@@ -1367,6 +1377,24 @@ export default [
         path: "",
         name: "nilaipas",
         component: () => import("@/views/web_pages/pas/nilai/Index.vue"),
+        meta: {
+          auth: true,
+          parent: "nilaipas",
+        },
+      },
+      {
+        path: "",
+        name: "nilaidetailpas",
+        component: () => import("@/views/web_pages/pas/nilai/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "nilaipas",
+        },
+      },
+      {
+        path: "",
+        name: "shownilaipas",
+        component: () => import("@/views/web_pages/pas/nilai/Edit.vue"),
         meta: {
           auth: true,
           parent: "nilaipas",

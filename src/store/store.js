@@ -66,10 +66,14 @@ import performKpi from "./maesa/pas/performance/performKpi";
 import performInd from "./maesa/pas/performance/performInd";
 
 /**penilaian */
-///people
 import pen_people from "./maesa/pas/penilaian/people/pen_people";
-
+import pen_proces from "./maesa/pas/penilaian/process/pen_proces";
+import pen_performance from "./maesa/pas/penilaian/performance/pen_performance";
 /**akhir PAS Project */
+
+/** read,update,delete, Pas */
+import showedit from "./maesa/pas/showedit/showedit";
+/** akhir read,update,delete, Pas */
 
 export default new Vuex.Store({
   getters,
@@ -132,6 +136,11 @@ export default new Vuex.Store({
 
     //penilaian
     pen_people,
+    pen_proces,
+    pen_performance,
+
+    /**show,edit,delete */
+    showedit,
 
     /**akhir PAS project */
   },

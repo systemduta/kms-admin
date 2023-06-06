@@ -16,6 +16,14 @@ const mutations = {
   },
 };
 const actions = {
+  async finalsave(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/pas_final_insert", payload);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
   async all_dimensi({ commit }) {
     try {
       const { data } = await axios.get("api/web/pas_master_all_dimensis");
@@ -81,6 +89,14 @@ const actions = {
     try {
       const { data } = await axios.get("api/web/pas_master_company");
       commit("SET_ROWS", data.data);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+  async pas_getkpi(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/pas_getkpi", payload);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);

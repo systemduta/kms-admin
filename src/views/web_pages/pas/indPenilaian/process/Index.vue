@@ -1,5 +1,8 @@
 <template>
   <div class="vx-row">
+    <vs-button color="primary" type="flat" icon="arrow_back_ios" @click="goBack"
+      >Kembali</vs-button
+    >
     <div class="w-full vx-col mb-base" v-if="listInd">
       <vx-card title="KPI PAS">
         <table>
@@ -317,102 +320,18 @@ export default {
       dispatchCompany: "masterpas/index_company",
       dispatchDivisi: "masterpas/index_divisi",
     }),
-    // goBack() {
-    //   this.$router.push({
-    //     name: "processDimensiPas",
-    //     params: {
-    //       id: this.id3p,
-    //     },
-    //   });
-    // },
+    goBack() {
+      this.$router.push({
+        name: "processDetailKpiPas",
+        params: {
+          id3p: this.id3p,
+          idDimensi: this.idDimensi,
+          idCompany: this.idCompany,
+          idDivisi: this.idDivisi,
+        },
+      });
+    },
 
-    // async getUpdate($id) {
-    //   try {
-    //     const kpiDatas = await this.dispatchShow($id);
-    //     this.updateData.id = kpiDatas.data["id"];
-    //     this.updateData.name = kpiDatas.data["name"];
-    //     this.updateData.max_nilai = kpiDatas.data["max_nilai"];
-
-    //     this.isUpdate = true;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
-    // async update() {
-    //   const send = new FormData();
-    //   send.append("id", this.updateData.id);
-    //   send.append("id3p", this.updateData.id3p);
-    //   send.append("idDimensi", this.updateData.idDimensi);
-    //   send.append("idCompany", this.updateData.idCompany);
-    //   send.append("idDivisi", this.updateData.idDivisi);
-    //   send.append("name", this.updateData.name);
-    //   send.append("max_nilai", this.updateData.max_nilai);
-    //   send.append("_method", "PUT");
-
-    //   this.$vs.loading({
-    //     type: "radius",
-    //     color: "blue",
-    //     textAfter: true,
-    //     text: "Please Wait ...",
-    //   });
-
-    //   try {
-    //     await this.dispatchUpdate(send);
-    //     this.$vs.loading.close();
-    //     this.$vs.notify({
-    //       title: "Success!",
-    //       text: "Data was saved successfully!",
-    //       color: "success",
-    //     });
-    //     this.getDatas();
-    //     this.isUpdate = false;
-    //   } catch (error) {
-    //     this.$vs.loading.close();
-    //     this.isLoading = false;
-    //     this.$vs.notify({
-    //       title: "Oops!",
-    //       text: error.data.message,
-    //       color: "danger",
-    //     });
-    //   }
-    // },
-
-    // async store() {
-    //   const send = new FormData();
-    //   send.append("id3p", this.storeData.id3p);
-    //   send.append("idDimensi", this.storeData.idDimensi);
-    //   send.append("idCompany", this.storeData.idCompany);
-    //   send.append("idDivisi", this.storeData.idDivisi);
-    //   send.append("name", this.storeData.name);
-    //   send.append("max_nilai", this.storeData.max_nilai);
-
-    //   this.$vs.loading({
-    //     type: "radius",
-    //     color: "blue",
-    //     textAfter: true,
-    //     text: "Please Wait ...",
-    //   });
-
-    //   try {
-    //     await this.dispatchStore(send);
-    //     this.$vs.loading.close();
-    //     this.$vs.notify({
-    //       title: "Success!",
-    //       text: "Data was saved successfully!",
-    //       color: "success",
-    //     });
-    //     this.getDatas();
-    //     this.isAdd = false;
-    //   } catch (error) {
-    //     this.$vs.loading.close();
-    //     this.isLoading = false;
-    //     this.$vs.notify({
-    //       title: "Oops!",
-    //       text: error.data.error,
-    //       color: "danger",
-    //     });
-    //   }
-    // },
     async getDatas() {
       const send = new FormData();
       send.append("id3p", this.id3p);

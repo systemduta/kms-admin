@@ -62,6 +62,7 @@
               </div>
             </div>
           </div>
+
           <hr />
           <hr />
           <center>
@@ -275,7 +276,7 @@
           <hr />
         </div>
         <div class="mt-2 text-center">
-          <p class="font-bold">Nilai Akhir: {{ finalProcess }}</p>
+          <p class="font-bold">Nilai Akhir: {{ finalPerformance }}</p>
           <div class="flex justify-center">
             <vs-button
               color="primary"
@@ -336,7 +337,7 @@ export default {
       tempFilter: [], //menyimpan sementara nilai filter
       storeOthers: [],
       arrayBantuan: [], //untuk looping di form pengecekan
-      finalProcess: null,
+      finalPerformance: null,
 
       //untuk dropdown
       isInd: false,
@@ -397,9 +398,9 @@ export default {
       dispatchMasterAllInd: "masterpas/all_ind",
 
       //process
-      dispatchProcess: "pen_proces/index",
+      dispatchProcess: "pen_performance/index",
       dispatchPeopleInd: "pen_people/getInd", //untuk semua gpp
-      dispatchStore: "pen_proces/store",
+      dispatchStore: "pen_performance/store",
     }),
     goBack() {
       this.$vs.dialog({
@@ -558,20 +559,22 @@ export default {
 
     hitungNilaiAkhir() {
       try {
-        this.finalProcess = 0;
+        this.finalPerformance = 0;
         let sum_max_nilai = 0;
         let sum_value = 0;
-        for (const items of Object.values(this.storeData)) {
-          for (const item of items) {
-            sum_value += parseFloat(item.value);
-            sum_max_nilai += item.max_nilai;
+        for (const category in this.storeData) {
+          const items = this.storeData[category];
+          if (items.length > 0) {
+            for (const item of items) {
+              sum_value += parseFloat(item.value);
+              sum_max_nilai += item.max_nilai;
+            }
           }
         }
+
         sum_value = (sum_value / sum_max_nilai) * 100;
-        let final_people2 = Math.round(
-          (sum_value * this.data3p.persentase) / 100
-        );
-        this.finalProcess = parseInt(final_people2.toFixed(0));
+        let finalAkhir = Math.round((sum_value * this.data3p.persentase) / 100);
+        this.finalPerformance = parseInt(finalAkhir.toFixed(0));
       } catch (error) {
         console.log(error);
         this.$vs.notify({
@@ -586,7 +589,7 @@ export default {
 
     async finalSend() {
       if (confirm("Pastikan data sudah benar. Tetap lanjutkan penyimpanan ?")) {
-        if (isNaN(this.finalProcess) || this.finalProcess == null) {
+        if (isNaN(this.finalPerformance) || this.finalPerformance == null) {
           alert("Nilai Akhir adalah bernilai 'null', data tidak bisa dikirim");
         } else {
           this.storeData = {
@@ -595,10 +598,9 @@ export default {
               date: this.date,
               user_id: this.idUser,
               id_3p: this.id3p,
-              nilai: this.finalProcess,
+              nilai: this.finalPerformance,
             },
           };
-          // console.log(this.storeData);
           try {
             const response = await this.dispatchStore(this.storeData);
             if (response.statusCode === 200) {
@@ -634,7 +636,6 @@ export default {
               });
             }
           } catch (error) {
-            console.log(error);
             this.$vs.notify({
               time: 4000,
               title: "Error",
@@ -664,5 +665,3 @@ export default {
   },
 };
 </script>
-
-<!-- { "Routine": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 34, "name": "ini KPI", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 36, "name": "tes1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 42, "name": "monitoring", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 43, "name": "monitoring2", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 44, "name": "monitoring3", "value": 1, "max_nilai": 4 } ], "Cross Function": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 35, "name": "test", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 45, "name": "tester2", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 46, "name": "tester3", "value": 1, "max_nilai": 4 } ], "Interaction": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 41, "name": "Interaction KPI 1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 47, "name": "kpi1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 48, "name": "kpi2", "value": 1, "max_nilai": 4 } ] } -->

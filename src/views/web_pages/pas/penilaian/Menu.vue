@@ -50,6 +50,9 @@
             <div class="card" v-if="item.id === 1">
               <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
+                <h6 class="card-text">
+                  Nilai: {{ item.nilai ? item.nilai : 0 }}
+                </h6>
                 <vs-button
                   class="mr-2"
                   icon-pack="feather"
@@ -73,6 +76,9 @@
             <div class="card" v-if="item.id === 2">
               <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
+                <h6 class="card-text">
+                  Nilai: {{ item.nilai ? item.nilai : 0 }}
+                </h6>
                 <vs-button
                   class="mr-2"
                   icon-pack="feather"
@@ -96,16 +102,47 @@
             <div class="card" v-if="item.id === 3">
               <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
+                <h6 class="card-text">
+                  Nilai: {{ item.nilai ? item.nilai : 0 }}
+                </h6>
                 <vs-button
                   class="mr-2"
                   icon-pack="feather"
                   icon="icon-eye"
                   size="small"
+                  :to="{
+                    name: `performancepenilaianpas`,
+                    params: {
+                      id3p: item.id,
+                      name3p: item.name,
+                      idUser: idUser,
+                      idCompany: idCompany,
+                      idDivisi: idDivisi,
+                      date: date,
+                    },
+                  }"
                   >Nilai dimensi</vs-button
                 >
               </div>
             </div>
           </div>
+        </div>
+        <div v-if="total" class="flex justify-center">
+          <vs-alert color="primary" title="SKOR AKHIR PAS" active="true">
+            <div class="flex justify-center">
+              {{ total }}
+            </div>
+          </vs-alert>
+        </div>
+        <br />
+        <div class="flex justify-center">
+          <vs-button
+            color="primary"
+            type="relief"
+            icon="save"
+            @click="finalSave"
+            >Simpan Skor
+          </vs-button>
         </div>
       </vx-card>
       <hr />
@@ -127,6 +164,7 @@ export default {
       idUser: this.$route.params.idUser,
       date: this.$route.params.date,
       datas3: [],
+      total: null,
     };
   },
   computed: {
@@ -137,8 +175,18 @@ export default {
   methods: {
     ...mapActions({
       dispatchMasterDatas: "masterpas/index_datas",
+      dispatchFinalSkor: "masterpas/finalsave",
     }),
     goBack() {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: `Confirm`,
+        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        accept: this.acceptBack,
+      });
+    },
+    acceptBack() {
       this.$router.push({
         name: `detailpenilaianpas`,
         params: {
@@ -148,13 +196,71 @@ export default {
         },
       });
     },
+    async finalSave() {
+      if (this.datas3.data.some((data) => data.nilai === 0)) {
+        this.$vs.dialog({
+          color: "warning",
+          title: "warning",
+          text: "Ada Nilai Parameter yang Bernilai 0",
+        });
+      } else if (
+        confirm(
+          "Pastikan data sudah Benar sebelum disimpan. Apakah Anda yakin ingin melanjutkan?"
+        )
+      ) {
+        const final = {
+          date: this.date,
+          user_id: this.idUser,
+          nilai: this.total,
+        };
+        try {
+          const response = await this.dispatchFinalSkor(final);
+          if (response.statusCode === 200) {
+            this.$vs.notify({
+              time: 4000,
+              title: "Sukses",
+              text: "Data berhasil disimpan",
+              color: "primary",
+              icon: "verified_user",
+            });
+          }
+        } catch (error) {
+          this.$vs.notify({
+            time: 4000,
+            title: "Error",
+            text: error.data.message,
+            color: "warning",
+            icon: "error",
+          });
+        }
+      }
+    },
+
     async getDatas() {
       const send = new FormData();
       send.append("idCompany", this.idCompany);
       send.append("idDivisi", this.idDivisi);
       send.append("idUser", this.idUser);
+      send.append("date", this.date);
       const datas3 = await this.dispatchMasterDatas(send);
       this.datas3 = datas3;
+      datas3.data.forEach((e) => {
+        e.nilai = e.nilai === null ? 0 : e.nilai;
+        this.total += e.nilai;
+      });
+
+      this.total =
+        this.total >= 69
+          ? this.total
+          : this.total >= 59
+          ? 69
+          : this.total >= 49
+          ? 65
+          : this.total >= 39
+          ? 60
+          : this.total >= 29
+          ? 55
+          : 50;
     },
   },
   mounted() {

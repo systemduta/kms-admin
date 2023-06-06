@@ -25,7 +25,7 @@
             <vs-th sort-key="no">No </vs-th>
             <vs-th sort-key="namauser">3P </vs-th>
             <vs-th sort-key="type">Nama dimensi </vs-th>
-            <vs-th></vs-th>
+            <vs-th>Aksi</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -50,7 +50,7 @@
                     }"
                   >
                   </vs-button>
-                  &nbsp;
+                  <!-- &nbsp;
                   <vs-button
                     icon-pack="feather"
                     icon="icon-edit"
@@ -58,7 +58,7 @@
                     size="small"
                     @click="getUpdate(tr.id)"
                   >
-                  </vs-button>
+                  </vs-button> 
                   &nbsp;
                   <vs-button
                     color="danger"
@@ -66,7 +66,7 @@
                     @click="deletes(tr.id)"
                     icon="icon-delete"
                     size="small"
-                  ></vs-button>
+                  ></vs-button>-->
                 </div>
               </vs-td>
             </vs-tr>

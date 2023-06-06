@@ -67,7 +67,7 @@
     "vue2-google-maps": "^0.10.6",
     "vue2-hammer": "^2.1.2",
     "vuedraggable": "^2.21.0",
-    "vuejs-datepicker": "^1.5.4",
+    "vuejs-datepicker": "^1.6.2",
     "vuesax": "github:jd-0001/vuesax",
     "vuex": "^3.1.1",
     "xlsx": "^0.15.0"
