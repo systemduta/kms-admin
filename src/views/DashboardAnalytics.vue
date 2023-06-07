@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <div class="col-lg-3 col-md-6 col-12">
+            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
               <card
                 :title="stats.courses.title"
                 :value="stats.courses.value"
@@ -25,7 +25,7 @@
                 directionReverse
               ></card>
             </div>
-            <div class="col-lg-3 col-md-6 col-12">
+            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
               <card
                 :title="stats.users.title"
                 :value="stats.users.value"
@@ -37,7 +37,7 @@
                 directionReverse
               ></card>
             </div>
-            <div class="col-lg-3 col-md-6 col-12">
+            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
               <card
                 :title="stats.sop.title"
                 :value="stats.sop.value"
@@ -51,10 +51,7 @@
               ></card>
             </div>
 
-            <div
-              v-if="user_company == 1 || user_company == 18"
-              class="col-lg-3 col-md-6 col-12"
-            >
+            <div v-if="isSuperAdmin" class="col-lg-3 col-md-6 col-12">
               <card
                 :title="stats.vhs.title"
                 :value="stats.vhs.value"
@@ -156,6 +153,11 @@ export default {
   data() {
     return {
       user_company: this.$store.state.AppActiveUser.data.company_id,
+      isSuperAdmin: null,
+      isSOP: null,
+      isKMS: null,
+      is1VHS: null,
+      isPAS: null,
       checkpointReward: {},
       lastUser: [],
       organization_id: null,
@@ -247,6 +249,11 @@ export default {
   mounted() {
     const user_info = JSON.parse(localStorage.getItem("userInfo"));
     this.organization_id = parseInt(user_info.data.organization_id);
+    this.isSuperAdmin = parseInt(user_info.data.isSuperAdmin);
+    this.isSOP = parseInt(user_info.data.isSOP);
+    this.isKMS = parseInt(user_info.data.isKMS);
+    this.is1VHS = parseInt(user_info.data.is1VHS);
+    this.isPAS = parseInt(user_info.data.isPAS);
     this.$vs.loading({
       type: "radius",
       color: "blue",

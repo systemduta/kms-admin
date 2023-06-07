@@ -20,7 +20,12 @@
 
 const user_info = JSON.parse(localStorage.getItem("userInfo"));
 const organization_id = parseInt(user_info.data.organization_id);
-// console.log(user_info);
+const isSuperAdmin = parseInt(user_info.data.isSuperAdmin);
+const isSOP = parseInt(user_info.data.isSOP);
+const isKMS = parseInt(user_info.data.isKMS);
+const is1VHS = parseInt(user_info.data.is1VHS);
+const isPAS = parseInt(user_info.data.isPAS);
+// console.log(isSuperAdmin);
 const company = JSON.parse(localStorage.getItem("userInfo"));
 const company_id = parseInt(company.data.company_id);
 
@@ -50,10 +55,7 @@ const menu = [
         name: "Employee",
         slug: "employee",
       },
-      organization_id == 20 ||
-      organization_id == 23 ||
-      organization_id == 177 ||
-      organization_id == 420
+      isSuperAdmin
         ? {
             url: { name: "company" },
             name: "Company",
@@ -64,6 +66,14 @@ const menu = [
             name: "Division",
             slug: "division",
           },
+      //TODO besok ini buat CRUD hak setiap akun
+      isSuperAdmin
+        ? {
+            url: {},
+            name: "Permission",
+            slug: "permission",
+          }
+        : null,
       // organization_id == 20 ||
       // organization_id == 23 ||
       // organization_id == 177 ||
@@ -76,50 +86,51 @@ const menu = [
       //   : null,
     ],
   },
-  {
-    url: null,
-    name: "SOP",
-    icon: "CreditCardIcon",
-    i18n: "SOP",
-    submenu: [
-      {
-        url: { name: "sop" },
+  isSOP
+    ? {
+        url: null,
         name: "SOP",
-        slug: "sop",
-      },
-      {
-        url: { name: "crossfunction" },
-        name: "Crossfunction",
-        slug: "crossfunction",
-      },
-      {
-        url: { name: "lampiran" },
-        name: "Lampiran",
-        slug: "lampiran",
-      },
-    ],
-  },
+        icon: "CreditCardIcon",
+        i18n: "SOP",
+        submenu: [
+          {
+            url: { name: "sop" },
+            name: "SOP",
+            slug: "sop",
+          },
+          {
+            url: { name: "crossfunction" },
+            name: "Crossfunction",
+            slug: "crossfunction",
+          },
+          {
+            url: { name: "lampiran" },
+            name: "Lampiran",
+            slug: "lampiran",
+          },
+        ],
+      }
+    : null,
 
-  {
-    url: null,
-    name: "Leaderboard",
-    icon: "FlagIcon",
-    i18n: "Leaderboard",
-    submenu: [
-      {
-        url: { name: "leaderboard" },
+  isKMS
+    ? {
+        url: null,
         name: "Leaderboard",
-        slug: "PackageIcon",
+        icon: "FlagIcon",
         i18n: "Leaderboard",
-        submenu: null,
-      },
-    ],
-  },
+        submenu: [
+          {
+            url: { name: "leaderboard" },
+            name: "Leaderboard",
+            slug: "PackageIcon",
+            i18n: "Leaderboard",
+            submenu: null,
+          },
+        ],
+      }
+    : null,
 
-  organization_id == 20 ||
-  organization_id == 23 ||
-  organization_id == 177 ||
-  organization_id == 420
+  isSuperAdmin
     ? {
         url: null,
         name: "KMS",
@@ -159,7 +170,8 @@ const menu = [
           //   : null,
         ],
       }
-    : {
+    : isKMS
+    ? {
         url: null,
         name: "KMS",
         icon: "PackageIcon",
@@ -167,11 +179,17 @@ const menu = [
         submenu: [
           {
             url: { name: "course" },
-            name: "Course ",
-            slug: "course",
+            name: "Hardskill",
+            slug: "hardskill",
           },
+          // {
+          //   url: { name: "course" },
+          //   name: "Course ",
+          //   slug: "course",
+          // },
         ],
-      },
+      }
+    : null,
 
   // Book
   // organization_id == 20 ||
@@ -194,10 +212,7 @@ const menu = [
   //   : null,
   //endBook
 
-  organization_id == 20 ||
-  organization_id == 23 ||
-  organization_id == 177 ||
-  organization_id == 420
+  isSuperAdmin
     ? {
         url: null,
         name: "1VHS",
@@ -276,7 +291,8 @@ const menu = [
           },
         ],
       }
-    : {
+    : is1VHS
+    ? {
         url: null,
         name: "VHS",
         icon: "CpuIcon",
@@ -288,7 +304,8 @@ const menu = [
             slug: "jadwal_vhs",
           },
         ],
-      },
+      }
+    : null,
 
   //message
   // {
@@ -307,29 +324,31 @@ const menu = [
 
   /***************** PAS-project *****************/
 
-  {
-    url: null,
-    name: "VHS",
-    icon: "AwardIcon",
-    i18n: "PAS",
-    submenu: [
-      {
-        url: { name: "dimensipas" },
-        name: "Konfigurasi PAS",
-        slug: "dimensi_pas",
-      },
-      {
-        url: { name: "penilaianpas" },
-        name: "Penilaian PAS",
-        slug: "penilaian_pas",
-      },
-      {
-        url: { name: "nilaipas" },
-        name: "Lihat PAS",
-        slug: "lihat_pas",
-      },
-    ],
-  },
+  isPAS
+    ? {
+        url: null,
+        name: "VHS",
+        icon: "AwardIcon",
+        i18n: "PAS",
+        submenu: [
+          {
+            url: { name: "dimensipas" },
+            name: "Konfigurasi PAS",
+            slug: "dimensi_pas",
+          },
+          {
+            url: { name: "penilaianpas" },
+            name: "Penilaian PAS",
+            slug: "penilaian_pas",
+          },
+          {
+            url: { name: "nilaipas" },
+            name: "Lihat PAS",
+            slug: "lihat_pas",
+          },
+        ],
+      }
+    : null,
 
   /***************** PAS-project *****************/
 ];
