@@ -1400,6 +1400,15 @@ export default [
           parent: "nilaipas",
         },
       },
+      {
+        path: "",
+        name: "monthnilaipas",
+        component: () => import("@/views/web_pages/pas/nilai/Month.vue"),
+        meta: {
+          auth: true,
+          parent: "nilaipas",
+        },
+      },
     ],
   },
 

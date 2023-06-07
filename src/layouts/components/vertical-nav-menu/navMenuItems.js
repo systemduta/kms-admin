@@ -325,8 +325,8 @@ const menu = [
       },
       {
         url: { name: "nilaipas" },
-        name: "Nilai PAS",
-        slug: "nilai_pas",
+        name: "Lihat PAS",
+        slug: "lihat_pas",
       },
     ],
   },

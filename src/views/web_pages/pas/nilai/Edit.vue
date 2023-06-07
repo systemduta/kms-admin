@@ -562,7 +562,9 @@
                       idDivisi
                     )
                   "
-                  >tambah Kpi</vs-button
+                  >
+                  tambah Kpi
+                  </vs-button
                 > -->
                 <div>
                   <div class="row mb-2" style="border: 3px solid black">
@@ -574,6 +576,7 @@
                 <div
                   class="row mb-2"
                   v-for="(y, index) in recordPas.detailSkor3p[2].detail.Finance"
+                  v-if="y.isDelete !== 1"
                 >
                   <div class="col-sm-5">
                     {{ y.nameKpi }}
@@ -636,6 +639,7 @@
                   v-for="(y, index) in recordPas.detailSkor3p[2].detail[
                     'Daya saing'
                   ]"
+                  v-if="y.isDelete !== 1"
                 >
                   <div class="col-sm-5">
                     {{ y.nameKpi }}
@@ -699,6 +703,7 @@
                   v-for="(y, index) in recordPas.detailSkor3p[2].detail[
                     'Kepuasan Konsumen'
                   ]"
+                  v-if="y.isDelete !== 1"
                 >
                   <div class="col-sm-5">
                     {{ y.nameKpi }}
@@ -759,9 +764,10 @@
                 </div>
                 <div
                   class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[2].detail[
+                  v-for="y in recordPas.detailSkor3p[2].detail[
                     'Kapasitas Karyawan'
                   ]"
+                  v-if="y.isDelete !== 1"
                 >
                   <div class="col-sm-5">
                     {{ y.nameKpi }}
@@ -876,10 +882,24 @@
                 icon-pack="feather"
                 icon="icon-trash"
                 color="danger"
-                @click="hapus"
+                @click="activePrompt = true"
               >
                 Delete Data
               </vs-button>
+              <vs-prompt
+                title="Perhatian"
+                color="danger"
+                accept-text="hapus"
+                cancel-text="tutup"
+                @accept="acceptHapus"
+                @close="activePrompt = false"
+                :active.sync="activePrompt"
+              >
+                <div class="con-exemple-prompt">
+                  Data yang dihapus tidak dapat dipulihkan. <br />Apakah Anda
+                  ingin menghapus <b>Semua Data</b> ?
+                </div>
+              </vs-prompt>
             </div>
           </div>
         </center>
@@ -1004,8 +1024,11 @@ export default {
       isEdit: true,
       isEdit2: false,
       isAddKpi: false,
+      activePrompt: false,
       idCompany: this.$route.params.idCompany,
+      nameCompany: "",
       idDivisi: this.$route.params.idDivisi,
+      nameDivisi: "",
       idUser: this.$route.params.idUser,
       date: this.$route.params.date,
       datas3: [], //data card atas
@@ -1166,8 +1189,10 @@ export default {
       for (const dimensi in this.recordPas.detailSkor3p[1].detail) {
         let items = this.recordPas.detailSkor3p[1].detail[dimensi];
         for (let i = 0; i < items.length; i++) {
+          // if (items[i].isDelete !== 1) {
           totalNilai += parseFloat(items[i].nilai);
           totalMaxNilai += parseFloat(items[i].max_nilai);
+          // }
         }
       }
       totalValue = (totalNilai / totalMaxNilai) * 100;
@@ -1188,11 +1213,14 @@ export default {
         let items = this.recordPas.detailSkor3p[2].detail[dimensi];
         if (items.length > 0) {
           for (let i = 0; i < items.length; i++) {
+            // if (items[i].isDelete !== 1) {
             totalNilai += parseFloat(items[i].nilai);
             totalMaxNilai += parseFloat(items[i].max_nilai);
+            // }
           }
         }
       }
+
       totalValue = (totalNilai / totalMaxNilai) * 100;
       let final_performance = Math.round(
         (totalValue * this.recordPas.detailSkor3p[2].persentase) / 100
@@ -1248,10 +1276,13 @@ export default {
     },
     acceptBack() {
       this.$router.push({
-        name: "nilaidetailpas",
+        name: "monthnilaipas",
         params: {
           idCompany: this.idCompany,
+          nameCompany: this.nameCompany,
           idDivisi: this.idDivisi,
+          nameDivisi: this.nameDivisi,
+          idUser: this.idUser,
         },
       });
     },
@@ -1265,22 +1296,24 @@ export default {
         send.append("date", this.date);
         const datas3 = await this.dispatchMasterDatas(send);
         this.datas3 = datas3;
+        this.nameCompany = this.datas3.dataCompany.name;
+        this.nameDivisi = this.datas3.dataOrg.name;
 
         const res = await this.dispatchShow(send);
         this.recordPas = res;
-        // for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-        //   const detail = this.recordPas.detailSkor3p[i].detail;
+        for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
+          const detail = this.recordPas.detailSkor3p[i].detail;
 
-        //   for (const dimensi in detail) {
-        //     const kpiArray = detail[dimensi];
+          for (const dimensi in detail) {
+            const kpiArray = detail[dimensi];
 
-        //     for (let j = 0; j < kpiArray.length; j++) {
-        //       const kpi = kpiArray[j];
+            for (let j = 0; j < kpiArray.length; j++) {
+              const kpi = kpiArray[j];
 
-        //       kpi.isDelete = 0;
-        //     }
-        //   }
-        // }
+              kpi.isDelete = 0;
+            }
+          }
+        }
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",
@@ -1339,10 +1372,6 @@ export default {
     },
 
     updateNilaiById(id_3p, kpi_id, newValue) {
-      // console.log(id_3p);
-      // console.log(kpi_id);
-      // console.log(newValue);
-      // // Iterasi melalui array detailSkor3p
       for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
         const detailSkor = this.recordPas.detailSkor3p[i];
 
@@ -1368,7 +1397,7 @@ export default {
                 this.tempValueB = null;
                 this.tempValueC = null;
                 this.isInd = !this.isInd;
-                console.log(this.recordPas);
+                // console.log(this.recordPas);
                 return; // Keluar dari fungsi setelah update nilai
               }
             }
@@ -1400,6 +1429,7 @@ export default {
         console.log(error);
       }
     },
+    //tambah elemen kpi sementara belum digunakan
     addMoreKpi(idDimensi, idKpi, nameKpi) {
       const newData = {
         id: null,
@@ -1431,11 +1461,38 @@ export default {
               detail[this.tempDimensi] = [newData];
             }
           } else {
+            // let cekIsDelete = detail[this.tempDimensi].find(
+            //   (data) =>
+            //     data.dimensi_id === idDimensi &&
+            //     data.kpi_id === idKpi &&
+            //     data.isDelete === 1
+            // );
+            // if (cekIsDelete) {
+            //   for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
+            //     const detail = this.recordPas.detailSkor3p[i].detail;
+
+            //     for (const dimensi in detail) {
+            //       const kpiArray = detail[dimensi];
+
+            //       for (let j = 0; j < kpiArray.length; j++) {
+            //         const kpi = kpiArray[j];
+
+            //         if (kpi.dimensi_id === idDimensi && kpi.kpi_id === idKpi) {
+            //           const updatedKpi = { ...kpi, nilai: 1, isDelete: 0 };
+            //           kpiArray.splice(j, 1, updatedKpi);
+
+            //           // console.log(this.recordPas);
+            //         }
+            //       }
+            //     }
+            //   }
+            // } else {
             this.$vs.notify({
               color: "danger",
               title: "WARNING",
               text: "DATA GANDA",
             });
+            // }
           }
         }
       }
@@ -1468,10 +1525,12 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Apakah anda ingin menghapus Semua Data ?",
+        title: "Confirm",
+        // text: "sasas",
+        content: "<b>sasas</b>",
         accept: this.acceptHapus,
       });
+      // text: 'Data yang dihapus tidak dapat dipulihkan. Apakah Anda ingin menghapus Semua Data?',
     },
     async acceptHapus() {
       try {
@@ -1484,10 +1543,13 @@ export default {
           });
           setTimeout(() => {
             this.$router.push({
-              name: "nilaidetailpas",
+              name: "monthnilaipas",
               params: {
                 idCompany: this.idCompany,
+                nameCompany: this.nameCompany,
                 idDivisi: this.idDivisi,
+                nameDivisi: this.nameDivisi,
+                idUser: this.idUser,
               },
             });
           }, 500);
@@ -1508,33 +1570,27 @@ export default {
       }
     },
     //hapusElement sementara belum digunakan
-    // hapusElement(dimensiId, kpiId) {
-    //   for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-    //     const detail = this.recordPas.detailSkor3p[i].detail;
+    hapusElement(dimensiId, kpiId) {
+      for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
+        const detail = this.recordPas.detailSkor3p[i].detail;
 
-    //     for (const dimensi in detail) {
-    //       const kpiArray = detail[dimensi];
+        for (const dimensi in detail) {
+          const kpiArray = detail[dimensi];
 
-    //       for (let j = 0; j < kpiArray.length; j++) {
-    //         const kpi = kpiArray[j];
+          for (let j = 0; j < kpiArray.length; j++) {
+            const kpi = kpiArray[j];
 
-    //         if (kpi.dimensi_id === dimensiId && kpi.kpi_id === kpiId) {
-    //           // kpiArray.splice(j, 1);
-    //           // break;
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
-
-    // filterArrays(id, name) {
-    //   console.log(id);
-    //   console.log(name);
-    //   const filteredData = this.recordPas.detailSkor3p[id].detail[name].filter(
-    //     (item) => item.isDelete !== 1
-    //   );
-    //   console.log(filteredData);
-    // },
+            if (kpi.dimensi_id === dimensiId && kpi.kpi_id === kpiId) {
+              // kpiArray.splice(j, 1);
+              // break;
+              // kpi.isDelete = 1;
+              const updatedKpi = { ...kpi, isDelete: 1 };
+              kpiArray.splice(j, 1, updatedKpi);
+            }
+          }
+        }
+      }
+    },
 
     cekLOG() {
       console.log(this.recordPas);

@@ -40,6 +40,22 @@ const actions = {
       return Promise.reject(error.response);
     }
   },
+  async month(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/pas_edit_4", payload);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
+  async cekdata(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/pas_edit_5", payload);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
 };
 
 export default {

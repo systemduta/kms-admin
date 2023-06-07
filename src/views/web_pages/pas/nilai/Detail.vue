@@ -22,13 +22,13 @@
             <td style="width: 5%">:</td>
             <td>{{ datas && datas.divisi && datas.divisi.name }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td style="width: 40%">Tanggal Penilaian</td>
             <td style="width: 5%">:</td>
             <td>
               <vs-input type="date" v-model="formattedDate" />
             </td>
-          </tr>
+          </tr> -->
         </table>
       </vx-card>
       <hr />
@@ -52,7 +52,7 @@
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button
+                  <!-- <vs-button
                     class="mr-2"
                     icon-pack="feather"
                     icon="icon-edit"
@@ -60,6 +60,15 @@
                     size="small"
                     title="beri nilai"
                     @click="toPenilaian(tr.id)"
+                  ></vs-button> -->
+                  <vs-button
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    color="warning"
+                    size="small"
+                    title="lihat nilai"
+                    @click="toMonthView(tr.id)"
                   ></vs-button>
                 </div>
               </vs-td>
@@ -79,6 +88,8 @@ export default {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
       datas: [],
+      nameCompany: "",
+      nameDivisi: "",
       date: null,
     };
   },
@@ -110,20 +121,32 @@ export default {
       dispatchDivisi: "masterpas/index_divisi",
       dispatchEmployee: "masterpas/index_employee",
     }),
-    toPenilaian(id) {
-      if (this.date) {
-        this.$router.push({
-          name: "shownilaipas",
-          params: {
-            idCompany: this.idCompany,
-            idDivisi: this.idDivisi,
-            idUser: id,
-            date: this.date,
-          },
-        });
-      } else {
-        alert("Silahkan isi Tanggal");
-      }
+    // toPenilaian(id) {
+    //   if (this.date) {
+    //     this.$router.push({
+    //       name: "shownilaipas",
+    //       params: {
+    //         idCompany: this.idCompany,
+    //         idDivisi: this.idDivisi,
+    //         idUser: id,
+    //         date: this.date,
+    //       },
+    //     });
+    //   } else {
+    //     alert("Silahkan isi Tanggal");
+    //   }
+    // },
+    toMonthView(id) {
+      this.$router.push({
+        name: "monthnilaipas",
+        params: {
+          idCompany: this.idCompany,
+          nameCompany: this.nameCompany,
+          idDivisi: this.idDivisi,
+          nameDivisi: this.nameDivisi,
+          idUser: id,
+        },
+      });
     },
     goBack() {
       this.$router.push({
@@ -137,6 +160,8 @@ export default {
       send.append("idDivisi", this.idDivisi);
       const dataDivisi = await this.dispatchEmployee(send);
       this.datas = dataDivisi;
+      this.nameCompany = dataDivisi.company.name;
+      this.nameDivisi = dataDivisi.divisi.name;
     },
   },
   mounted() {

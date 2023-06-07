@@ -109,20 +109,33 @@ export default {
       dispatchIndex: "masterpas/index_company",
       dispatchDivisi: "masterpas/index_divisi",
       dispatchEmployee: "masterpas/index_employee",
+
+      dispatchCek: "showedit/cekdata",
     }),
-    toPenilaian(id) {
+    async toPenilaian(id) {
       if (this.date) {
-        this.$router.push({
-          name: "penilaianpenilaianpas",
-          params: {
-            idCompany: this.idCompany,
-            idDivisi: this.idDivisi,
-            idUser: id,
-            date: this.date,
-          },
-        });
+        const send = new FormData();
+        send.append("idUser", id);
+        send.append("date", this.date);
+        const response = await this.dispatchCek(send);
+        if (response.data === 0) {
+          this.$router.push({
+            name: "penilaianpenilaianpas",
+            params: {
+              idCompany: this.idCompany,
+              idDivisi: this.idDivisi,
+              idUser: id,
+              date: this.date,
+            },
+          });
+        } else {
+          this.$vs.dialog({
+            color: "warning",
+            title: "Warning",
+            text: "Karyawan telah dinilai pada bulan dan tahun yang dipilih",
+          });
+        }
       } else {
-        // alert("Silahkan isi Tanggal Penilaian");
         this.$vs.dialog({
           color: "warning",
           title: "Warning",
