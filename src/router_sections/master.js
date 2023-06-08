@@ -1,36 +1,18 @@
 export default [
   // set admin
   {
-    path: "/setadmin",
+    path: "permission",
     component: { template: "<router-view/>" },
     children: [
       {
         path: "",
-        name: "set-admin",
+        name: "permission",
         component: () => import("@/views/web_pages/setadmin/Index.vue"),
         meta: {
           auth: true,
-          parent: "set-admin",
+          parent: "permission",
         },
       },
-      // {
-      //   path: "create",
-      //   name: "division-create",
-      //   component: () => import("@/views/web_pages/division/Create.vue"),
-      //   meta: {
-      //     auth: true,
-      //     parent: "division",
-      //   },
-      // },
-      // {
-      //   path: ":id",
-      //   name: "division-edit",
-      //   component: () => import("@/views/web_pages/division/Create.vue"),
-      //   meta: {
-      //     auth: true,
-      //     parent: "division",
-      //   },
-      // },
     ],
   },
 

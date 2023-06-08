@@ -42,13 +42,13 @@ import jadwalUser from "./maesa/vhs/jadwalUser";
 import company from "./maesa/company";
 import dashboard from "./maesa/dashboard";
 import sertif from "./maesa/vhs/sertif";
-import setadmin from "./maesa/setadmin";
 import profile from "./maesa/profile";
 import quotaap from "./maesa/quotaap";
 import jadwalap from "./maesa/adminap/jadwalap";
 import user from "./maesa/vhs/user";
 import message from "./maesa/message";
 import softskill from "./maesa/softskill";
+import permission from "./maesa/permission";
 
 /**PAS Project */
 import masterpas from "./maesa/pas/masterpas";
@@ -86,6 +86,7 @@ export default new Vuex.Store({
 
     /* vuex for maesa group */
     master,
+    permission,
     employee,
     division,
     course,
@@ -108,7 +109,6 @@ export default new Vuex.Store({
     company,
     dashboard,
     sertif,
-    setadmin,
     profile,
     quotaap,
     jadwalap,

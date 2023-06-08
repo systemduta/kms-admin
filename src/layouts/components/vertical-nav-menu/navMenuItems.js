@@ -69,7 +69,7 @@ const menu = [
       //TODO besok ini buat CRUD hak setiap akun
       isSuperAdmin
         ? {
-            url: {},
+            url: { name: "permission" },
             name: "Permission",
             slug: "permission",
           }
