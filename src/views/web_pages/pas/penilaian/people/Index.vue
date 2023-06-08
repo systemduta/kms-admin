@@ -3,8 +3,7 @@
   user_id
   dimensi_id
   kpi_id
-} 
-URUNG jika ingin menghapus maka harus membawa 
+} jika ingin menghapus maka harus membawa 
 date, user_id, id_3p,dimensi_id
 
 -->
