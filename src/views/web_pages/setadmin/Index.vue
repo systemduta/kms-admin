@@ -6,14 +6,61 @@
           <template slot="header">
             <vs-button size="small" @click="addMore">Tambah admin</vs-button>
           </template>
+
           <template slot="thead">
             <vs-th>No</vs-th>
             <vs-th style="width: 40%">Nama User</vs-th>
-            <vs-th><center>Super Admin</center></vs-th>
-            <vs-th><center>SOP</center></vs-th>
-            <vs-th><center>KMS</center></vs-th>
-            <vs-th><center>1VHS</center></vs-th>
-            <vs-th><center>PAS</center></vs-th>
+            <vs-th>
+              <center>
+                <div class="tooltips">
+                  Super Admin
+                  <span class="tooltiptext"
+                    >Bisa mengakses semua fitur tetapi hanya user bernama "Super
+                    Admin" yang bisa mengakses menu "Permission"</span
+                  >
+                </div>
+              </center>
+            </vs-th>
+            <vs-th>
+              <center>
+                <div class="tooltips">
+                  SOP
+                  <span class="tooltiptext"
+                    >User hanya bisa mengakses menu SOP</span
+                  >
+                </div>
+              </center>
+            </vs-th>
+            <vs-th>
+              <center>
+                <div class="tooltips">
+                  KMS
+                  <span class="tooltiptext">
+                    User hanya bisa mengakses menu KMS
+                  </span>
+                </div>
+              </center>
+            </vs-th>
+            <vs-th>
+              <center>
+                <div class="tooltips">
+                  1VHS
+                  <span class="tooltiptext">
+                    User hanya bisa mengakses menu 1VHS
+                  </span>
+                </div>
+              </center>
+            </vs-th>
+            <vs-th>
+              <center>
+                <div class="tooltips">
+                  PAS
+                  <span class="tooltiptext">
+                    User hanya bisa mengakses menu PAS
+                  </span>
+                </div>
+              </center>
+            </vs-th>
             <vs-th><center>Aksi</center></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -587,5 +634,31 @@ export default {
 <style>
 .centered {
   text-align: center;
+}
+.tooltips {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltips .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: rgb(1, 77, 177);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+  margin-left: 10px;
+}
+
+.tooltips:hover .tooltiptext {
+  visibility: visible;
 }
 </style>
