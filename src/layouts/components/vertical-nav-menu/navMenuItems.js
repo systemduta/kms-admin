@@ -25,6 +25,7 @@ const isSOP = parseInt(user_info.data.isSOP);
 const isKMS = parseInt(user_info.data.isKMS);
 const is1VHS = parseInt(user_info.data.is1VHS);
 const isPAS = parseInt(user_info.data.isPAS);
+const idSuperAdmin = parseInt(user_info.data.id);
 // console.log(isSuperAdmin);
 const company = JSON.parse(localStorage.getItem("userInfo"));
 const company_id = parseInt(company.data.company_id);
@@ -67,7 +68,7 @@ const menu = [
             slug: "division",
           },
       //TODO besok ini buat CRUD hak setiap akun
-      isSuperAdmin
+      idSuperAdmin === 56
         ? {
             url: { name: "permission" },
             name: "Permission",
