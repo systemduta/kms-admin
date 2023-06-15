@@ -1,81 +1,36 @@
-<!-- =========================================================================================
-  File Name: DashboardAnalytics.vue
-  Description: Dashboard Analytics
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
   <div>
     <div class="py-4 container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
+            <div
+              v-for="(stat, index) in stats"
+              :key="index"
+              class="col-lg-3 col-md-6 col-12"
+              v-if="isSuperAdmin"
+            >
               <card
-                :title="stats.courses.title"
-                :value="stats.courses.value"
-                :percentage="stats.courses.percentage"
-                :iconClass="stats.courses.iconClass"
-                :iconBackground="stats.courses.iconBackground"
-                :detail="stats.courses.detail"
-                :onclick="stats.courses.onclick"
-                directionReverse
-              ></card>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
-              <card
-                :title="stats.users.title"
-                :value="stats.users.value"
-                :percentage="stats.users.percentage"
-                :iconClass="stats.users.iconClass"
-                :iconBackground="stats.users.iconBackground"
-                :detail="stats.users.detail"
-                :onclick="stats.users.onclick"
-                directionReverse
-              ></card>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12" v-if="isSuperAdmin">
-              <card
-                :title="stats.sop.title"
-                :value="stats.sop.value"
-                :percentage="stats.sop.percentage"
-                :iconClass="stats.sop.iconClass"
-                :iconBackground="stats.sop.iconBackground"
-                :percentageColor="stats.sop.percentageColor"
-                :detail="stats.sop.detail"
-                :onclick="stats.sop.onclick"
-                directionReverse
-              ></card>
-            </div>
-
-            <div v-if="isSuperAdmin" class="col-lg-3 col-md-6 col-12">
-              <card
-                :title="stats.vhs.title"
-                :value="stats.vhs.value"
-                :percentage="stats.vhs.percentage"
-                :iconClass="stats.vhs.iconClass"
-                :iconBackground="stats.vhs.iconBackground"
-                :detail="stats.vhs.detail"
-                :onclick="stats.vhs.onclick"
+                :title="stat.title"
+                :value="stat.value"
+                :percentage="stat.percentage"
+                :iconClass="stat.iconClass"
+                :iconBackground="stat.iconBackground"
+                :percentageColor="stat.percentageColor"
+                :detail="stat.detail"
+                :onclick="stat.onclick"
                 directionReverse
               ></card>
             </div>
           </div>
         </div>
       </div>
-      <!-- <button @click="ujiClick("1")"></button> -->
     </div>
 
     <div id="dashboard-analytics">
       <div class="vx-row">
         <div class="vx-col w-full mb-base">
-          <vx-card
-            slot="no-body"
-            class="text-center bg-greet-user greet-user rounded-card"
-          >
+          <vx-card class="text-center bg-greet-user greet-user rounded-card">
             <img
               src="@/assets/images/card-dashboard.png"
               class="decore-bg rounded-card"
