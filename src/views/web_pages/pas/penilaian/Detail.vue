@@ -6,8 +6,9 @@
         type="flat"
         icon="arrow_back_ios"
         @click="goBack"
-        >Kembali</vs-button
       >
+        Kembali
+      </vs-button>
       <vx-card title="Penilaian KPI PAS">
         <table>
           <tr>

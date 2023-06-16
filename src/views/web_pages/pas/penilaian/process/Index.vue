@@ -28,9 +28,10 @@
             <td>{{ datas3 && datas3.dataUser && datas3.dataUser.name }}</td>
           </tr>
           <tr>
-            <td style="width: 40%">Tanggal Penilaian</td>
+            <td style="width: 40%">Bulan Penilaian</td>
             <td style="width: 5%">:</td>
-            <td>{{ date }}</td>
+            <!-- <td>{{ date }}</td> -->
+            <td>{{ showDate }}</td>
           </tr>
           <tr>
             <td style="width: 40%">Parameter</td>
@@ -317,6 +318,7 @@ export default {
       id3p: this.$route.params.id3p,
       name3p: this.$route.params.name3p,
       date: this.$route.params.date,
+      showDate: null,
       datas3: [],
       datas4: [],
       data3p: {},
@@ -408,6 +410,8 @@ export default {
         title: `Confirm`,
         text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
         accept: this.acceptBack,
+        acceptText: "ya",
+        cancelText: "tutup",
       });
     },
     acceptBack() {
@@ -573,11 +577,11 @@ export default {
         );
         this.finalProcess = parseInt(final_people2.toFixed(0));
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         this.$vs.notify({
           time: 4000,
           title: "Error",
-          text: "Unknow Error, Please report" + error,
+          text: "Data ada yang kosong silahkan diisi terlebih dahulu",
           color: "warning",
           icon: "error",
         });
@@ -585,64 +589,88 @@ export default {
     },
 
     async finalSend() {
-      if (confirm("Pastikan data sudah benar. Tetap lanjutkan penyimpanan ?")) {
-        if (isNaN(this.finalProcess) || this.finalProcess == null) {
-          alert("Nilai Akhir adalah bernilai 'null', data tidak bisa dikirim");
-        } else {
-          this.storeData = {
-            ...this.storeData,
-            final_record: {
-              date: this.date,
-              user_id: this.idUser,
-              id_3p: this.id3p,
-              nilai: this.finalProcess,
-            },
-          };
-          // console.log(this.storeData);
-          try {
-            const response = await this.dispatchStore(this.storeData);
-            if (response.statusCode === 200) {
-              this.$vs.notify({
-                time: 4000,
-                title: "Suksess",
-                text: "Data sukses disimpan",
-                color: "primary",
-                icon: "verified_user",
-              });
+      this.isFinal = false;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: `Confirm`,
+        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        accept: this.acceptSend,
+        acceptText: "Kirim",
+        cancelText: "Tutup",
+      });
+    },
 
+    async acceptSend() {
+      if (
+        isNaN(this.finalProcess) ||
+        this.finalProcess == null ||
+        this.finalProcess === 0
+      ) {
+        // alert("Nilai Akhir adalah bernilai 'null', data tidak bisa dikirim");
+        this.$vs.dialog({
+          color: "warning",
+          title: "warning",
+          acceptText: "perbaiki",
+          text: "Nilai Akhir bernilai 'null', data tidak bisa dikirim",
+        });
+        setTimeout(() => {
+          this.isFinal = true;
+        }, 2000);
+      } else {
+        this.storeData = {
+          ...this.storeData,
+          final_record: {
+            date: this.date,
+            user_id: this.idUser,
+            id_3p: this.id3p,
+            nilai: this.finalProcess,
+          },
+        };
+        // console.log(this.storeData);
+        try {
+          const response = await this.dispatchStore(this.storeData);
+          if (response.statusCode === 200) {
+            this.$vs.notify({
+              time: 4000,
+              title: "Suksess",
+              text: "Data sukses disimpan",
+              color: "primary",
+              icon: "verified_user",
+            });
+
+            setTimeout(() => {
+              this.isFinal = false;
               setTimeout(() => {
-                this.isFinal = false;
-                setTimeout(() => {
-                  this.$router.push({
-                    name: "penilaianpenilaianpas",
-                    params: {
-                      idCompany: this.idCompany,
-                      idDivisi: this.idDivisi,
-                      idUser: this.idUser,
-                      date: this.date,
-                    },
-                  });
-                }, 500);
+                this.$router.push({
+                  name: "penilaianpenilaianpas",
+                  params: {
+                    idCompany: this.idCompany,
+                    idDivisi: this.idDivisi,
+                    idUser: this.idUser,
+                    date: this.date,
+                  },
+                });
               }, 500);
-            } else {
-              this.$vs.notify({
-                time: 4000,
-                title: "Error",
-                text: response.message,
-                color: "warning",
-                icon: "error",
-              });
-            }
-          } catch (error) {
-            console.log(error);
+            }, 500);
+          } else {
             this.$vs.notify({
               time: 4000,
               title: "Error",
-              text: error.data.message,
+              text: response.message,
               color: "warning",
               icon: "error",
             });
           }
+        } catch (error) {
+          // console.log(error);
+          this.$vs.notify({
+            time: 4000,
+            title: "Error",
+            text: error.data.message,
+            color: "warning",
+            icon: "error",
+          });
         }
       }
     },
@@ -656,6 +684,8 @@ export default {
     });
     this.getDatas()
       .then(() => {
+        const [year, month, day] = this.date.split("-");
+        this.showDate = `${month} - ${year}`;
         this.$vs.loading.close();
       })
       .catch(() => {

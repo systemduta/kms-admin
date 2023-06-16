@@ -28,9 +28,10 @@
             <td>{{ datas3 && datas3.dataUser && datas3.dataUser.name }}</td>
           </tr>
           <tr>
-            <td style="width: 40%">Tanggal Penilaian</td>
+            <td style="width: 40%">Bulan Penilaian</td>
             <td style="width: 5%">:</td>
-            <td>{{ date }}</td>
+            <!-- <td>{{ date }}</td> -->
+            <td>{{ showDate }}</td>
           </tr>
         </table>
       </vx-card>
@@ -163,6 +164,7 @@ export default {
       idDivisi: this.$route.params.idDivisi,
       idUser: this.$route.params.idUser,
       date: this.$route.params.date,
+      showDate: null,
       datas3: [],
       total: null,
     };
@@ -184,6 +186,8 @@ export default {
         title: `Confirm`,
         text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
         accept: this.acceptBack,
+        acceptText: "ya",
+        cancelText: "tutup",
       });
     },
     acceptBack() {
@@ -202,6 +206,7 @@ export default {
           color: "warning",
           title: "warning",
           text: "Ada Nilai Parameter yang Bernilai 0",
+          acceptText: "perbaiki",
         });
       } else if (
         confirm(
@@ -272,6 +277,8 @@ export default {
     });
     this.getDatas()
       .then(() => {
+        const [year, month, day] = this.date.split("-");
+        this.showDate = `${month} - ${year}`;
         this.$vs.loading.close();
       })
       .catch(() => {
