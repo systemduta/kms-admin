@@ -8,6 +8,14 @@ const mutations = {
   },
 };
 const actions = {
+  async rstpass(store, payload) {
+    try {
+      const { data } = await axios.post("api/web/updatepass", payload);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
   async index({ commit }) {
     try {
       const { data } = await axios.get("api/web/get_user");

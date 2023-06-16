@@ -92,13 +92,24 @@
                     class="mr-2"
                     :to="{ name: `employee-edit`, params: { id: tr.id } }"
                     icon-pack="feather"
+                    title="edit data"
                     icon="icon-edit"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    @click="resetpassword(tr.id, tr.nik)"
+                    title="reset password"
+                    icon-pack="feather"
+                    color="warning"
+                    icon="icon-repeat"
                     size="small"
                   ></vs-button>
                   <vs-button
                     class="mr-2"
                     @click="getDetail(tr.id)"
                     color="warning"
+                    title="lihat data"
                     icon="visibility"
                     size="small"
                   ></vs-button>
@@ -212,6 +223,7 @@
                     @click="deletes(tr.id)"
                     icon-pack="feather"
                     icon="icon-delete"
+                    title="hapus data"
                     size="small"
                   ></vs-button>
                 </div>
@@ -255,7 +267,38 @@ export default {
       dispatchIndex: "employee/index",
       dispatchDestroy: "employee/destroy",
       dispatchShow: "employee/show",
+      dispatchRst: "employee/rstpass",
     }),
+    async resetpassword(id, nik) {
+      console.log(id);
+      console.log(nik);
+      try {
+        const send = new FormData();
+        send.append("id", id);
+        send.append("nik", nik);
+        const res = await this.dispatchRst(send);
+        if (res.statusCode === 200) {
+          this.$vs.notify({
+            title: "Success",
+            text: res.message,
+            color: "primary",
+          });
+        } else {
+          this.$vs.notify({
+            title: "Oops!",
+            text: res.message,
+            color: "danger",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        this.$vs.notify({
+          title: "Oops!",
+          text: error.data.message,
+          color: "danger",
+        });
+      }
+    },
     download() {
       console.log(this.selectedOption);
     },
