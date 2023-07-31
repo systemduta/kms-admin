@@ -166,6 +166,7 @@
                       <vs-th>Status</vs-th>
                       <vs-th>NIK</vs-th>
                       <vs-th>Name</vs-th>
+                      <vs-th>Email</vs-th>
                     </template>
                     <template slot-scope="{ data }">
                       <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -192,6 +193,7 @@
                         >
                         <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
                         <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+                        <vs-td :data="tr.email">{{ tr.email }}</vs-td>
                       </vs-tr>
                     </template>
                   </vs-table>

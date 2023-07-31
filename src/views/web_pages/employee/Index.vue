@@ -58,6 +58,7 @@
             <vs-th>Division</vs-th>
             <vs-th>Level</vs-th>
             <vs-th>NIK</vs-th>
+            <vs-th>Email</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -81,11 +82,12 @@
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
               <!-- <vs-td :data="tr.username">{{ tr.username }}</vs-td> -->
               <vs-td :data="tr.company.name">{{ tr.company.name }}</vs-td>
-              <vs-td :data="tr.organization.name">{{
-                tr.organization.name
-              }}</vs-td>
+              <vs-td :data="tr.organization.name">
+                {{ tr.organization.name }}
+              </vs-td>
               <vs-td :data="tr.golongan.name">{{ tr.golongan.name }}</vs-td>
               <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
+              <vs-td :data="tr.email">{{ tr.email }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button

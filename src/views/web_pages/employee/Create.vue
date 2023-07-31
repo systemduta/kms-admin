@@ -132,6 +132,20 @@
 
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
+            <small>Email</small>
+            <vs-input
+              class="w-full"
+              name="email"
+              v-model="storeData.email"
+            ></vs-input>
+            <span class="text-sm text-danger" v-show="errors.has('email')">{{
+              errors.first("email")
+            }}</span>
+          </div>
+        </div>
+
+        <div class="mb-5 vx-row">
+          <div class="w-full vx-col">
             <small>Status Pegawai : </small><br />
             <vs-radio
               class="ml-2 mr-2"
@@ -265,6 +279,7 @@ export default {
         c_password: "",
         nik: "",
         file: "",
+        email: "",
       },
       image: "",
       companies: [],
@@ -316,6 +331,7 @@ export default {
         "c_password",
         "nik",
         "file",
+        "email",
       ].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
       });
@@ -362,6 +378,7 @@ export default {
     },
     async getDetail() {
       const { success } = await this.dispatchShow(this.$route.params.id);
+      // console.log(success);
       this.storeData.name = success.name;
       this.image = success.image
         ? `${process.env.VUE_APP_API_URL}/files/${success.image}`
@@ -369,10 +386,12 @@ export default {
       this.storeData.nik = success.nik;
       this.storeData.company_id = success.company_id;
       // this.storeData.organization_id = success.organization_id;
-      // this.storeData.golongan_id = success.golongan_id;
+      this.storeData.golongan_id = success.golongan_id;
       this.storeData.status = success.status;
       this.storeData.resign_date = success.resign_date;
-      // const dataku = CryptoJS.AES.encrypt(success.password).toString();
+      this.storeData.email = success.email;
+      // console.log(this.storeData);
+      // console.log(this.golongans);
       this.storeData.password = bcrypt(success.password);
     },
     async changeImage(e) {
