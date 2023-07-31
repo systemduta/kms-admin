@@ -192,6 +192,22 @@ const menu = [
       }
     : null,
 
+  // isSuperAdmin
+  //   ? {
+  //       url: null,
+  //       name: "Email",
+  //       icon: "MailIcon",
+  //       i18n: "Email",
+  //       submwnu: [
+  //         {
+  //           url: { name: "course" },
+  //           name: "Email",
+  //           slug: "email",
+  //         },
+  //       ],
+  //     }
+  //   : null,
+
   // Book
   // organization_id == 20 ||
   // organization_id == 23 ||
@@ -211,6 +227,24 @@ const menu = [
   //       ],
   //     }
   //   : null,
+  //endBook
+
+  // Book
+  isSuperAdmin
+    ? {
+        url: null,
+        name: "Email",
+        icon: "MailIcon",
+        i18n: "Email",
+        submenu: [
+          {
+            url: { name: "email" },
+            name: "Email",
+            slug: "Email",
+          },
+        ],
+      }
+    : null,
   //endBook
 
   isSuperAdmin

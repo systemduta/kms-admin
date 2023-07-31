@@ -75,6 +75,8 @@ import pen_performance from "./maesa/pas/penilaian/performance/pen_performance";
 import showedit from "./maesa/pas/showedit/showedit";
 /** akhir read,update,delete, Pas */
 
+import email from "./maesa/email";
+
 export default new Vuex.Store({
   getters,
   mutations,
@@ -115,6 +117,7 @@ export default new Vuex.Store({
     user,
     message,
     softskill,
+    email,
 
     /**PAS project */
 

@@ -1,4 +1,15 @@
 export default [
+  //email
+  {
+    path: "email",
+    name: "email",
+    component: () => import("@/views/web_pages/email/Index.vue"),
+    meta: {
+      auth: true,
+      parent: "email",
+    },
+  },
+
   // set admin
   {
     path: "permission",
