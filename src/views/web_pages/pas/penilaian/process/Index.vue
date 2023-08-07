@@ -83,7 +83,11 @@
           </div>
           <div>
             <div>
-              <div class="row mb-2" v-for="(i, index) in tempArray">
+              <div
+                class="row mb-2"
+                v-for="(i, index) in tempArray"
+                :key="index"
+              >
                 <div class="col-sm-5">{{ tempArray[index].name }}</div>
                 <div
                   class="col-sm-4"

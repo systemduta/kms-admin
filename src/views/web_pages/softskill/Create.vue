@@ -1,6 +1,16 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="Input Data Course">
         <div class="w-full vx-col">
           <input
@@ -72,6 +82,7 @@
               name="link"
               label="Link"
               v-model="storeData.link"
+              description-text="contoh: https://www.google.com"
             ></vs-input>
             <span class="text-sm text-danger" v-show="errors.has('link')">{{
               errors.first("link")
@@ -115,6 +126,17 @@
           <div class="w-full vx-col">
             <small class="ml-2">Upload pdf file</small> <br />
             <input
+              v-if="this.$route.params.id"
+              class="w-full"
+              type="file"
+              id="file"
+              ref="file"
+              @change="getBase64File"
+              name="pdf_file"
+              v-validate="'ext:pdf|size:3072'"
+            />
+            <input
+              v-else
               class="w-full"
               type="file"
               id="file"
@@ -303,6 +325,9 @@ export default {
       dispatchGetOrganizations: "master/organizations",
       dispatchGetGolongans: "softskill/index",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
     async getMaster() {
       const co = await this.dispatchGetCompanies();
       this.companies = co.data;
@@ -310,6 +335,14 @@ export default {
       this.organizations = org.data;
       const gol = await this.dispatchGetGolongans();
       this.golongans = gol.data;
+
+      this.golongans.map(function (x) {
+        if (x.name === "Staf PKWT") {
+          x.name = "Staf";
+        }
+        x.golongan_data = x.name;
+        return x;
+      });
     },
     addQuestion() {
       const blank_question = {
@@ -416,37 +449,42 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-        // console.log(...formData);
-        this.$vs.loading({
-          type: "radius",
-          color: "blue",
-          textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
-        try {
-          if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
-          } else {
-            await this.dispatchStore(formData);
-          }
-          this.$vs.loading.close();
-          this.isLoading = false;
-          this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "softskill" });
-        } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
-          this.$vs.notify({
-            title: "Oops!",
-            text: error,
-            color: "danger",
-          });
+
+        for (const pair of formData.entries()) {
+          console.log(`${pair[0]}, ${pair[1]}`);
         }
+
+        // this.$vs.loading({
+        //   type: "radius",
+        //   color: "blue",
+        //   textAfter: true,
+        //   text: "Please Wait ...",
+        // });
+        // this.isLoading = true;
+        // try {
+        //   if (this.$route.params.id) {
+        //     await this.dispatchUpdate(formData);
+        //   } else {
+        //     await this.dispatchStore(formData);
+        //   }
+        //   this.$vs.loading.close();
+        //   this.isLoading = false;
+        //   this.$vs.notify({
+        //     title: "Success!",
+        //     text: "Data was saved successfully!",
+        //     color: "success",
+        //   });
+        //   // this.$router.push({ name: "softskill" });
+        //   this.$router.go(-1);
+        // } catch (error) {
+        //   this.$vs.loading.close();
+        //   this.isLoading = false;
+        //   this.$vs.notify({
+        //     title: "Oops!",
+        //     text: error,
+        //     color: "danger",
+        //   });
+        // }
       });
     },
     async getDetail() {
@@ -457,8 +495,8 @@ export default {
         : "";
       this.storeData.title = success.title;
       this.storeData.description = success.description;
-      this.storeData.file = success.file;
-      this.storeData.video = success.video;
+      // this.storeData.file = success.file;
+      // this.storeData.video = success.video;
       this.storeData.link = success.link;
       this.storeData.type = success.type;
       this.storeData.company_id = success.company_id;
@@ -509,10 +547,14 @@ export default {
   },
   async mounted() {
     await this.getMaster();
-    this.golongans.map(function (x) {
-      //   return (x.golongan_data = x.id + " - " + x.name);
-      return (x.golongan_data = x.name);
-    });
+    // this.golongans.map(function (x) {
+    //   if (x.name == "Staf PKWT") {
+    //     return (x.name = "Staf");
+    //   }
+    //   //   return (x.golongan_data = x.id + " - " + x.name);
+    //   return (x.golongan_data = x.name);
+    // });
+
     if (this.$route.params.id) {
       this.getDetail();
     }

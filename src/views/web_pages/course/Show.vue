@@ -1,29 +1,64 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="All Questions">
         <vs-table stripe search :data="data" class="mb-2">
-        <template slot="header">
-          <vs-button @click="addQuestion">Add Question</vs-button>
-        </template>
+          <template slot="header">
+            <vs-button
+              @click="addQuestion"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              size="small"
+              type="filled"
+            >
+              Add Question
+            </vs-button>
+          </template>
           <template slot="thead">
             <vs-th>Question</vs-th>
             <vs-th>Action</vs-th>
           </template>
-          <template slot-scope="{data}">
+          <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
               <vs-td :data="tr.description">
                 <p v-html="tr.description"></p>
               </vs-td>
               <template class="expand-user" slot="expand">
-                <div class="con-expand-users" style="width: 100%;">
+                <div class="con-expand-users" style="width: 100%">
                   <vs-row vs-w="12">
-                    <vs-col vs-type="flex" vs-justify="center" vs-align="center">
-                      <vs-chip class="w-full" v-for="(val,k) in tr.answers" :key="k" :color="val.is_true==1 ? 'success' : 'warning'">
-                        {{val.name}}
+                    <vs-col
+                      vs-type="flex"
+                      vs-justify="center"
+                      vs-align="center"
+                    >
+                      <vs-chip
+                        class="w-full"
+                        v-for="(val, k) in tr.answers"
+                        :key="k"
+                        :color="val.is_true == 1 ? 'success' : 'warning'"
+                      >
+                        {{ val.name }}
                         <div class="modal-footer">
-                          <vs-chip :color="val.is_true==1 ? 'success' : 'warning'">
-                            <vs-avatar color="danger" @click="updates(val.id)" icon-pack="feather" icon="icon-edit" size="small"></vs-avatar>
+                          <vs-chip
+                            :color="val.is_true == 1 ? 'success' : 'warning'"
+                          >
+                            <vs-avatar
+                              color="danger"
+                              @click="updates(val.id)"
+                              icon-pack="feather"
+                              icon="icon-edit"
+                              size="small"
+                            ></vs-avatar>
                             <!-- <vs-avatar color="danger" @click="deletess(val.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-avatar> -->
                           </vs-chip>
                         </div>
@@ -34,16 +69,28 @@
               </template>
               <vs-td>
                 <div class="flex">
-                  <vs-button class="mr-2" :to="{name: `question-edit`, params: {id: tr.id}}" icon-pack="feather" icon="icon-edit" size="small"></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    :to="{ name: `question-edit`, params: { id: tr.id } }"
+                    icon-pack="feather"
+                    icon="icon-edit"
+                    size="small"
+                  ></vs-button>
                   <!-- <vs-button class="mr-2" @click="updateQuestion" icon-pack="feather" icon="icon-edit" size="small"></vs-button> -->
-                  <vs-button color="danger" @click="deletes(tr.id)" icon-pack="feather" icon="icon-delete" size="small"></vs-button>
+                  <vs-button
+                    color="danger"
+                    @click="deletes(tr.id)"
+                    icon-pack="feather"
+                    icon="icon-delete"
+                    size="small"
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
           </template>
         </vs-table>
         <vs-popup :active.sync="popUp" title="Add New Question">
-          <quill-editor v-model="f_question"/>
+          <quill-editor v-model="f_question" />
           <table class="w-full">
             <thead>
               <tr>
@@ -53,19 +100,38 @@
             </thead>
             <tr v-for="(tr, i) in f_answers" :key="i">
               <td>
-                <vs-input class="w-full" label-placeholder="Answer" v-model="tr.name"></vs-input>
+                <vs-input
+                  class="w-full"
+                  label-placeholder="Answer"
+                  v-model="tr.name"
+                ></vs-input>
               </td>
               <td class="text-center">
-                <vs-checkbox vs-name="radio-answer" v-model="tr.is_true"></vs-checkbox>
+                <vs-checkbox
+                  vs-name="radio-answer"
+                  v-model="tr.is_true"
+                ></vs-checkbox>
               </td>
             </tr>
           </table>
           <vs-row class="mt-3" vs-type="flex" vs-justify="space-between">
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
+            <vs-col
+              vs-type="flex"
+              vs-justify="center"
+              vs-align="center"
+              vs-w="2"
+            >
               <vs-button @click="storeAnswer">Save</vs-button>
             </vs-col>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
-              <vs-button color="danger" type="border" @click="clearForm">Clear</vs-button>
+            <vs-col
+              vs-type="flex"
+              vs-justify="center"
+              vs-align="center"
+              vs-w="2"
+            >
+              <vs-button color="danger" type="border" @click="clearForm"
+                >Clear</vs-button
+              >
             </vs-col>
           </vs-row>
         </vs-popup>
@@ -77,22 +143,48 @@
                 <th width="25">True Answer</th>
               </tr>
             </thead>
-            <tr >
+            <tr>
               <td>
-                <vs-input hidden class="w-full" name="id" v-model="id"></vs-input>
-                <vs-input class="w-full" name="name" label-placeholder="Answer" v-model="f_name"></vs-input>
+                <vs-input
+                  hidden
+                  class="w-full"
+                  name="id"
+                  v-model="id"
+                ></vs-input>
+                <vs-input
+                  class="w-full"
+                  name="name"
+                  label-placeholder="Answer"
+                  v-model="f_name"
+                ></vs-input>
               </td>
               <td>
-                <vs-checkbox vs-name="radio-answer" name="is_true" v-model="f_is_true"></vs-checkbox>
+                <vs-checkbox
+                  vs-name="radio-answer"
+                  name="is_true"
+                  v-model="f_is_true"
+                ></vs-checkbox>
               </td>
             </tr>
           </table>
           <vs-row class="mt-3" vs-type="flex" vs-justify="space-between">
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
+            <vs-col
+              vs-type="flex"
+              vs-justify="center"
+              vs-align="center"
+              vs-w="2"
+            >
               <vs-button @click="confirmUpdates">Save</vs-button>
             </vs-col>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
-              <vs-button color="danger" type="border" @click="clearForm">Clear</vs-button>
+            <vs-col
+              vs-type="flex"
+              vs-justify="center"
+              vs-align="center"
+              vs-w="2"
+            >
+              <vs-button color="danger" type="border" @click="clearForm"
+                >Clear</vs-button
+              >
             </vs-col>
           </vs-row>
         </vs-popup>
@@ -102,17 +194,17 @@
 </template>
 
 <script>
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { quillEditor } from 'vue-quill-editor'
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+import { quillEditor } from "vue-quill-editor";
 
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
-    quillEditor
+    quillEditor,
   },
-  data () {
+  data() {
     return {
       popUp: false,
       idDelete: null,
@@ -120,210 +212,221 @@ export default {
       idDeletes: null,
       updatePopUp: false,
       questionPopUp: false,
-      f_question: '',
-      id: '',
-      f_name: '',
+      f_question: "",
+      id: "",
+      f_name: "",
       f_is_true: false,
-      storeData :{
-        id: this.$route.params.id
+      storeData: {
+        id: this.$route.params.id,
       },
-      f_answers:[
+      f_answers: [
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
-        }
-      ]
-    }
+          name: "",
+        },
+      ],
+    };
   },
-  computed:{
+  computed: {
     ...mapState({
-      data: state => state.course.rows
-    })
-  },
-  methods:{
-    ...mapActions({
-      dispatchStoreQuestion: 'course/store_question',
-      dispatchAllQuestion: 'course/getQuestion',
-      dispatchUpdates: 'course/update_answer',
-      dispatchShow: 'course/detail_answer',
-      dispatchDestroy: 'course/delete',
-      dispatchDelete: 'course/deletes'
-
+      data: (state) => state.course.rows,
     }),
-    addQuestion () {
-      this.popUp = true
+  },
+  methods: {
+    ...mapActions({
+      dispatchStoreQuestion: "course/store_question",
+      dispatchAllQuestion: "course/getQuestion",
+      dispatchUpdates: "course/update_answer",
+      dispatchShow: "course/detail_answer",
+      dispatchDestroy: "course/delete",
+      dispatchDelete: "course/deletes",
+    }),
+    goBack() {
+      this.$router.go(-1);
     },
-    clearFormmm () {
-      this.f_name = ''
-      this.f_is_true = false
+    addQuestion() {
+      this.popUp = true;
     },
-    clearForm () {
-      this.f_question = ''
+    clearFormmm() {
+      this.f_name = "";
+      this.f_is_true = false;
+    },
+    clearForm() {
+      this.f_question = "";
       this.f_answers = [
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
+          name: "",
         },
         {
           is_true: false,
-          name: ''
-        }
-      ]
+          name: "",
+        },
+      ];
     },
-    async confirmUpdates () {
-
+    async confirmUpdates() {
       const payload = {
         id: this.id,
         name: this.f_name,
-        is_true: this.f_is_true
-      }
-        // console.log(payload);
+        is_true: this.f_is_true,
+      };
+      // console.log(payload);
       await this.dispatchUpdates(payload).then(() => {
-          this.$vs.loading()
-          this.dispatchAllQuestion(this.$route.params.id).then(() => {
-            this.$vs.loading.close()
-          }).catch(() => {
-            this.$vs.loading.close()
+        this.$vs.loading();
+        this.dispatchAllQuestion(this.$route.params.id)
+          .then(() => {
+            this.$vs.loading.close();
           })
-        })
-      this.clearFormmm()
-      this.updatePopUp = false
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      });
+      this.clearFormmm();
+      this.updatePopUp = false;
     },
-    updates (id) {
-      this.id = id
-      this.idUpdate = id
-      this.updatePopUp = true
+    updates(id) {
+      this.id = id;
+      this.idUpdate = id;
+      this.updatePopUp = true;
     },
-    async storeAnswer () {
-      let is_ans = false
-      let double = false
+    async storeAnswer() {
+      let is_ans = false;
+      let double = false;
       this.f_answers.forEach(function (answer) {
         if (answer.is_true && is_ans) {
-          is_ans = false
-          double = true
-        } else if (answer.is_true) is_ans = true
-      })
+          is_ans = false;
+          double = true;
+        } else if (answer.is_true) is_ans = true;
+      });
       if (double) {
-        alert('Double Answer')
-        return null
+        alert("Double Answer");
+        return null;
       }
       if (!is_ans) {
-        alert('Answer Not Available')
-        return null
+        alert("Answer Not Available");
+        return null;
       }
       //end of check double answer and no answer
 
-      this.$vs.loading()
+      this.$vs.loading();
       const payload = {
         course_id: this.$route.params.id,
         description: this.f_question,
-        answers: this.f_answers
-      }
+        answers: this.f_answers,
+      };
       await this.dispatchStoreQuestion(payload).then(() => {
-          this.$vs.loading()
-          this.dispatchAllQuestion(this.$route.params.id).then(() => {
-            this.$vs.loading.close()
-          }).catch(() => {
-            this.$vs.loading.close()
+        this.$vs.loading();
+        this.dispatchAllQuestion(this.$route.params.id)
+          .then(() => {
+            this.$vs.loading.close();
           })
-        })
-      this.clearForm()
-      this.popUp = false
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      });
+      this.clearForm();
+      this.popUp = false;
     },
-    async confirmDelete () {
+    async confirmDelete() {
       try {
         await this.dispatchDestroy(this.idDelete).then(() => {
-          this.$vs.loading()
-          this.dispatchAllQuestion(this.$route.params.id).then(() => {
-            this.$vs.loading.close()
-          }).catch(() => {
-            this.$vs.loading.close()
-          })
-        })
+          this.$vs.loading();
+          this.dispatchAllQuestion(this.$route.params.id)
+            .then(() => {
+              this.$vs.loading.close();
+            })
+            .catch(() => {
+              this.$vs.loading.close();
+            });
+        });
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
-    deletess (id) {
-      this.idDelete = id
+    deletess(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
-    async confirmDeletes () {
+    async confirmDeletes() {
       try {
         await this.dispatchDelete(this.idDeletes).then(() => {
-          this.$vs.loading()
-          this.dispatchAllQuestion(this.$route.params.id).then(() => {
-            this.$vs.loading.close()
-          }).catch(() => {
-            this.$vs.loading.close()
-          })
-        })
+          this.$vs.loading();
+          this.dispatchAllQuestion(this.$route.params.id)
+            .then(() => {
+              this.$vs.loading.close();
+            })
+            .catch(() => {
+              this.$vs.loading.close();
+            });
+        });
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
-    deletes (id) {
-      this.idDeletes = id
+    deletes(id) {
+      this.idDeletes = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDeletes
-      })
-    }
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDeletes,
+      });
+    },
   },
-  mounted () {
-    this.$vs.loading()
-    this.dispatchAllQuestion(this.$route.params.id).then(() => {
-      this.$vs.loading.close()
-    }).catch(() => {
-      this.$vs.loading.close()
-    })
-  }
-}
+  mounted() {
+    this.$vs.loading();
+    this.dispatchAllQuestion(this.$route.params.id)
+      .then(() => {
+        this.$vs.loading.close();
+      })
+      .catch(() => {
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>

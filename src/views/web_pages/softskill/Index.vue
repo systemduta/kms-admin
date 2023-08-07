@@ -35,7 +35,10 @@
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `showsoftskill`, params: { id: tr.id } }"
+                    :to="{
+                      name: `showsoftskill`,
+                      params: { id: tr.id, type: tr.name },
+                    }"
                     icon-pack="feather"
                     icon="icon-eye"
                     size="small"

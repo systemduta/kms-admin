@@ -67,7 +67,6 @@ const menu = [
             name: "Division",
             slug: "division",
           },
-      //TODO besok ini buat CRUD hak setiap akun
       idSuperAdmin === 56
         ? {
             url: { name: "permission" },
@@ -75,24 +74,22 @@ const menu = [
             slug: "permission",
           }
         : null,
-      // organization_id == 20 ||
-      // organization_id == 23 ||
-      // organization_id == 177 ||
-      // organization_id == 420
-      //   ? {
-      //       url: { name: "set-admin" },
-      //       name: "Set Admin",
-      //       slug: "setadmin",
-      //     }
-      //   : null,
+
+      idSuperAdmin === 56
+        ? {
+            url: { name: "golongan" },
+            name: "Golongan",
+            slug: "golongan",
+          }
+        : null,
     ],
   },
   isSOP
     ? {
         url: null,
-        name: "SOP",
+        name: "SOP / CrossFunction / Lampiran",
         icon: "CreditCardIcon",
-        i18n: "SOP",
+        i18n: "SOP / CrossFunction / Lampiran",
         submenu: [
           {
             url: { name: "sop" },
@@ -113,23 +110,23 @@ const menu = [
       }
     : null,
 
-  isKMS
-    ? {
-        url: null,
-        name: "Leaderboard",
-        icon: "FlagIcon",
-        i18n: "Leaderboard",
-        submenu: [
-          {
-            url: { name: "leaderboard" },
-            name: "Leaderboard",
-            slug: "PackageIcon",
-            i18n: "Leaderboard",
-            submenu: null,
-          },
-        ],
-      }
-    : null,
+  // isKMS
+  //   ? {
+  //       url: null,
+  //       name: "Leaderboard",
+  //       icon: "FlagIcon",
+  //       i18n: "Leaderboard",
+  //       submenu: [
+  //         {
+  //           url: { name: "leaderboard" },
+  //           name: "Leaderboard",
+  //           slug: "PackageIcon",
+  //           i18n: "Leaderboard",
+  //           submenu: null,
+  //         },
+  //       ],
+  //     }
+  //   : null,
 
   isSuperAdmin
     ? {
@@ -147,6 +144,11 @@ const menu = [
             url: { name: "softskill" },
             name: "Softskill",
             slug: "softskill",
+          },
+          {
+            url: { name: "leaderboard" },
+            name: "Leaderboard",
+            slug: "leaderboard",
           },
           // {
           //   url: { name: "hardskill" },
@@ -240,7 +242,7 @@ const menu = [
           {
             url: { name: "email" },
             name: "Email",
-            slug: "Email",
+            slug: "email",
           },
         ],
       }

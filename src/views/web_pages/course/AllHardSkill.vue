@@ -11,10 +11,8 @@
       >
         Back
       </vs-button>
-      <vx-card :title="'All Course : ' + this.$route.params.name">
-        <!-- Division:
-        <h4></h4> -->
-        <vs-table search :data="data" class="mb-2">
+      <vx-card title="All Hard Skill Course">
+        <vs-table search pagination maxItems="15" :data="datas" class="mb-2">
           <template slot="header">
             <vs-button
               :to="{ name: 'course-create' }"
@@ -57,7 +55,17 @@
               <vs-td :data="tr.type" v-if="tr.type === 3"
                 >Corporate Value</vs-td
               >
-              <vs-td :data="'kosong'">{{ tr.golongan_name }}</vs-td>
+              <vs-td
+                :data="tr.golongan_name"
+                v-if="
+                  tr.golongan_name == 'Staf PKWT' ||
+                  tr.golongan_name == 'Staf PKWTT'
+                "
+                >Staff</vs-td
+              >
+              <vs-td :data="tr.golongan_name" v-else>{{
+                tr.golongan_name
+              }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
@@ -94,24 +102,22 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  props: ["namediv"],
   data() {
     return {
-      name_div: "",
       idDelete: null,
+      datas: [],
       base_url_image: process.env.VUE_APP_API_URL,
     };
   },
-  computed: {
-    ...mapState({
-      data: (state) => state.course.rows,
-    }),
-  },
+  // computed: {
+  //   ...mapState({
+  //     data: (state) => state.softskill.rows,
+  //   }),
+  // },
   methods: {
     ...mapActions({
-      dispatchIndex: "course/getCourse",
+      dispatchIndex: "softskill/showall",
       dispatchDestroy: "course/destroy",
-      dispatchDown: "course/getDown",
     }),
 
     goBack() {
@@ -133,6 +139,11 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    async master($id) {
+      const data = await this.dispatchIndex($id);
+      this.datas = data.data;
     },
 
     async confirmDelete() {
@@ -165,15 +176,8 @@ export default {
     },
   },
   mounted() {
-    this.$vs.loading({
-      type: "radius",
-      color: "blue",
-      textAfter: true,
-      text: "Please Wait ...",
-    });
-    // console.log(this.$route.name_div);
-    // this.name_div = this.$route.params.name;
-    this.dispatchIndex(this.$route.params.id)
+    this.$vs.loading();
+    this.master(this.$route.params.id)
       .then(() => {
         this.$vs.loading.close();
       })

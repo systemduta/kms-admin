@@ -121,6 +121,7 @@
               name="golongan_id"
               :reduce="(e) => e.id"
               label="golongan_data"
+              placeholder="code - name"
             ></v-select>
             <span
               class="text-sm text-danger"
@@ -370,7 +371,8 @@ export default {
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Oops!",
-            text: error.data.message,
+            // text: error.data.message,
+            text: "error insert or update data, please contact administrator",
             color: "danger",
           });
         }

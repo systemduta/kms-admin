@@ -49,6 +49,7 @@ import user from "./maesa/vhs/user";
 import message from "./maesa/message";
 import softskill from "./maesa/softskill";
 import permission from "./maesa/permission";
+import golongan from "./maesa/golongan";
 
 /**PAS Project */
 import masterpas from "./maesa/pas/masterpas";
@@ -118,6 +119,7 @@ export default new Vuex.Store({
     message,
     softskill,
     email,
+    golongan,
 
     /**PAS project */
 

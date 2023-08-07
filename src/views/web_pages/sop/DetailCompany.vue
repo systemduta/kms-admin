@@ -1,6 +1,16 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="Detail Company">
         Company:
         <h4 v-if="getDetail2.length > 0">{{ getDetail2[0].name }}</h4>
@@ -16,6 +26,15 @@
               >Create Division</vs-button
             >
           </template> -->
+          <template slot="header">
+            <vs-button
+              :to="{ name: 'sop-create' }"
+              size="small"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              >Create SOP
+            </vs-button>
+          </template>
           <template slot="thead">
             <vs-th>No</vs-th>
             <vs-th>Name</vs-th>
@@ -81,6 +100,9 @@ export default {
       //   dispatchStore: "division/store",
       //   dispatchUpdate: "division/update",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
 
     //   getID(id) {
     //     axios

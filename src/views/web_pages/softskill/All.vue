@@ -1,6 +1,16 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="All Course">
         <vs-table search :data="datas" class="mb-2">
           <template slot="thead">
@@ -34,7 +44,14 @@
               <vs-td :data="tr.type" v-if="tr.type === 3"
                 >Corporate Value</vs-td
               >
-              <vs-td :data="'kosong'">{{ tr.golongan_name }}</vs-td>
+              <vs-td
+                :data="tr.golongan_name"
+                v-if="tr.golongan_name == 'Staf PKWT'"
+                >Staff</vs-td
+              >
+              <vs-td :data="tr.golongan_name" v-else>{{
+                tr.golongan_name
+              }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
@@ -89,6 +106,25 @@ export default {
       dispatchDestroy: "course/destroy",
     }),
 
+    goBack() {
+      this.$router.go(-1);
+    },
+    async downData(id) {
+      this.$http
+        .get("api/web/downcourse/" + id)
+        .then((response) => {
+          // console.log(response.data.data);
+          const link = document.createElement("a");
+          link.href =
+            process.env.VUE_APP_API_URL + "/files/" + response.data.data;
+          link.setAttribute("target", "_blank");
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async master($id) {
       const data = await this.dispatchIndex($id);
       this.datas = data.data;

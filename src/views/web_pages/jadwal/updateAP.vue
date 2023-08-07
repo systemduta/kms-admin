@@ -102,6 +102,7 @@
                             <option
                               v-for="option in resCompany"
                               :value="option.id"
+                              :key="option.id"
                             >
                               {{ option.name }}
                             </option>
@@ -151,7 +152,11 @@
                   class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                   v-model="storeData.company_id"
                 >
-                  <option v-for="option in resCompany" :value="option.id">
+                  <option
+                    v-for="option in resCompany"
+                    :value="option.id"
+                    :key="option.id"
+                  >
                     {{ option.name }}
                   </option>
                 </select>

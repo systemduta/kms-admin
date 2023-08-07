@@ -1,10 +1,27 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Course : per perusahaan">
+      <vx-card title="Hard skills per company">
         <vs-table pagination max-items="15" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'course-create' }">Create Course</vs-button>
+            <vs-button
+              :to="{ name: 'course-create' }"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              size="small"
+              type="filled"
+            >
+              Create Course
+            </vs-button>
+            &nbsp; &nbsp;
+            <vs-button
+              :to="{ name: 'allhardskill', params: { id: 1 } }"
+              size="small"
+              color="success"
+              type="relief"
+            >
+              Lihat Semua
+            </vs-button>
           </template>
           <template slot="thead">
             <vs-th>No</vs-th>

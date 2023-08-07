@@ -77,8 +77,9 @@
               :reduce="(e) => e.id"
               label="name"
             ></v-select> -->
+
+            <!-- @search:blur="storeData.company_id" -->
             <v-select
-              @search:blur="storeData.company_id"
               v-model="storeData.company_id"
               :options="companies"
               v-validate="'required'"
@@ -158,9 +159,7 @@
         </div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button color="dark" type="flat" :to="{ name: `sop` }"
-              >Back</vs-button
-            >
+            <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
             &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
@@ -220,6 +219,9 @@ export default {
       dispatchGetOrganizations: "master/organizations",
       dispatchGetGolongans: "master/golongans",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
     async getMaster() {
       const co = await this.dispatchGetCompanies();
       this.companies = co.data;
@@ -252,9 +254,6 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0]}, ${pair[1]}`);
-        // }
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -275,7 +274,8 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          this.$router.push({ name: "sop" });
+          // this.$router.push({ name: "sop" });
+          this.goBack;
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;

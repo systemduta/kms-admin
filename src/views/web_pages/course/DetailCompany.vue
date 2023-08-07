@@ -1,11 +1,32 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="Detail Per Company">
         Company:
         <h4 v-if="getDetail2.length > 0">{{ getDetail2[0].name }}</h4>
         <h4 v-else>-</h4>
         <vs-table pagination max-items="10" search :data="getList" class="mb-2">
+          <template slot="header">
+            <vs-button
+              :to="{ name: 'course-create' }"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              size="small"
+              type="filled"
+            >
+              Create Course
+            </vs-button>
+          </template>
           <template slot="thead">
             <vs-th>No</vs-th>
             <vs-th>Name</vs-th>
@@ -21,7 +42,10 @@
                 <div class="flex">
                   <vs-button
                     class="mr-2"
-                    :to="{ name: `course-read`, params: { id: tr.id } }"
+                    :to="{
+                      name: `course-read`,
+                      params: { id: tr.id, name: tr.name },
+                    }"
                     icon-pack="feather"
                     icon="icon-edit"
                     size="small"
@@ -76,6 +100,10 @@ export default {
     //         this.popupActivo2 = true;
     //       });
     //   },
+
+    goBack() {
+      this.$router.go(-1);
+    },
 
     async getDetail() {
       const success = await this.dispatchIndex(this.$route.params.id);

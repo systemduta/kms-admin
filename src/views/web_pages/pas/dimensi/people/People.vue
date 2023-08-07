@@ -214,9 +214,10 @@ export default {
       console.log("id : " + id);
     },
     goBack() {
-      this.$router.push({
-        name: "dimensipas",
-      });
+      // this.$router.push({
+      //   name: "dimensipas",
+      // });
+      this.$router.go(-1);
     },
 
     async getMaster() {

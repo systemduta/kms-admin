@@ -1,6 +1,16 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="Input Data Crossfunction">
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
@@ -19,11 +29,19 @@
         <div class="mb-5 vx-row">
           <div class="w-full vx-col">
             <small class="ml-2">Name SOP</small> <br />
-            <v-select
+            <!-- <v-select
               v-model="storeData.sop_id"
               :options="sops.filter((e) => e.company_id == company_id)"
               v-validate="'required'"
               name="sop"
+              :reduce="(e) => e.id"
+              label="title"
+            ></v-select> -->
+            <v-select
+              v-model="storeData.sop_id"
+              v-validate="'required'"
+              name="sop"
+              :options="sops"
               :reduce="(e) => e.id"
               label="title"
             ></v-select>
@@ -36,6 +54,17 @@
           <div class="w-full vx-col">
             <small class="ml-2">Upload file</small> <br />
             <input
+              v-if="this.$route.params.id"
+              class="w-full"
+              type="file"
+              id="file"
+              ref="file"
+              @change="getBase64File"
+              name="pdf_file"
+              v-validate="'ext:pdf,docx,doc|size:3072'"
+            />
+            <input
+              v-else
               class="w-full"
               type="file"
               id="file"
@@ -44,6 +73,8 @@
               name="pdf_file"
               v-validate="'required|ext:pdf,docx,doc|size:3072'"
             />
+
+            <br />
             <span class="text-sm text-danger" v-show="errors.has('pdf_file')">{{
               errors.first("pdf_file")
             }}</span>
@@ -105,6 +136,9 @@ export default {
       dispatchGetGolongans: "master/golongans",
       dispatchGetSops: "master/sops",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
     async getMaster() {
       const org = await this.dispatchGetOrganizations();
       this.organizations = org.data;
@@ -127,9 +161,7 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0] }, ${  pair[1]}`)
-        // }
+
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -168,7 +200,6 @@ export default {
       this.storeData.sop_id = success.sop_id;
       this.storeData.name = success.name;
       this.storeData.description = success.description;
-      this.storeData.file = success.file;
     },
     getBase64File(event) {
       const reader = new FileReader();

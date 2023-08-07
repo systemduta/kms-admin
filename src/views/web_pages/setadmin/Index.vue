@@ -2,9 +2,16 @@
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
       <vx-card title="Daftar Admin">
-        <vs-table max-items="10" pagination search :data="datas" class="mb-2">
+        <vs-table search :data="datas" class="mb-2">
           <template slot="header">
-            <vs-button size="small" @click="addMore">Tambah admin</vs-button>
+            <vs-button
+              size="small"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              @click="addMore"
+            >
+              Tambah admin
+            </vs-button>
           </template>
 
           <template slot="thead">
@@ -81,7 +88,7 @@
               <vs-td
                 style="text-align: center"
                 :data="tr.isSOP"
-                v-if="tr.isSOP == 1"
+                v-if="tr.isSOP == 1 || tr.isSuperAdmin"
               >
                 <vs-icon icon="done" color="rgb(70, 150, 0)"></vs-icon>
               </vs-td>
@@ -92,7 +99,7 @@
               <vs-td
                 style="text-align: center"
                 :data="tr.isKMS"
-                v-if="tr.isKMS == 1"
+                v-if="tr.isKMS == 1 || tr.isSuperAdmin"
               >
                 <vs-icon icon="done" color="rgb(70, 150, 0)"></vs-icon>
               </vs-td>
@@ -103,7 +110,7 @@
               <vs-td
                 style="text-align: center"
                 :data="tr.is1VHS"
-                v-if="tr.is1VHS == 1"
+                v-if="tr.is1VHS == 1 || tr.isSuperAdmin"
               >
                 <vs-icon icon="done" color="rgb(70, 150, 0)"></vs-icon>
               </vs-td>
@@ -114,7 +121,7 @@
               <vs-td
                 style="text-align: center"
                 :data="tr.isPAS"
-                v-if="tr.isPAS == 1"
+                v-if="tr.isPAS == 1 || tr.isSuperAdmin"
               >
                 <vs-icon icon="done" color="rgb(70, 150, 0)"></vs-icon>
               </vs-td>
@@ -186,7 +193,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin SOP</small>
               <v-select
@@ -203,7 +210,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin KMS</small>
               <v-select
@@ -220,7 +227,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin 1VHS</small>
               <v-select
@@ -237,7 +244,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin PAS</small>
               <v-select
@@ -253,6 +260,7 @@
               }}</span>
             </div>
           </div>
+
           <div class="vx-row">
             <div class="w-full text-right vx-col">
               <vs-button @click="store" class="mr-5">Simpan</vs-button>
@@ -308,7 +316,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin SOP</small>
               <v-select
@@ -325,7 +333,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin KMS</small>
               <v-select
@@ -342,7 +350,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin 1VHS</small>
               <v-select
@@ -359,7 +367,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <div class="mb-5 vx-row" v-if="storeData.isSuperAdmin === 0">
             <div class="w-full vx-col">
               <small>admin PAS</small>
               <v-select
@@ -375,6 +383,7 @@
               }}</span>
             </div>
           </div>
+
           <div class="vx-row">
             <div class="w-full text-right vx-col">
               <vs-button class="mr-5" @click="update">Update</vs-button>
@@ -431,30 +440,58 @@ export default {
     }),
     async update() {
       try {
-        const data = new FormData();
-        data.append("id", this.storeData.id);
-        data.append("user_id", this.storeData.user_id);
-        data.append("isSuperAdmin", this.storeData.isSuperAdmin);
-        data.append("isSOP", this.storeData.isSOP);
-        data.append("isKMS", this.storeData.isKMS);
-        data.append("is1VHS", this.storeData.is1VHS);
-        data.append("isPAS", this.storeData.isPAS);
-        data.append("_method", "PUT");
-        const response = await this.dispatchUpdate(data);
-        if (response.statusCode === 200) {
+        if (
+          this.storeData.is1VHS === 0 &&
+          this.storeData.isKMS === 0 &&
+          this.storeData.isPAS === 0 &&
+          this.storeData.isSOP === 0 &&
+          this.storeData.isSuperAdmin === 0
+        ) {
           this.$vs.notify({
-            time: 2000,
-            title: "Suksess",
-            text: "Data sukses diupdate",
-            color: "primary",
-            icon: "verified_user",
+            time: 4000,
+            title: "Oops!",
+            text: "tidak ada izin yang diisi, Apakah anda ingin menghapusnya ?",
+            color: "danger",
           });
+        } else {
+          if (this.storeData.isSuperAdmin === 1) {
+            this.storeData.is1VHS = 0;
+            this.storeData.isKMS = 0;
+            this.storeData.isPAS = 0;
+            this.storeData.isSOP = 0;
+          }
+          this.$vs.loading({
+            type: "radius",
+            color: "blue",
+            textAfter: true,
+            text: "Please Wait ...",
+          });
+          const data = new FormData();
+          data.append("id", this.storeData.id);
+          data.append("user_id", this.storeData.user_id);
+          data.append("isSuperAdmin", this.storeData.isSuperAdmin);
+          data.append("isSOP", this.storeData.isSOP);
+          data.append("isKMS", this.storeData.isKMS);
+          data.append("is1VHS", this.storeData.is1VHS);
+          data.append("isPAS", this.storeData.isPAS);
+          data.append("_method", "PUT");
+          const response = await this.dispatchUpdate(data);
+          if (response.statusCode === 200) {
+            this.$vs.loading.close();
+            this.$vs.notify({
+              time: 2000,
+              title: "Suksess",
+              text: "Data sukses diupdate",
+              color: "primary",
+              icon: "verified_user",
+            });
 
-          setTimeout(() => {
-            this.isUpdatePermission = false;
-            this.netral();
-            this.getDatas();
-          }, 500);
+            setTimeout(() => {
+              this.isUpdatePermission = false;
+              this.netral();
+              this.getDatas();
+            }, 500);
+          }
         }
       } catch (error) {
         this.$vs.notify({
@@ -545,8 +582,15 @@ export default {
             color: "danger",
           });
         } else {
+          this.$vs.loading({
+            type: "radius",
+            color: "blue",
+            textAfter: true,
+            text: "Please Wait ...",
+          });
           const response = await this.dispatchStore(this.storeData);
           if (response.statusCode === 200) {
+            this.$vs.loading.close();
             this.$vs.notify({
               time: 4000,
               title: "Suksess",

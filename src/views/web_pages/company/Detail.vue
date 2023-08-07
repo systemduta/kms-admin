@@ -1,5 +1,15 @@
 <template>
   <div class="vx-row">
+    <vs-button
+      class="ml-4 my-2"
+      icon-pack="feather"
+      icon="icon-arrow-left"
+      size="small"
+      type="border"
+      @click="goBack"
+    >
+      Back
+    </vs-button>
     <div class="w-full vx-col mb-base">
       <vx-card title="Detail Company">
         Company:
@@ -12,8 +22,10 @@
               type="filled"
               icon-pack="feather"
               icon="icon-edit"
-              >Create Division</vs-button
+              size="small"
             >
+              Create Division
+            </vs-button>
           </template>
           <template slot="thead">
             <vs-th>No</vs-th>
@@ -49,7 +61,7 @@
                   <vs-button
                     class="mr-2"
                     color="danger"
-                    @click="cekClick(tr.id)"
+                    @click="deletes(tr.id)"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
@@ -119,7 +131,11 @@
                         class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                         v-model="isAdm"
                       >
-                        <option v-for="option in options" :value="option.value">
+                        <option
+                          v-for="option in options"
+                          :value="option.value"
+                          :key="option.value"
+                        >
                           {{ option.text }}
                         </option>
                       </select>
@@ -213,9 +229,11 @@ import axios from "@/axios";
 export default {
   data() {
     return {
+      idDelete: null,
       idOrg: null,
       popupActivo: false,
       popupActivo2: false,
+      isEdit: false,
       name: "",
       code: "",
       company_id: null,
@@ -242,33 +260,64 @@ export default {
       dispatchUpdate: "division/update",
       dispatchDelOrg: "division/deleteDiv",
     }),
-
-    async cekClick(id) {
+    goBack() {
+      this.$router.go(-1);
+    },
+    async confirmDelete() {
       try {
-        const message = await this.dispatchDelOrg(id);
-        if ("error" in message) {
-          this.$vs.notify({
-            title: "Oops!",
-            text: message["error"],
-            color: "danger",
-          });
-        } else {
-          this.$vs.notify({
-            title: "Success!",
-            text: "Data was deleted successfully!",
-            color: "success",
-          });
-          window.location.reload();
-        }
+        await this.dispatchDelOrg(this.idDelete);
+        this.dispatchIndex();
+        this.$vs.notify({
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+        this.dispatchIndex();
       } catch (error) {
-        this.$vs.loading.close();
         this.$vs.notify({
           title: "Oops!",
-          text: error.error,
+          // text: `Looks like something went wrong. please try again later (${error.data.message})`,
+          text: "Looks like something went wrong. please try again later maybe you have another relevant data",
           color: "danger",
         });
       }
     },
+    deletes(id) {
+      this.idDelete = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
+    },
+    // async cekClick(id) {
+    //   try {
+    //     const message = await this.dispatchDelOrg(id);
+    //     if ("error" in message) {
+    //       this.$vs.notify({
+    //         title: "Oops!",
+    //         text: message["error"],
+    //         color: "danger",
+    //       });
+    //     } else {
+    //       this.$vs.notify({
+    //         title: "Success!",
+    //         text: "Data was deleted successfully!",
+    //         color: "success",
+    //       });
+    //       this.getDetail();
+    //     }
+    //   } catch (error) {
+    //     this.$vs.loading.close();
+    //     this.$vs.notify({
+    //       title: "Oops!",
+    //       text: error.error,
+    //       color: "danger",
+    //     });
+    //   }
+    // },
 
     getID(id) {
       axios

@@ -4,7 +4,11 @@
       <vx-card title="All Company">
         <vs-table search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'company-create' }"
+            <vs-button
+              :to="{ name: 'company-create' }"
+              size="small"
+              icon-pack="feather"
+              icon="icon-plus-circle"
               >Tambah Perusahaan</vs-button
             >
           </template>
@@ -41,12 +45,13 @@
                       params: { id: tr.id },
                     }"
                   ></vs-button>
-                  <!-- <vs-button
+                  <vs-button
                     color="danger"
                     icon-pack="feather"
                     icon="icon-delete"
                     size="small"
-                  ></vs-button> -->
+                    @click="deletes(tr.id)"
+                  ></vs-button>
                 </div>
               </vs-td>
             </vs-tr>
@@ -61,7 +66,9 @@
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      idDelete: null,
+    };
   },
   computed: {
     ...mapState({
@@ -71,17 +78,38 @@ export default {
   methods: {
     ...mapActions({
       dispatchIndex: "company/index",
-      // dispatchGetList: "company/getlistcompany",
+      dispatchDestroy: "company/destroy",
     }),
 
-    // async getListCompany(id) {
-    //   const datas = await this.dispatchGetList(id);
-    //   console.log(datas);
-    // },
-
-    // check(id) {
-    //   console.log(id);
-    // },
+    async confirmDelete() {
+      try {
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
+        this.$vs.notify({
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+        this.dispatchIndex();
+      } catch (error) {
+        this.$vs.notify({
+          title: "Oops!",
+          // text: `Looks like something went wrong. please try again later (${error.data.message})`,
+          text: "Looks like something went wrong. please try again later maybe you have another relevant data",
+          color: "danger",
+        });
+      }
+    },
+    deletes(id) {
+      this.idDelete = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
+    },
   },
   mounted() {
     this.$vs.loading({

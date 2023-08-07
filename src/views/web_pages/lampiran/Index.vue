@@ -4,7 +4,12 @@
       <vx-card title="All Lampiran">
         <vs-table pagination max-items="10" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'lampiran-create' }"
+            <vs-button
+              :to="{ name: 'lampiran-create' }"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              size="small"
+              type="filled"
               >Create Lampiran</vs-button
             >
           </template>

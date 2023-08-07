@@ -1,7 +1,17 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="Input Data Course">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
+      <vx-card title="Input Data Hard Skill Course">
         <div class="w-full vx-col">
           <input
             class="hidden"
@@ -123,6 +133,7 @@
             }}</span>
           </div>
         </div>
+
         <div
           class="mb-5 vx-row"
           v-if="storeData.type == 1 || storeData.type == 4"
@@ -148,6 +159,7 @@
             >
           </div>
         </div>
+
         <div
           class="mb-5 vx-row"
           v-if="storeData.type == 1 || storeData.type == 4"
@@ -161,6 +173,7 @@
               name="golongan_id"
               :reduce="(e) => e.id"
               label="golongan_data"
+              placeholder="code - nama"
             ></v-select>
             <span
               class="text-sm text-danger"
@@ -173,6 +186,17 @@
           <div class="w-full vx-col">
             <small class="ml-2">Upload pdf file</small> <br />
             <input
+              v-if="this.$route.params.id"
+              class="w-full"
+              type="file"
+              id="file"
+              ref="file"
+              @change="getBase64File"
+              name="pdf_file"
+              v-validate="'ext:pdf|size:3072'"
+            />
+            <input
+              v-else
               class="w-full"
               type="file"
               id="file"
@@ -266,15 +290,7 @@
         </div>
         <div class="vx-row">
           <div class="w-full text-right vx-col">
-            <vs-button
-              color="dark"
-              type="flat"
-              :to="{
-                name: `course-read`,
-                params: { id: this.$route.params.id },
-              }"
-              >Back</vs-button
-            >
+            <vs-button color="dark" type="flat" @click="goBack">Back</vs-button>
             &nbsp; &nbsp;
             <vs-button @click="store" :disabled="isLoading">Save</vs-button>
           </div>
@@ -361,6 +377,9 @@ export default {
       dispatchGetOrganizations: "master/organizations",
       dispatchGetGolongans: "master/golongans",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
     async getMaster() {
       const co = await this.dispatchGetCompanies();
       this.companies = co.data;
@@ -474,7 +493,7 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
-        // console.log(...formData);
+
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -495,7 +514,8 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          this.$router.push({ name: "course" });
+          // this.$router.push({ name: "course" });
+          this.$router.go(-1);
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
@@ -515,8 +535,8 @@ export default {
         : "";
       this.storeData.title = success.title;
       this.storeData.description = success.description;
-      this.storeData.file = success.file;
-      this.storeData.video = success.video;
+      // this.storeData.file = success.file;
+      // this.storeData.video = success.video;
       this.storeData.link = success.link;
       this.storeData.type = success.type;
       this.storeData.company_id = success.company_id;

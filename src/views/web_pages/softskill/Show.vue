@@ -1,7 +1,20 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
-      <vx-card title="All Course">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
+      <vx-card
+        v-if="this.$route.params.type == 'Staf PKWT'"
+        :title="'All Courses : Staff'"
+      >
         <vs-table search :data="datas" class="mb-2">
           <template slot="thead">
             <vs-th>Image</vs-th>
@@ -34,7 +47,91 @@
               <vs-td :data="tr.type" v-if="tr.type === 3"
                 >Corporate Value</vs-td
               >
-              <vs-td :data="'kosong'">{{ tr.golongan_name }}</vs-td>
+              <vs-td
+                :data="tr.golongan_name"
+                v-if="tr.golongan_name == 'Staf PKWT'"
+                >Staff</vs-td
+              >
+              <vs-td :data="tr.golongan_name" v-else>{{
+                tr.golongan_name
+              }}</vs-td>
+              <vs-td>
+                <div class="flex">
+                  <vs-button
+                    :to="{ name: 'leaderboard-soft', params: { id: tr.id } }"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    @click="downData(tr.id)"
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-download"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    class="mr-2"
+                    :to="{ name: `create-softskill`, params: { id: tr.id } }"
+                    icon-pack="feather"
+                    icon="icon-edit"
+                    size="small"
+                  ></vs-button>
+                  <vs-button
+                    color="danger"
+                    @click="deletes(tr.id)"
+                    icon-pack="feather"
+                    icon="icon-delete"
+                    size="small"
+                  ></vs-button>
+                </div>
+              </vs-td>
+            </vs-tr>
+          </template>
+        </vs-table>
+      </vx-card>
+      <vx-card v-else :title="'All Course : ' + this.$route.params.type">
+        <vs-table search :data="datas" class="mb-2">
+          <template slot="thead">
+            <vs-th>Image</vs-th>
+            <vs-th>Title</vs-th>
+            <vs-th>Description</vs-th>
+            <vs-th>Type</vs-th>
+            <vs-th>Level</vs-th>
+            <vs-th>Action</vs-th>
+          </template>
+          <template slot-scope="{ data }">
+            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+              <vs-td class="img-container">
+                <img
+                  :src="base_url_image + '/files/' + tr.image"
+                  width="150"
+                  height="100"
+                  class="product-img"
+                />
+              </vs-td>
+              <vs-td :data="tr.title">
+                <router-link
+                  :to="{ name: 'course-detail', params: { id: tr.id } }"
+                  >{{ tr.title }}</router-link
+                >
+              </vs-td>
+              <vs-td :data="tr.description">{{ tr.description }}</vs-td>
+              <vs-td :data="tr.type" v-if="tr.type === 1">Hard Skill</vs-td>
+              <vs-td :data="tr.type" v-if="tr.type === 4">Soft Skill</vs-td>
+              <vs-td :data="tr.type" v-if="tr.type === 2">Our Company</vs-td>
+              <vs-td :data="tr.type" v-if="tr.type === 3"
+                >Corporate Value</vs-td
+              >
+              <vs-td
+                :data="tr.golongan_name"
+                v-if="tr.golongan_name == 'Staf PKWT'"
+                >Staff</vs-td
+              >
+              <vs-td :data="tr.golongan_name" v-else>{{
+                tr.golongan_name
+              }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button
@@ -99,9 +196,9 @@ export default {
       dispatchDown: "course/getDown",
     }),
 
-    // cekid(id) {
-    //   console.log(id);
-    // },
+    goBack() {
+      this.$router.go(-1);
+    },
 
     async master($id) {
       const data = await this.dispatchIndex($id);

@@ -1,8 +1,32 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="SOP">
-        <vs-table search :data="data" class="mb-2">
+        <vs-table
+          search
+          v-if="data && data.length > 0"
+          :data="data"
+          class="mb-2"
+        >
+          <template slot="header">
+            <vs-button
+              :to="{ name: 'sop-create' }"
+              size="small"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              >Create SOP
+            </vs-button>
+          </template>
           <template slot="thead">
             <vs-th>Request Download</vs-th>
             <vs-th>Image</vs-th>
@@ -105,6 +129,9 @@ export default {
       dispatchDestroy: "sop/destroy",
       dispatchUpdates: "sop/status",
     }),
+    goBack() {
+      this.$router.go(-1);
+    },
     async downData(id) {
       this.$http
         .get("api/web/downsop/" + id)
@@ -145,7 +172,7 @@ export default {
         this.dispatchIndex();
         this.$vs.notify({
           title: "Success",
-          text: "Your data has been deleted successfully",
+          text: "Your data has been changed successfully",
           color: "primary",
         });
         this.dispatchIndex(this.$route.params.id);

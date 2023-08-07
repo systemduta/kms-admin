@@ -16,40 +16,20 @@ const mutations = {
   },
 };
 const actions = {
-  async index({ commit }, payload) {
+  async index({ commit }) {
     try {
-      const { data } = await axios.get(`api/web/companies`);
-      // console.log(data);
+      const { data } = await axios.get("api/web/golongan");
       commit("SET_ROWS", data.data);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);
     }
   },
-  async getlistcompany({ commit }, id) {
+  async store(store, payload) {
     try {
-      const { data } = await axios.get(`api/web/getcompany/${id}`);
-      //   console.log(data);
-      commit("SET_ROW", data);
-      return Promise.resolve(data);
-    } catch (error) {
-      return Promise.reject(error.response);
-    }
-  },
-
-  async store({ commit }, payload) {
-    try {
-      const { data } = await axios.post("api/web/companies", payload, {
+      const { data } = await axios.post("api/web/golongan", payload, {
         headers: {
           "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent) => {
-          commit(
-            "SET_UPLOAD_PROGRESS",
-            parseInt(
-              Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            )
-          );
         },
       });
       return Promise.resolve(data);
@@ -57,14 +37,22 @@ const actions = {
       return Promise.reject(error.response);
     }
   },
-
+  async show({ commit }, id) {
+    try {
+      const { data } = await axios.get(`api/web/golongan/${id}`);
+      commit("SET_ROW", data.data);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error.response);
+    }
+  },
   async update(store, payload) {
     let id = null;
     for (const pair of payload.entries()) {
       if (pair[0] === "id") id = pair[1];
     }
     try {
-      const { data } = await axios.post(`api/web/companies/${id}`, payload);
+      const { data } = await axios.post(`api/web/golongan/${id}`, payload);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);
@@ -73,18 +61,7 @@ const actions = {
 
   async destroy(store, id) {
     try {
-      const { data } = await axios.delete(`api/web/companies/${id}`);
-      return Promise.resolve(data);
-    } catch (error) {
-      console.log(error);
-      return Promise.reject(error.response);
-    }
-  },
-
-  async show({ commit }, id) {
-    try {
-      const { data } = await axios.get(`api/web/companies/${id}`);
-      commit("SET_ROW", data.data);
+      const { data } = await axios.delete(`api/web/golongan/${id}`);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error.response);

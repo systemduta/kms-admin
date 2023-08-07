@@ -10,17 +10,19 @@
               icon="list"
               title="exam result"
               :to="{ name: 'leaderboard-exam-result' }"
-            ></vs-button>
+            >
+              all exam result
+            </vs-button>
           </template>
           <template slot="thead">
-            <vs-th>Level</vs-th>
             <vs-th>Name</vs-th>
+            <vs-th>Level</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-              <vs-td :data="tr.code">{{ tr.code }}</vs-td>
               <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+              <vs-td :data="tr.code">{{ tr.code }}</vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button

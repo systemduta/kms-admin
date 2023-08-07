@@ -4,9 +4,15 @@
       <vx-card title="All Crossfunction">
         <vs-table pagination max-items="10" search :data="data" class="mb-2">
           <template slot="header">
-            <vs-button :to="{ name: 'crossfunction-create' }"
-              >Create Crossfunction</vs-button
+            <vs-button
+              :to="{ name: 'crossfunction-create' }"
+              icon-pack="feather"
+              icon="icon-plus-circle"
+              size="small"
+              type="filled"
             >
+              Create Crossfunction
+            </vs-button>
           </template>
           <template slot="thead">
             <vs-th>No.</vs-th>

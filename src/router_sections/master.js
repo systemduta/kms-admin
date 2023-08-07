@@ -1,4 +1,15 @@
 export default [
+  //golongan
+  {
+    path: "golongan",
+    name: "golongan",
+    component: () => import("@/views/web_pages/golongan/Index.vue"),
+    meta: {
+      auth: true,
+      parent: "golongan",
+    },
+  },
+
   //email
   {
     path: "email",
@@ -209,7 +220,7 @@ export default [
         component: () => import("@/views/web_pages/course/Update.vue"),
         meta: {
           auth: true,
-          parent: "update",
+          parent: "course",
         },
       },
       {
@@ -218,7 +229,16 @@ export default [
         component: () => import("@/views/web_pages/course/Answer.vue"),
         meta: {
           auth: true,
-          parent: "answer",
+          parent: "course",
+        },
+      },
+      {
+        path: "/allhardkill/:id",
+        name: "allhardskill",
+        component: () => import("@/views/web_pages/course/AllHardSkill.vue"),
+        meta: {
+          auth: true,
+          parent: "course",
         },
       },
     ],
@@ -415,9 +435,27 @@ export default [
         },
       },
       {
+        path: "",
+        name: "leaderboard-detail",
+        component: () => import("@/views/web_pages/leaderboard/Detail.vue"),
+        meta: {
+          auth: true,
+          parent: "leaderboard",
+        },
+      },
+      {
         path: "exam_result",
         name: "leaderboard-exam-result",
         component: () => import("@/views/web_pages/leaderboard/ExamResult.vue"),
+        meta: {
+          auth: true,
+          parent: "leaderboard",
+        },
+      },
+      {
+        path: ":id",
+        name: "leaderboard-read",
+        component: () => import("@/views/web_pages/leaderboard/Read.vue"),
         meta: {
           auth: true,
           parent: "leaderboard",
