@@ -5,14 +5,14 @@
         <vs-table pagination max-items="20" search :data="data" class="mb-2">
           <template slot="header">
             <vs-button :to="{ name: 'employee-create' }" size="small">
-              Create User</vs-button
-            >
+              Create User
+            </vs-button>
             &nbsp;
-            <a :href="urlDownload" target="_blank" rel="noopener noreferrer"
-              ><vs-button size="small" icon-pack="feather" icon="icon-download"
-                >Download Data</vs-button
-              ></a
-            >
+            <a :href="urlDownload" target="_blank" rel="noopener noreferrer">
+              <vs-button size="small" icon-pack="feather" icon="icon-download">
+                Download Data
+              </vs-button>
+            </a>
             <vs-popup
               title="Export"
               :active.sync="showDropdown"
@@ -54,16 +54,20 @@
             </vs-popup>
           </template>
           <template slot="thead">
-            <vs-th>Status</vs-th>
+            <vs-th width="10%">Status</vs-th>
             <vs-th></vs-th>
-            <vs-th>Name</vs-th>
+            <vs-th width="20%">Name</vs-th>
             <!-- <vs-th>Username</vs-th> -->
-            <vs-th>Company</vs-th>
-            <vs-th>Division</vs-th>
-            <vs-th>Level</vs-th>
-            <vs-th>NIK</vs-th>
-            <vs-th>Email</vs-th>
-            <vs-th></vs-th>
+            <vs-th width="20%">Company</vs-th>
+            <vs-th width="10%">Division</vs-th>
+            <vs-th width="10%">
+              <vx-tooltip text="Code golongan - nama golongan">
+                Level
+              </vx-tooltip>
+            </vs-th>
+            <vs-th width="10%">NIK</vs-th>
+            <vs-th width="10%">Email</vs-th>
+            <vs-th>aksi</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -71,13 +75,15 @@
                 <span
                   v-if="tr.status == 1"
                   style="color: white; background-color: green; padding: 5px"
-                  >Ada</span
                 >
+                  Ada
+                </span>
                 <span
                   v-if="tr.status == 0"
                   style="color: white; background-color: red; padding: 5px"
-                  >Resign</span
                 >
+                  Resign
+                </span>
                 <!-- <span v-else>null</span> -->
               </vs-td>
               <vs-td class="img-container">
@@ -89,7 +95,9 @@
               <vs-td :data="tr.organization.name">
                 {{ tr.organization.name }}
               </vs-td>
-              <vs-td :data="tr.golongan.name">{{ tr.golongan.name }}</vs-td>
+              <vs-td :data="tr.golongan.name">
+                {{ tr.golongan.code }} - {{ tr.golongan.name }}
+              </vs-td>
               <vs-td :data="tr.nik">{{ tr.nik }}</vs-td>
               <vs-td :data="tr.email">{{ tr.email }}</vs-td>
               <vs-td>
@@ -364,6 +372,7 @@ export default {
       .catch(() => {
         this.$vs.loading.close();
       });
+    // this.data;
   },
 };
 </script>

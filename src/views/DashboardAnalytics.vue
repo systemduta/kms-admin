@@ -4,11 +4,12 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
+            <!-- <div v-if="isSuperAdmin"> -->
             <div
               v-for="(stat, index) in stats"
               :key="index"
-              class="col-lg-3 col-md-6 col-12"
               v-if="isSuperAdmin"
+              class="col-lg-3 col-md-6 col-12"
             >
               <card
                 :title="stat.title"
@@ -22,6 +23,7 @@
                 directionReverse
               ></card>
             </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -78,7 +80,11 @@
                 <b>Last User added: </b>
               </vs-chip>
             </div>
-            <div class="col-lg-3 col-md-6 col-12" v-for="lastuser in lastUser">
+            <div
+              class="col-lg-3 col-md-6 col-12"
+              v-for="lastuser in lastUser"
+              :key="lastuser.name"
+            >
               <card
                 :title="lastuser.name"
                 :value="lastuser.nik"
@@ -93,15 +99,50 @@
         </div>
       </div>
     </div>
+
+    <div class="py-4 container-fluid" v-if="isSuperAdmin">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="center">
+              <vs-chip transparent color="primary" style="margin-bottom: 10px">
+                <b>User: </b>
+              </vs-chip>
+            </div>
+            <!-- <div style="width: 100; height: 100"> -->
+            <BarChart :chart-data="chartData" />
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-4 container-fluid" v-else>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="center">
+              <vs-chip transparent color="primary" style="margin-bottom: 10px">
+                <b>User: </b>
+              </vs-chip>
+            </div>
+            <!-- <div style="width: 100; height: 100"> -->
+            <BarChart :chart-data="chartDataOrg" />
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import VueApexCharts from "vue-apexcharts";
 import Card from "@/examples/Cards/Card.vue";
 import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import Carousel from "./components/Carousel.vue";
 import CategoriesCard from "./components/CategoriesCard.vue";
+import BarChart from "./components/Bar.vue";
 
 export default {
   name: "dashboard-default",
@@ -160,9 +201,33 @@ export default {
       formItems: [{ selectedOption: "", textValue: null }],
       maxvalue: null,
       sumvalue: null,
+      chartData: {
+        labels: [], // Array of organization names
+        datasets: [
+          {
+            label: "Total Users",
+            backgroundColor: ["#42A5F5", "#FF6384", "#4CAF50", "#FFC107"],
+            data: [], // Array of total_users values
+          },
+        ],
+      },
+      chartDataOrg: {
+        labels: [], // Array of organization names
+        datasets: [
+          {
+            label: "Total Users",
+            backgroundColor: ["#42A5F5", "#FF6384", "#4CAF50", "#FFC107"],
+            data: [], // Array of total_users values
+          },
+        ],
+      },
     };
   },
   methods: {
+    ...mapActions({
+      dispatchIndex: "employee/chartallcompanies",
+      dispatchOrg: "employee/chartallorg",
+    }),
     async getMaster() {
       this.$http
         .get("api/web/dashbrd")
@@ -178,20 +243,29 @@ export default {
           console.log(error);
         });
     },
-    addItem() {
-      let sum = this.formItems.reduce(
-        (n, { textValue }) => n + parseInt(textValue),
-        0
-      );
-      // console.log(sum);
-      if (sum > this.maxvalue) {
-        alert("KELEBIHAN BOS ku");
+
+    async fetchChartData() {
+      if (this.isSuperAdmin) {
+        const data = await this.dispatchIndex();
+        // console.log(data);
+        const responseData = data;
+
+        // Update chartData with the fetched data
+        this.chartData.labels = responseData.data.map((item) => item.name);
+        this.chartData.datasets[0].data = responseData.data.map(
+          (item) => item.total_users
+        );
       } else {
-        this.formItems.push({ selectedOption: "", textValue: null });
+        const data = await this.dispatchOrg();
+        // console.log(data);
+        const responseData = data;
+
+        // Update chartData with the fetched data
+        this.chartDataOrg.labels = responseData.data.map((item) => item.name);
+        this.chartDataOrg.datasets[0].data = responseData.data.map(
+          (item) => item.total_users
+        );
       }
-    },
-    deleteItem() {
-      this.formItems.pop({ selectedOption: "", textValue: null });
     },
   },
   components: {
@@ -200,6 +274,7 @@ export default {
     GradientLineChart,
     Carousel,
     CategoriesCard,
+    BarChart,
   },
   mounted() {
     const user_info = JSON.parse(localStorage.getItem("userInfo"));
@@ -209,6 +284,7 @@ export default {
     this.isKMS = parseInt(user_info.data.isKMS);
     this.is1VHS = parseInt(user_info.data.is1VHS);
     this.isPAS = parseInt(user_info.data.isPAS);
+    this.fetchChartData();
     this.$vs.loading({
       type: "radius",
       color: "blue",

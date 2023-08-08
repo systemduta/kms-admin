@@ -31,7 +31,11 @@
             <vs-th>Title</vs-th>
             <vs-th>Description</vs-th>
             <vs-th>Type</vs-th>
-            <vs-th>Level</vs-th>
+            <vs-th>
+              <vx-tooltip text="kode golongan - nama golongan">
+                Golongan
+              </vx-tooltip>
+            </vs-th>
             <vs-th>Action</vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -54,10 +58,12 @@
               <vs-td :data="tr.type" v-if="tr.type === 1">Hard Skill</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 4">Soft Skill</vs-td>
               <vs-td :data="tr.type" v-if="tr.type === 2">Our Company</vs-td>
-              <vs-td :data="tr.type" v-if="tr.type === 3"
-                >Corporate Value</vs-td
-              >
-              <vs-td :data="'kosong'">{{ tr.golongan_name }}</vs-td>
+              <vs-td :data="tr.type" v-if="tr.type === 3">
+                Corporate Value
+              </vs-td>
+              <vs-td :data="tr.golongan_name">
+                {{ tr.golongan_code }} - {{ tr.golongan_name }}
+              </vs-td>
               <vs-td>
                 <div class="flex">
                   <vs-button

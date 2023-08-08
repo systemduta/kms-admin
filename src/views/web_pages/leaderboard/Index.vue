@@ -16,7 +16,7 @@
           </template>
           <template slot="thead">
             <vs-th>Name</vs-th>
-            <vs-th>Level</vs-th>
+            <vs-th>Code</vs-th>
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">

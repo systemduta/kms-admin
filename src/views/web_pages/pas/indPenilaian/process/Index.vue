@@ -119,7 +119,11 @@
                   v-validate="'required'"
                   name="grade"
                 >
-                  <option v-for="option in options" :value="option.value">
+                  <option
+                    v-for="option in options"
+                    :value="option.value"
+                    :key="option.value"
+                  >
                     {{ option.text }}
                   </option>
                 </select>
@@ -199,7 +203,11 @@
                   v-validate="'required'"
                   name="grade"
                 >
-                  <option v-for="option in options" :value="option.value">
+                  <option
+                    v-for="option in options"
+                    :value="option.value"
+                    :key="option.value"
+                  >
                     {{ option.text }}
                   </option>
                 </select>
