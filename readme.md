@@ -24,12 +24,13 @@ cd kms-admin
 3. Setelah itu alihkan ke branch "dev" dengan paste dan run command dibawah di git bash
 
 ```bash
-git checkout dev
+git checkout --namaBranch
 ```
 
 - branch digunakan untuk memisahkan antara code development dan code production
 - branch master: untuk production
 - branch dev: untuk development
+- branch PAS-project: untuk fitur terbaru
 - dan ada beberapa branch lain yang tidak teralu dipakai
 - kalau mau upload ke production ada "guard" jadi harus manual ke web github dan masuk ke akun github engineer
 

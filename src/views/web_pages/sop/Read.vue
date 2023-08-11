@@ -12,12 +12,7 @@
         Back
       </vs-button>
       <vx-card title="SOP">
-        <vs-table
-          search
-          v-if="data && data.length > 0"
-          :data="data"
-          class="mb-2"
-        >
+        <vs-table search v-if="data" :data="data" class="mb-2">
           <template slot="header">
             <vs-button
               :to="{ name: 'sop-create' }"
