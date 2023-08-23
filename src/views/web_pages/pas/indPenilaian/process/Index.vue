@@ -4,7 +4,7 @@
       >Kembali</vs-button
     >
     <div class="w-full vx-col mb-base" v-if="listInd">
-      <vx-card title="KPI PAS">
+      <vx-card title="Indikator Penilaian PAS">
         <table>
           <tr>
             <td>Nama Parameter</td>
@@ -43,7 +43,7 @@
       </vx-card>
       <hr />
 
-      <vx-card title="Daftar KPI">
+      <vx-card title="Daftar Indikator Penilaian">
         <vs-table
           search
           v-if="listInd && Array.isArray(listInd.data)"
@@ -59,7 +59,7 @@
             <vs-th>No</vs-th>
             <vs-th>Deskripsi</vs-th>
             <vs-th>Nilai</vs-th>
-            <vs-th>Grade</vs-th>
+            <!-- <vs-th>Grade</vs-th> -->
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -67,7 +67,7 @@
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.desc">{{ tr.desc }}</vs-td>
               <vs-td :data="tr.nilai">{{ tr.nilai }}</vs-td>
-              <vs-td :data="tr.grade">{{ tr.grade }}</vs-td>
+              <!-- <vs-td :data="tr.grade">{{ tr.grade }}</vs-td> -->
               <vs-td>
                 <div class="flex">
                   <vs-button
@@ -93,7 +93,7 @@
       </vx-card>
 
       <vs-popup :active.sync="isAdd" title="Tambah Indikator">
-        <vx-card title="Tambah Indikator">
+        <vx-card>
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
               <vs-input
@@ -102,6 +102,7 @@
                 v-validate="'required'"
                 name="nilai"
                 label="Nilai"
+                type="number"
               ></vs-input>
               <span class="text-danger text-sm" v-show="errors.has('nilai')">{{
                 errors.first("nilai")
@@ -109,7 +110,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <div class="relative">
                 <span>Pilih Grade: </span>
@@ -147,7 +148,7 @@
                 >
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
@@ -166,7 +167,14 @@
 
           <div class="vx-row">
             <div class="w-full text-right vx-col">
-              <vs-button color="dark" type="flat" @click="isAdd = false"
+              <vs-button
+                color="dark"
+                type="flat"
+                @click="
+                  (isAdd = false),
+                    (storeData.nilai = null),
+                    (storeData.desc = '')
+                "
                 >Back</vs-button
               >
               &nbsp; &nbsp;
@@ -177,7 +185,7 @@
       </vs-popup>
 
       <vs-popup :active.sync="isUpdate" title="Update Indikator PAS">
-        <vx-card title="Edit Indikator">
+        <vx-card>
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
               <vs-input
@@ -186,6 +194,7 @@
                 v-validate="'required'"
                 name="nilai"
                 label="Nilai"
+                type="number"
               ></vs-input>
               <span class="text-danger text-sm" v-show="errors.has('nilai')">{{
                 errors.first("nilai")
@@ -193,7 +202,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <div class="relative">
                 <span>Pilih Grade: </span>
@@ -231,7 +240,7 @@
                 >
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
@@ -278,18 +287,18 @@ export default {
       namaCompany: "",
       namaDivisi: "",
       listInd: [],
-      options: [
-        { value: "a", text: "a" },
-        { value: "b", text: "b" },
-        { value: "c", text: "c" },
-      ],
+      // options: [
+      //   { value: "a", text: "a" },
+      //   { value: "b", text: "b" },
+      //   { value: "c", text: "c" },
+      // ],
       storeData: {
         id3p: this.$route.params.id3p,
         idKpi: this.$route.params.idKpi,
         idCompany: this.$route.params.idCompany,
         idDivisi: this.$route.params.idDivisi,
         nilai: null,
-        grade: "",
+        // grade: "",
         desc: "",
       },
 
@@ -300,7 +309,7 @@ export default {
         idCompany: this.$route.params.idCompany,
         idDivisi: this.$route.params.idDivisi,
         nilai: null,
-        grade: "",
+        // grade: "",
         desc: "",
       },
 
@@ -359,7 +368,7 @@ export default {
       send.append("idCompany", this.storeData.idCompany);
       send.append("idDivisi", this.storeData.idDivisi);
       send.append("nilai", this.storeData.nilai);
-      send.append("grade", this.storeData.grade);
+      // send.append("grade", this.storeData.grade);
       send.append("desc", this.storeData.desc);
 
       this.$vs.loading({
@@ -379,7 +388,7 @@ export default {
         });
         this.getDatas();
         this.storeData.nilai = null;
-        this.storeData.grade = "";
+        // this.storeData.grade = "";
         this.storeData.desc = "";
         this.isAdd = false;
       } catch (error) {
@@ -390,6 +399,9 @@ export default {
           text: error.data.message,
           color: "danger",
         });
+        this.storeData.nilai = null;
+        // this.storeData.grade = "";
+        this.storeData.desc = "";
       }
     },
 
@@ -429,7 +441,7 @@ export default {
         const indikator_data = await this.dispatchShow($id);
         this.updateData.id = indikator_data.data["id"];
         this.updateData.nilai = indikator_data.data["nilai"];
-        this.updateData.grade = indikator_data.data["grade"];
+        // this.updateData.grade = indikator_data.data["grade"];
         this.updateData.desc = indikator_data.data["desc"];
 
         this.isUpdate = true;
@@ -446,7 +458,7 @@ export default {
       send.append("idCompany", this.updateData.idCompany);
       send.append("idDivisi", this.updateData.idDivisi);
       send.append("nilai", this.updateData.nilai);
-      send.append("grade", this.updateData.grade);
+      // send.append("grade", this.updateData.grade);
       send.append("desc", this.updateData.desc);
       send.append("_method", "PUT");
 
@@ -467,6 +479,10 @@ export default {
         });
         this.getDatas();
         this.isUpdate = false;
+
+        this.storeData.nilai = null;
+        // this.storeData.grade = "";
+        this.storeData.desc = "";
       } catch (error) {
         this.$vs.loading.close();
         this.isLoading = false;
@@ -475,6 +491,10 @@ export default {
           text: error.data.message,
           color: "danger",
         });
+
+        this.storeData.nilai = null;
+        // this.storeData.grade = "";
+        this.storeData.desc = "";
       }
     },
   },

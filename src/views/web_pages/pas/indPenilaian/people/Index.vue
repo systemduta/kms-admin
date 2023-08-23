@@ -50,7 +50,7 @@
             <vs-th sort-key="no">No</vs-th>
             <vs-th sort-key="desc">Desc</vs-th>
             <vs-th sort-key="nilai">Nilai</vs-th>
-            <vs-th sort-key="grade">Grade</vs-th>
+            <!-- <vs-th sort-key="grade">Grade</vs-th> -->
             <vs-th></vs-th>
           </template>
           <template slot-scope="{ data }">
@@ -58,7 +58,7 @@
               <vs-td :data="indextr">{{ indextr + 1 }}</vs-td>
               <vs-td :data="tr.desc">{{ tr.desc }}</vs-td>
               <vs-td :data="tr.nilai">{{ tr.nilai }}</vs-td>
-              <vs-td :data="tr.grade">{{ tr.grade }}</vs-td>
+              <!-- <vs-td :data="tr.grade">{{ tr.grade }}</vs-td> -->
               <vs-td>
                 <div class="flex">
                   &nbsp;
@@ -86,7 +86,7 @@
       </vx-card>
 
       <vs-popup :active.sync="isAdd" title="Tambah Indikator PAS">
-        <vx-card title="Tambah Indikator">
+        <vx-card>
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
               <vs-input
@@ -95,6 +95,7 @@
                 v-validate="'required'"
                 name="nilai"
                 label="Nilai"
+                type="number"
               ></vs-input>
               <span class="text-danger text-sm" v-show="errors.has('nilai')">{{
                 errors.first("nilai")
@@ -102,7 +103,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <div class="relative">
                 <span>Pilih Grade: </span>
@@ -110,7 +111,11 @@
                   class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                   v-model="storeData.grade"
                 >
-                  <option v-for="option in options" :value="option.value">
+                  <option
+                    v-for="option in options"
+                    :value="option.value"
+                    :key="option.value"
+                  >
                     {{ option.text }}
                   </option>
                 </select>
@@ -134,7 +139,7 @@
                 >
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
@@ -153,18 +158,29 @@
 
           <div class="vx-row">
             <div class="w-full text-right vx-col">
-              <vs-button color="dark" type="flat" @click="isAdd = false"
+              <vs-button
+                color="dark"
+                type="flat"
+                @click="
+                  (isAdd = false),
+                    (storeData.nilai = null),
+                    (storeData.desc = '')
+                "
                 >Back</vs-button
               >
               &nbsp; &nbsp;
-              <vs-button @click="store">Save</vs-button>
+              <vs-button
+                @click="store"
+                :disabled="storeData.nilai == null || storeData.desc == ''"
+                >Save</vs-button
+              >
             </div>
           </div>
         </vx-card>
       </vs-popup>
 
       <vs-popup :active.sync="isUpdate" title="Update Indikator PAS">
-        <vx-card title="Edit Indikator">
+        <vx-card>
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
               <vs-input
@@ -173,6 +189,7 @@
                 v-validate="'required'"
                 name="nilai"
                 label="Nilai"
+                type="number"
               ></vs-input>
               <span class="text-danger text-sm" v-show="errors.has('nilai')">{{
                 errors.first("nilai")
@@ -180,7 +197,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <div class="relative">
                 <span>Pilih Grade: </span>
@@ -188,7 +205,11 @@
                   class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                   v-model="updateData.grade"
                 >
-                  <option v-for="option in options" :value="option.value">
+                  <option
+                    v-for="option in options"
+                    :value="option.value"
+                    :key="option.value"
+                  >
                     {{ option.text }}
                   </option>
                 </select>
@@ -212,7 +233,7 @@
                 >
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="vx-row mb-5">
             <div class="vx-col w-full">
@@ -231,7 +252,14 @@
 
           <div class="vx-row">
             <div class="w-full text-right vx-col">
-              <vs-button color="dark" type="flat" @click="isUpdate = false"
+              <vs-button
+                color="dark"
+                type="flat"
+                @click="
+                  (isUpdate = false),
+                    (storeData.nilai = null),
+                    (storeData.desc = '')
+                "
                 >Back</vs-button
               >
               &nbsp; &nbsp;
@@ -258,16 +286,16 @@ export default {
       namaDimensi: this.$route.params.nameDimensi,
       namaKpi: this.$route.params.nameKpi,
       listIndikator: [],
-      options: [
-        { value: "a", text: "a" },
-        { value: "b", text: "b" },
-        { value: "c", text: "c" },
-      ],
+      // options: [
+      //   { value: "a", text: "a" },
+      //   { value: "b", text: "b" },
+      //   { value: "c", text: "c" },
+      // ],
       storeData: {
         id_3p: this.$route.params.id3p,
         kpi_id: this.$route.params.idKpi,
         nilai: null,
-        grade: "",
+        // grade: "",
         desc: "",
       },
 
@@ -276,7 +304,7 @@ export default {
         id_3p: this.$route.params.id3p,
         kpi_id: this.$route.params.idKpi,
         nilai: null,
-        grade: "",
+        // grade: "",
         desc: "",
       },
     };
@@ -340,7 +368,7 @@ export default {
       send.append("id_3p", this.storeData.id_3p);
       send.append("kpi_id", this.storeData.kpi_id);
       send.append("nilai", this.storeData.nilai);
-      send.append("grade", this.storeData.grade);
+      // send.append("grade", this.storeData.grade);
       send.append("desc", this.storeData.desc);
 
       this.$vs.loading({
@@ -360,9 +388,11 @@ export default {
         });
         this.datas(this.$route.params.idKpi);
         this.storeData.nilai = null;
-        this.storeData.grade = "";
+        // this.storeData.grade = "";
         this.storeData.desc = "";
         this.isAdd = false;
+        this.storeData.nilai = null;
+        this.storeData.desc = "";
       } catch (error) {
         this.$vs.loading.close();
         this.isLoading = false;
@@ -371,6 +401,9 @@ export default {
           text: error.data.message,
           color: "danger",
         });
+
+        this.storeData.nilai = null;
+        this.storeData.desc = "";
       }
     },
 
@@ -379,7 +412,7 @@ export default {
         const indikator_data = await this.dispatchShow($id);
         this.updateData.id = indikator_data.data["id"];
         this.updateData.nilai = indikator_data.data["nilai"];
-        this.updateData.grade = indikator_data.data["grade"];
+        // this.updateData.grade = indikator_data.data["grade"];
         this.updateData.desc = indikator_data.data["desc"];
 
         this.isUpdate = true;
@@ -394,7 +427,7 @@ export default {
       send.append("id_3p", this.updateData.id_3p);
       send.append("kpi_id", this.updateData.kpi_id);
       send.append("nilai", this.updateData.nilai);
-      send.append("grade", this.updateData.grade);
+      // send.append("grade", this.updateData.grade);
       send.append("desc", this.updateData.desc);
       send.append("_method", "PUT");
 
@@ -415,14 +448,21 @@ export default {
         });
         this.datas(this.$route.params.idKpi);
         this.isUpdate = false;
+
+        this.storeData.nilai = null;
+        this.storeData.desc = "";
       } catch (error) {
         this.$vs.loading.close();
         this.isLoading = false;
+        // console.log(error);
         this.$vs.notify({
           title: "Oops!",
-          text: error.data.error,
+          text: error.data.message,
           color: "danger",
         });
+
+        this.storeData.nilai = null;
+        this.storeData.desc = "";
       }
     },
   },

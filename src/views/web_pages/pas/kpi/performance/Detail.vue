@@ -127,6 +127,7 @@
                 v-validate="'required'"
                 name="max_nilai"
                 label="Nilai Maximal"
+                type="number"
               ></vs-input>
               <span
                 class="text-danger text-sm"
@@ -171,6 +172,7 @@
                 v-validate="'required'"
                 name="max_nilai"
                 label="Nilai Maximal"
+                type="number"
               ></vs-input>
               <span
                 class="text-danger text-sm"

@@ -43,23 +43,24 @@
       <hr />
       <vx-card :title="name3p">
         <div class="row">
-          <div
-            v-if="itemArrays && Array.isArray(itemArrays)"
-            v-for="item in itemArrays"
-            :key="item.id"
-            class="col-md-4 mb-3"
-          >
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
-                <vs-button
-                  class="mr-2"
-                  icon-pack="feather"
-                  icon="icon-eye"
-                  size="small"
-                  @click="breaking(item.id)"
-                  >Beri Nilai</vs-button
-                >
+          <div v-if="itemArrays && Array.isArray(itemArrays)" class="row">
+            <div
+              v-for="item in itemArrays"
+              :key="item.id"
+              class="col-md-4 mb-3"
+            >
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                  <vs-button
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                    @click="breaking(item.id)"
+                    >Beri Nilai</vs-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -125,14 +126,14 @@
         <vs-card>
           <div class="mb-5 vx-row">
             <div class="w-full vx-col">
-              <small>Nilai A:</small>
+              <small>Indikator:</small>
               <select
                 class="ml-3 px-4 py-2 border rounded-lg w-80"
-                v-model="tempValueA"
+                v-model="tempIndFinal"
               >
                 <option disabled selected>nilai - deskripsi</option>
                 <option
-                  v-for="item in nilaiA"
+                  v-for="item in tempInd"
                   :key="item.id"
                   :value="item.nilai"
                 >
@@ -142,7 +143,7 @@
             </div>
           </div>
 
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <small>Nilai B:</small>
               <select
@@ -178,7 +179,7 @@
                 </option>
               </select>
             </div>
-          </div>
+          </div> -->
           <hr />
           <div class="mb-5 vx-col">
             <!-- <div class="row">
@@ -188,7 +189,8 @@
             <div class="row">
               <!-- <div class="col-md-4">Nilai Akhir (Pembulatan):</div> -->
               <div class="col-md-4">Nilai Akhir :</div>
-              <div class="col-md-4">: {{ perata }}</div>
+              <!-- <div class="col-md-4">: {{ perata }}</div> -->
+              <div class="col-md-4">: {{ tempIndFinal }}</div>
             </div>
           </div>
 
@@ -208,9 +210,12 @@
       <vs-popup fullscreen title="Form cek data" :active.sync="isFinal">
         <div class="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg mb-4">
           <p class="text-center">
-            <b>Data Belum di simpan di database dan Hanya Untuk Preview</b> -
-            Jika terdapat kesalahan nilai, silakan tutup pop-up ini dan isi
-            ulang data.
+            <b>Data Belum di simpan di database dan Hanya Untuk Preview</b>
+            <br />
+            <span>
+              Jika terdapat kesalahan nilai, silakan tutup pop-up ini dan isi
+              ulang data.
+            </span>
           </p>
         </div>
         <vx-card>
@@ -245,52 +250,59 @@
           </table>
         </vx-card>
         <hr />
-        <div v-for="item in arrayBantuan" :key="item" v-if="item !== 'Absen'">
-          <div v-if="storeData[item]" class="w-400 bg-white rounded shadow p-4">
-            <h2 class="text-lg font-bold mb-2" contenteditable="true">
-              {{ item }}
-            </h2>
+        <div v-for="item in arrayBantuan" :key="item">
+          <div v-if="item !== 'Absen'">
             <div
-              class="row mb-2 text-gray-600"
-              style="
-                border-bottom: 3px solid black;
-                border-top: 3px solid black;
-              "
+              v-if="storeData[item]"
+              class="w-400 bg-white rounded shadow p-4"
             >
-              <div class="col-sm-5">KPI</div>
-              <div class="col-sm-4">Nilai</div>
-              <div class="col-sm-3">Nilai Max</div>
-            </div>
-
-            <div
-              class="text-gray-600"
-              v-if="storeData[item] && storeData[item].length > 0"
-            >
+              <h2 class="text-lg font-bold mb-2" contenteditable="true">
+                {{ item }}
+              </h2>
               <div
-                class="row mb-2"
-                v-for="i in storeData[item]"
-                :key="i.kpi_id"
+                class="row mb-2 text-gray-600"
+                style="
+                  border-bottom: 3px solid black;
+                  border-top: 3px solid black;
+                "
               >
-                <div class="col-sm-5">{{ i.name }}</div>
-                <div class="col-sm-4">{{ i.value }}</div>
-                <div class="col-sm-3">{{ i.max_nilai }}</div>
+                <div class="col-sm-5">KPI</div>
+                <div class="col-sm-4">Nilai</div>
+                <div class="col-sm-3">Nilai Max</div>
+              </div>
+
+              <div
+                class="text-gray-600"
+                v-if="storeData[item] && storeData[item].length > 0"
+              >
+                <div
+                  class="row mb-2"
+                  v-for="i in storeData[item]"
+                  :key="i.kpi_id"
+                >
+                  <div class="col-sm-5">{{ i.name }}</div>
+                  <div class="col-sm-4">{{ i.value }}</div>
+                  <div class="col-sm-3">{{ i.max_nilai }}</div>
+                </div>
               </div>
             </div>
+            <hr />
           </div>
-          <hr />
         </div>
         <div class="mt-2 text-center">
-          <p class="font-bold">Nilai Akhir: {{ finalProcess }}</p>
           <div class="flex justify-center">
             <vs-button
               color="primary"
               type="border"
               icon="functions"
+              size="small"
+              class="mb-5"
               @click="hitungNilaiAkhir"
             >
               Hitung nilai Akhir
             </vs-button>
           </div>
+          <p class="font-bold">Nilai Akhir: {{ finalProcess }}</p>
         </div>
         <div>
           <hr />
@@ -301,6 +313,7 @@
                 type="filled"
                 icon="save"
                 @click="finalSend"
+                :disabled="finalProcess ? false : true"
               >
                 Simpan Nilai
               </vs-button>
@@ -350,6 +363,9 @@ export default {
       tempValueC: null,
       tempValueB: null,
       tempValueA: null,
+
+      tempInd: [],
+      tempIndFinal: null,
       nilaiC: [],
       nilaiB: [],
       nilaiA: [],
@@ -387,6 +403,13 @@ export default {
       } else {
         // return Math.round(avg);
         return avg.toFixed(1);
+      }
+    },
+    newfinal() {
+      if (this.tempIndFinal) {
+        return this.tempIndFinal;
+      } else {
+        return (this.tempIndFinal = 1);
       }
     },
   },
@@ -479,7 +502,8 @@ export default {
 
       try {
         const Ind = await this.dispatchPeopleInd(send);
-        (this.nilaiC = Ind.nilaiC.map((item) => ({
+        // console.log(Ind);
+        this.tempInd = Ind.nilai.map((item) => ({
           id: item.id,
           "3p_id": item["3p_id"],
           kpi_id: item.kpi_id,
@@ -489,30 +513,41 @@ export default {
           name: item.nilai + " - " + item.desc,
           created_at: item.created_at,
           updated_at: item.updated_at,
-        }))),
-          (this.nilaiB = Ind.nilaiB.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.nilaiA = Ind.nilaiA.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.isInd = true);
+        }));
+        // (this.nilaiC = Ind.nilaiC.map((item) => ({
+        //   id: item.id,
+        //   "3p_id": item["3p_id"],
+        //   kpi_id: item.kpi_id,
+        //   company_id: item.company_id,
+        //   division_id: item.division_id,
+        //   nilai: item.nilai,
+        //   name: item.nilai + " - " + item.desc,
+        //   created_at: item.created_at,
+        //   updated_at: item.updated_at,
+        // }))),
+        //   (this.nilaiB = Ind.nilaiB.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+        //   (this.nilaiA = Ind.nilaiA.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+        this.isInd = true;
         // console.log(this.nilai4);
 
         this.tempFilter = this.tempArray.filter(
@@ -529,9 +564,10 @@ export default {
           return {
             date: this.date,
             user_id: this.idUser,
+            // value: this.perata,
             dimensi_id: this.tempIdDimensi[0].id,
             ...item,
-            value: this.perata,
+            value: this.newfinal,
           };
         }
         return item;
@@ -539,6 +575,7 @@ export default {
       setTimeout(() => {
         this.isInd = false;
       }, 100);
+      // console.log(this.tempArray);
 
       if (this.storeData[this.tempIdDimensi[0].name]) {
         this.storeData[this.tempIdDimensi[0].name] = this.tempArray;
@@ -552,7 +589,9 @@ export default {
       this.tempValueA = null;
       this.tempValueB = null;
       this.tempValueC = null;
+      this.tempIndFinal = null;
     },
+
     simpanOthers() {
       // console.log(this.storeData);
       this.isOthers = false;
@@ -596,9 +635,9 @@ export default {
       this.isFinal = false;
       this.$vs.dialog({
         type: "confirm",
-        color: "danger",
+        color: "primary",
         title: `Confirm`,
-        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        text: "Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?",
         accept: this.acceptSend,
         acceptText: "Kirim",
         cancelText: "Tutup",

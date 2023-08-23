@@ -139,7 +139,8 @@ export default {
           text: "Your data has been deleted successfully",
           color: "primary",
         });
-        this.dispatchIndex(this.$route.params.id);
+        // this.dispatchIndex(this.$route.params.id);
+        this.master(this.$route.params.id);
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",

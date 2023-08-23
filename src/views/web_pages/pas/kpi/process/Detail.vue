@@ -370,8 +370,9 @@ export default {
       } catch (error) {
         this.$vs.notify({
           title: "Oops!",
-          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
+          text: "Maaf, Data ini 'sudah' terkait dengan user. Kontak administrator untuk penjelasan lebih lanjut",
           color: "danger",
+          time: 7000,
         });
       }
     },

@@ -42,88 +42,89 @@
           "
       >
         <div class="row">
-          <div
-            v-if="datas3 && Array.isArray(datas3.data)"
-            v-for="item in datas3.data"
-            :key="item.id"
-            class="col-md-4 mb-3"
-          >
-            <div class="card" v-if="item.id === 1">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
-                <h6 class="card-text">
-                  Nilai: {{ item.nilai ? item.nilai : 0 }}
-                </h6>
-                <vs-button
-                  class="mr-2"
-                  icon-pack="feather"
-                  icon="icon-eye"
-                  size="small"
-                  :to="{
-                    name: `peoplepenilaianpas`,
-                    params: {
-                      id3p: item.id,
-                      name3p: item.name,
-                      idUser: idUser,
-                      idCompany: idCompany,
-                      idDivisi: idDivisi,
-                      date: date,
-                    },
-                  }"
-                  >Nilai dimensi</vs-button
-                >
+          <div v-if="datas3 && Array.isArray(datas3.data)" class="row">
+            <div
+              v-for="item in datas3.data"
+              :key="item.id"
+              class="col-md-4 mb-3"
+            >
+              <div class="card" v-if="item.id === 1">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                  <h6 class="card-text">
+                    Nilai: {{ item.nilai ? item.nilai : 0 }}
+                  </h6>
+                  <vs-button
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                    :to="{
+                      name: `peoplepenilaianpas`,
+                      params: {
+                        id3p: item.id,
+                        name3p: item.name,
+                        idUser: idUser,
+                        idCompany: idCompany,
+                        idDivisi: idDivisi,
+                        date: date,
+                      },
+                    }"
+                    >Nilai dimensi</vs-button
+                  >
+                </div>
               </div>
-            </div>
-            <div class="card" v-if="item.id === 2">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
-                <h6 class="card-text">
-                  Nilai: {{ item.nilai ? item.nilai : 0 }}
-                </h6>
-                <vs-button
-                  class="mr-2"
-                  icon-pack="feather"
-                  icon="icon-eye"
-                  size="small"
-                  :to="{
-                    name: `processpenilaianpas`,
-                    params: {
-                      id3p: item.id,
-                      name3p: item.name,
-                      idUser: idUser,
-                      idCompany: idCompany,
-                      idDivisi: idDivisi,
-                      date: date,
-                    },
-                  }"
-                  >Nilai dimensi</vs-button
-                >
+              <div class="card" v-if="item.id === 2">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                  <h6 class="card-text">
+                    Nilai: {{ item.nilai ? item.nilai : 0 }}
+                  </h6>
+                  <vs-button
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                    :to="{
+                      name: `processpenilaianpas`,
+                      params: {
+                        id3p: item.id,
+                        name3p: item.name,
+                        idUser: idUser,
+                        idCompany: idCompany,
+                        idDivisi: idDivisi,
+                        date: date,
+                      },
+                    }"
+                    >Nilai dimensi</vs-button
+                  >
+                </div>
               </div>
-            </div>
-            <div class="card" v-if="item.id === 3">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
-                <h6 class="card-text">
-                  Nilai: {{ item.nilai ? item.nilai : 0 }}
-                </h6>
-                <vs-button
-                  class="mr-2"
-                  icon-pack="feather"
-                  icon="icon-eye"
-                  size="small"
-                  :to="{
-                    name: `performancepenilaianpas`,
-                    params: {
-                      id3p: item.id,
-                      name3p: item.name,
-                      idUser: idUser,
-                      idCompany: idCompany,
-                      idDivisi: idDivisi,
-                      date: date,
-                    },
-                  }"
-                  >Nilai dimensi</vs-button
-                >
+              <div class="card" v-if="item.id === 3">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                  <h6 class="card-text">
+                    Nilai: {{ item.nilai ? item.nilai : 0 }}
+                  </h6>
+                  <vs-button
+                    class="mr-2"
+                    icon-pack="feather"
+                    icon="icon-eye"
+                    size="small"
+                    :to="{
+                      name: `performancepenilaianpas`,
+                      params: {
+                        id3p: item.id,
+                        name3p: item.name,
+                        idUser: idUser,
+                        idCompany: idCompany,
+                        idDivisi: idDivisi,
+                        date: date,
+                      },
+                    }"
+                    >Nilai dimensi</vs-button
+                  >
+                </div>
               </div>
             </div>
           </div>

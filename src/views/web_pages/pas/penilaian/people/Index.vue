@@ -51,13 +51,8 @@ date, user_id, id_3p,dimensi_id
       </vx-card>
       <hr />
       <vx-card title="People ">
-        <div class="row">
-          <div
-            v-if="itemArrays && Array.isArray(itemArrays)"
-            v-for="item in itemArrays"
-            :key="item.id"
-            class="col-md-4 mb-3"
-          >
+        <div class="row" v-if="itemArrays && Array.isArray(itemArrays)">
+          <div v-for="item in itemArrays" :key="item.id" class="col-md-4 mb-3">
             <div class="card" v-if="item.id === 1">
               <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
@@ -104,7 +99,11 @@ date, user_id, id_3p,dimensi_id
               <div class="col-sm-3">%</div>
               <div class="col-sm-3">Skor</div>
             </div>
-            <div class="row mb-3" v-for="(i, index) in storeKhususAbsen">
+            <div
+              class="row mb-3"
+              v-for="(i, index) in storeKhususAbsen"
+              :key="index"
+            >
               <div class="col-sm-3">
                 {{ i.name }}
               </div>
@@ -113,9 +112,9 @@ date, user_id, id_3p,dimensi_id
                 v-if="storeKhususAbsen[index].kpi_id == i.kpi_id"
               >
                 <vs-input
-                  placeholder="..."
                   v-model="storeKhususAbsen[index].value"
                   type="number"
+                  v-validate="'required'"
                 />
               </div>
 
@@ -201,7 +200,7 @@ date, user_id, id_3p,dimensi_id
             </vs-button>
           </div>
           <div v-else>
-            <div class="row mb-2" v-for="(i, index) in tempArray">
+            <div class="row mb-2" v-for="(i, index) in tempArray" :key="index">
               <div class="col-sm-5">{{ tempArray[index].name }}</div>
               <div class="col-sm-4" style="display: flex; align-items: center">
                 {{ tempArray[index].value }} -
@@ -233,6 +232,24 @@ date, user_id, id_3p,dimensi_id
       <vs-popup title="Pilih Indikator" :active.sync="isInd">
         <vs-card>
           <div class="mb-5 vx-row">
+            <div class="w-full vx-col">
+              <small>Indikator:</small>
+              <select
+                class="ml-3 px-4 py-2 border rounded-lg w-80"
+                v-model="tempIndFinal"
+              >
+                <option disabled selected>nilai - deskripsi</option>
+                <option
+                  v-for="item in tempInd"
+                  :key="item.id"
+                  :value="item.nilai"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <small>Nilai A:</small>
               <select
@@ -287,7 +304,7 @@ date, user_id, id_3p,dimensi_id
                 </option>
               </select>
             </div>
-          </div>
+          </div> -->
           <hr />
           <div class="mb-5 vx-col">
             <!-- <div class="row">
@@ -297,7 +314,8 @@ date, user_id, id_3p,dimensi_id
             <div class="row">
               <!-- <div class="col-md-4">Nilai Akhir (Pembulatan):</div> -->
               <div class="col-md-4">Nilai Akhir:</div>
-              <div class="col-md-4">: {{ perata }}</div>
+              <!-- <div class="col-md-4">: {{ perata }}</div> -->
+              <div class="col-md-4">: {{ tempIndFinal }}</div>
             </div>
           </div>
 
@@ -359,50 +377,52 @@ date, user_id, id_3p,dimensi_id
                 <div class="col-sm-3">%</div>
                 <div class="col-sm-3">Skor</div>
               </div>
-              <div
-                class="row mb-3"
-                v-for="(i, index) in storeData.Absen.detail"
-                v-if="
-                  storeData.Absen &&
-                  storeData.Absen.detail &&
-                  storeData.Absen.detail.length > 0
-                "
-              >
-                <div class="col-sm-3">
-                  {{ i.name }}
-                </div>
-                <div class="col-sm-3">
-                  <vs-input
-                    v-model="storeData.Absen.detail[index].value"
-                    type="number"
-                    disabled
-                  />
-                </div>
+              <div v-for="(i, index) in storeData.Absen.detail" :key="index">
+                <div
+                  class="row mb-3"
+                  v-if="
+                    storeData.Absen &&
+                    storeData.Absen.detail &&
+                    storeData.Absen.detail.length > 0
+                  "
+                >
+                  <div class="col-sm-3">
+                    {{ i.name }}
+                  </div>
+                  <div class="col-sm-3">
+                    <vs-input
+                      v-model="storeData.Absen.detail[index].value"
+                      type="number"
+                      disabled
+                    />
+                  </div>
 
-                <div class="col-sm-3" v-if="i.kpi_id === 10">
-                  {{ perSakit }}
-                </div>
-                <div class="col-sm-3" v-if="i.kpi_id === 11">
-                  {{ perIzin }}
-                </div>
-                <div class="col-sm-3" v-if="i.kpi_id === 12">
-                  {{ perTerlambat }}
-                </div>
-                <div class="col-sm-3" v-if="i.kpi_id === 13">
-                  {{ perAlpha }}
-                </div>
+                  <div class="col-sm-3" v-if="i.kpi_id === 10">
+                    {{ perSakit }}
+                  </div>
+                  <div class="col-sm-3" v-if="i.kpi_id === 11">
+                    {{ perIzin }}
+                  </div>
+                  <div class="col-sm-3" v-if="i.kpi_id === 12">
+                    {{ perTerlambat }}
+                  </div>
+                  <div class="col-sm-3" v-if="i.kpi_id === 13">
+                    {{ perAlpha }}
+                  </div>
 
-                <div class="col-sm-3" v-if="i.kpi_id === 14">
-                  {{ perHKA }}
-                </div>
+                  <div class="col-sm-3" v-if="i.kpi_id === 14">
+                    {{ perHKA }}
+                  </div>
 
-                <div class="col-sm-3" v-if="i.kpi_id === 14">
-                  {{ skorabsen }}
+                  <div class="col-sm-3" v-if="i.kpi_id === 14">
+                    {{ skorabsen }}
+                  </div>
+                </div>
+                <div v-else>
+                  <p>Belum ada data detail Absen.</p>
                 </div>
               </div>
-              <div v-else>
-                <p>Belum ada data detail Absen.</p>
-              </div>
+
               <hr />
               <table
                 class="table"
@@ -426,55 +446,60 @@ date, user_id, id_3p,dimensi_id
             </div>
           </vx-card>
           <hr />
-          <div v-for="item in arrayBantuan" :key="item" v-if="item !== 'Absen'">
-            <div
-              v-if="storeData[item]"
-              class="w-400 bg-white rounded shadow p-4"
-            >
-              <h2 class="text-lg font-bold mb-2" contenteditable="true">
-                {{ item }}
-              </h2>
+          <div v-for="item in arrayBantuan" :key="item">
+            <div v-if="item !== 'Absen'">
               <div
-                class="row mb-2 text-gray-600"
-                style="
-                  border-bottom: 3px solid black;
-                  border-top: 3px solid black;
-                "
+                v-if="storeData[item]"
+                class="w-400 bg-white rounded shadow p-4"
               >
-                <div class="col-sm-5">KPI</div>
-                <div class="col-sm-4">Nilai</div>
-                <div class="col-sm-3">Nilai Max</div>
-              </div>
-
-              <div
-                class="text-gray-600"
-                v-if="storeData[item] && storeData[item].length > 0"
-              >
+                <h2 class="text-lg font-bold mb-2" contenteditable="true">
+                  {{ item }}
+                </h2>
                 <div
-                  class="row mb-2"
-                  v-for="i in storeData[item]"
-                  :key="i.kpi_id"
+                  class="row mb-2 text-gray-600"
+                  style="
+                    border-bottom: 3px solid black;
+                    border-top: 3px solid black;
+                  "
                 >
-                  <div class="col-sm-5">{{ i.name }}</div>
-                  <div class="col-sm-4">{{ i.value }}</div>
-                  <div class="col-sm-3">{{ i.max_nilai }}</div>
+                  <div class="col-sm-5">KPI</div>
+                  <div class="col-sm-4">Nilai</div>
+                  <div class="col-sm-3">Nilai Max</div>
+                </div>
+
+                <div
+                  class="text-gray-600"
+                  v-if="storeData[item] && storeData[item].length > 0"
+                >
+                  <div
+                    class="row mb-2"
+                    v-for="i in storeData[item]"
+                    :key="i.kpi_id"
+                  >
+                    <div class="col-sm-5">{{ i.name }}</div>
+                    <div class="col-sm-4">{{ i.value }}</div>
+                    <div class="col-sm-3">{{ i.max_nilai }}</div>
+                  </div>
                 </div>
               </div>
             </div>
+
             <hr />
           </div>
           <div class="mt-2 text-center">
-            <p class="font-bold">Nilai Akhir: {{ final_people }}</p>
             <div class="flex justify-center">
               <vs-button
                 color="primary"
                 type="border"
                 icon="functions"
+                size="small"
+                class="mb-5"
                 @click="hitungNilaiAkhir"
               >
                 Hitung nilai Akhir
               </vs-button>
             </div>
+            <p class="font-bold">Nilai Akhir: {{ final_people }}</p>
           </div>
         </div>
         <div>
@@ -486,6 +511,7 @@ date, user_id, id_3p,dimensi_id
                 type="filled"
                 icon="save"
                 @click="finalSend"
+                :disabled="final_people ? false : true"
               >
                 Simpan Nilai
               </vs-button>
@@ -559,6 +585,9 @@ export default {
       tempValueC: null,
       tempValueB: null,
       tempValueA: null,
+
+      tempInd: [],
+      tempIndFinal: null,
       nilaiC: [],
       nilaiB: [],
       nilaiA: [],
@@ -633,6 +662,13 @@ export default {
         return avg.toFixed(1);
       }
     },
+    newfinal() {
+      if (this.tempIndFinal) {
+        return this.tempIndFinal;
+      } else {
+        return (this.tempIndFinal = 1);
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -652,7 +688,7 @@ export default {
           .map((itemArraysKpi) => ({
             kpi_id: itemArraysKpi.id,
             name: itemArraysKpi.name,
-            value: null,
+            value: 0,
             max_nilai: itemArraysKpi.max_nilai,
           }));
         this.storeKhususAbsen = arrayBaru;
@@ -735,7 +771,41 @@ export default {
 
       try {
         const Ind = await this.dispatchPeopleInd(send);
-        (this.nilaiC = Ind.nilaiC.map((item) => ({
+        // (this.nilaiC = Ind.nilaiC.map((item) => ({
+        //   id: item.id,
+        //   "3p_id": item["3p_id"],
+        //   kpi_id: item.kpi_id,
+        //   company_id: item.company_id,
+        //   division_id: item.division_id,
+        //   nilai: item.nilai,
+        //   name: item.nilai + " - " + item.desc,
+        //   created_at: item.created_at,
+        //   updated_at: item.updated_at,
+        // }))),
+        //   (this.nilaiB = Ind.nilaiB.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+        //   (this.nilaiA = Ind.nilaiA.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+
+        this.tempInd = Ind.nilai.map((item) => ({
           id: item.id,
           "3p_id": item["3p_id"],
           kpi_id: item.kpi_id,
@@ -745,30 +815,8 @@ export default {
           name: item.nilai + " - " + item.desc,
           created_at: item.created_at,
           updated_at: item.updated_at,
-        }))),
-          (this.nilaiB = Ind.nilaiB.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.nilaiA = Ind.nilaiA.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.isInd = true);
+        }));
+        this.isInd = true;
         // console.log(this.nilai4);
 
         this.tempFilter = this.tempArray.filter(
@@ -790,26 +838,40 @@ export default {
     //   console.log(total);
     // },
     simpanAbsen() {
-      this.storeKhususAbsen2 = {
-        date: this.date,
-        user_id: this.idUser,
-        dimensi_id: this.tempIdDimensi.id,
-        nilaiAkhir: this.nilaiakhirabsen,
-        detail: this.storeKhususAbsen,
-        max_nilai: this.storeKhususAbsen[0].max_nilai,
-      };
-      if (this.storeData[this.tempIdDimensi.name]) {
-        this.storeData[this.tempIdDimensi.name] = this.storeKhususAbsen2;
+      if (
+        isNaN(this.nilaiabsen) ||
+        this.nilaiabsen == null ||
+        this.nilaiabsen === 0
+      ) {
+        this.$vs.notify({
+          time: 4000,
+          title: "Error",
+          text: "Nilai Akhir null",
+          color: "warning",
+          icon: "error",
+        });
       } else {
-        this.storeData = {
-          ...this.storeData,
-          [this.tempIdDimensi.name]: this.storeKhususAbsen2,
+        this.storeKhususAbsen2 = {
+          date: this.date,
+          user_id: this.idUser,
+          dimensi_id: this.tempIdDimensi.id,
+          nilaiAkhir: this.nilaiakhirabsen,
+          max_nilai: this.storeKhususAbsen[0].max_nilai,
+          detail: this.storeKhususAbsen,
         };
-      }
+        if (this.storeData[this.tempIdDimensi.name]) {
+          this.storeData[this.tempIdDimensi.name] = this.storeKhususAbsen2;
+        } else {
+          this.storeData = {
+            ...this.storeData,
+            [this.tempIdDimensi.name]: this.storeKhususAbsen2,
+          };
+        }
 
-      setTimeout(() => {
-        this.isPopAbsen = false;
-      }, 100);
+        setTimeout(() => {
+          this.isPopAbsen = false;
+        }, 100);
+      }
     },
 
     hitung() {
@@ -820,7 +882,8 @@ export default {
             user_id: this.idUser,
             dimensi_id: this.tempIdDimensi.id,
             ...item,
-            value: this.perata,
+            // value: this.perata,
+            value: this.newfinal,
           };
         }
         return item;
@@ -841,6 +904,7 @@ export default {
       this.tempValueA = null;
       this.tempValueB = null;
       this.tempValueC = null;
+      this.tempIndFinal = null;
     },
     simpanOthers() {
       this.isOthers = false;
@@ -899,9 +963,9 @@ export default {
       this.isFinal = false;
       this.$vs.dialog({
         type: "confirm",
-        color: "danger",
+        color: "primary",
         title: `Confirm`,
-        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        text: "Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?",
         accept: this.acceptSend,
         acceptText: "Kirim",
         cancelText: "Tutup",

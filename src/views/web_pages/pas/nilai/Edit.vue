@@ -65,83 +65,83 @@
 
       <hr />
       <vx-card title="Detail">
-        <div
-          v-if="recordPas && recordPas.detailSkor3p"
-          v-for="(item, index) in recordPas.detailSkor3p"
-        >
-          <vx-card
-            v-if="item.id_3p == 1"
-            :title="item.name3p"
-            style="margin-bottom: 10px"
-          >
-            <div>
-              <vx-card title="Absen">
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-3">Keterangan</div>
-                    <div class="col-sm-3">Hari</div>
-                    <div class="col-sm-3">%</div>
-                    <div class="col-sm-3">Skor</div>
+        <div v-for="(item, index) in recordPas.detailSkor3p" :key="index">
+          <div v-if="recordPas && recordPas.detailSkor3p">
+            <vx-card
+              v-if="item.id_3p == 1"
+              :title="item.name3p"
+              style="margin-bottom: 10px"
+            >
+              <div>
+                <vx-card title="Absen">
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-3">Keterangan</div>
+                      <div class="col-sm-3">Hari</div>
+                      <div class="col-sm-3">%</div>
+                      <div class="col-sm-3">Skor</div>
+                    </div>
+                    <div
+                      class="row mb-3"
+                      v-for="i in item.detail.Absen.detailAbsen"
+                      :key="i.id"
+                    >
+                      <div class="col-sm-3">
+                        {{ i.nameKPI }}
+                      </div>
+                      <div class="col-sm-3">
+                        <input
+                          type="number"
+                          v-model="i.nilai"
+                          @change="updateNilai(item)"
+                          :disabled="isEdit"
+                        />
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 10">
+                        {{ perSakit }}
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 11">
+                        {{ perIzin }}
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 12">
+                        {{ perTerlambat }}
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 13">
+                        {{ perAlpha }}
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 14">
+                        {{ perHKA }}
+                      </div>
+                      <div class="col-sm-3" v-if="i.kpi_id === 14">
+                        {{ skorabsen }}
+                      </div>
+                    </div>
+                    <hr />
+                    <table class="table">
+                      <tr>
+                        <td style="width: 20%">Nilai Maximal</td>
+                        <td style="width: 5%">:</td>
+                        <td>
+                          {{ recordPas.detailSkor3p[0].detail.Absen.max_nilai }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: 20%; font-weight: bold">
+                          Nilai Akhir
+                        </td>
+                        <td style="width: 5%; font-weight: bold">:</td>
+                        <td style="font-weight: bold">
+                          {{ recordPas.detailSkor3p[0].detail.Absen.nilai }}
+                        </td>
+                      </tr>
+                    </table>
                   </div>
-                  <div
-                    class="row mb-3"
-                    v-for="i in item.detail.Absen.detailAbsen"
-                    :key="i.id"
-                  >
-                    <div class="col-sm-3">
-                      {{ i.nameKPI }}
-                    </div>
-                    <div class="col-sm-3">
-                      <input
-                        type="number"
-                        v-model="i.nilai"
-                        @change="updateNilai(item)"
-                        :disabled="isEdit"
-                      />
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 10">
-                      {{ perSakit }}
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 11">
-                      {{ perIzin }}
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 12">
-                      {{ perTerlambat }}
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 13">
-                      {{ perAlpha }}
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 14">
-                      {{ perHKA }}
-                    </div>
-                    <div class="col-sm-3" v-if="i.kpi_id === 14">
-                      {{ skorabsen }}
-                    </div>
-                  </div>
-                  <hr />
-                  <table class="table">
-                    <tr>
-                      <td style="width: 20%">Nilai Maximal</td>
-                      <td style="width: 5%">:</td>
-                      <td>
-                        {{ recordPas.detailSkor3p[0].detail.Absen.max_nilai }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="width: 20%; font-weight: bold">Nilai Akhir</td>
-                      <td style="width: 5%; font-weight: bold">:</td>
-                      <td style="font-weight: bold">
-                        {{ recordPas.detailSkor3p[0].detail.Absen.nilai }}
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Unity">
-                <!-- <vs-button
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Unity">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -157,43 +157,46 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[0].detail.Unity"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[0].detail.Unity"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)"
-                    ></vs-button>
-                  </div>
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Visi">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Visi">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -209,43 +212,46 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[0].detail.Visi"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[0].detail.Visi"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)"
-                    ></vs-button>
-                  </div>
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Hati">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Hati">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -261,47 +267,48 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[0].detail.Hati"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
-                  </div>
-                  <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
-                  >
-                    <div class="row-sm-2">{{ y.nilai }}</div>
-                    <div class="row-sm-2">
-                      <vs-button
-                        v-show="isEdit2"
-                        class="ml-2"
-                        icon-pack="feather"
-                        icon="icon-eye"
-                        size="small"
-                        @click="
-                          getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)
-                        "
-                      ></vs-button>
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
                     </div>
                   </div>
+                  <div
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[0].detail.Hati"
+                    :key="index"
+                  >
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      <div class="row-sm-2">{{ y.nilai }}</div>
+                      <div class="row-sm-2">
+                        <vs-button
+                          v-show="isEdit2"
+                          class="ml-2"
+                          icon-pack="feather"
+                          icon="icon-eye"
+                          size="small"
+                          @click="
+                            getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)
+                          "
+                        ></vs-button>
+                      </div>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Semangat">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Semangat">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -317,49 +324,52 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[0].detail
-                    .Semangat"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[0].detail
+                      .Semangat"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)"
-                    ></vs-button>
-                  </div>
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[0].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-          </vx-card>
-          <vx-card
-            v-if="item.id_3p == 2"
-            :title="item.name3p"
-            style="margin-bottom: 10px"
-            ><br />
-            <div>
-              <vx-card title="Routine">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+            </vx-card>
+            <vx-card
+              v-if="item.id_3p == 2"
+              :title="item.name3p"
+              style="margin-bottom: 10px"
+              ><br />
+              <div>
+                <vx-card title="Routine">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -375,34 +385,38 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[1].detail.Routine"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[1].detail
+                      .Routine"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)"
-                    ></vs-button>
-                    <!-- <vs-button
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                      <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -410,16 +424,16 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Cross Function">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Cross Function">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -435,36 +449,39 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[1].detail[
-                    'Cross Function'
-                  ]"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[1].detail[
+                      'Cross Function'
+                    ]"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)"
-                    ></vs-button>
-                    <!-- <vs-button
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                      <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -472,16 +489,16 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Interaction">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Interaction">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -497,35 +514,38 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[1].detail
-                    .Interaction"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    class="row mb-2"
+                    v-for="(y, index) in recordPas.detailSkor3p[1].detail
+                      .Interaction"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)"
-                    ></vs-button>
-                    <!-- <vs-button
+                    <div class="col-sm-5">
+                      {{ y.nameKpi }}
+                    </div>
+                    <div
+                      class="col-sm-4"
+                      style="display: flex; align-items: center"
+                    >
+                      {{ y.nilai }}
+                      <vs-button
+                        v-show="isEdit2"
+                        class="ml-2"
+                        icon-pack="feather"
+                        icon="icon-eye"
+                        size="small"
+                        @click="
+                          getInd(recordPas.detailSkor3p[1].id_3p, y.kpi_id)
+                        "
+                      ></vs-button>
+                      <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -533,22 +553,22 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                    </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-          </vx-card>
-          <vx-card
-            v-if="item.id_3p == 3"
-            :title="item.name3p"
-            style="margin-bottom: 10px"
-          >
-            <br />
-            <div>
-              <vx-card title="Finance">
-                <!-- <vs-button
+                    <div class="col-sm-3">{{ y.max_nilai }}</div>
+                  </div>
+                </vx-card>
+              </div>
+            </vx-card>
+            <vx-card
+              v-if="item.id_3p == 3"
+              :title="item.name3p"
+              style="margin-bottom: 10px"
+            >
+              <br />
+              <div>
+                <vx-card title="Finance">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -566,35 +586,38 @@
                   tambah Kpi
                   </vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[2].detail.Finance"
-                  v-if="y.isDelete !== 1"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    v-for="(y, index) in recordPas.detailSkor3p[2].detail
+                      .Finance"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)"
-                    ></vs-button>
-                    <!-- <vs-button
+                    <div v-if="y.isDelete !== 1" class="row mb-2">
+                      <div class="col-sm-5">
+                        {{ y.nameKpi }}
+                      </div>
+                      <div
+                        class="col-sm-4"
+                        style="display: flex; align-items: center"
+                      >
+                        {{ y.nilai }}
+                        <vs-button
+                          v-show="isEdit2"
+                          class="ml-2"
+                          icon-pack="feather"
+                          icon="icon-eye"
+                          size="small"
+                          @click="
+                            getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)
+                          "
+                        ></vs-button>
+                        <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -602,16 +625,17 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                      </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Daya saing">
-                <!-- <vs-button
+                      <div class="col-sm-3">{{ y.max_nilai }}</div>
+                    </div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Daya saing">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -627,38 +651,40 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[2].detail[
-                    'Daya saing'
-                  ]"
-                  v-if="y.isDelete !== 1"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    v-for="(y, index) in recordPas.detailSkor3p[2].detail[
+                      'Daya saing'
+                    ]"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)"
-                    ></vs-button>
+                    <div v-if="y.isDelete !== 1" class="row mb-2">
+                      <div class="col-sm-5">
+                        {{ y.nameKpi }}
+                      </div>
+                      <div
+                        class="col-sm-4"
+                        style="display: flex; align-items: center"
+                      >
+                        {{ y.nilai }}
+                        <vs-button
+                          v-show="isEdit2"
+                          class="ml-2"
+                          icon-pack="feather"
+                          icon="icon-eye"
+                          size="small"
+                          @click="
+                            getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)
+                          "
+                        ></vs-button>
 
-                    <!-- <vs-button
+                        <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -666,16 +692,17 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                      </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Kepuasan Konsumen">
-                <!-- <vs-button
+                      <div class="col-sm-3">{{ y.max_nilai }}</div>
+                    </div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Kepuasan Konsumen">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -691,38 +718,40 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="(y, index) in recordPas.detailSkor3p[2].detail[
-                    'Kepuasan Konsumen'
-                  ]"
-                  v-if="y.isDelete !== 1"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    v-for="(y, index) in recordPas.detailSkor3p[2].detail[
+                      'Kepuasan Konsumen'
+                    ]"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)"
-                    ></vs-button>
+                    <div v-if="y.isDelete !== 1" class="row mb-2">
+                      <div class="col-sm-5">
+                        {{ y.nameKpi }}
+                      </div>
+                      <div
+                        class="col-sm-4"
+                        style="display: flex; align-items: center"
+                      >
+                        {{ y.nilai }}
+                        <vs-button
+                          v-show="isEdit2"
+                          class="ml-2"
+                          icon-pack="feather"
+                          icon="icon-eye"
+                          size="small"
+                          @click="
+                            getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)
+                          "
+                        ></vs-button>
 
-                    <!-- <vs-button
+                        <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -730,16 +759,17 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                      </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-            <br />
-            <div>
-              <vx-card title="Kapasitas Karyawan">
-                <!-- <vs-button
+                      <div class="col-sm-3">{{ y.max_nilai }}</div>
+                    </div>
+                  </div>
+                </vx-card>
+              </div>
+              <br />
+              <div>
+                <vx-card title="Kapasitas Karyawan">
+                  <!-- <vs-button
                   v-show="isEdit2"
                   class="mx-2 my-2"
                   icon-pack="feather"
@@ -755,37 +785,39 @@
                   "
                   >tambah Kpi</vs-button
                 > -->
-                <div>
-                  <div class="row mb-2" style="border: 3px solid black">
-                    <div class="col-sm-5">KPI</div>
-                    <div class="col-sm-4">Nilai</div>
-                    <div class="col-sm-3">Nilai Max</div>
-                  </div>
-                </div>
-                <div
-                  class="row mb-2"
-                  v-for="y in recordPas.detailSkor3p[2].detail[
-                    'Kapasitas Karyawan'
-                  ]"
-                  v-if="y.isDelete !== 1"
-                >
-                  <div class="col-sm-5">
-                    {{ y.nameKpi }}
+                  <div>
+                    <div class="row mb-2" style="border: 3px solid black">
+                      <div class="col-sm-5">KPI</div>
+                      <div class="col-sm-4">Nilai</div>
+                      <div class="col-sm-3">Nilai Max</div>
+                    </div>
                   </div>
                   <div
-                    class="col-sm-4"
-                    style="display: flex; align-items: center"
+                    v-for="(y, index) in recordPas.detailSkor3p[2].detail[
+                      'Kapasitas Karyawan'
+                    ]"
+                    :key="index"
                   >
-                    {{ y.nilai }}
-                    <vs-button
-                      v-show="isEdit2"
-                      class="ml-2"
-                      icon-pack="feather"
-                      icon="icon-eye"
-                      size="small"
-                      @click="getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)"
-                    ></vs-button>
-                    <!-- <vs-button
+                    <div v-if="y.isDelete !== 1" class="row mb-2">
+                      <div class="col-sm-5">
+                        {{ y.nameKpi }}
+                      </div>
+                      <div
+                        class="col-sm-4"
+                        style="display: flex; align-items: center"
+                      >
+                        {{ y.nilai }}
+                        <vs-button
+                          v-show="isEdit2"
+                          class="ml-2"
+                          icon-pack="feather"
+                          icon="icon-eye"
+                          size="small"
+                          @click="
+                            getInd(recordPas.detailSkor3p[2].id_3p, y.kpi_id)
+                          "
+                        ></vs-button>
+                        <!-- <vs-button
                       v-show="isEdit2"
                       class="ml-2"
                       icon="remove_circle"
@@ -793,13 +825,15 @@
                       color="red"
                       @click="hapusElement(y.dimensi_id, y.kpi_id)"
                     ></vs-button> -->
-                  </div>
+                      </div>
 
-                  <div class="col-sm-3">{{ y.max_nilai }}</div>
-                </div>
-              </vx-card>
-            </div>
-          </vx-card>
+                      <div class="col-sm-3">{{ y.max_nilai }}</div>
+                    </div>
+                  </div>
+                </vx-card>
+              </div>
+            </vx-card>
+          </div>
         </div>
 
         <vx-card
@@ -907,7 +941,7 @@
 
       <vs-popup title="Pilih Indikator" :active.sync="isInd">
         <vs-card>
-          <div class="mb-5 vx-row">
+          <!-- <div class="mb-5 vx-row">
             <div class="w-full vx-col">
               <small>Nilai A:</small>
               <select
@@ -961,6 +995,24 @@
                 </option>
               </select>
             </div>
+          </div> -->
+          <div class="mb-5 vx-row">
+            <div class="w-full vx-col">
+              <small>Indikator:</small>
+              <select
+                class="ml-3 px-4 py-2 border rounded-lg w-80"
+                v-model="tempIndFinal"
+              >
+                <option disabled selected>nilai - deskripsi</option>
+                <option
+                  v-for="item in tempInd"
+                  :key="item.id"
+                  :value="item.nilai"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
           </div>
           <hr />
           <div class="mb-5 vx-col">
@@ -971,7 +1023,8 @@
             <div class="row">
               <!-- <div class="col-md-4">Nilai Akhir (Pembulatan):</div> -->
               <div class="col-md-4">Nilai Akhir :</div>
-              <div class="col-md-4">: {{ perata }}</div>
+              <!-- <div class="col-md-4">: {{ perata }}</div> -->
+              <div class="col-md-4">: {{ tempIndFinal }}</div>
             </div>
           </div>
 
@@ -982,9 +1035,12 @@
               >
               &nbsp; &nbsp;
               <!-- <vs-button>Save</vs-button> -->
-              <vs-button @click="updateNilaiById(tempid3p, tempIdKpi, perata)"
-                >Save</vs-button
+              <!-- <vs-button @click="updateNilaiById(tempid3p, tempIdKpi, perata)"> -->
+              <vs-button
+                @click="updateNilaiById(tempid3p, tempIdKpi, tempIndFinal)"
               >
+                Save
+              </vs-button>
             </div>
           </div>
         </vs-card>
@@ -996,7 +1052,7 @@
           <div class="col-sm-3">Nilai Max</div>
           <div class="col-sm-3">Aksi</div>
         </div>
-        <div class="row mb-2" v-for="x in getKpi">
+        <div class="row mb-2" v-for="(x, index) in getKpi" :key="index">
           <div class="col-sm-5">{{ x.name }}</div>
           <div class="col-sm-3">{{ x.max_nilai }}</div>
           <div class="col-sm-3">
@@ -1048,6 +1104,9 @@ export default {
       tempValueC: null,
       tempValueB: null,
       tempValueA: null,
+
+      tempInd: [],
+      tempIndFinal: null,
       nilaiC: [],
       nilaiB: [],
       nilaiA: [],
@@ -1249,6 +1308,14 @@ export default {
       this.recordPas.finalSkor.nilai = total;
       return total;
     },
+
+    newfinal() {
+      if (this.tempIndFinal) {
+        return this.tempIndFinal;
+      } else {
+        return (this.tempIndFinal = 1);
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -1332,7 +1399,40 @@ export default {
 
       try {
         const Ind = await this.dispatchPeopleInd(send);
-        (this.nilaiC = Ind.nilaiC.map((item) => ({
+        // (this.nilaiC = Ind.nilaiC.map((item) => ({
+        //   id: item.id,
+        //   "3p_id": item["3p_id"],
+        //   kpi_id: item.kpi_id,
+        //   company_id: item.company_id,
+        //   division_id: item.division_id,
+        //   nilai: item.nilai,
+        //   name: item.nilai + " - " + item.desc,
+        //   created_at: item.created_at,
+        //   updated_at: item.updated_at,
+        // }))),
+        //   (this.nilaiB = Ind.nilaiB.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+        //   (this.nilaiA = Ind.nilaiA.map((item) => ({
+        //     id: item.id,
+        //     "3p_id": item["3p_id"],
+        //     kpi_id: item.kpi_id,
+        //     company_id: item.company_id,
+        //     division_id: item.division_id,
+        //     nilai: item.nilai,
+        //     name: item.nilai + " - " + item.desc,
+        //     created_at: item.created_at,
+        //     updated_at: item.updated_at,
+        //   }))),
+        this.tempInd = Ind.nilai.map((item) => ({
           id: item.id,
           "3p_id": item["3p_id"],
           kpi_id: item.kpi_id,
@@ -1342,30 +1442,9 @@ export default {
           name: item.nilai + " - " + item.desc,
           created_at: item.created_at,
           updated_at: item.updated_at,
-        }))),
-          (this.nilaiB = Ind.nilaiB.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.nilaiA = Ind.nilaiA.map((item) => ({
-            id: item.id,
-            "3p_id": item["3p_id"],
-            kpi_id: item.kpi_id,
-            company_id: item.company_id,
-            division_id: item.division_id,
-            nilai: item.nilai,
-            name: item.nilai + " - " + item.desc,
-            created_at: item.created_at,
-            updated_at: item.updated_at,
-          }))),
-          (this.isInd = true);
+        }));
+        this.isInd = true;
+        this.tempIndFinal = null;
       } catch (error) {
         console.log(error);
       }
