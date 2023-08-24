@@ -61,6 +61,16 @@ npm install
 npm run serve
 ```
 
+## Folder Reference
+
+| Folder |  Description                |
+| :-------- | :------------------------- |
+| `docs`  | folder digunakan untuk dokumentasi |
+| `dist`  | folder ini yang akan diupload di server atau bisa dikatakan ini hasil `build` |
+| `node_modules`  | ini merupakan folder umum jika menggunakan `Node.js` berisi pustaka dari project (hasil dari `npm i`) |
+| `public`  | folder ini merupakan bawaan dari VueJS |
+| `src`  | folder berisi semua coding dari project |
+
 
 ## Documentation
 
