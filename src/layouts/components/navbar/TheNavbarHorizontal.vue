@@ -43,22 +43,22 @@
 </template>
 
 <script>
-import Bookmarks from "./components/Bookmarks.vue";
-import I18n from "./components/I18n.vue";
-import SearchBar from "./components/SearchBar.vue";
-import CartDropDown from "./components/CartDropDown.vue";
-import NotificationDropDown from "./components/NotificationDropDown.vue";
-import ProfileDropDown from "./components/ProfileDropDown.vue";
-import Logo from "../Logo.vue";
+import Bookmarks from './components/Bookmarks.vue'
+import I18n from './components/I18n.vue'
+import SearchBar from './components/SearchBar.vue'
+import CartDropDown from './components/CartDropDown.vue'
+import NotificationDropDown from './components/NotificationDropDown.vue'
+import ProfileDropDown from './components/ProfileDropDown.vue'
+import Logo from '../Logo.vue'
 
 export default {
-  name: "the-navbar-horizontal",
+  name: 'the-navbar-horizontal',
   props: {
     logo: { type: String },
     navbarType: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   components: {
     Logo,
@@ -67,50 +67,50 @@ export default {
     SearchBar,
     CartDropDown,
     NotificationDropDown,
-    ProfileDropDown,
+    ProfileDropDown
   },
   computed: {
-    navbarColor() {
-      let color = "#fff";
-      if (this.navbarType === "sticky") color = "#f7f7f7";
-      else if (this.navbarType === "static") {
+    navbarColor () {
+      let color = '#fff'
+      if (this.navbarType === 'sticky') color = '#f7f7f7'
+      else if (this.navbarType === 'static') {
         if (this.scrollY < 50) {
-          color = "#f7f7f7";
+          color = '#f7f7f7'
         }
       }
 
-      if (this.isThemedark === "dark") {
-        if (color === "#fff") {
-          color = "#10163a";
+      if (this.isThemedark === 'dark') {
+        if (color === '#fff') {
+          color = '#10163a'
         } else {
-          color = "#262c49";
+          color = '#262c49'
         }
       }
 
-      return color;
+      return color
     },
-    isThemedark() {
-      return this.$store.state.theme;
+    isThemedark () {
+      return this.$store.state.theme
     },
-    navbarStyle() {
-      return this.navbarType === "static"
-        ? { transition: "all .25s ease-in-out" }
-        : {};
+    navbarStyle () {
+      return this.navbarType === 'static'
+        ? { transition: 'all .25s ease-in-out' }
+        : {}
     },
-    navbarClasses() {
-      return this.scrollY > 5 && this.navbarType === "static"
+    navbarClasses () {
+      return this.scrollY > 5 && this.navbarType === 'static'
         ? null
-        : "d-theme-dark-light-bg shadow-none";
+        : 'd-theme-dark-light-bg shadow-none'
     },
-    scrollY() {
-      return this.$store.state.scrollY;
+    scrollY () {
+      return this.$store.state.scrollY
     },
-    verticalNavMenuWidth() {
-      return this.$store.state.verticalNavMenuWidth;
+    verticalNavMenuWidth () {
+      return this.$store.state.verticalNavMenuWidth
     },
-    windowWidth() {
-      return this.$store.state.windowWidth;
-    },
-  },
-};
+    windowWidth () {
+      return this.$store.state.windowWidth
+    }
+  }
+}
 </script>

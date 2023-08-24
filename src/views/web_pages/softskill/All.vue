@@ -86,89 +86,89 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       datas: [],
-      base_url_image: process.env.VUE_APP_API_URL,
-    };
+      base_url_image: process.env.VUE_APP_API_URL
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.softskill.rows,
-    }),
+      data: (state) => state.softskill.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "softskill/showall",
-      dispatchDestroy: "course/destroy",
+      dispatchIndex: 'softskill/showall',
+      dispatchDestroy: 'course/destroy'
     }),
 
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    async downData(id) {
+    async downData (id) {
       this.$http
-        .get("api/web/downcourse/" + id)
+        .get(`api/web/downcourse/${  id}`)
         .then((response) => {
           // console.log(response.data.data);
-          const link = document.createElement("a");
+          const link = document.createElement('a')
           link.href =
-            process.env.VUE_APP_API_URL + "/files/" + response.data.data;
-          link.setAttribute("target", "_blank");
-          document.body.appendChild(link);
-          link.click();
+            `${process.env.VUE_APP_API_URL  }/files/${  response.data.data}`
+          link.setAttribute('target', '_blank')
+          document.body.appendChild(link)
+          link.click()
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
-    async master($id) {
-      const data = await this.dispatchIndex($id);
-      this.datas = data.data;
+    async master ($id) {
+      const data = await this.dispatchIndex($id)
+      this.datas = data.data
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
         // this.dispatchIndex(this.$route.params.id);
-        this.master(this.$route.params.id);
+        this.master(this.$route.params.id)
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.master(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

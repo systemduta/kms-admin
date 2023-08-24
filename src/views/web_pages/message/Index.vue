@@ -165,14 +165,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { quillEditor } from "vue-quill-editor";
+import { mapState, mapActions } from 'vuex'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       isInsert: false,
@@ -182,29 +182,29 @@ export default {
       storeData: {
         id: null,
         user_id: null,
-        subject: "",
-        content: "",
-        isSee: "",
-      },
-    };
+        subject: '',
+        content: '',
+        isSee: ''
+      }
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.message.rows,
-    }),
+      data: (state) => state.message.rows
+    })
   },
 
   components: {
-    quillEditor,
+    quillEditor
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "message/index",
-      dispatchDestroy: "message/destroy",
-      dispatchStore: "message/store",
-      dispatchShow: "message/show",
+      dispatchIndex: 'message/index',
+      dispatchDestroy: 'message/destroy',
+      dispatchStore: 'message/store',
+      dispatchShow: 'message/show',
 
-      dispatchGetUser: "employee/index",
+      dispatchGetUser: 'employee/index'
     }),
     // async popupedit(id) {
     //   //   console.log(id);
@@ -224,91 +224,91 @@ export default {
     //   this.storeData.content = resShow.data["content"];
     //   this.isEdit = true;
     // },
-    async send() {
-      const data = new FormData();
-      data.append("user_id", this.storeData.user_id);
-      data.append("subject", this.storeData.subject);
-      data.append("content", this.storeData.content);
-      data.append("isSee", this.storeData.isSee);
+    async send () {
+      const data = new FormData()
+      data.append('user_id', this.storeData.user_id)
+      data.append('subject', this.storeData.subject)
+      data.append('content', this.storeData.content)
+      data.append('isSee', this.storeData.isSee)
 
       //   console.log(...data);
       try {
         // await this.disp
-        await this.dispatchStore(data);
+        await this.dispatchStore(data)
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        await this.dispatchIndex();
-        this.isInsert = false;
+        await this.dispatchIndex()
+        this.isInsert = false
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        await this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        await this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
 
-    async popupinsert() {
-      const res = await this.dispatchGetUser();
+    async popupinsert () {
+      const res = await this.dispatchGetUser()
       this.listUser = res.data.map((i) => {
         return {
           user_id: i.id,
           user_name: i.name,
-          user_pos: i.organization["name"],
-        };
-      });
+          user_pos: i.organization['name']
+        }
+      })
 
       //   console.log(this.listUser);
-      this.isInsert = true;
-    },
+      this.isInsert = true
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 
 <style scoped>

@@ -241,6 +241,6 @@
 
 <script>
 export default {
-  name: "authors-table",
-};
+  name: 'authors-table'
+}
 </script>

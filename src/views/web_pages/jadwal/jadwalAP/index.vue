@@ -147,10 +147,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import moment from "moment";
+import { mapState, mapActions } from 'vuex'
+import moment from 'moment'
 export default {
-  data() {
+  data () {
     return {
       popUpInsert: false,
       popUpShow: false,
@@ -158,96 +158,96 @@ export default {
       resUser: [],
       resSchUser: [],
       storeData: {
-        jadwal_id: "",
-        user_id: "",
-      },
-    };
+        jadwal_id: '',
+        user_id: ''
+      }
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.jadwalap.rows,
-    }),
+      data: (state) => state.jadwalap.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "jadwalap/index",
-      dispatchUser: "employee/index",
-      dispatchStore: "jadwalap/store",
-      dispatchShow: "jadwalap/show",
-      dispatchDestroy: "jadwalap/destroy",
+      dispatchIndex: 'jadwalap/index',
+      dispatchUser: 'employee/index',
+      dispatchStore: 'jadwalap/store',
+      dispatchShow: 'jadwalap/show',
+      dispatchDestroy: 'jadwalap/destroy'
     }),
-    cek(start, end) {
-      return moment().isBetween(this.cek_date(start), this.cek_date(end));
+    cek (start, end) {
+      return moment().isBetween(this.cek_date(start), this.cek_date(end))
     },
-    cek_date(value) {
+    cek_date (value) {
       if (value) {
-        return moment(String(value)).format("YYYY-MM-DD");
+        return moment(String(value)).format('YYYY-MM-DD')
       }
     },
 
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
+        return moment(String(value)).format('DD/MM/YYYY')
       }
     },
-    async getDetail() {
-      const response = await this.dispatchUser();
+    async getDetail () {
+      const response = await this.dispatchUser()
       this.resUser = response.data.map((i) => {
         return {
           user_id: i.id,
           user_name: i.name,
-          user_pos: i.organization["name"],
-        };
-      });
+          user_pos: i.organization['name']
+        }
+      })
     },
-    async getShow(id) {
-      const response = await this.dispatchShow(id);
+    async getShow (id) {
+      const response = await this.dispatchShow(id)
       this.resSchUser = response.success.map((i) => {
         return {
           id: i.id,
           username: i.username,
           jadwalVhsName: i.jadwalVhsName,
           jadwalVhsBatch: i.jadwalVhsBatch,
-          isAllow: i.isAllow,
-        };
-      });
-      this.popUpShow = true;
+          isAllow: i.isAllow
+        }
+      })
+      this.popUpShow = true
     },
-    convertToFormData() {
-      const data = new FormData();
-      data.append("user_id", this.storeData.user_id);
-      data.append("jadwal_id", this.storeData.jadwal_id);
-      return data;
+    convertToFormData () {
+      const data = new FormData()
+      data.append('user_id', this.storeData.user_id)
+      data.append('jadwal_id', this.storeData.jadwal_id)
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         try {
-          await this.dispatchStore(formData);
-          this.$vs.loading.close();
-          this.isLoading = false;
+          await this.dispatchStore(formData)
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.popUpInsert = false;
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.popUpInsert = false
         } catch (error) {
-          const resError = error.data.error;
+          const resError = error.data.error
           for (const key in resError) {
             if (resError.hasOwnProperty(key)) {
-              const error = resError[key];
-              this.$vs.loading.close();
-              this.isLoading = false;
+              const error = resError[key]
+              this.$vs.loading.close()
+              this.isLoading = false
               this.$vs.notify({
-                title: "Gagal Daftar",
+                title: 'Gagal Daftar',
                 text: error,
-                color: "danger",
-                time: 10000,
-              });
+                color: 'danger',
+                time: 10000
+              })
             }
           }
           // this.$vs.loading.close();
@@ -258,54 +258,54 @@ export default {
           //   color: "danger",
           // });
         }
-      });
+      })
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.popUpShow = false;
-      this.idDelete = id;
+    deletes (id) {
+      this.popUpShow = false
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-    this.getDetail();
-  },
-};
+        this.$vs.loading.close()
+      })
+    this.getDetail()
+  }
+}
 </script>
 <style>
 .popup-background {

@@ -1,84 +1,84 @@
-import axios from "@/axios";
+import axios from '@/axios'
 const state = {
   rows: [],
   row: {},
-  upload_progress: 0,
-};
+  upload_progress: 0
+}
 const mutations = {
-  SET_ROWS(state, data) {
-    state.rows = data;
+  SET_ROWS (state, data) {
+    state.rows = data
   },
-  SET_ROW(state, data) {
-    state.row = data;
+  SET_ROW (state, data) {
+    state.row = data
   },
-  SET_UPLOAD_PROGRESS(state, data) {
-    state.upload_progress = data;
-  },
-};
+  SET_UPLOAD_PROGRESS (state, data) {
+    state.upload_progress = data
+  }
+}
 const actions = {
-  async index({ commit }, payload) {
+  async index ({ commit }, payload) {
     try {
-      const { data } = await axios.get(`api/web/userscorevhs`);
+      const { data } = await axios.get('api/web/userscorevhs')
       // console.log(data.success);
-      commit("SET_ROWS", data.success);
-      return Promise.resolve(data);
+      commit('SET_ROWS', data.success)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async showMateri({ commit }, id) {
+  async showMateri ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/materi_sc/${id}`);
+      const { data } = await axios.get(`api/web/materi_sc/${id}`)
       // commit("SET_ROW", data.success);
-      return Promise.resolve(data);
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async showQue({ commit }, id) {
+  async showQue ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/quest_sc/${id}`);
+      const { data } = await axios.get(`api/web/quest_sc/${id}`)
       // commit("SET_ROW", data.success);
-      return Promise.resolve(data);
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async showAnswer({ commit }, payload) {
+  async showAnswer ({ commit }, payload) {
     // console.log(payload);
     try {
-      const { data } = await axios.post("api/web/answer_sc", payload, {
+      const { data } = await axios.post('api/web/answer_sc', payload, {
         headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return Promise.resolve(data);
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
   // =======================================
 
-  async getCompany({ commit }, payload) {
+  async getCompany ({ commit }, payload) {
     try {
-      const { data } = await axios.get(`api/web/get_company`);
-      commit("SET_ROWS", data.data);
-      return Promise.resolve(data);
+      const { data } = await axios.get('api/web/get_company')
+      commit('SET_ROWS', data.data)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async getuserpercompany({ commit }, id) {
+  async getuserpercompany ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/getuserpercompany/${id}`);
-      commit("SET_ROWS", data.success);
-      return Promise.resolve(data);
+      const { data } = await axios.get(`api/web/getuserpercompany/${id}`)
+      commit('SET_ROWS', data.success)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
@@ -104,42 +104,42 @@ const actions = {
   //     }
   //   },
 
-  async update(store, payload) {
-    let id = null;
+  async update (store, payload) {
+    let id = null
     for (const pair of payload.entries()) {
-      if (pair[0] === "id") id = pair[1];
+      if (pair[0] === 'id') id = pair[1]
     }
     try {
-      const { data } = await axios.post(`api/web/userscorevhs/${id}`, payload);
-      return Promise.resolve(data);
+      const { data } = await axios.post(`api/web/userscorevhs/${id}`, payload)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async destroy(store, id) {
+  async destroy (store, id) {
     try {
-      const { data } = await axios.delete(`api/web/userscorevhs/${id}`);
-      return Promise.resolve(data);
+      const { data } = await axios.delete(`api/web/userscorevhs/${id}`)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async show({ commit }, id) {
+  async show ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/userscorevhs/${id}`);
-      commit("SET_ROW", data.success);
-      return Promise.resolve(data);
+      const { data } = await axios.get(`api/web/userscorevhs/${id}`)
+      commit('SET_ROW', data.success)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
-  },
-};
+  }
+}
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
-};
+  actions
+}

@@ -103,83 +103,83 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       isDesc: false,
-      desc: "",
-      urlImage: process.env.VUE_APP_API_URL + "/file/materivhs/image/",
-      urlFile: process.env.VUE_APP_API_URL + "/file/materivhs/file/",
-      urlVideo: process.env.VUE_APP_API_URL + "/file/materivhs/video/",
-      response: [],
-    };
+      desc: '',
+      urlImage: `${process.env.VUE_APP_API_URL  }/file/materivhs/image/`,
+      urlFile: `${process.env.VUE_APP_API_URL  }/file/materivhs/file/`,
+      urlVideo: `${process.env.VUE_APP_API_URL  }/file/materivhs/video/`,
+      response: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.materi.rows,
-    }),
+      data: (state) => state.materi.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "materi/detail",
-      dispatchDestroy: "materi/destroy",
+      dispatchIndex: 'materi/detail',
+      dispatchDestroy: 'materi/destroy'
     }),
 
-    poupDesc(desc) {
-      this.desc = desc;
+    poupDesc (desc) {
+      this.desc = desc
       setTimeout(() => {
-        this.isDesc = true;
-      }, 500);
+        this.isDesc = true
+      }, 500)
       // this.isDesc = true;
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        this.dispatchIndex(this.$route.params.id);
-        this.detail();
+        this.dispatchIndex(this.$route.params.id)
+        this.detail()
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
-          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user',
+          color: 'danger'
+        })
       }
     },
 
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
-    async detail() {
-      const response = await this.dispatchIndex(this.$route.params.id);
-      this.response = response.data;
-      this.$vs.loading.close();
-    },
+    async detail () {
+      const response = await this.dispatchIndex(this.$route.params.id)
+      this.response = response.data
+      this.$vs.loading.close()
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
-    this.detail();
+      text: 'Please Wait ...'
+    })
+    this.detail()
     // this.dispatchIndex(this.$route.params.id)
     //   .then(() => {
     //     this.$vs.loading.close();
@@ -187,6 +187,6 @@ export default {
     //   .catch(() => {
     //     this.$vs.loading.close();
     //   });
-  },
-};
+  }
+}
 </script>

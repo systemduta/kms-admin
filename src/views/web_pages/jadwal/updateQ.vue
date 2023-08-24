@@ -85,133 +85,133 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
-  data() {
+  data () {
     return {
       close: true,
       resJadwal: [],
       maxQuota: null,
-      resCompany: [{ id: "", name: "" }],
+      resCompany: [{ id: '', name: '' }],
       storeData: {
-        id: "",
-        quotaAP: [],
-      },
-    };
+        id: '',
+        quotaAP: []
+      }
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.quotaap.upload_progress,
-    }),
+      uploadProgress: (state) => state.quotaap.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "quotaap/index",
-      dispatchCompany: "company/index",
-      dispatchJadwal: "quotaap/getJadwal",
-      dispatchQuotaap: "quotaap/showquotaap",
-      dispatchUpdate: "quotaap/updatequota",
+      dispatchIndex: 'quotaap/index',
+      dispatchCompany: 'company/index',
+      dispatchJadwal: 'quotaap/getJadwal',
+      dispatchQuotaap: 'quotaap/showquotaap',
+      dispatchUpdate: 'quotaap/updatequota'
     }),
-    async getDetail() {
-      const { data } = await this.dispatchCompany();
+    async getDetail () {
+      const { data } = await this.dispatchCompany()
       this.resCompany = data.map((item) => {
-        return { id: item.id, name: item.name };
-      });
+        return { id: item.id, name: item.name }
+      })
 
-      const resJadwal = await this.dispatchJadwal(this.$route.params.id);
-      this.resJadwal = resJadwal.success;
-      this.maxQuota = this.resJadwal["quota"];
+      const resJadwal = await this.dispatchJadwal(this.$route.params.id)
+      this.resJadwal = resJadwal.success
+      this.maxQuota = this.resJadwal['quota']
 
-      const resquota = await this.dispatchQuotaap(this.$route.params.id);
+      const resquota = await this.dispatchQuotaap(this.$route.params.id)
       this.storeData.quotaAP = resquota.success.map((i) => {
-        return { id: i.company_id, quota: i.quota };
-      });
-      console.log(this.storeData.quotaAP);
-      this.storeData.id = this.$route.params.id;
+        return { id: i.company_id, quota: i.quota }
+      })
+      console.log(this.storeData.quotaAP)
+      this.storeData.id = this.$route.params.id
     },
-    addItem() {
-      let sum = this.storeData.quotaAP.reduce(
+    addItem () {
+      const sum = this.storeData.quotaAP.reduce(
         (n, { quota }) => n + parseInt(quota),
         0
-      );
+      )
       if (sum > this.maxQuota) {
-        alert("Total Quota AP lebih besar dari Maximal Kuota");
+        alert('Total Quota AP lebih besar dari Maximal Kuota')
       } else {
-        this.storeData.quotaAP.push({ id: null, quota: "" });
+        this.storeData.quotaAP.push({ id: null, quota: '' })
       }
     },
-    deleteItem() {
-      this.storeData.quotaAP.pop({ id: null, quota: "" });
+    deleteItem () {
+      this.storeData.quotaAP.pop({ id: null, quota: '' })
     },
-    convertToFormData() {
-      const data = new FormData();
-      data.append("id", this.storeData.id);
-      data.append("quotaAp", JSON.stringify(this.storeData.quotaAP));
+    convertToFormData () {
+      const data = new FormData()
+      data.append('id', this.storeData.id)
+      data.append('quotaAp', JSON.stringify(this.storeData.quotaAP))
 
-      if (this.$route.params.id) data.append("_method", "PUT");
-      return data;
+      if (this.$route.params.id) data.append('_method', 'PUT')
+      return data
     },
 
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
-        let sum = this.storeData.quotaAP.reduce(
+        const sum = this.storeData.quotaAP.reduce(
           (n, { quota }) => n + parseInt(quota),
           0
-        );
+        )
 
         if (sum > this.maxQuota) {
-          alert("Quota AP lebih besar dari quota utama");
+          alert('Quota AP lebih besar dari quota utama')
         } else if (sum < this.maxQuota) {
-          alert("Quota AP lebih kecil dari quota utama");
+          alert('Quota AP lebih kecil dari quota utama')
         } else {
           this.$vs.loading({
-            type: "radius",
-            color: "blue",
+            type: 'radius',
+            color: 'blue',
             textAfter: true,
-            text: "Please Wait ...",
-          });
+            text: 'Please Wait ...'
+          })
           try {
             if (this.$route.params.id) {
-              await this.dispatchUpdate(formData);
-              this.$vs.loading.close();
-              this.isLoading = false;
+              await this.dispatchUpdate(formData)
+              this.$vs.loading.close()
+              this.isLoading = false
               this.$vs.notify({
-                title: "Success!",
-                text: "Data was saved successfully!",
-                color: "success",
-              });
+                title: 'Success!',
+                text: 'Data was saved successfully!',
+                color: 'success'
+              })
 
-              this.$router.push({ name: "jadwal" });
+              this.$router.push({ name: 'jadwal' })
             }
           } catch (error) {
-            this.$vs.loading.close();
+            this.$vs.loading.close()
             this.$vs.notify({
-              title: "Oops!",
+              title: 'Oops!',
               text: error.data.message,
-              color: "danger",
-            });
+              color: 'danger'
+            })
           }
         }
-      });
-    },
+      })
+    }
   },
 
-  async mounted() {
-    this.getDetail();
-  },
-};
+  async mounted () {
+    this.getDetail()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

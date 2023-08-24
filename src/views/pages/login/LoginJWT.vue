@@ -37,66 +37,66 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      nik: "",
-      password: "",
-      isWeb: 1,
-    };
+      nik: '',
+      password: '',
+      isWeb: 1
+    }
   },
   computed: {
-    validateForm() {
-      return !this.errors.any() && this.nik !== "" && this.password !== "";
-    },
+    validateForm () {
+      return !this.errors.any() && this.nik !== '' && this.password !== ''
+    }
   },
   methods: {
-    checkLogin() {
+    checkLogin () {
       if (this.$store.state.auth.isUserLoggedIn()) {
         this.$vs.notify({
-          title: "Login Attempt",
-          text: "You are already logged in!",
-          iconPack: "feather",
-          icon: "icon-alert-circle",
-          color: "warning",
-        });
-        return false;
+          title: 'Login Attempt',
+          text: 'You are already logged in!',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'warning'
+        })
+        return false
       }
-      return true;
+      return true
     },
-    loginJWT() {
-      if (!this.checkLogin()) return;
+    loginJWT () {
+      if (!this.checkLogin()) return
       this.$vs.loading({
-        type: "radius",
-        color: "blue",
+        type: 'radius',
+        color: 'blue',
         textAfter: true,
-        text: "Please Wait ...",
-      });
+        text: 'Please Wait ...'
+      })
       const payload = {
         userDetails: {
           nik: this.nik,
           password: this.password,
-          isWeb: this.isWeb,
-        },
-      };
+          isWeb: this.isWeb
+        }
+      }
       this.$store
-        .dispatch("auth/loginJWT", payload)
+        .dispatch('auth/loginJWT', payload)
         .then(() => {
-          this.$vs.loading.close();
-          this.$router.replace({ name: "dashboard-analytics" });
+          this.$vs.loading.close()
+          this.$router.replace({ name: 'dashboard-analytics' })
         })
         .catch((error) => {
           // console.log(error);
-          this.$vs.loading.close();
+          this.$vs.loading.close()
           this.$vs.notify({
-            title: "Error",
+            title: 'Error',
             text:
-              "Silahkan Hubungi Administrator. code : " + error.response.status,
-            iconPack: "feather",
-            icon: "icon-alert-circle",
-            color: "danger",
-          });
-        });
-    },
-  },
-};
+              `Silahkan Hubungi Administrator. code : ${  error.response.status}`,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        })
+    }
+  }
+}
 </script>

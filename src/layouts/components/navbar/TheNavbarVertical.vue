@@ -29,51 +29,51 @@
 </template>
 
 <script>
-import ProfileDropDown from "./components/ProfileDropDown.vue";
+import ProfileDropDown from './components/ProfileDropDown.vue'
 
 export default {
-  name: "the-navbar-vertical",
+  name: 'the-navbar-vertical',
   props: {
     navbarColor: {
       type: String,
-      default: "#fff",
-    },
+      default: '#fff'
+    }
   },
   components: {
-    ProfileDropDown,
+    ProfileDropDown
   },
   computed: {
-    navbarColorLocal() {
-      return this.$store.state.theme === "dark" && this.navbarColor === "#fff"
-        ? "#10163a"
-        : this.navbarColor;
+    navbarColorLocal () {
+      return this.$store.state.theme === 'dark' && this.navbarColor === '#fff'
+        ? '#10163a'
+        : this.navbarColor
     },
-    verticalNavMenuWidth() {
-      return this.$store.state.verticalNavMenuWidth;
+    verticalNavMenuWidth () {
+      return this.$store.state.verticalNavMenuWidth
     },
-    textColor() {
+    textColor () {
       return {
-        "text-white":
-          (this.navbarColor !== "#10163a" &&
-            this.$store.state.theme === "dark") ||
-          (this.navbarColor !== "#fff" && this.$store.state.theme !== "dark"),
-      };
+        'text-white':
+          (this.navbarColor !== '#10163a' &&
+            this.$store.state.theme === 'dark') ||
+          (this.navbarColor !== '#fff' && this.$store.state.theme !== 'dark')
+      }
     },
-    windowWidth() {
-      return this.$store.state.windowWidth;
+    windowWidth () {
+      return this.$store.state.windowWidth
     },
 
     // NAVBAR STYLE
-    classObj() {
-      if (this.verticalNavMenuWidth === "default") return "navbar-default";
-      else if (this.verticalNavMenuWidth === "reduced") return "navbar-reduced";
-      else if (this.verticalNavMenuWidth) return "navbar-full";
-    },
+    classObj () {
+      if (this.verticalNavMenuWidth === 'default') return 'navbar-default'
+      else if (this.verticalNavMenuWidth === 'reduced') return 'navbar-reduced'
+      else if (this.verticalNavMenuWidth) return 'navbar-full'
+    }
   },
   methods: {
-    showSidebar() {
-      this.$store.commit("TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE", true);
-    },
-  },
-};
+    showSidebar () {
+      this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
+    }
+  }
+}
 </script>

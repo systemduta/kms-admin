@@ -104,45 +104,45 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 // import moment from "moment";
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
-      dataUser: [],
-    };
+      dataUser: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.score.rows,
-    }),
+      data: (state) => state.score.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "score/show",
-      dispatchDestroy: "score/destroy",
+      dispatchIndex: 'score/show',
+      dispatchDestroy: 'score/destroy'
     }),
 
-    async getUser(id) {
-      const co = await this.dispatchIndex(id);
-      this.dataUser = co.success;
-    },
+    async getUser (id) {
+      const co = await this.dispatchIndex(id)
+      this.dataUser = co.success
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getUser(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

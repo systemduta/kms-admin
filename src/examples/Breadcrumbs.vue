@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "breadcrumbs",
+  name: 'breadcrumbs',
   props: {
     currentPage: {
       required: true
@@ -41,5 +41,5 @@ export default {
       type: String
     }
   }
-};
+}
 </script>

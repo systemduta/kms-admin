@@ -19,19 +19,19 @@
 
 <script>
 export default {
-  name: "default-info-card",
+  name: 'default-info-card',
   props: {
     icon_bg: {
       type: String,
-      default: "bg-white",
+      default: 'bg-white'
     },
     classIcon: {
       type: String,
-      required: true,
+      required: true
     },
     title: String,
     desc: String,
-    price: String,
-  },
-};
+    price: String
+  }
+}
 </script>

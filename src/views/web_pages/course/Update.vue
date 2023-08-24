@@ -54,7 +54,7 @@ import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 
 export default {
-  name: "CreateCourse",
+  name: 'CreateCourse',
   components:{
     vSelect,
     quillEditor
@@ -66,25 +66,25 @@ export default {
         is_pre_test: '',
         description: '',
         id: this.$route.params.id,
-            answers: [
-              {
-                name: '',
-                is_true: 0
-              },
-              {
-                name: '',
-                is_true: 0
-              },
-              {
-                name: '',
-                is_true: 0
-              },
-              {
-                name: '',
-                is_true: 0
-              },
-            ]
+        answers: [
+          {
+            name: '',
+            is_true: 0
+          },
+          {
+            name: '',
+            is_true: 0
+          },
+          {
+            name: '',
+            is_true: 0
+          },
+          {
+            name: '',
+            is_true: 0
           }
+        ]
+      }
     }
   },
   computed:{
@@ -98,7 +98,7 @@ export default {
       dispatchAllQuestion: 'course/getQuestion',
       dispatchStore: 'course/store',
       dispatchUpdate: 'course/edits',
-      dispatchShow: 'course/details',
+      dispatchShow: 'course/details'
     }),
     async getMaster () {
       if (this.$route.params.id) {
@@ -108,13 +108,13 @@ export default {
     convertToFormData () {
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
-      ['id', 'description','answers'].forEach((key) => {
+      ['id', 'description', 'answers'].forEach((key) => {
         if (key == 'answers') {
           this.storeData.answers.forEach(function (answer, index) {
-              data.append(`answers[${index}][id]`,answer.id);
-              data.append(`answers[${index}][name]`,answer.name);
-              data.append(`answers[${index}][is_true]`,answer.is_true?1:0);
-          });
+            data.append(`answers[${index}][id]`, answer.id)
+            data.append(`answers[${index}][name]`, answer.name)
+            data.append(`answers[${index}][is_true]`, answer.is_true ? 1 : 0)
+          })
         } else if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       if (this.$route.params.id) data.append('_method', 'PUT')
@@ -122,9 +122,9 @@ export default {
     },
     store () {
       this.$validator.validateAll().then(async res => {
-        if (!res) return false;
+        if (!res) return false
         const formData = this.convertToFormData()
-        if (!formData) return false;
+        if (!formData) return false
         this.$vs.loading()
         this.isLoading = true
         try {

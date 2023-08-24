@@ -167,7 +167,7 @@ export default {
       }
     },
     menuItemsUpdated () {
-      let temp = this.navMenuItems.filter(function (item) {
+      const temp = this.navMenuItems.filter(function (item) {
         return item
       })
       return temp.map(function (el) {
@@ -177,7 +177,7 @@ export default {
           icon: el.icon,
           i18n: el.i18n,
           submenu: el.submenu.filter(function (fill) {
-            return fill;
+            return fill
           })
         }
       })

@@ -98,9 +98,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isAdd: false,
       isUpdate: false,
@@ -115,62 +115,62 @@ export default {
       id3p: this.$route.params.id3p,
       idDimensi: this.$route.params.id,
       idCompany: null,
-      idDivisi: null,
-    };
+      idDivisi: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows,
-    }),
+      data: (state) => state.masterpas.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "masterpas/index_company",
-      dispatchDivisi: "masterpas/index_divisi",
+      dispatchIndex: 'masterpas/index_company',
+      dispatchDivisi: 'masterpas/index_divisi'
     }),
-    toDetail(id) {
-      this.isDivisi = false;
+    toDetail (id) {
+      this.isDivisi = false
       setTimeout(() => {
         this.$router.push({
-          name: `processDetailKpiPas`,
+          name: 'processDetailKpiPas',
           params: {
             id3p: this.id3p,
             idDimensi: this.idDimensi,
             idCompany: this.idCompany,
-            idDivisi: id,
-          },
-        });
-      }, 500);
+            idDivisi: id
+          }
+        })
+      }, 500)
     },
-    goBack() {
+    goBack () {
       this.$router.push({
-        name: "processDimensiPas",
+        name: 'processDimensiPas',
         params: {
-          id: this.$route.params.idKpi,
-        },
-      });
+          id: this.$route.params.idKpi
+        }
+      })
     },
-    async getDivisi(id) {
-      this.idCompany = id;
-      const dataDivisi = await this.dispatchDivisi(id);
-      this.getList = dataDivisi.data;
-      this.isDivisi = true;
-    },
+    async getDivisi (id) {
+      this.idCompany = id
+      const dataDivisi = await this.dispatchDivisi(id)
+      this.getList = dataDivisi.data
+      this.isDivisi = true
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

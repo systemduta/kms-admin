@@ -156,10 +156,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 // import moment from "moment";
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       materipopup: false,
@@ -168,83 +168,83 @@ export default {
       resMateri: [],
       resQue: [],
       resAns: [],
-      urlFile: process.env.VUE_APP_API_URL + "/file/answervhs/",
-    };
+      urlFile: `${process.env.VUE_APP_API_URL  }/file/answervhs/`
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.score.rows,
-    }),
+      data: (state) => state.score.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "score/index",
-      dispatchMateri: "score/showMateri",
-      dispatchQue: "score/showQue",
-      dispatchAns: "score/showAnswer",
+      dispatchIndex: 'score/index',
+      dispatchMateri: 'score/showMateri',
+      dispatchQue: 'score/showQue',
+      dispatchAns: 'score/showAnswer'
     }),
-    closePopup(value) {
+    closePopup (value) {
       if (!value) {
-        this.quePopup = false;
-        this.materipopup = true;
+        this.quePopup = false
+        this.materipopup = true
       }
     },
-    toOther(id) {
-      this.answerPopup = false;
+    toOther (id) {
+      this.answerPopup = false
       setTimeout(() => {
-        this.$router.push({ name: `indexdetail`, params: { id: id } });
-      }, 2000);
+        this.$router.push({ name: 'indexdetail', params: { id } })
+      }, 2000)
     },
-    async getAnswer(question_id, materi_id) {
-      const data = new FormData();
-      data.append("question_id", question_id);
-      data.append("materi_id", materi_id);
+    async getAnswer (question_id, materi_id) {
+      const data = new FormData()
+      data.append('question_id', question_id)
+      data.append('materi_id', materi_id)
       try {
-        const res = await this.dispatchAns(data);
+        const res = await this.dispatchAns(data)
         // console.log(res.success);
-        this.resAns = res.success;
-        this.materipopup = false;
-        this.quePopup = false;
-        this.answerPopup = true;
+        this.resAns = res.success
+        this.materipopup = false
+        this.quePopup = false
+        this.answerPopup = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    async getMateri(id) {
+    async getMateri (id) {
       try {
-        const res = await this.dispatchMateri(id);
-        this.resMateri = res.success;
-        this.materipopup = true;
+        const res = await this.dispatchMateri(id)
+        this.resMateri = res.success
+        this.materipopup = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
-    async getQue(id) {
+    async getQue (id) {
       try {
-        const res = await this.dispatchQue(id);
-        this.resQue = res.success;
-        this.materipopup = false;
-        this.quePopup = true;
+        const res = await this.dispatchQue(id)
+        this.resQue = res.success
+        this.materipopup = false
+        this.quePopup = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

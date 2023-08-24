@@ -57,35 +57,35 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
-      data: (state) => state.sop.rows,
-    }),
+      data: (state) => state.sop.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "sop/getall",
-    }),
+      dispatchIndex: 'sop/getall'
+    })
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

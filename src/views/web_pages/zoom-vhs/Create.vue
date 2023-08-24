@@ -119,150 +119,150 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       storeData: {
         id: this.$route.params.id,
         jadwal_id: null,
-        name: "",
-        times: "",
-        link: "",
-        meeting_id: "",
-        password: "",
+        name: '',
+        times: '',
+        link: '',
+        meeting_id: '',
+        password: ''
       },
 
-      jadwalvhs: [],
-    };
+      jadwalvhs: []
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.zoom.upload_progress,
-    }),
+      uploadProgress: (state) => state.zoom.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "zoom/index",
-      dispatchStore: "zoom/store",
-      dispatchUpdate: "zoom/update",
-      dispatchShow: "zoom/show",
+      dispatchIndex: 'zoom/index',
+      dispatchStore: 'zoom/store',
+      dispatchUpdate: 'zoom/update',
+      dispatchShow: 'zoom/show',
 
-      dispatchGetCompanies: "zoom/getvhs",
+      dispatchGetCompanies: 'zoom/getvhs'
     }),
 
-    async getMaster() {
-      const co = await this.dispatchGetCompanies();
-      this.jadwalvhs = co.data;
+    async getMaster () {
+      const co = await this.dispatchGetCompanies()
+      this.jadwalvhs = co.data
       if (this.$route.params.id) {
-        await this.getDetail();
+        await this.getDetail()
       }
     },
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("MM/DD/YYYY H:i:s");
+        return moment(String(value)).format('MM/DD/YYYY H:i:s')
       }
     },
 
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
       [
-        "id",
-        "jadwal_id",
-        "link",
-        "meeting_id",
-        "name",
-        "password",
-        "times",
+        'id',
+        'jadwal_id',
+        'link',
+        'meeting_id',
+        'name',
+        'password',
+        'times'
       ].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
-      if (this.$route.params.id) data.append("_method", "PUT");
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      if (this.$route.params.id) data.append('_method', 'PUT')
 
-      return data;
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
             // console.log(formData);
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "zoom-vhs" });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({ name: 'zoom-vhs' })
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const { success } = await this.dispatchShow(this.$route.params.id);
-      this.storeData.jadwal_id = success.jadwalvhs_id;
-      this.storeData.name = success.zoom_name;
-      this.storeData.times = success.times;
-      this.storeData.link = success.link;
-      this.storeData.meeting_id = success.meeting_id;
+    async getDetail () {
+      const { success } = await this.dispatchShow(this.$route.params.id)
+      this.storeData.jadwal_id = success.jadwalvhs_id
+      this.storeData.name = success.zoom_name
+      this.storeData.times = success.times
+      this.storeData.link = success.link
+      this.storeData.meeting_id = success.meeting_id
       //   this.storeData.password = suceess.password;
-    },
+    }
   },
-  async mounted() {
+  async mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     if (this.$route.params.id) {
-      this.getDetail();
+      this.getDetail()
     }
     await this.getMaster()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
+        this.$vs.loading.close()
+      })
 
     this.jadwalvhs.map(function (x) {
-      return (x.item_data = x.name + " - " + x.batch + " - " + x.start);
-    });
-  },
-};
+      return (x.item_data = `${x.name  } - ${  x.batch  } - ${  x.start}`)
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -190,93 +190,93 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       url: process.env.VUE_APP_API_URL,
       idDelete: null,
       dataShow: null,
-      popup: false,
-    };
+      popup: false
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.sertif.rows,
-    }),
+      data: (state) => state.sertif.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "sertif/index",
-      dispatchDestroy: "sertif/destroy",
-      dispatchShow: "sertif/show",
+      dispatchIndex: 'sertif/index',
+      dispatchDestroy: 'sertif/destroy',
+      dispatchShow: 'sertif/show'
     }),
-    async show(id) {
+    async show (id) {
       try {
-        this.dataShow = await this.dispatchShow(id);
+        this.dataShow = await this.dispatchShow(id)
         if (this.dataShow.Data) {
-          this.popup = true;
+          this.popup = true
         } else {
           this.$vs.notify({
-            title: "Oops!",
-            text: "Maaf, Unknow error ",
-            color: "danger",
-          });
+            title: 'Oops!',
+            text: 'Maaf, Unknow error ',
+            color: 'danger'
+          })
         }
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
-          text: "Maaf, Unknow error ",
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Maaf, Unknow error ',
+          color: 'danger'
+        })
       }
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        this.dispatchIndex(this.$route.params.id);
+        this.dispatchIndex(this.$route.params.id)
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
-          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user',
+          color: 'danger'
+        })
       }
     },
 
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

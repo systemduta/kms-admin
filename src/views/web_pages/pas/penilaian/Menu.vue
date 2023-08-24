@@ -154,9 +154,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isPeople: false,
       isProcess: false,
@@ -167,124 +167,124 @@ export default {
       date: this.$route.params.date,
       showDate: null,
       datas3: [],
-      total: null,
-    };
+      total: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows,
-    }),
+      data: (state) => state.masterpas.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchMasterDatas: "masterpas/index_datas",
-      dispatchFinalSkor: "masterpas/finalsave",
+      dispatchMasterDatas: 'masterpas/index_datas',
+      dispatchFinalSkor: 'masterpas/finalsave'
     }),
-    goBack() {
+    goBack () {
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: `Confirm`,
-        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        type: 'confirm',
+        color: 'danger',
+        title: 'Confirm',
+        text: 'Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?',
         accept: this.acceptBack,
-        acceptText: "ya",
-        cancelText: "tutup",
-      });
+        acceptText: 'ya',
+        cancelText: 'tutup'
+      })
     },
-    acceptBack() {
+    acceptBack () {
       this.$router.push({
-        name: `detailpenilaianpas`,
+        name: 'detailpenilaianpas',
         params: {
           idCompany: this.idCompany,
           idDivisi: this.idDivisi,
-          date: this.date,
-        },
-      });
+          date: this.date
+        }
+      })
     },
-    async finalSave() {
+    async finalSave () {
       if (this.datas3.data.some((data) => data.nilai === 0)) {
         this.$vs.dialog({
-          color: "warning",
-          title: "warning",
-          text: "Ada Nilai Parameter yang Bernilai 0",
-          acceptText: "perbaiki",
-        });
+          color: 'warning',
+          title: 'warning',
+          text: 'Ada Nilai Parameter yang Bernilai 0',
+          acceptText: 'perbaiki'
+        })
       } else if (
         confirm(
-          "Pastikan data sudah Benar sebelum disimpan. Apakah Anda yakin ingin melanjutkan?"
+          'Pastikan data sudah Benar sebelum disimpan. Apakah Anda yakin ingin melanjutkan?'
         )
       ) {
         const final = {
           date: this.date,
           user_id: this.idUser,
-          nilai: this.total,
-        };
+          nilai: this.total
+        }
         try {
-          const response = await this.dispatchFinalSkor(final);
+          const response = await this.dispatchFinalSkor(final)
           if (response.statusCode === 200) {
             this.$vs.notify({
               time: 4000,
-              title: "Sukses",
-              text: "Data berhasil disimpan",
-              color: "primary",
-              icon: "verified_user",
-            });
+              title: 'Sukses',
+              text: 'Data berhasil disimpan',
+              color: 'primary',
+              icon: 'verified_user'
+            })
           }
         } catch (error) {
           this.$vs.notify({
             time: 4000,
-            title: "Error",
+            title: 'Error',
             text: error.data.message,
-            color: "warning",
-            icon: "error",
-          });
+            color: 'warning',
+            icon: 'error'
+          })
         }
       }
     },
 
-    async getDatas() {
-      const send = new FormData();
-      send.append("idCompany", this.idCompany);
-      send.append("idDivisi", this.idDivisi);
-      send.append("idUser", this.idUser);
-      send.append("date", this.date);
-      const datas3 = await this.dispatchMasterDatas(send);
-      this.datas3 = datas3;
+    async getDatas () {
+      const send = new FormData()
+      send.append('idCompany', this.idCompany)
+      send.append('idDivisi', this.idDivisi)
+      send.append('idUser', this.idUser)
+      send.append('date', this.date)
+      const datas3 = await this.dispatchMasterDatas(send)
+      this.datas3 = datas3
       datas3.data.forEach((e) => {
-        e.nilai = e.nilai === null ? 0 : e.nilai;
-        this.total += e.nilai;
-      });
+        e.nilai = e.nilai === null ? 0 : e.nilai
+        this.total += e.nilai
+      })
 
       this.total =
         this.total >= 69
           ? this.total
           : this.total >= 59
-          ? 69
-          : this.total >= 49
-          ? 65
-          : this.total >= 39
-          ? 60
-          : this.total >= 29
-          ? 55
-          : 50;
-    },
+            ? 69
+            : this.total >= 49
+              ? 65
+              : this.total >= 39
+                ? 60
+                : this.total >= 29
+                  ? 55
+                  : 50
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDatas()
       .then(() => {
-        const [year, month, day] = this.date.split("-");
-        this.showDate = `${month} - ${year}`;
-        this.$vs.loading.close();
+        const [year, month, day] = this.date.split('-')
+        this.showDate = `${month} - ${year}`
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

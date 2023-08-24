@@ -46,6 +46,6 @@
 
 <script>
 export default {
-  name: "card-player",
-};
+  name: 'card-player'
+}
 </script>

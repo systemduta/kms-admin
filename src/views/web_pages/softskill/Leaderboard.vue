@@ -24,38 +24,38 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
-      datas: [],
-    };
+      datas: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.softskill.rows,
-    }),
+      data: (state) => state.softskill.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "softskill/leaderboard",
+      dispatchIndex: 'softskill/leaderboard'
     }),
 
-    async master($id) {
-      const data = await this.dispatchIndex($id);
-      this.datas = data.success;
-    },
+    async master ($id) {
+      const data = await this.dispatchIndex($id)
+      this.datas = data.success
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.master(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

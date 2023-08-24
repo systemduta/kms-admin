@@ -381,182 +381,182 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { quillEditor } from "vue-quill-editor";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
-  data() {
+  data () {
     return {
       isVisible: true,
-      urlImage: process.env.VUE_APP_API_URL + "/file/materivhs/image/",
+      urlImage: `${process.env.VUE_APP_API_URL  }/file/materivhs/image/`,
       isLoading: false,
       previewImage: null,
-      allowedImageType: ["image/jpeg", "image/png"],
+      allowedImageType: ['image/jpeg', 'image/png'],
       options: [
-        { value: 0, text: "Tidak" },
-        { value: 1, text: "Ya" },
+        { value: 0, text: 'Tidak' },
+        { value: 1, text: 'Ya' }
       ],
       storeData: {
         id: this.$route.params.id,
         jadwal_id: null,
-        name: "",
-        type: "",
-        desc: "",
+        name: '',
+        type: '',
+        desc: '',
         image: null,
         file: null,
         video: null,
-        isPreTest: "",
+        isPreTest: ''
       },
 
-      jadwalvhs: [],
-    };
+      jadwalvhs: []
+    }
   },
   components: {
     vSelect,
-    quillEditor,
+    quillEditor
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.materi.upload_progress,
-    }),
+      uploadProgress: (state) => state.materi.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "materi/index",
-      dispatchStore: "materi/store",
-      dispatchUpdate: "materi/update",
-      dispatchShow: "materi/show",
+      dispatchIndex: 'materi/index',
+      dispatchStore: 'materi/store',
+      dispatchUpdate: 'materi/update',
+      dispatchShow: 'materi/show',
 
-      dispatchGetCompanies: "zoom/getvhs",
+      dispatchGetCompanies: 'zoom/getvhs'
     }),
 
-    async getMaster() {
-      const co = await this.dispatchGetCompanies();
-      this.jadwalvhs = co.data;
+    async getMaster () {
+      const co = await this.dispatchGetCompanies()
+      this.jadwalvhs = co.data
       this.jadwalvhs.map(function (x) {
-        return (x.item_data = x.name + " - " + x.batch + " - " + x.start);
-      });
+        return (x.item_data = `${x.name  } - ${  x.batch  } - ${  x.start}`)
+      })
 
       if (this.$route.params.id) {
-        await this.getDetail();
+        await this.getDetail()
       }
     },
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("MM/DD/YYYY H:i:s");
+        return moment(String(value)).format('MM/DD/YYYY H:i:s')
       }
     },
 
-    async readImage(event) {
-      const image = event.target.files[0];
-      this.storeData.image = image;
-      this.isVisible = false;
-      this.previewImage = URL.createObjectURL(image);
+    async readImage (event) {
+      const image = event.target.files[0]
+      this.storeData.image = image
+      this.isVisible = false
+      this.previewImage = URL.createObjectURL(image)
       //   return this.$set(this.storeData, "image", image);
     },
-    async readVideo(event) {
-      const video = event.target.files[0];
-      this.storeData.video = video;
+    async readVideo (event) {
+      const video = event.target.files[0]
+      this.storeData.video = video
       //   return this.$set(this.storeData, "video", video);
     },
-    async readFile(event) {
-      const file = event.target.files[0];
-      this.storeData.file = file;
+    async readFile (event) {
+      const file = event.target.files[0]
+      this.storeData.file = file
       //   return this.$set(this.storeData, "file", file);
     },
 
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
       [
-        "id",
-        "jadwal_id",
-        "name",
-        "type",
-        "desc",
-        "image",
-        "file",
-        "video",
-        "isPreTest",
+        'id',
+        'jadwal_id',
+        'name',
+        'type',
+        'desc',
+        'image',
+        'file',
+        'video',
+        'isPreTest'
       ].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
 
-      if (this.$route.params.id) data.append("_method", "PUT");
-      return data;
+      if (this.$route.params.id) data.append('_method', 'PUT')
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         // console.log(...formData);
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "vhs-pages/materi" });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({ name: 'vhs-pages/materi' })
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.error,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const { success } = await this.dispatchShow(this.$route.params.id);
-      this.storeData.jadwal_id = success.jadwal_id;
-      this.storeData.name = success.name;
-      this.storeData.type = success.type;
-      this.storeData.desc = success.desc;
-      this.storeData.image = success.image;
-      this.storeData.file = success.file;
-      this.storeData.video = success.video;
-      this.storeData.isPreTest = success.isPreTest;
-    },
+    async getDetail () {
+      const { success } = await this.dispatchShow(this.$route.params.id)
+      this.storeData.jadwal_id = success.jadwal_id
+      this.storeData.name = success.name
+      this.storeData.type = success.type
+      this.storeData.desc = success.desc
+      this.storeData.image = success.image
+      this.storeData.file = success.file
+      this.storeData.video = success.video
+      this.storeData.isPreTest = success.isPreTest
+    }
   },
-  async mounted() {
+  async mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
 
     await this.getMaster()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

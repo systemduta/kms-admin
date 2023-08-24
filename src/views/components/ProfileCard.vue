@@ -68,6 +68,6 @@
 
 <script>
 export default {
-  name: "profile-card",
-};
+  name: 'profile-card'
+}
 </script>

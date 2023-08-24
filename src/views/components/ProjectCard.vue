@@ -464,76 +464,76 @@
 
 <script>
 export default {
-  name: "project-card",
+  name: 'project-card',
   props: {
     Action: {
       type: String,
-      default: "Action",
+      default: 'Action'
     },
     AnotherAction: {
       type: String,
-      default: "Another Action",
+      default: 'Another Action'
     },
     SomethingElse: {
       type: String,
-      default: "Something else here",
+      default: 'Something else here'
     },
     th1: {
       type: String,
-      default: "COMPANIES",
+      default: 'COMPANIES'
     },
     th2: {
       type: String,
-      default: "MEMBERS",
+      default: 'MEMBERS'
     },
     th3: {
       type: String,
-      default: "BUDGET",
+      default: 'BUDGET'
     },
     th4: {
       type: String,
-      default: "COMPLETION",
+      default: 'COMPLETION'
     },
     title: {
       type: String,
-      default: "Projects table",
+      default: 'Projects table'
     },
     desc: {
       type: String,
-      default: "this month",
+      default: 'this month'
     },
     descBold: {
       type: String,
-      default: "30 done",
+      default: '30 done'
     },
     data1: {
       type: String,
-      default: "Material XD Version",
+      default: 'Material XD Version'
     },
     data2: {
       type: String,
-      default: "Add Progress Track",
+      default: 'Add Progress Track'
     },
     data3: {
       type: String,
-      default: "Fix Platform Errors",
+      default: 'Fix Platform Errors'
     },
     data4: {
       type: String,
-      default: "Launch our Mobile App",
+      default: 'Launch our Mobile App'
     },
     data5: {
       type: String,
-      default: "Add the New Pricing Page",
+      default: 'Add the New Pricing Page'
     },
     data6: {
       type: String,
-      default: "Redesign New Online Shop",
+      default: 'Redesign New Online Shop'
     },
     empty: {
       type: String,
-      default: "Not set",
-    },
-  },
-};
+      default: 'Not set'
+    }
+  }
+}
 </script>

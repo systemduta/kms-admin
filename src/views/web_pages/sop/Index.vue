@@ -39,35 +39,35 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
-      data: (state) => state.sop.rows,
-    }),
+      data: (state) => state.sop.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "sop/index",
-    }),
+      dispatchIndex: 'sop/index'
+    })
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex(this.$store.state.AppActiveUser.data.company_id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

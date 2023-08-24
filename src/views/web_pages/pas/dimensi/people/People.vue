@@ -169,10 +169,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import vSelect from "vue-select";
+import { mapState, mapActions } from 'vuex'
+import vSelect from 'vue-select'
 export default {
-  data() {
+  data () {
     return {
       datasDimensi: [],
       idDelete: null,
@@ -181,193 +181,193 @@ export default {
       isUpdate: false,
       storeData: {
         id_3p: this.$route.params.id,
-        name: "",
+        name: ''
       },
 
       master_3p: [],
       updateData: {
         id: null,
         id_3p: null,
-        name: "",
-      },
-    };
+        name: ''
+      }
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      data: (state) => state.dimensi.rows,
-    }),
+      data: (state) => state.dimensi.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "dimensi/index_per_3p",
-      dispatchStore: "dimensi/store",
-      dispatchUpdate: "dimensi/update",
-      dispatchDestroy: "dimensi/destroy",
-      dispatchShow: "dimensi/show",
+      dispatchIndex: 'dimensi/index_per_3p',
+      dispatchStore: 'dimensi/store',
+      dispatchUpdate: 'dimensi/update',
+      dispatchDestroy: 'dimensi/destroy',
+      dispatchShow: 'dimensi/show',
 
-      dispatchMaster: "masterpas/index",
+      dispatchMaster: 'masterpas/index'
     }),
-    log(id) {
-      console.log("id : " + id);
+    log (id) {
+      console.log(`id : ${  id}`)
     },
-    goBack() {
+    goBack () {
       // this.$router.push({
       //   name: "dimensipas",
       // });
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
 
-    async getMaster() {
+    async getMaster () {
       try {
-        const datas = await this.dispatchMaster();
-        this.master_3p = datas.data;
-        this.isAdd = true;
+        const datas = await this.dispatchMaster()
+        this.master_3p = datas.data
+        this.isAdd = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
-    async getUpdate($id) {
+    async getUpdate ($id) {
       try {
-        const datas = await this.dispatchMaster();
-        this.master_3p = datas.data;
+        const datas = await this.dispatchMaster()
+        this.master_3p = datas.data
 
-        const dimensi_data = await this.dispatchShow($id);
-        this.updateData.id = dimensi_data.data["id"];
-        this.updateData.id_3p = dimensi_data.data["id_3p"];
-        this.updateData.name = dimensi_data.data["name"];
+        const dimensi_data = await this.dispatchShow($id)
+        this.updateData.id = dimensi_data.data['id']
+        this.updateData.id_3p = dimensi_data.data['id_3p']
+        this.updateData.name = dimensi_data.data['name']
 
-        this.isUpdate = true;
+        this.isUpdate = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        this.datas(this.$route.params.id);
+        this.datas(this.$route.params.id)
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
-          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user',
+          color: 'danger'
+        })
       }
     },
 
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
 
-    async store() {
-      const send = new FormData();
-      send.append("id_3p", this.storeData.id_3p);
-      send.append("name", this.storeData.name);
+    async store () {
+      const send = new FormData()
+      send.append('id_3p', this.storeData.id_3p)
+      send.append('name', this.storeData.name)
       this.$vs.loading({
-        type: "radius",
-        color: "blue",
+        type: 'radius',
+        color: 'blue',
         textAfter: true,
-        text: "Please Wait ...",
-      });
+        text: 'Please Wait ...'
+      })
 
       try {
-        await this.dispatchStore(send);
-        this.$vs.loading.close();
+        await this.dispatchStore(send)
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was saved successfully!",
-          color: "success",
-        });
-        this.datas(this.$route.params.id);
-        this.isAdd = false;
+          title: 'Success!',
+          text: 'Data was saved successfully!',
+          color: 'success'
+        })
+        this.datas(this.$route.params.id)
+        this.isAdd = false
       } catch (error) {
-        this.$vs.loading.close();
-        this.isLoading = false;
+        this.$vs.loading.close()
+        this.isLoading = false
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.error,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    async update() {
-      const send = new FormData();
-      send.append("id", this.updateData.id);
-      send.append("id_3p", this.updateData.id_3p);
-      send.append("name", this.updateData.name);
-      send.append("_method", "PUT");
+    async update () {
+      const send = new FormData()
+      send.append('id', this.updateData.id)
+      send.append('id_3p', this.updateData.id_3p)
+      send.append('name', this.updateData.name)
+      send.append('_method', 'PUT')
 
       //   console.log(...send);
       this.$vs.loading({
-        type: "radius",
-        color: "blue",
+        type: 'radius',
+        color: 'blue',
         textAfter: true,
-        text: "Please Wait ...",
-      });
+        text: 'Please Wait ...'
+      })
 
       try {
-        await this.dispatchUpdate(send);
-        this.$vs.loading.close();
+        await this.dispatchUpdate(send)
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was updated successfully!",
-          color: "success",
-        });
-        this.datas(this.$route.params.id);
-        this.isUpdate = false;
+          title: 'Success!',
+          text: 'Data was updated successfully!',
+          color: 'success'
+        })
+        this.datas(this.$route.params.id)
+        this.isUpdate = false
       } catch (error) {
-        this.$vs.loading.close();
-        this.isLoading = false;
+        this.$vs.loading.close()
+        this.isLoading = false
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.error,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    async datas(id) {
+    async datas (id) {
       try {
-        const datas = await this.dispatchIndex(id);
-        this.datasDimensi = datas.data;
+        const datas = await this.dispatchIndex(id)
+        this.datasDimensi = datas.data
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.datas(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

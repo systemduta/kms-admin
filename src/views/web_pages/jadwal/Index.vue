@@ -107,65 +107,65 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import moment from "moment";
+import { mapState, mapActions } from 'vuex'
+import moment from 'moment'
 export default {
-  data() {
+  data () {
     return {
       showPopup: false,
       idDelete: null,
-      message: "",
-    };
+      message: ''
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.jadwal.rows,
-    }),
+      data: (state) => state.jadwal.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "jadwal/index",
-      dispatchDestroy: "jadwal/destroy",
+      dispatchIndex: 'jadwal/index',
+      dispatchDestroy: 'jadwal/destroy'
     }),
-    copyData(id, end) {
-      const now = new Date();
-      const ended = new Date(end);
+    copyData (id, end) {
+      const now = new Date()
+      const ended = new Date(end)
       if (ended < now) {
-        alert("pass ");
+        alert('pass ')
       } else {
-        alert("jadwal 1VHS ini masih belum berakhir");
+        alert('jadwal 1VHS ini masih belum berakhir')
       }
     },
 
-    showMessage(id) {
+    showMessage (id) {
       if (id == 1) {
-        this.message = "Edit Semua data keseluruhan";
+        this.message = 'Edit Semua data keseluruhan'
       } else if (id == 2) {
-        this.message = "Copy Semua";
+        this.message = 'Copy Semua'
       } else if (id == 3) {
-        this.message = "Lihat peserta yang didaftarkan admin AP";
+        this.message = 'Lihat peserta yang didaftarkan admin AP'
       }
     },
 
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
+        return moment(String(value)).format('DD/MM/YYYY')
       }
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        this.dispatchIndex(this.$route.params.id);
+        this.dispatchIndex(this.$route.params.id)
       } catch (error) {
         this.$vs.notify({
-          title: "Gagal Menghapus",
+          title: 'Gagal Menghapus',
           // text: `Jadwal ini sudah ada materi / kuota untuk AP / user yang terjadwal didalamnya, harap hapus terlebih dahulu`,
           text: `<p>Penyebab: <br><br>
           1. Ada materi yang terkait didalam jadwal <br>
@@ -174,38 +174,38 @@ export default {
           
           Hapus data diatas terlebih dahulu !!!
             </p>`,
-          color: "danger",
-          time: 10000,
-        });
+          color: 'danger',
+          time: 10000
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 <style>
 .popup-background {

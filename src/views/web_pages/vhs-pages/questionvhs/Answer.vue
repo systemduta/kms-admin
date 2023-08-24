@@ -50,52 +50,52 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       dataAnswer: [],
-      dataJudul: "",
-    };
+      dataJudul: ''
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.questionvhs.rows,
-    }),
+      data: (state) => state.questionvhs.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "questionvhs/index",
-      dispatchShowAnswer: "questionvhs/getanswer",
+      dispatchIndex: 'questionvhs/index',
+      dispatchShowAnswer: 'questionvhs/getanswer'
     }),
 
-    ujiClick(id) {
-      console.log(id);
+    ujiClick (id) {
+      console.log(id)
     },
 
-    async getAnswer(id) {
-      const co = await this.dispatchShowAnswer(id);
-      this.dataAnswer = co.success;
-      this.dataJudul = co.question.question;
+    async getAnswer (id) {
+      const co = await this.dispatchShowAnswer(id)
+      this.dataAnswer = co.success
+      this.dataJudul = co.question.question
       // console.log(this.dataAnswer);
-    },
+    }
   },
-  async mounted() {
+  async mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     await this.getAnswer(this.$route.params.id)
       // this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

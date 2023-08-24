@@ -18,7 +18,7 @@ const mutations = {
 const actions = {
   async index ({commit}, payload) {
     try {
-      const { data } = await axios.get(`/api/web/cros_lamp`)
+      const { data } = await axios.get('/api/web/cros_lamp')
       commit('SET_ROWS', data.data)
       return Promise.resolve(data)
     } catch (error) {

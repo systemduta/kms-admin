@@ -54,32 +54,32 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      idDelete: null,
-    };
+      idDelete: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.softskill.rows,
-    }),
+      data: (state) => state.softskill.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "softskill/index",
-    }),
+      dispatchIndex: 'softskill/index'
+    })
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

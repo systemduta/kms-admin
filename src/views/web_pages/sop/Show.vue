@@ -50,7 +50,7 @@ export default {
       f_question: '',
       id: '',
       f_name: '',
-      f_is_true: false,
+      f_is_true: false
     }
   },
   computed:{
@@ -79,17 +79,17 @@ export default {
       const payload = {
         id: this.id,
         name: this.f_name,
-        is_true: this.f_is_true,
+        is_true: this.f_is_true
       }
-        // console.log(payload);
+      // console.log(payload);
       await this.dispatchUpdates(payload).then(() => {
-          this.$vs.loading()
-          this.dispatchAllQuestion(this.$route.params.id).then(() => {
-            this.$vs.loading.close()
-          }).catch(() => {
-            this.$vs.loading.close()
-          })
+        this.$vs.loading()
+        this.dispatchAllQuestion(this.$route.params.id).then(() => {
+          this.$vs.loading.close()
+        }).catch(() => {
+          this.$vs.loading.close()
         })
+      })
       this.clearFormmm()
       this.updatePopUp = false
     },

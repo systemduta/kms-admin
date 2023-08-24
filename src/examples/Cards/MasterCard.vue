@@ -34,34 +34,34 @@
 </template>
 
 <script>
-import ArgonAvatar from "@/components/ArgonAvatar.vue";
-import img from "../../assets/img/card-visa.jpg";
-import img1 from "../../assets/img/logos/mastercard.png";
+import ArgonAvatar from '@/components/ArgonAvatar.vue'
+import img from '../../assets/img/card-visa.jpg'
+import img1 from '../../assets/img/logos/mastercard.png'
 
 export default {
-  name: "master-card",
+  name: 'master-card',
   components: {
-    ArgonAvatar,
+    ArgonAvatar
   },
   props: {
     cardHolderText: {
       type: String,
-      default: "Card Holder",
+      default: 'Card Holder'
     },
     name: {
       type: String,
-      default: "Jack Peterson",
+      default: 'Jack Peterson'
     },
     cardExpirationText: {
       type: String,
-      default: "Expires",
-    },
+      default: 'Expires'
+    }
   },
-  data() {
+  data () {
     return {
       img,
-      img1,
-    };
-  },
-};
+      img1
+    }
+  }
+}
 </script>

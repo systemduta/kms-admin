@@ -47,56 +47,56 @@
 
 <script>
 export default {
-  name: "card",
-  data() {
+  name: 'card',
+  data () {
     return {
-      reverseDirection: "flex-row-reverse justify-content-between",
-    };
+      reverseDirection: 'flex-row-reverse justify-content-between'
+    }
   },
   methods: {
-    onCLick(onclick) {
-      this.$router.push({ name: onclick });
-    },
+    onCLick (onclick) {
+      this.$router.push({ name: onclick })
+    }
   },
   props: {
     directionReverse: Boolean,
     onclick: {
-      type: String,
+      type: String
       // required: true,
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
     detail: {
-      type: String,
+      type: String
     },
     titleColor: {
-      type: String,
+      type: String
     },
     value: {
-      required: true,
+      required: true
     },
     valueColor: {
-      type: String,
+      type: String
     },
     percentage: String,
     iconClass: {
-      type: String,
+      type: String
     },
     percentageColor: {
       type: String,
-      default: "text-success",
+      default: 'text-success'
     },
     iconBackground: {
       type: String,
-      default: "bg-white",
+      default: 'bg-white'
     },
     contentClass: {
-      type: String,
-    },
-  },
-};
+      type: String
+    }
+  }
+}
 </script>
 <style scoped>
 .div-hover:hover {

@@ -1,39 +1,39 @@
-import axios from "@/axios";
+import axios from '@/axios'
 const state = {
   rows: [],
   row: {},
-  upload_progress: 0,
-};
+  upload_progress: 0
+}
 const mutations = {
-  SET_ROWS(state, data) {
-    state.rows = data;
+  SET_ROWS (state, data) {
+    state.rows = data
   },
-  SET_ROW(state, data) {
-    state.row = data;
+  SET_ROW (state, data) {
+    state.row = data
   },
-  SET_UPLOAD_PROGRESS(state, data) {
-    state.upload_progress = data;
-  },
-};
+  SET_UPLOAD_PROGRESS (state, data) {
+    state.upload_progress = data
+  }
+}
 const actions = {
-  async index({ commit }, payload) {
+  async index ({ commit }, payload) {
     try {
-      const { data } = await axios.get(`api/web/profile`);
-      commit("SET_ROWS", data.data);
-      return Promise.resolve(data);
+      const { data } = await axios.get('api/web/profile')
+      commit('SET_ROWS', data.data)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
 
-  async store({ commit }, payload) {
+  async store ({ commit }, payload) {
     try {
-      const { data } = await axios.post("api/web/updateprofile", payload);
-      return Promise.resolve(data);
+      const { data } = await axios.post('api/web/updateprofile', payload)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
-  },
+  }
 
   //   async getvhs({ commit }, payload) {
   //     try {
@@ -77,11 +77,11 @@ const actions = {
   //       return Promise.reject(error.response);
   //     }
   //   },
-};
+}
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
-};
+  actions
+}

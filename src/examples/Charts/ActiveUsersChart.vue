@@ -233,40 +233,40 @@
   </div>
 </template>
 <script>
-import Chart from "chart.js/auto";
+import Chart from 'chart.js/auto'
 
 export default {
-  name: "active-users-chart",
-  mounted() {
-    var ctx = document.getElementById("chart-bars").getContext("2d");
+  name: 'active-users-chart',
+  mounted () {
+    const ctx = document.getElementById('chart-bars').getContext('2d')
     new Chart(ctx, {
-      type: "bar",
+      type: 'bar',
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            label: "Sales",
+            label: 'Sales',
             tension: 0.4,
             borderWidth: 0,
             borderRadius: 4,
             borderSkipped: false,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
             data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-            maxBarThickness: 6,
-          },
-        ],
+            maxBarThickness: 6
+          }
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
-          },
+            display: false
+          }
         },
         interaction: {
           intersect: false,
-          mode: "index",
+          mode: 'index'
         },
         scales: {
           y: {
@@ -274,7 +274,7 @@ export default {
               drawBorder: false,
               display: false,
               drawOnChartArea: false,
-              drawTicks: false,
+              drawTicks: false
             },
             ticks: {
               suggestedMin: 0,
@@ -283,27 +283,27 @@ export default {
               padding: 15,
               font: {
                 size: 14,
-                family: "Open Sans",
-                style: "normal",
-                lineHeight: 2,
+                family: 'Open Sans',
+                style: 'normal',
+                lineHeight: 2
               },
-              color: "#fff",
-            },
+              color: '#fff'
+            }
           },
           x: {
             grid: {
               drawBorder: false,
               display: false,
               drawOnChartArea: false,
-              drawTicks: false,
+              drawTicks: false
             },
             ticks: {
-              display: false,
-            },
-          },
-        },
-      },
-    });
-  },
-};
+              display: false
+            }
+          }
+        }
+      }
+    })
+  }
+}
 </script>

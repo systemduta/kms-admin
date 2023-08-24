@@ -59,85 +59,85 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 // import moment from "moment";
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
-      cekData: [],
-    };
+      cekData: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.questionvhs.rows,
-    }),
+      data: (state) => state.questionvhs.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "questionvhs/index",
-      dispatchDestroy: "questionvhs/destroy",
+      dispatchIndex: 'questionvhs/index',
+      dispatchDestroy: 'questionvhs/destroy',
 
-      dispatchShowAnswer: "questionvhs/getanswer",
+      dispatchShowAnswer: 'questionvhs/getanswer'
     }),
 
-    async ujiClick(id) {
-      const co = await this.dispatchShowAnswer(id);
-      this.cekData = co.success;
+    async ujiClick (id) {
+      const co = await this.dispatchShowAnswer(id)
+      this.cekData = co.success
       if (this.cekData.length > 0) {
         this.$vs.notify({
-          title: "Oops!",
-          text: `Maaf, Ada data jawaban`,
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Maaf, Ada data jawaban',
+          color: 'danger'
+        })
       } else {
-        this.deletes(id);
+        this.deletes(id)
       }
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
-        this.dispatchIndex(this.$route.params.id);
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
+        this.dispatchIndex(this.$route.params.id)
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

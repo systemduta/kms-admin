@@ -118,146 +118,146 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import moment from "moment";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import moment from 'moment'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       popupActivo: false,
       popupEdit: false,
-      value: "uji",
+      value: 'uji',
       storeData: {
         id: null,
         jadwal_id: null,
         company_id: null,
-        user_id: null,
+        user_id: null
       },
       jadwalArr: [],
       userArr: [],
-      companyArr: [],
-    };
+      companyArr: []
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      data: (state) => state.jadwalUser.rows,
-    }),
+      data: (state) => state.jadwalUser.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "jadwalUser/index",
-      dispatchDestroy: "jadwalUser/destroy",
+      dispatchIndex: 'jadwalUser/index',
+      dispatchDestroy: 'jadwalUser/destroy'
     }),
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("MM/DD/YYYY");
+        return moment(String(value)).format('MM/DD/YYYY')
       }
     },
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
-      ["id", "jadwal_id", "company_id", "user_id", "is_take"].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
+      ['id', 'jadwal_id', 'company_id', 'user_id', 'is_take'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
 
-      if (this.storeData.id) data.append("_method", "PUT");
-      return data;
+      if (this.storeData.id) data.append('_method', 'PUT')
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.storeData.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          window.location.reload();
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          window.location.reload()
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
         // window.location.reload();
 
-        this.$router.push({ name: "jadwaluservhs" });
+        this.$router.push({ name: 'jadwaluservhs' })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

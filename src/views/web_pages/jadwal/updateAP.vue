@@ -195,14 +195,14 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
-  data() {
+  data () {
     return {
       close: true,
       popUpCreate: false,
@@ -213,105 +213,105 @@ export default {
       maxQuota: null,
       storeData: {
         jadwal_id: this.$route.params.id,
-        company_id: "",
-        quota: "",
+        company_id: '',
+        quota: ''
       },
       tempData: {
-        id: "",
+        id: '',
         jadwal_id: this.$route.params.id,
-        company_id: "",
-        quota: "",
+        company_id: '',
+        quota: ''
       },
       editData: {
-        id: "",
+        id: '',
         jadwal_id: this.$route.params.id,
-        company_id: "",
-        quota: "",
-      },
-    };
+        company_id: '',
+        quota: ''
+      }
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      data: (state) => state.quotaap.rows,
-    }),
+      data: (state) => state.quotaap.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "quotaap/getAll",
-      dispatchCompany: "company/index",
-      dispatchJadwal: "quotaap/getJadwal",
-      dispatchDestroy: "quotaap/destroy",
-      dispatchStore: "quotaap/store",
-      dispatchUpdate: "quotaap/updateSingle",
+      dispatchIndex: 'quotaap/getAll',
+      dispatchCompany: 'company/index',
+      dispatchJadwal: 'quotaap/getJadwal',
+      dispatchDestroy: 'quotaap/destroy',
+      dispatchStore: 'quotaap/store',
+      dispatchUpdate: 'quotaap/updateSingle'
     }),
-    async getDetail() {
-      const resJadwal = await this.dispatchJadwal(this.$route.params.id);
-      this.resJadwal = resJadwal.success;
-      this.maxQuota = this.resJadwal["quota"];
+    async getDetail () {
+      const resJadwal = await this.dispatchJadwal(this.$route.params.id)
+      this.resJadwal = resJadwal.success
+      this.maxQuota = this.resJadwal['quota']
 
-      const resQuota = await this.dispatchIndex(this.$route.params.id);
-      this.datas = resQuota.data;
+      const resQuota = await this.dispatchIndex(this.$route.params.id)
+      this.datas = resQuota.data
 
-      const { data } = await this.dispatchCompany();
+      const { data } = await this.dispatchCompany()
       this.resCompany = data.map((item) => {
-        return { id: item.id, name: item.name };
-      });
+        return { id: item.id, name: item.name }
+      })
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
-        this.dispatchIndex(this.$route.params.id);
+        this.dispatchIndex(this.$route.params.id)
         // window.location.reload();
-        this.getDetail();
+        this.getDetail()
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.error,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
-    convertToFormData() {
-      const data = new FormData();
-      data.append("jadwal_id", this.storeData.jadwal_id);
-      data.append("company_id", this.storeData.company_id);
-      data.append("quota", this.storeData.quota);
-      return data;
+    convertToFormData () {
+      const data = new FormData()
+      data.append('jadwal_id', this.storeData.jadwal_id)
+      data.append('company_id', this.storeData.company_id)
+      data.append('quota', this.storeData.quota)
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
-        let sum = this.datas.reduce((n, { quota }) => n + parseInt(quota), 0);
-        sum = parseInt(sum) + parseInt(this.storeData.quota);
+        let sum = this.datas.reduce((n, { quota }) => n + parseInt(quota), 0)
+        sum = parseInt(sum) + parseInt(this.storeData.quota)
         // console.log(sum);
-        if (sum > this.resJadwal["quota"]) {
-          alert("Quota AP lebih besar dari quota utama");
+        if (sum > this.resJadwal['quota']) {
+          alert('Quota AP lebih besar dari quota utama')
         } else {
           for (const pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
+            console.log(`${pair[0]}, ${pair[1]}`)
           }
           // this.$vs.loading({
           //   type: "radius",
@@ -341,87 +341,86 @@ export default {
           //   });
           // }
         }
-      });
+      })
     },
 
-    popUp(id, comid, jadwal_id, quota) {
-      this.tempData.id = id;
-      this.tempData.company_id = comid;
-      this.tempData.jadwal_id = jadwal_id;
-      this.tempData.quota = quota;
+    popUp (id, comid, jadwal_id, quota) {
+      this.tempData.id = id
+      this.tempData.company_id = comid
+      this.tempData.jadwal_id = jadwal_id
+      this.tempData.quota = quota
 
-      this.editData.id = id;
-      this.editData.company_id = comid;
-      this.editData.jadwal_id = jadwal_id;
-      this.editData.quota = quota;
+      this.editData.id = id
+      this.editData.company_id = comid
+      this.editData.jadwal_id = jadwal_id
+      this.editData.quota = quota
 
-      this.popupEdit = true;
+      this.popupEdit = true
     },
 
-    convertToFormDataUpdate() {
-      const data = new FormData();
-      data.append("id", this.editData.id);
-      data.append("jadwal_id", this.editData.jadwal_id);
-      data.append("company_id", this.editData.company_id);
-      data.append("quota", this.editData.quota);
+    convertToFormDataUpdate () {
+      const data = new FormData()
+      data.append('id', this.editData.id)
+      data.append('jadwal_id', this.editData.jadwal_id)
+      data.append('company_id', this.editData.company_id)
+      data.append('quota', this.editData.quota)
 
-      data.append("id_lama", this.tempData.id);
-      data.append("jadwal_id_lama", this.tempData.jadwal_id);
-      data.append("company_id_lama", this.tempData.company_id);
-      data.append("quota_lama", this.tempData.quota);
-      data.append("_method", "PUT");
-      return data;
+      data.append('id_lama', this.tempData.id)
+      data.append('jadwal_id_lama', this.tempData.jadwal_id)
+      data.append('company_id_lama', this.tempData.company_id)
+      data.append('quota_lama', this.tempData.quota)
+      data.append('_method', 'PUT')
+      return data
     },
-    async update() {
-      const formDataEdit = this.convertToFormDataUpdate();
-      if (!formDataEdit) return false;
-      let tempData = this.datas;
+    async update () {
+      const formDataEdit = this.convertToFormDataUpdate()
+      if (!formDataEdit) return false
+      let tempData = this.datas
       tempData = tempData.filter(
-        (data) =>
-          data.jadwalid !== this.tempData.jadwal_id ||
+        (data) => data.jadwalid !== this.tempData.jadwal_id ||
           data.comid !== this.tempData.company_id
-      );
-      let sum = tempData.reduce((n, { quota }) => n + parseInt(quota), 0);
-      sum = parseInt(sum) + parseInt(this.editData.quota);
-      if (sum > this.resJadwal["quota"]) {
-        alert("Quota AP lebih besar dari quota utama");
-      } else if (sum < this.resJadwal["quota"]) {
-        alert("Quota AP lebih kecil dari quota utama");
+      )
+      let sum = tempData.reduce((n, { quota }) => n + parseInt(quota), 0)
+      sum = parseInt(sum) + parseInt(this.editData.quota)
+      if (sum > this.resJadwal['quota']) {
+        alert('Quota AP lebih besar dari quota utama')
+      } else if (sum < this.resJadwal['quota']) {
+        alert('Quota AP lebih kecil dari quota utama')
       } else {
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
+          text: 'Please Wait ...'
+        })
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formDataEdit);
-            this.$vs.loading.close();
-            this.isLoading = false;
+            await this.dispatchUpdate(formDataEdit)
+            this.$vs.loading.close()
+            this.isLoading = false
             this.$vs.notify({
-              title: "Success!",
-              text: "Data was saved successfully!",
-              color: "success",
-            });
+              title: 'Success!',
+              text: 'Data was saved successfully!',
+              color: 'success'
+            })
 
-            this.popupEdit = false;
+            this.popupEdit = false
             // window.location.reload();
-            await this.getDetail();
+            await this.getDetail()
           }
         } catch (error) {
-          this.$vs.loading.close();
+          this.$vs.loading.close()
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
       }
-    },
+    }
   },
-  async mounted() {
-    this.getDetail();
-  },
-};
+  async mounted () {
+    this.getDetail()
+  }
+}
 </script>

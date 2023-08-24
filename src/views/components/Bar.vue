@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Doughnut, Bar } from "vue-chartjs";
+import { Doughnut, Bar } from 'vue-chartjs'
 
 import {
   Chart as ChartJS,
@@ -21,59 +21,59 @@ import {
   Tooltip,
   Legend,
   ArcElement,
-  CategoryScale,
-} from "chart.js";
+  CategoryScale
+} from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default {
-  name: "DoughnutChart",
+  name: 'DoughnutChart',
   components: {
     Doughnut,
-    Bar,
+    Bar
   },
   props: {
     chartData: {
       type: Object,
       required: true,
-      default: () => {},
+      default: () => {}
     },
     chartId: {
       type: String,
-      default: "doughnut-chart",
+      default: 'doughnut-chart'
     },
     datasetIdKey: {
       type: String,
-      default: "label",
+      default: 'label'
     },
     width: {
       type: Number,
-      default: 400,
+      default: 400
     },
     height: {
       type: Number,
-      default: 400,
+      default: 400
     },
     cssClasses: {
-      default: "",
-      type: String,
+      default: '',
+      type: String
     },
     styles: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     plugins: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
-  data() {
+  data () {
     return {
       //   chartOptions: {
       //     responsive: true,
       //     maintainAspectRatio: false,
       //   },
-    };
-  },
-};
+    }
+  }
+}
 </script>

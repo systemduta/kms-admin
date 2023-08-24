@@ -27,11 +27,11 @@
 
 <script>
 export default {
-  name: "the-footer",
+  name: 'the-footer',
   props: {
     classes: {
-      type: String,
-    },
-  },
-};
+      type: String
+    }
+  }
+}
 </script>

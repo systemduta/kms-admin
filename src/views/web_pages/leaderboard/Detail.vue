@@ -68,82 +68,82 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       golongan_id: this.$route.params.golongan_id,
       user_id: this.$route.params.user_id,
       detail: [],
-      total: null,
-    };
+      total: null
+    }
   },
   computed: {},
   methods: {
     ...mapActions({
-      dispatchIndex: "leaderboard/getLeaderboardDetail",
-      dispatchDestroy: "leaderboard/destroy",
+      dispatchIndex: 'leaderboard/getLeaderboardDetail',
+      dispatchDestroy: 'leaderboard/destroy'
     }),
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    async getDetail() {
+    async getDetail () {
       try {
-        const data = new FormData();
-        data.append("golongan_id", this.golongan_id);
-        data.append("user_id", this.user_id);
+        const data = new FormData()
+        data.append('golongan_id', this.golongan_id)
+        data.append('user_id', this.user_id)
 
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
+          text: 'Please Wait ...'
+        })
 
-        var res = await this.dispatchIndex(data);
-        this.detail = res.data;
-        this.total = res.total;
+        const res = await this.dispatchIndex(data)
+        this.detail = res.data
+        this.total = res.total
 
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       } catch (error) {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       }
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.getDetail();
+        await this.dispatchDestroy(this.idDelete)
+        this.getDetail()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
-        this.getDetail();
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
+        this.getDetail()
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
-    this.getDetail();
-  },
-};
+  mounted () {
+    this.getDetail()
+  }
+}
 </script>
 
 <style scoped>

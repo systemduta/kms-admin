@@ -1,4 +1,4 @@
-import axios from "../../../axios/index.js";
+import axios from '../../../axios/index.js'
 // import store from '../../../../store/store.js'
 
 // let isAlreadyFetchingAccessToken = false
@@ -13,33 +13,33 @@ import axios from "../../../axios/index.js";
 // }
 
 export default {
-  init() {
+  init () {
     axios.interceptors.response.use(
       function (response) {
-        return response;
+        return response
       },
       function (error) {
-        return Promise.reject(error);
+        return Promise.reject(error)
       }
-    );
+    )
   },
-  login(nik, pwd, isWeb) {
-    return axios.post("api/login", {
+  login (nik, pwd, isWeb) {
+    return axios.post('api/login', {
       nik,
       password: pwd,
-      isWeb,
-    });
+      isWeb
+    })
   },
-  registerUser(name, email, pwd) {
-    return axios.post("/api/auth/register", {
+  registerUser (name, email, pwd) {
+    return axios.post('/api/auth/register', {
       displayName: name,
       email,
-      password: pwd,
-    });
+      password: pwd
+    })
   },
-  refreshToken() {
-    return axios.post("/api/auth/refresh-token", {
-      accessToken: localStorage.getItem("accessToKen"),
-    });
-  },
-};
+  refreshToken () {
+    return axios.post('/api/auth/refresh-token', {
+      accessToken: localStorage.getItem('accessToKen')
+    })
+  }
+}

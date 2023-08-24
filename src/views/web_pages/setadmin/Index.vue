@@ -399,11 +399,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import vSelect from "vue-select";
+import { mapState, mapActions } from 'vuex'
+import vSelect from 'vue-select'
 // import moment from "moment";
 export default {
-  data() {
+  data () {
     return {
       isAddPermission: false,
       isUpdatePermission: false,
@@ -411,8 +411,8 @@ export default {
       datas: [],
       users: [],
       options: [
-        { value: 0, text: "Nonaktif" },
-        { value: 1, text: "Aktif" },
+        { value: 0, text: 'Nonaktif' },
+        { value: 1, text: 'Aktif' }
       ],
 
       storeData: {
@@ -422,23 +422,23 @@ export default {
         isSOP: 0,
         isKMS: 0,
         is1VHS: 0,
-        isPAS: 0,
-      },
-    };
+        isPAS: 0
+      }
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "permission/index",
-      dispatchStore: "permission/store",
-      dispatchGetPeople: "permission/getPeople",
-      dispatchShow: "permission/show",
-      dispatchUpdate: "permission/update",
-      dispatchDelete: "permission/destroy",
+      dispatchIndex: 'permission/index',
+      dispatchStore: 'permission/store',
+      dispatchGetPeople: 'permission/getPeople',
+      dispatchShow: 'permission/show',
+      dispatchUpdate: 'permission/update',
+      dispatchDelete: 'permission/destroy'
     }),
-    async update() {
+    async update () {
       try {
         if (
           this.storeData.is1VHS === 0 &&
@@ -449,125 +449,125 @@ export default {
         ) {
           this.$vs.notify({
             time: 4000,
-            title: "Oops!",
-            text: "tidak ada izin yang diisi, Apakah anda ingin menghapusnya ?",
-            color: "danger",
-          });
+            title: 'Oops!',
+            text: 'tidak ada izin yang diisi, Apakah anda ingin menghapusnya ?',
+            color: 'danger'
+          })
         } else {
           if (this.storeData.isSuperAdmin === 1) {
-            this.storeData.is1VHS = 0;
-            this.storeData.isKMS = 0;
-            this.storeData.isPAS = 0;
-            this.storeData.isSOP = 0;
+            this.storeData.is1VHS = 0
+            this.storeData.isKMS = 0
+            this.storeData.isPAS = 0
+            this.storeData.isSOP = 0
           }
           this.$vs.loading({
-            type: "radius",
-            color: "blue",
+            type: 'radius',
+            color: 'blue',
             textAfter: true,
-            text: "Please Wait ...",
-          });
-          const data = new FormData();
-          data.append("id", this.storeData.id);
-          data.append("user_id", this.storeData.user_id);
-          data.append("isSuperAdmin", this.storeData.isSuperAdmin);
-          data.append("isSOP", this.storeData.isSOP);
-          data.append("isKMS", this.storeData.isKMS);
-          data.append("is1VHS", this.storeData.is1VHS);
-          data.append("isPAS", this.storeData.isPAS);
-          data.append("_method", "PUT");
-          const response = await this.dispatchUpdate(data);
+            text: 'Please Wait ...'
+          })
+          const data = new FormData()
+          data.append('id', this.storeData.id)
+          data.append('user_id', this.storeData.user_id)
+          data.append('isSuperAdmin', this.storeData.isSuperAdmin)
+          data.append('isSOP', this.storeData.isSOP)
+          data.append('isKMS', this.storeData.isKMS)
+          data.append('is1VHS', this.storeData.is1VHS)
+          data.append('isPAS', this.storeData.isPAS)
+          data.append('_method', 'PUT')
+          const response = await this.dispatchUpdate(data)
           if (response.statusCode === 200) {
-            this.$vs.loading.close();
+            this.$vs.loading.close()
             this.$vs.notify({
               time: 2000,
-              title: "Suksess",
-              text: "Data sukses diupdate",
-              color: "primary",
-              icon: "verified_user",
-            });
+              title: 'Suksess',
+              text: 'Data sukses diupdate',
+              color: 'primary',
+              icon: 'verified_user'
+            })
 
             setTimeout(() => {
-              this.isUpdatePermission = false;
-              this.netral();
-              this.getDatas();
-            }, 500);
+              this.isUpdatePermission = false
+              this.netral()
+              this.getDatas()
+            }, 500)
           }
         }
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    async getSingleData(id) {
+    async getSingleData (id) {
       try {
-        const response = await this.dispatchShow(id);
-        this.storeData.id = response.data.id;
-        this.storeData.user_id = response.data.user_id;
-        this.storeData.isSuperAdmin = response.data.isSuperAdmin;
-        this.storeData.isSOP = response.data.isSOP;
-        this.storeData.isPAS = response.data.isPAS;
-        this.storeData.isKMS = response.data.isKMS;
-        this.storeData.is1VHS = response.data.is1VHS;
+        const response = await this.dispatchShow(id)
+        this.storeData.id = response.data.id
+        this.storeData.user_id = response.data.user_id
+        this.storeData.isSuperAdmin = response.data.isSuperAdmin
+        this.storeData.isSOP = response.data.isSOP
+        this.storeData.isPAS = response.data.isPAS
+        this.storeData.isKMS = response.data.isKMS
+        this.storeData.is1VHS = response.data.is1VHS
 
-        const response2 = await this.dispatchGetPeople();
+        const response2 = await this.dispatchGetPeople()
         this.users = response2.data.map((item) => ({
           id: item.id,
           nik: item.nik,
           username: item.username,
-          name: item.name + " - " + item.company.name,
-        }));
+          name: `${item.name  } - ${  item.company.name}`
+        }))
 
-        this.isUpdatePermission = true;
+        this.isUpdatePermission = true
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    hapus(id, name) {
-      this.idDelete = id;
+    hapus (id, name) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Confirm",
-        text: "Apakah Anda ingin menghapus izin " + name + "?",
-        accept: this.acceptHapus,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Confirm',
+        text: `Apakah Anda ingin menghapus izin ${  name  }?`,
+        accept: this.acceptHapus
+      })
     },
-    async acceptHapus() {
+    async acceptHapus () {
       try {
-        const response = await this.dispatchDelete(this.idDelete);
+        const response = await this.dispatchDelete(this.idDelete)
         if (response.statusCode === 200) {
           this.$vs.notify({
-            title: "Success",
+            title: 'Success',
             text: response.message,
-            color: "primary",
-          });
-          this.idDelete = null;
-          this.getDatas();
+            color: 'primary'
+          })
+          this.idDelete = null
+          this.getDatas()
         } else {
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: response.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    async store() {
+    async store () {
       try {
         if (
           this.storeData.is1VHS === 0 &&
@@ -577,103 +577,103 @@ export default {
           this.storeData.isSuperAdmin === 0
         ) {
           this.$vs.notify({
-            title: "Oops!",
-            text: "tidak ada izin yang diisi",
-            color: "danger",
-          });
+            title: 'Oops!',
+            text: 'tidak ada izin yang diisi',
+            color: 'danger'
+          })
         } else {
           this.$vs.loading({
-            type: "radius",
-            color: "blue",
+            type: 'radius',
+            color: 'blue',
             textAfter: true,
-            text: "Please Wait ...",
-          });
-          const response = await this.dispatchStore(this.storeData);
+            text: 'Please Wait ...'
+          })
+          const response = await this.dispatchStore(this.storeData)
           if (response.statusCode === 200) {
-            this.$vs.loading.close();
+            this.$vs.loading.close()
             this.$vs.notify({
               time: 4000,
-              title: "Suksess",
-              text: "Data sukses disimpan",
-              color: "primary",
-              icon: "verified_user",
-            });
+              title: 'Suksess',
+              text: 'Data sukses disimpan',
+              color: 'primary',
+              icon: 'verified_user'
+            })
 
             setTimeout(() => {
-              this.isAddPermission = false;
-              this.netral();
-              this.getDatas();
-            }, 500);
+              this.isAddPermission = false
+              this.netral()
+              this.getDatas()
+            }, 500)
           }
         }
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    async addMore() {
+    async addMore () {
       try {
-        const response = await this.dispatchGetPeople();
+        const response = await this.dispatchGetPeople()
         this.users = response.data.map((item) => ({
           id: item.id,
           nik: item.nik,
           username: item.username,
-          name: item.name + " - " + item.company.name,
-        }));
+          name: `${item.name  } - ${  item.company.name}`
+        }))
 
-        this.isAddPermission = true;
+        this.isAddPermission = true
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    async getDatas() {
+    async getDatas () {
       try {
-        const response = await this.dispatchIndex();
-        this.datas = response.data;
+        const response = await this.dispatchIndex()
+        this.datas = response.data
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    netral() {
-      this.storeData.id = null;
-      this.storeData.user_id = null;
-      this.storeData.isSuperAdmin = 0;
-      this.storeData.isSOP = 0;
-      this.storeData.isKMS = 0;
-      this.storeData.is1VHS = 0;
-      this.storeData.isPAS = 0;
-    },
+    netral () {
+      this.storeData.id = null
+      this.storeData.user_id = null
+      this.storeData.isSuperAdmin = 0
+      this.storeData.isSOP = 0
+      this.storeData.isKMS = 0
+      this.storeData.is1VHS = 0
+      this.storeData.isPAS = 0
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDatas()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 <style>
 .centered {

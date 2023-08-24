@@ -31,45 +31,45 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 // import moment from "moment";
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
-      dataCompany: [],
-    };
+      dataCompany: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.score.rows,
-    }),
+      data: (state) => state.score.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "score/getuserpercompany",
+      dispatchIndex: 'score/getuserpercompany'
     }),
 
-    async getDataCompany(id) {
-      const co = await this.dispatchIndex(id);
-      this.dataCompany = co.company;
-    },
+    async getDataCompany (id) {
+      const co = await this.dispatchIndex(id)
+      this.dataCompany = co.company
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-    this.getDataCompany(this.$route.params.id);
-  },
-};
+        this.$vs.loading.close()
+      })
+    this.getDataCompany(this.$route.params.id)
+  }
+}
 </script>

@@ -164,111 +164,111 @@
 </template>
 
 <script>
-import vSelect from "vue-select";
-import { mapActions } from "vuex";
+import vSelect from 'vue-select'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      auth: JSON.parse(localStorage.getItem("userInfo")).data,
-      name: "",
-      code: "",
+      auth: JSON.parse(localStorage.getItem('userInfo')).data,
+      name: '',
+      code: '',
       company_id: null,
       isAdm: null,
       companies: [],
       options: [
-        { value: 1, text: "Administratif" },
-        { value: 0, text: "Lapangan" },
-      ],
-    };
+        { value: 1, text: 'Administratif' },
+        { value: 0, text: 'Lapangan' }
+      ]
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   methods: {
     ...mapActions({
-      dispatchStore: "division/store",
-      dispatchUpdate: "division/update",
-      dispatchShow: "division/show",
-      dispatchGetCompanies: "master/companies",
+      dispatchStore: 'division/store',
+      dispatchUpdate: 'division/update',
+      dispatchShow: 'division/show',
+      dispatchGetCompanies: 'master/companies'
     }),
-    async getMaster() {
+    async getMaster () {
       if (this.auth.role == 1) {
-        const co = await this.dispatchGetCompanies();
-        this.companies = co.data;
+        const co = await this.dispatchGetCompanies()
+        this.companies = co.data
       }
       if (this.$route.params.id) {
-        await this.getDetail();
+        await this.getDetail()
       }
     },
 
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
+        if (!res) return false
         const payload = {
           id: this.$route.params.id,
           company_id: this.company_id,
           name: this.name,
           code: this.code,
-          isAdm: this.isAdm,
-        };
+          isAdm: this.isAdm
+        }
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
+          text: 'Please Wait ...'
+        })
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(payload);
+            await this.dispatchUpdate(payload)
           } else {
-            await this.dispatchStore(payload);
+            await this.dispatchStore(payload)
           }
-          this.$vs.loading.close();
+          this.$vs.loading.close()
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
           // this.$router.push({name: 'division'})
 
-          this.$router.go(-1);
+          this.$router.go(-1)
         } catch (error) {
-          this.$vs.loading.close();
+          this.$vs.loading.close()
           this.$vs.notify({
-            title: "Oops!",
-            text: "Dimohon isi semua Inputan",
-            color: "danger",
-          });
+            title: 'Oops!',
+            text: 'Dimohon isi semua Inputan',
+            color: 'danger'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const { data } = await this.dispatchShow(this.$route.params.id);
-      this.name = data.name;
-      this.code = data.code;
-      this.company_id = data.company_id;
-      this.isAdm = data.isAdm;
+    async getDetail () {
+      const { data } = await this.dispatchShow(this.$route.params.id)
+      this.name = data.name
+      this.code = data.code
+      this.company_id = data.company_id
+      this.isAdm = data.isAdm
     },
-    goBack() {
-      this.$router.go(-1);
-    },
+    goBack () {
+      this.$router.go(-1)
+    }
   },
-  async mounted() {
+  async mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     await this.getMaster()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

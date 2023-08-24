@@ -168,9 +168,9 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       close: true,
       showPopup: false,
@@ -179,67 +179,67 @@ export default {
       resData: [],
       resUser: [],
       options: [
-        { value: 0, text: "Ditolak" },
-        { value: 1, text: "Disetujui" },
+        { value: 0, text: 'Ditolak' },
+        { value: 1, text: 'Disetujui' }
       ],
       updateData: {
-        id: "",
-        company_id: "",
-        jadwal_id: "",
-        user_id: "",
-        isAllow: "",
+        id: '',
+        company_id: '',
+        jadwal_id: '',
+        user_id: '',
+        isAllow: ''
       },
       storeData: {
-        company_id: "",
-        jadwal_id: "",
-      },
-    };
+        company_id: '',
+        jadwal_id: ''
+      }
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.quotaap.rows,
-    }),
+      data: (state) => state.quotaap.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "quotaap/indexpermit",
-      dispatchshowuser: "quotaap/getUser",
-      dispatchsetuser: "quotaap/setUser",
-      dispatchDestroy: "jadwalap/destroy",
+      dispatchIndex: 'quotaap/indexpermit',
+      dispatchshowuser: 'quotaap/getUser',
+      dispatchsetuser: 'quotaap/setUser',
+      dispatchDestroy: 'jadwalap/destroy'
     }),
-    async getDetail() {
-      const res = await this.dispatchIndex(this.$route.params.id);
-      this.resData = res;
+    async getDetail () {
+      const res = await this.dispatchIndex(this.$route.params.id)
+      this.resData = res
       // console.log(res);
     },
-    handleChange(company_id, jadwal_id, user_id, id, isAllow) {
-      this.updateData.company_id = company_id;
-      this.updateData.jadwal_id = jadwal_id;
-      this.updateData.user_id = user_id;
-      this.updateData.id = id;
-      this.updateData.isAllow = isAllow;
-      this.showPopup = false;
-      this.showEdit = true;
+    handleChange (company_id, jadwal_id, user_id, id, isAllow) {
+      this.updateData.company_id = company_id
+      this.updateData.jadwal_id = jadwal_id
+      this.updateData.user_id = user_id
+      this.updateData.id = id
+      this.updateData.isAllow = isAllow
+      this.showPopup = false
+      this.showEdit = true
     },
-    async update() {
-      const data = new FormData();
-      data.append("company_id", this.updateData.company_id);
-      data.append("jadwal_id", this.updateData.jadwal_id);
-      data.append("user_id", this.updateData.user_id);
-      data.append("isAllow", this.updateData.isAllow);
-      data.append("id", this.updateData.id);
+    async update () {
+      const data = new FormData()
+      data.append('company_id', this.updateData.company_id)
+      data.append('jadwal_id', this.updateData.jadwal_id)
+      data.append('user_id', this.updateData.user_id)
+      data.append('isAllow', this.updateData.isAllow)
+      data.append('id', this.updateData.id)
 
-      const fromUpdate = data;
+      const fromUpdate = data
       try {
-        await this.dispatchsetuser(fromUpdate);
+        await this.dispatchsetuser(fromUpdate)
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was saved successfully!",
-          color: "success",
-        });
-        const formData = this.convertToFormData();
-        if (!formData) return false;
-        const response = await this.dispatchshowuser(formData);
+          title: 'Success!',
+          text: 'Data was saved successfully!',
+          color: 'success'
+        })
+        const formData = this.convertToFormData()
+        if (!formData) return false
+        const response = await this.dispatchshowuser(formData)
         this.resUser = response.data.map((i) => {
           return {
             id: i.user_id,
@@ -247,33 +247,33 @@ export default {
             isAllow: i.isAllow,
             jadwal_id: i.jadwal_id,
             company_id: i.company_id,
-            jadwalvhs_id: i.id,
-          };
-        });
-        this.showEdit = false;
-        this.showPopup = true;
+            jadwalvhs_id: i.id
+          }
+        })
+        this.showEdit = false
+        this.showPopup = true
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.error,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    convertToFormData() {
-      const data = new FormData();
-      data.append("company_id", this.storeData.company_id);
-      data.append("jadwal_id", this.storeData.jadwal_id);
-      return data;
+    convertToFormData () {
+      const data = new FormData()
+      data.append('company_id', this.storeData.company_id)
+      data.append('jadwal_id', this.storeData.jadwal_id)
+      return data
     },
-    async store(comid, jadwal_id) {
-      this.storeData.company_id = comid;
-      this.storeData.jadwal_id = jadwal_id;
-      const formData = this.convertToFormData();
-      if (!formData) return false;
+    async store (comid, jadwal_id) {
+      this.storeData.company_id = comid
+      this.storeData.jadwal_id = jadwal_id
+      const formData = this.convertToFormData()
+      if (!formData) return false
       try {
-        const response = await this.dispatchshowuser(formData);
+        const response = await this.dispatchshowuser(formData)
         this.resUser = response.data.map((i) => {
           return {
             id: i.user_id,
@@ -281,61 +281,61 @@ export default {
             isAllow: i.isAllow,
             jadwal_id: i.jadwal_id,
             company_id: i.company_id,
-            jadwalvhs_id: i.id,
-          };
-        });
-        this.showPopup = true;
+            jadwalvhs_id: i.id
+          }
+        })
+        this.showPopup = true
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.showPopup = false;
-      this.idDelete = id;
+    deletes (id) {
+      this.showPopup = false
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDetail()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

@@ -1070,9 +1070,9 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isPeople: false,
       isProcess: false,
@@ -1082,9 +1082,9 @@ export default {
       isAddKpi: false,
       activePrompt: false,
       idCompany: this.$route.params.idCompany,
-      nameCompany: "",
+      nameCompany: '',
       idDivisi: this.$route.params.idDivisi,
-      nameDivisi: "",
+      nameDivisi: '',
       idUser: this.$route.params.idUser,
       date: this.$route.params.date,
       datas3: [], //data card atas
@@ -1110,35 +1110,35 @@ export default {
       nilaiC: [],
       nilaiB: [],
       nilaiA: [],
-      tempDimensi: "", //untuk add kpi jika kosong
-      temp3P: "", //untuk add kpi jika kosong
+      tempDimensi: '', //untuk add kpi jika kosong
+      temp3P: '' //untuk add kpi jika kosong
       // tempId3p: null,
       // nameDimensi: "",
-    };
+    }
   },
   computed: {
     formattedDate: {
-      get() {
+      get () {
         if (this.date) {
-          const [year, month, day] = this.date.split("-");
-          return `${month}-${year}`;
+          const [year, month, day] = this.date.split('-')
+          return `${month}-${year}`
         }
-        return "";
+        return ''
       },
-      set(value) {
+      set (value) {
         if (value) {
-          const [year, month, day] = value.split("-");
-          this.date = `${month}-${year}`;
+          const [year, month, day] = value.split('-')
+          this.date = `${month}-${year}`
         } else {
-          this.date = "";
+          this.date = ''
         }
-      },
+      }
     },
-    perHKA() {
-      const perSakit = this.perSakit;
-      const perIzin = this.perIzin;
-      const perTerlambat = this.perTerlambat;
-      const perAlpha = this.perAlpha;
+    perHKA () {
+      const perSakit = this.perSakit
+      const perIzin = this.perIzin
+      const perTerlambat = this.perTerlambat
+      const perAlpha = this.perAlpha
 
       const hka =
         Number(
@@ -1156,249 +1156,249 @@ export default {
         Number(
           this.recordPas.detailSkor3p[0].detail.Absen.detailAbsen[3].nilai
         ) *
-          perAlpha;
-      return -1 * hka;
+          perAlpha
+      return -1 * hka
     },
-    skorabsen() {
-      const perHKA = this.perHKA;
+    skorabsen () {
+      const perHKA = this.perHKA
       const result =
         Number(perHKA) +
         Number(
           this.recordPas.detailSkor3p[0].detail.Absen.detailAbsen[4].nilai
-        );
+        )
 
       const resultAkhir =
         (result /
           this.recordPas.detailSkor3p[0].detail.Absen.detailAbsen[4].nilai) *
-        Number(this.recordPas.detailSkor3p[0].detail.Absen.max_nilai);
+        Number(this.recordPas.detailSkor3p[0].detail.Absen.max_nilai)
       // this.recordPas.detailSkor3p[0].detail.Absen.nilai =
       //   Math.round(resultAkhir);
       this.recordPas.detailSkor3p[0].detail.Absen.nilai =
-        resultAkhir.toFixed(1);
-      return result.toFixed(1);
+        resultAkhir.toFixed(1)
+      return result.toFixed(1)
     },
-    perasli() {
+    perasli () {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0);
-      const count = 3; //ganti ini jika umlah A,B,C berubah
-      const avg = total / count;
+        (Number(this.tempValueA) || 0)
+      const count = 3 //ganti ini jika umlah A,B,C berubah
+      const avg = total / count
 
       if (avg < 1) {
-        return 1;
+        return 1
       } else if (avg > 4) {
-        return 4;
+        return 4
       } else {
-        return avg;
+        return avg
       }
     },
-    perata() {
+    perata () {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0);
-      const count = 3; //ganti ini jika umlah A,B,C berubah
-      const avg = total / count;
+        (Number(this.tempValueA) || 0)
+      const count = 3 //ganti ini jika umlah A,B,C berubah
+      const avg = total / count
 
       if (avg < 1) {
-        return 1;
+        return 1
       } else if (avg > 4) {
-        return 4;
+        return 4
       } else {
         // return Math.round(avg);
-        return avg.toFixed(1);
+        return avg.toFixed(1)
       }
     },
-    hitungUlangPeople() {
-      let totalNilai = 0;
-      let totalMaxNilai = 0;
-      let totalValue = 0;
+    hitungUlangPeople () {
+      let totalNilai = 0
+      let totalMaxNilai = 0
+      let totalValue = 0
 
       // Mengakses nilai di dalam masing-masing item di dalam detail
       for (const dimensi in this.recordPas.detailSkor3p[0].detail) {
         if (Array.isArray(this.recordPas.detailSkor3p[0].detail[dimensi])) {
           this.recordPas.detailSkor3p[0].detail[dimensi].forEach((item) => {
-            totalNilai += parseFloat(item.nilai);
-            totalMaxNilai += item.max_nilai;
-          });
+            totalNilai += parseFloat(item.nilai)
+            totalMaxNilai += item.max_nilai
+          })
         } else {
           // Jika nilai berupa objek, jumlahkan nilai objek tersebut
           totalNilai += parseFloat(
             this.recordPas.detailSkor3p[0].detail[dimensi].nilai
-          );
+          )
           totalMaxNilai += parseFloat(
             this.recordPas.detailSkor3p[0].detail[dimensi].max_nilai
-          );
+          )
         }
       }
-      totalValue = (totalNilai / totalMaxNilai) * 100;
-      let final_people = Math.round(
+      totalValue = (totalNilai / totalMaxNilai) * 100
+      const final_people = Math.round(
         (totalValue * this.recordPas.detailSkor3p[0].persentase) / 100
-      );
+      )
 
-      this.recordPas.detailSkor3p[0].nilai = final_people;
-      return final_people;
+      this.recordPas.detailSkor3p[0].nilai = final_people
+      return final_people
     },
-    hitungUlangProcess() {
-      let totalNilai = 0;
-      let totalMaxNilai = 0;
-      let totalValue = 0;
+    hitungUlangProcess () {
+      let totalNilai = 0
+      let totalMaxNilai = 0
+      let totalValue = 0
 
       for (const dimensi in this.recordPas.detailSkor3p[1].detail) {
-        let items = this.recordPas.detailSkor3p[1].detail[dimensi];
+        const items = this.recordPas.detailSkor3p[1].detail[dimensi]
         for (let i = 0; i < items.length; i++) {
           // if (items[i].isDelete !== 1) {
-          totalNilai += parseFloat(items[i].nilai);
-          totalMaxNilai += parseFloat(items[i].max_nilai);
+          totalNilai += parseFloat(items[i].nilai)
+          totalMaxNilai += parseFloat(items[i].max_nilai)
           // }
         }
       }
-      totalValue = (totalNilai / totalMaxNilai) * 100;
-      let final_process = Math.round(
+      totalValue = (totalNilai / totalMaxNilai) * 100
+      const final_process = Math.round(
         (totalValue * this.recordPas.detailSkor3p[1].persentase) / 100
-      );
+      )
 
-      this.recordPas.detailSkor3p[1].nilai = final_process;
+      this.recordPas.detailSkor3p[1].nilai = final_process
 
-      return final_process;
+      return final_process
     },
-    hitungUlangPerformance() {
-      let totalNilai = 0;
-      let totalMaxNilai = 0;
-      let totalValue = 0;
+    hitungUlangPerformance () {
+      let totalNilai = 0
+      let totalMaxNilai = 0
+      let totalValue = 0
 
       for (const dimensi in this.recordPas.detailSkor3p[2].detail) {
-        let items = this.recordPas.detailSkor3p[2].detail[dimensi];
+        const items = this.recordPas.detailSkor3p[2].detail[dimensi]
         if (items.length > 0) {
           for (let i = 0; i < items.length; i++) {
             // if (items[i].isDelete !== 1) {
-            totalNilai += parseFloat(items[i].nilai);
-            totalMaxNilai += parseFloat(items[i].max_nilai);
+            totalNilai += parseFloat(items[i].nilai)
+            totalMaxNilai += parseFloat(items[i].max_nilai)
             // }
           }
         }
       }
 
-      totalValue = (totalNilai / totalMaxNilai) * 100;
-      let final_performance = Math.round(
+      totalValue = (totalNilai / totalMaxNilai) * 100
+      const final_performance = Math.round(
         (totalValue * this.recordPas.detailSkor3p[2].persentase) / 100
-      );
-      this.recordPas.detailSkor3p[2].nilai = final_performance;
+      )
+      this.recordPas.detailSkor3p[2].nilai = final_performance
 
-      return final_performance;
+      return final_performance
     },
-    hitungUlangPas() {
+    hitungUlangPas () {
       let total =
         parseInt(this.recordPas.detailSkor3p[0].nilai) +
         parseInt(this.recordPas.detailSkor3p[1].nilai) +
-        parseInt(this.recordPas.detailSkor3p[2].nilai);
+        parseInt(this.recordPas.detailSkor3p[2].nilai)
       total =
         total >= 69
           ? total
           : total >= 59
-          ? 69
-          : total >= 49
-          ? 65
-          : total >= 39
-          ? 60
-          : total >= 29
-          ? 55
-          : 50;
-      this.recordPas.finalSkor.nilai = total;
-      return total;
+            ? 69
+            : total >= 49
+              ? 65
+              : total >= 39
+                ? 60
+                : total >= 29
+                  ? 55
+                  : 50
+      this.recordPas.finalSkor.nilai = total
+      return total
     },
 
-    newfinal() {
+    newfinal () {
       if (this.tempIndFinal) {
-        return this.tempIndFinal;
+        return this.tempIndFinal
       } else {
-        return (this.tempIndFinal = 1);
+        return (this.tempIndFinal = 1)
       }
-    },
+    }
   },
   methods: {
     ...mapActions({
-      dispatchMaster: "masterpas/index",
-      dispatchMasterDatas: "masterpas/index_datas",
-      dispatchMasterGetKpi: "masterpas/pas_getkpi",
+      dispatchMaster: 'masterpas/index',
+      dispatchMasterDatas: 'masterpas/index_datas',
+      dispatchMasterGetKpi: 'masterpas/pas_getkpi',
 
-      dispatchInd: "pen_people/getInd",
-      dispatchShow: "showedit/show",
-      dispatchUpdate: "showedit/update",
-      dispatchDelete: "showedit/delete",
-      dispatchPeopleInd: "pen_people/getInd",
+      dispatchInd: 'pen_people/getInd',
+      dispatchShow: 'showedit/show',
+      dispatchUpdate: 'showedit/update',
+      dispatchDelete: 'showedit/delete',
+      dispatchPeopleInd: 'pen_people/getInd'
     }),
-    updateNilai(item) {
-      console.log(this.recordPas);
+    updateNilai (item) {
+      console.log(this.recordPas)
     },
-    goBack() {
+    goBack () {
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: `Confirm`,
-        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
-        accept: this.acceptBack,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Confirm',
+        text: 'Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?',
+        accept: this.acceptBack
+      })
     },
-    acceptBack() {
+    acceptBack () {
       this.$router.push({
-        name: "monthnilaipas",
+        name: 'monthnilaipas',
         params: {
           idCompany: this.idCompany,
           nameCompany: this.nameCompany,
           idDivisi: this.idDivisi,
           nameDivisi: this.nameDivisi,
-          idUser: this.idUser,
-        },
-      });
+          idUser: this.idUser
+        }
+      })
     },
 
-    async getDatas() {
+    async getDatas () {
       try {
-        const send = new FormData();
-        send.append("idCompany", this.idCompany);
-        send.append("idDivisi", this.idDivisi);
-        send.append("idUser", this.idUser);
-        send.append("date", this.date);
-        const datas3 = await this.dispatchMasterDatas(send);
-        this.datas3 = datas3;
-        this.nameCompany = this.datas3.dataCompany.name;
-        this.nameDivisi = this.datas3.dataOrg.name;
+        const send = new FormData()
+        send.append('idCompany', this.idCompany)
+        send.append('idDivisi', this.idDivisi)
+        send.append('idUser', this.idUser)
+        send.append('date', this.date)
+        const datas3 = await this.dispatchMasterDatas(send)
+        this.datas3 = datas3
+        this.nameCompany = this.datas3.dataCompany.name
+        this.nameDivisi = this.datas3.dataOrg.name
 
-        const res = await this.dispatchShow(send);
-        this.recordPas = res;
+        const res = await this.dispatchShow(send)
+        this.recordPas = res
         for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-          const detail = this.recordPas.detailSkor3p[i].detail;
+          const detail = this.recordPas.detailSkor3p[i].detail
 
           for (const dimensi in detail) {
-            const kpiArray = detail[dimensi];
+            const kpiArray = detail[dimensi]
 
             for (let j = 0; j < kpiArray.length; j++) {
-              const kpi = kpiArray[j];
+              const kpi = kpiArray[j]
 
-              kpi.isDelete = 0;
+              kpi.isDelete = 0
             }
           }
         }
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    async getInd(id3p, idkpi) {
-      this.tempIdKpi = idkpi;
-      this.tempid3p = id3p;
-      const send = new FormData();
-      send.append("id3p", id3p);
-      send.append("kpi_id", idkpi);
+    async getInd (id3p, idkpi) {
+      this.tempIdKpi = idkpi
+      this.tempid3p = id3p
+      const send = new FormData()
+      send.append('id3p', id3p)
+      send.append('kpi_id', idkpi)
 
       try {
-        const Ind = await this.dispatchPeopleInd(send);
+        const Ind = await this.dispatchPeopleInd(send)
         // (this.nilaiC = Ind.nilaiC.map((item) => ({
         //   id: item.id,
         //   "3p_id": item["3p_id"],
@@ -1433,83 +1433,83 @@ export default {
         //     updated_at: item.updated_at,
         //   }))),
         this.tempInd = Ind.nilai.map((item) => ({
-          id: item.id,
-          "3p_id": item["3p_id"],
-          kpi_id: item.kpi_id,
-          company_id: item.company_id,
-          division_id: item.division_id,
-          nilai: item.nilai,
-          name: item.nilai + " - " + item.desc,
-          created_at: item.created_at,
-          updated_at: item.updated_at,
-        }));
-        this.isInd = true;
-        this.tempIndFinal = null;
+          'id': item.id,
+          '3p_id': item['3p_id'],
+          'kpi_id': item.kpi_id,
+          'company_id': item.company_id,
+          'division_id': item.division_id,
+          'nilai': item.nilai,
+          'name': `${item.nilai  } - ${  item.desc}`,
+          'created_at': item.created_at,
+          'updated_at': item.updated_at
+        }))
+        this.isInd = true
+        this.tempIndFinal = null
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
-    updateNilaiById(id_3p, kpi_id, newValue) {
+    updateNilaiById (id_3p, kpi_id, newValue) {
       for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-        const detailSkor = this.recordPas.detailSkor3p[i];
+        const detailSkor = this.recordPas.detailSkor3p[i]
 
         // Periksa jika id_3p cocok
         if (detailSkor.id_3p === id_3p) {
-          const detail = detailSkor.detail;
+          const detail = detailSkor.detail
 
           // Periksa setiap dimensi dalam detail
           for (const dimensi in detail) {
-            const kpiArray = detail[dimensi];
+            const kpiArray = detail[dimensi]
 
             // Iterasi melalui array kpiArray di setiap dimensi
             for (let j = 0; j < kpiArray.length; j++) {
-              const kpi = kpiArray[j];
+              const kpi = kpiArray[j]
 
               // Periksa jika kpi_id cocok
               if (kpi.kpi_id === kpi_id) {
                 // // Update nilai dengan nilai baru
-                kpi.nilai = newValue;
-                this.tempIdKpi = null;
-                this.tempid3p = null;
-                this.tempValueA = null;
-                this.tempValueB = null;
-                this.tempValueC = null;
-                this.isInd = !this.isInd;
+                kpi.nilai = newValue
+                this.tempIdKpi = null
+                this.tempid3p = null
+                this.tempValueA = null
+                this.tempValueB = null
+                this.tempValueC = null
+                this.isInd = !this.isInd
                 // console.log(this.recordPas);
-                return; // Keluar dari fungsi setelah update nilai
+                return // Keluar dari fungsi setelah update nilai
               }
             }
           }
         }
       }
       // // Jika tidak ditemukan data dengan id_3p dan kpi_id yang sesuai
-      console.log("Data tidak ditemukan");
+      console.log('Data tidak ditemukan')
     },
 
-    async getMoreKpi(nameDimensi, id3p, idCompany, idDivisi) {
+    async getMoreKpi (nameDimensi, id3p, idCompany, idDivisi) {
       // console.log(nameDimensi);
       // console.log(id3p);
       // console.log(idCompany);
       // console.log(idDivisi);
       try {
-        this.tempDimensi = nameDimensi;
-        this.temp3P = id3p;
-        const send = new FormData();
-        send.append("nameDimensi", nameDimensi);
-        send.append("id3p", id3p);
-        send.append("idCompany", idCompany);
-        send.append("idDivisi", idDivisi);
-        const response = await this.dispatchMasterGetKpi(send);
-        this.getKpi = response.datas;
-        this.isAddKpi = true;
+        this.tempDimensi = nameDimensi
+        this.temp3P = id3p
+        const send = new FormData()
+        send.append('nameDimensi', nameDimensi)
+        send.append('id3p', id3p)
+        send.append('idCompany', idCompany)
+        send.append('idDivisi', idDivisi)
+        const response = await this.dispatchMasterGetKpi(send)
+        this.getKpi = response.datas
+        this.isAddKpi = true
         // console.log(this.getKpi);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     //tambah elemen kpi sementara belum digunakan
-    addMoreKpi(idDimensi, idKpi, nameKpi) {
+    addMoreKpi (idDimensi, idKpi, nameKpi) {
       const newData = {
         id: null,
         user_id: this.idUser,
@@ -1520,24 +1520,24 @@ export default {
         max_nilai: 4,
         created_at: null,
         updated_at: null,
-        nameKpi: nameKpi,
-      };
+        nameKpi
+      }
       for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-        const detailSkor = this.recordPas.detailSkor3p[i];
+        const detailSkor = this.recordPas.detailSkor3p[i]
 
         // Periksa jika id_3p cocok
         if (detailSkor.id_3p === this.temp3P) {
-          const detail = detailSkor.detail;
+          const detail = detailSkor.detail
 
           const existingData = detail[this.tempDimensi].find(
             (data) => data.dimensi_id === idDimensi && data.kpi_id === idKpi
-          );
+          )
 
           if (!existingData) {
             if (detail.hasOwnProperty(this.tempDimensi)) {
-              detail[this.tempDimensi].push(newData);
+              detail[this.tempDimensi].push(newData)
             } else {
-              detail[this.tempDimensi] = [newData];
+              detail[this.tempDimensi] = [newData]
             }
           } else {
             // let cekIsDelete = detail[this.tempDimensi].find(
@@ -1567,130 +1567,130 @@ export default {
             //   }
             // } else {
             this.$vs.notify({
-              color: "danger",
-              title: "WARNING",
-              text: "DATA GANDA",
-            });
+              color: 'danger',
+              title: 'WARNING',
+              text: 'DATA GANDA'
+            })
             // }
           }
         }
       }
-      this.isAddKpi = false;
+      this.isAddKpi = false
     },
 
-    async update() {
+    async update () {
       try {
-        const response = await this.dispatchUpdate(this.recordPas);
+        const response = await this.dispatchUpdate(this.recordPas)
         if (response.statusCode === 200) {
-          this.isEdit = false;
-          this.isEdit2 = false;
+          this.isEdit = false
+          this.isEdit2 = false
           this.$vs.notify({
-            title: "Success",
+            title: 'Success',
             text: response.message,
-            color: "primary",
-          });
+            color: 'primary'
+          })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
 
-    hapus() {
+    hapus () {
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Confirm",
+        type: 'confirm',
+        color: 'danger',
+        title: 'Confirm',
         // text: "sasas",
-        content: "<b>sasas</b>",
-        accept: this.acceptHapus,
-      });
+        content: '<b>sasas</b>',
+        accept: this.acceptHapus
+      })
       // text: 'Data yang dihapus tidak dapat dipulihkan. Apakah Anda ingin menghapus Semua Data?',
     },
-    async acceptHapus() {
+    async acceptHapus () {
       try {
-        const response = await this.dispatchDelete(this.recordPas);
+        const response = await this.dispatchDelete(this.recordPas)
         if (response.statusCode === 200) {
           this.$vs.notify({
-            title: "Success",
+            title: 'Success',
             text: response.message,
-            color: "primary",
-          });
+            color: 'primary'
+          })
           setTimeout(() => {
             this.$router.push({
-              name: "monthnilaipas",
+              name: 'monthnilaipas',
               params: {
                 idCompany: this.idCompany,
                 nameCompany: this.nameCompany,
                 idDivisi: this.idDivisi,
                 nameDivisi: this.nameDivisi,
-                idUser: this.idUser,
-              },
-            });
-          }, 500);
+                idUser: this.idUser
+              }
+            })
+          }, 500)
         } else {
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: response.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
     //hapusElement sementara belum digunakan
-    hapusElement(dimensiId, kpiId) {
+    hapusElement (dimensiId, kpiId) {
       for (let i = 0; i < this.recordPas.detailSkor3p.length; i++) {
-        const detail = this.recordPas.detailSkor3p[i].detail;
+        const detail = this.recordPas.detailSkor3p[i].detail
 
         for (const dimensi in detail) {
-          const kpiArray = detail[dimensi];
+          const kpiArray = detail[dimensi]
 
           for (let j = 0; j < kpiArray.length; j++) {
-            const kpi = kpiArray[j];
+            const kpi = kpiArray[j]
 
             if (kpi.dimensi_id === dimensiId && kpi.kpi_id === kpiId) {
               // kpiArray.splice(j, 1);
               // break;
               // kpi.isDelete = 1;
-              const updatedKpi = { ...kpi, isDelete: 1 };
-              kpiArray.splice(j, 1, updatedKpi);
+              const updatedKpi = { ...kpi, isDelete: 1 }
+              kpiArray.splice(j, 1, updatedKpi)
             }
           }
         }
       }
     },
 
-    cekLOG() {
-      console.log(this.recordPas);
-    },
+    cekLOG () {
+      console.log(this.recordPas)
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDatas()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 <style>
 .highlighted-date {

@@ -16,198 +16,196 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-import Vue from "vue";
-import Router from "vue-router";
-import master from "./router_sections/master";
-import axios from "./axios";
+import Vue from 'vue'
+import Router from 'vue-router'
+import master from './router_sections/master'
+import axios from './axios'
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
-  scrollBehavior() {
-    return { x: 0, y: 0 };
+  scrollBehavior () {
+    return { x: 0, y: 0 }
   },
   routes: [
     {
-      path: "",
-      component: () => import("@/layouts/full-page/FullPage.vue"),
+      path: '',
+      component: () => import('@/layouts/full-page/FullPage.vue'),
       children: [
         {
-          path: "/",
-          redirect: "/dashboard/analytics",
+          path: '/',
+          redirect: '/dashboard/analytics'
         },
         {
-          path: "/pages/login",
-          name: "page-login",
-          component: () => import("@/views/pages/login/Login.vue"),
+          path: '/pages/login',
+          name: 'page-login',
+          component: () => import('@/views/pages/login/Login.vue'),
           meta: {
-            rule: "editor",
-          },
+            rule: 'editor'
+          }
         },
         {
-          path: "/pages/privacy",
-          name: "page-privacy",
-          component: () => import("@/views/pages/Privacy.vue"),
+          path: '/pages/privacy',
+          name: 'page-privacy',
+          component: () => import('@/views/pages/Privacy.vue'),
           meta: {
-            rule: "editor",
-          },
+            rule: 'editor'
+          }
         },
         {
-          path: "/pages/error-404",
-          name: "page-error-404",
-          component: () => import("@/views/pages/Error404.vue"),
+          path: '/pages/error-404',
+          name: 'page-error-404',
+          component: () => import('@/views/pages/Error404.vue'),
           meta: {
-            rule: "editor",
-          },
+            rule: 'editor'
+          }
         },
         {
-          path: "/pages/error-500",
-          name: "page-error-500",
-          component: () => import("@/views/pages/Error500.vue"),
+          path: '/pages/error-500',
+          name: 'page-error-500',
+          component: () => import('@/views/pages/Error500.vue'),
           meta: {
-            rule: "editor",
-          },
+            rule: 'editor'
+          }
         },
         {
-          path: "/pages/not-authorized",
-          name: "page-not-authorized",
-          component: () => import("@/views/pages/NotAuthorized.vue"),
+          path: '/pages/not-authorized',
+          name: 'page-not-authorized',
+          component: () => import('@/views/pages/NotAuthorized.vue'),
           meta: {
-            rule: "editor",
-          },
+            rule: 'editor'
+          }
         },
         {
-          path: "/pages/maintenance",
-          name: "page-maintenance",
-          component: () => import("@/views/pages/Maintenance.vue"),
+          path: '/pages/maintenance',
+          name: 'page-maintenance',
+          component: () => import('@/views/pages/Maintenance.vue'),
           meta: {
-            rule: "editor",
-          },
-        },
-      ],
+            rule: 'editor'
+          }
+        }
+      ]
     },
     {
-      path: "",
-      component: () => import("./layouts/main/Main.vue"),
+      path: '',
+      component: () => import('./layouts/main/Main.vue'),
       children: [
         {
-          path: "/dashboard/analytics",
-          name: "dashboard-analytics",
-          component: () => import("./views/DashboardAnalytics.vue"),
+          path: '/dashboard/analytics',
+          name: 'dashboard-analytics',
+          component: () => import('./views/DashboardAnalytics.vue'),
           meta: {
-            rule: "editor",
-            auth: true,
-          },
+            rule: 'editor',
+            auth: true
+          }
         },
         {
-          path: "/apps/user/user-history-course",
-          name: "app-user-history-course",
-          component: () => import("@/views/apps/user/HistoryCourse.vue"),
+          path: '/apps/user/user-history-course',
+          name: 'app-user-history-course',
+          component: () => import('@/views/apps/user/HistoryCourse.vue'),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Member" },
-              { title: "History Course", active: true },
+              { title: 'Home', url: '/' },
+              { title: 'Member' },
+              { title: 'History Course', active: true }
             ],
-            pageTitle: "History Course",
-            rule: "editor",
-          },
+            pageTitle: 'History Course',
+            rule: 'editor'
+          }
         },
         {
-          path: "/apps/user/user-create-course",
-          name: "app-user-create-course",
-          component: () => import("@/views/apps/user/CreateCourse.vue"),
+          path: '/apps/user/user-create-course',
+          name: 'app-user-create-course',
+          component: () => import('@/views/apps/user/CreateCourse.vue'),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Knowledge" },
-              { title: "Dept. Course" },
-              { title: "Create Course", active: true },
+              { title: 'Home', url: '/' },
+              { title: 'Knowledge' },
+              { title: 'Dept. Course' },
+              { title: 'Create Course', active: true }
             ],
-            pageTitle: "Create Course",
-            rule: "editor",
-          },
+            pageTitle: 'Create Course',
+            rule: 'editor'
+          }
         },
         {
-          path: "/apps/user/leaderboard-list",
-          name: "app-user-leaderboard-list",
-          component: () =>
-            import("@/views/apps/user/leaderboard-list/LeaderboardList.vue"),
+          path: '/apps/user/leaderboard-list',
+          name: 'app-user-leaderboard-list',
+          component: () => import('@/views/apps/user/leaderboard-list/LeaderboardList.vue'),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Knowledge" },
-              { title: "Dept. Course", active: true },
+              { title: 'Home', url: '/' },
+              { title: 'Knowledge' },
+              { title: 'Dept. Course', active: true }
             ],
-            pageTitle: "Dept. Course",
-            rule: "editor",
-          },
+            pageTitle: 'Dept. Course',
+            rule: 'editor'
+          }
         },
         {
-          path: "/apps/user/departement-list",
-          name: "app-user-departement-list",
-          component: () =>
-            import("@/views/apps/user/departement-list/DepartmentList.vue"),
+          path: '/apps/user/departement-list',
+          name: 'app-user-departement-list',
+          component: () => import('@/views/apps/user/departement-list/DepartmentList.vue'),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Knowledge" },
-              { title: "Dept. Course" },
-              { title: "Leaderboard", active: true },
+              { title: 'Home', url: '/' },
+              { title: 'Knowledge' },
+              { title: 'Dept. Course' },
+              { title: 'Leaderboard', active: true }
             ],
-            pageTitle: "Leaderboard",
-            rule: "editor",
-          },
+            pageTitle: 'Leaderboard',
+            rule: 'editor'
+          }
         },
         {
-          path: "/apps/user/user-create-event",
-          name: "app-user-create-event",
-          component: () => import("@/views/apps/user/CreateEvent.vue"),
+          path: '/apps/user/user-create-event',
+          name: 'app-user-create-event',
+          component: () => import('@/views/apps/user/CreateEvent.vue'),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Event" },
-              { title: "Create Event", active: true },
+              { title: 'Home', url: '/' },
+              { title: 'Event' },
+              { title: 'Create Event', active: true }
             ],
-            pageTitle: "Create Event",
-            rule: "editor",
-          },
+            pageTitle: 'Create Event',
+            rule: 'editor'
+          }
         },
-        ...master,
-      ],
+        ...master
+      ]
     },
     {
-      path: "*",
-      redirect: "/pages/error404",
-    },
-  ],
-});
+      path: '*',
+      redirect: '/pages/error404'
+    }
+  ]
+})
 
 router.afterEach(() => {
-  const appLoading = document.getElementById("loading-bg");
+  const appLoading = document.getElementById('loading-bg')
   if (appLoading) {
-    appLoading.style.display = "none";
+    appLoading.style.display = 'none'
   }
-});
+})
 
 router.beforeEach((to, from, next) => {
-  let getStorage = localStorage.getItem("userInfo");
-  getStorage = JSON.parse(getStorage) || { data: {} };
+  let getStorage = localStorage.getItem('userInfo')
+  getStorage = JSON.parse(getStorage) || { data: {} }
   if (to.meta.auth) {
     if (getStorage.data.accessToken) {
       axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${getStorage.data.accessToken}`;
+        'Authorization'
+      ] = `Bearer ${getStorage.data.accessToken}`
       // console.log(getStorage);
-      return next();
+      return next()
     } else {
-      return next({ name: "page-login" });
+      return next({ name: 'page-login' })
     }
   } else {
-    return next();
+    return next()
   }
-});
+})
 
-export default router;
+export default router

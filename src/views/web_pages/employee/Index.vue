@@ -251,130 +251,130 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      Ada: "Ada",
-      Resign: "Resign",
+      Ada: 'Ada',
+      Resign: 'Resign',
       popupActivo2: false,
       idDelete: null,
       image: process.env.VUE_APP_API_URL,
-      urlDownload: process.env.VUE_APP_API_URL + "/api/web/download1",
+      urlDownload: `${process.env.VUE_APP_API_URL  }/api/web/download1`,
       detailUser: null,
 
       options: [
-        { value: 0, text: "SPV" },
-        { value: 1, text: "Staff" },
+        { value: 0, text: 'SPV' },
+        { value: 1, text: 'Staff' }
       ],
       selectedOption: null,
-      showDropdown: false,
-    };
+      showDropdown: false
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.employee.rows,
-    }),
+      data: (state) => state.employee.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "employee/index",
-      dispatchDestroy: "employee/destroy",
-      dispatchShow: "employee/show",
-      dispatchRst: "employee/rstpass",
+      dispatchIndex: 'employee/index',
+      dispatchDestroy: 'employee/destroy',
+      dispatchShow: 'employee/show',
+      dispatchRst: 'employee/rstpass'
     }),
-    async resetpassword(id, nik) {
-      console.log(id);
-      console.log(nik);
+    async resetpassword (id, nik) {
+      console.log(id)
+      console.log(nik)
       try {
-        const send = new FormData();
-        send.append("id", id);
-        send.append("nik", nik);
-        const res = await this.dispatchRst(send);
+        const send = new FormData()
+        send.append('id', id)
+        send.append('nik', nik)
+        const res = await this.dispatchRst(send)
         if (res.statusCode === 200) {
           this.$vs.notify({
-            title: "Success",
+            title: 'Success',
             text: res.message,
-            color: "primary",
-          });
+            color: 'primary'
+          })
         } else {
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: res.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    download() {
-      console.log(this.selectedOption);
+    download () {
+      console.log(this.selectedOption)
     },
-    async getDetail(id) {
+    async getDetail (id) {
       try {
-        const data = await this.dispatchShow(id);
+        const data = await this.dispatchShow(id)
         // console.log(data);
-        this.detailUser = data.success;
-        this.popupActivo2 = true;
+        this.detailUser = data.success
+        this.popupActivo2 = true
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
-          text: `Looks like something went wrong. please try again later `,
-          color: "danger",
-        });
+          title: 'Oops!',
+          text: 'Looks like something went wrong. please try again later ',
+          color: 'danger'
+        })
       }
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
+        this.$vs.loading.close()
+      })
     // this.data;
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

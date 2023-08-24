@@ -70,35 +70,35 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
-      data: (state) => state.leaderboard.rows,
-    }),
+      data: (state) => state.leaderboard.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "leaderboard/getLeaderboard",
+      dispatchIndex: 'leaderboard/getLeaderboard'
     }),
-    goBack() {
-      this.$router.go(-1);
-    },
+    goBack () {
+      this.$router.go(-1)
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.dispatchIndex(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 
 <style scoped>

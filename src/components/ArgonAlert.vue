@@ -25,29 +25,29 @@
 
 <script>
 export default {
-  name: "argon-alert",
+  name: 'argon-alert',
   props: {
     color: {
       type: String,
-      default: "success",
+      default: 'success'
     },
     icon: String,
     dismissible: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   methods: {
     getClasses: (color, dismissible) => {
-      let colorValue, dismissibleValue;
+      let colorValue, dismissibleValue
 
-      colorValue = color ? `alert-${color}` : null;
+      colorValue = color ? `alert-${color}` : null
 
-      dismissibleValue = dismissible ? "alert-dismissible fade show" : null;
+      dismissibleValue = dismissible ? 'alert-dismissible fade show' : null
 
-      return `${colorValue} ${dismissibleValue}`;
+      return `${colorValue} ${dismissibleValue}`
     },
-    getIcon: (icon) => (icon ? icon : null),
-  },
-};
+    getIcon: (icon) => (icon ? icon : null)
+  }
+}
 </script>

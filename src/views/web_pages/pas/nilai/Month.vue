@@ -60,75 +60,75 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idCompany: this.$route.params.idCompany,
       nameCompany: this.$route.params.nameCompany,
       idDivisi: this.$route.params.idDivisi,
       nameDivisi: this.$route.params.nameDivisi,
       idUser: this.$route.params.idUser,
-      nameUser: "",
+      nameUser: '',
       datas: [],
-      date: null,
-    };
+      date: null
+    }
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "masterpas/index_company",
-      dispatchDivisi: "masterpas/index_divisi",
-      dispatchEmployee: "masterpas/index_employee",
+      dispatchIndex: 'masterpas/index_company',
+      dispatchDivisi: 'masterpas/index_divisi',
+      dispatchEmployee: 'masterpas/index_employee',
 
-      dispatchShow: "showedit/month",
+      dispatchShow: 'showedit/month'
     }),
-    showDetail(date) {
+    showDetail (date) {
       this.$router.push({
-        name: "shownilaipas",
+        name: 'shownilaipas',
         params: {
           idCompany: this.idCompany,
           idDivisi: this.idDivisi,
           idUser: this.idUser,
-          date: date,
-        },
-      });
+          date
+        }
+      })
     },
-    goBack() {
+    goBack () {
       this.$router.push({
-        name: `nilaidetailpas`,
+        name: 'nilaidetailpas',
         params: {
           idCompany: this.idCompany,
-          idDivisi: this.idDivisi,
-        },
-      });
+          idDivisi: this.idDivisi
+        }
+      })
     },
-    getBulanTahun(date) {
-      const options = { year: "numeric", month: "long" };
-      const tanggal = new Date(date);
-      return tanggal.toLocaleDateString("en-US", options);
+    getBulanTahun (date) {
+      const options = { year: 'numeric', month: 'long' }
+      const tanggal = new Date(date)
+      return tanggal.toLocaleDateString('en-US', options)
     },
-    async getEmployee() {
-      const send = new FormData();
-      send.append("idUser", this.idUser);
-      const data = await this.dispatchShow(send);
-      this.datas = data;
-      this.nameUser = data.dataUser.name;
-    },
+    async getEmployee () {
+      const send = new FormData()
+      send.append('idUser', this.idUser)
+      const data = await this.dispatchShow(send)
+      this.datas = data
+      this.nameUser = data.dataUser.name
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getEmployee()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

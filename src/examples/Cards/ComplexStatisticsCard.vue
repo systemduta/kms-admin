@@ -63,29 +63,29 @@
 
 <script>
 export default {
-  name: "complex-statistics-card",
-  data() {
+  name: 'complex-statistics-card',
+  data () {
     return {
-      showMenu: false,
-    };
+      showMenu: false
+    }
   },
   props: {
     classIcon: {
       type: String,
-      required: true,
+      required: true
     },
     activeUsers: String,
     percentage: String,
     class_percentage: {
       type: String,
-      default: "text-success",
+      default: 'text-success'
     },
     icon_bg: {
       type: String,
-      default: "bg-white",
+      default: 'bg-white'
     },
     caption: String,
-    img: String,
-  },
-};
+    img: String
+  }
+}
 </script>

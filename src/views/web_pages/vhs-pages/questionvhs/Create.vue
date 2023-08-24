@@ -52,129 +52,129 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       storeData: {
         id: this.$route.params.id,
         materi_id: null,
-        question: "",
+        question: ''
       },
 
-      materivhs: [],
-    };
+      materivhs: []
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.questionvhs.upload_progress,
-    }),
+      uploadProgress: (state) => state.questionvhs.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "questionvhs/index",
-      dispatchStore: "questionvhs/store",
-      dispatchUpdate: "questionvhs/update",
-      dispatchShow: "questionvhs/show",
+      dispatchIndex: 'questionvhs/index',
+      dispatchStore: 'questionvhs/store',
+      dispatchUpdate: 'questionvhs/update',
+      dispatchShow: 'questionvhs/show',
 
-      dispatchGetCompanies: "questionvhs/getmateri",
+      dispatchGetCompanies: 'questionvhs/getmateri'
     }),
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    async getMaster() {
-      const co = await this.dispatchGetCompanies();
-      this.materivhs = co.data;
+    async getMaster () {
+      const co = await this.dispatchGetCompanies()
+      this.materivhs = co.data
       if (this.$route.params.id) {
-        await this.getDetail();
+        await this.getDetail()
       }
     },
 
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
-      ["id", "materi_id", "question"].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
-      if (this.$route.params.id) data.append("_method", "PUT");
+      ['id', 'materi_id', 'question'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      if (this.$route.params.id) data.append('_method', 'PUT')
 
-      return data;
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "vhs-pages/questionvhs" });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({ name: 'vhs-pages/questionvhs' })
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const success = await this.dispatchShow(this.$route.params.id);
-      this.storeData.materi_id = success.data.materi_id;
-      this.storeData.question = success.data.question;
-    },
+    async getDetail () {
+      const success = await this.dispatchShow(this.$route.params.id)
+      this.storeData.materi_id = success.data.materi_id
+      this.storeData.question = success.data.question
+    }
   },
-  async mounted() {
+  async mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     await this.getMaster()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
+        this.$vs.loading.close()
+      })
 
     this.materivhs.map(function (x) {
-      return (x.item_data = x.name + " - " + x.type);
-    });
+      return (x.item_data = `${x.name  } - ${  x.type}`)
+    })
 
     // window.location.reload();
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -65,7 +65,7 @@ export default {
     ...mapActions({
       dispatchStore: 'book/store',
       dispatchUpdate: 'book/update',
-      dispatchShow: 'book/show',
+      dispatchShow: 'book/show'
     }),
 
     async getMaster () {
@@ -118,7 +118,7 @@ export default {
       const { success } = await this.dispatchShow(this.$route.params.id)
       // this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}`: ''
       this.storeData.title = success.title
-      this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}`: ''
+      this.image = success.image ? `${process.env.VUE_APP_API_URL  }/files/${success.image}` : ''
       // this.image = success.image ? `/files/${success.image}`: ''
       this.storeData.description = success.description
     },

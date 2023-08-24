@@ -44,7 +44,7 @@ import 'quill/dist/quill.bubble.css'
 
 export default {
   components:{
-    vSelect,
+    vSelect
   },
   data () {
     return {
@@ -58,7 +58,7 @@ export default {
         cross_id: null,
         name:'',
         description:'',
-        file: '',
+        file: ''
       }
     }
   },
@@ -87,7 +87,7 @@ export default {
     convertToFormData () {
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
-      ['id', 'name','file','cross_id'].forEach((key) => {
+      ['id', 'name', 'file', 'cross_id'].forEach((key) => {
         if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       if (this.$route.params.id) data.append('_method', 'PUT')
@@ -95,9 +95,9 @@ export default {
     },
     store () {
       this.$validator.validateAll().then(async res => {
-        if (!res) return false;
+        if (!res) return false
         const formData = this.convertToFormData()
-        if (!formData) return false;
+        if (!formData) return false
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0] }, ${  pair[1]}`)
         // }

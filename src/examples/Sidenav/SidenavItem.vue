@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-  name: "sidenav-item",
+  name: 'sidenav-item',
   props: {
     url: {
       type: String,
@@ -25,5 +25,5 @@ export default {
       required: true
     }
   }
-};
+}
 </script>

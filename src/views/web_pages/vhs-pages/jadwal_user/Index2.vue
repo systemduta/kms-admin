@@ -283,206 +283,206 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import moment from "moment";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import moment from 'moment'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 export default {
-  data() {
+  data () {
     return {
       idDelete: null,
       popupActivo: false,
       popupEdit: false,
-      value: "uji",
+      value: 'uji',
       storeData: {
         id: null,
         jadwal_id: null,
         company_id: null,
-        user_id: null,
+        user_id: null
       },
       editData: {
         user_id: null,
-        user_name: "",
-        type: "",
+        user_name: '',
+        type: '',
         jadwal_id: null,
         isBasic: null,
         isClass: null,
         isCamp: null,
-        isAcademy: null,
+        isAcademy: null
       },
       jadwalArr: [],
       userArr: [],
       companyArr: [],
       resData: [],
       options: [
-        { value: 0, text: "Tidak Pernah" },
-        { value: 1, text: "Lolos" },
-      ],
-    };
+        { value: 0, text: 'Tidak Pernah' },
+        { value: 1, text: 'Lolos' }
+      ]
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      data: (state) => state.jadwalUser.rows,
-    }),
+      data: (state) => state.jadwalUser.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "jadwalUser/indexDetail",
-      dispatchDestroy: "jadwalUser/destroy",
-      dispatchShow: "jadwalUser/showdetail",
-      dispatchUpdate: "jadwalUser/updateUser",
+      dispatchIndex: 'jadwalUser/indexDetail',
+      dispatchDestroy: 'jadwalUser/destroy',
+      dispatchShow: 'jadwalUser/showdetail',
+      dispatchUpdate: 'jadwalUser/updateUser'
     }),
-    async clickData(user_id, type, jadwal_id) {
+    async clickData (user_id, type, jadwal_id) {
       try {
-        const res = await this.dispatchShow(user_id);
-        this.editData.user_id = res.data["id"];
-        this.editData.user_name = res.data["name"];
-        this.editData.type = type;
-        this.editData.jadwal_id = jadwal_id;
-        this.editData.isBasic = res.data["isBasic"];
-        this.editData.isClass = res.data["isClass"];
-        this.editData.isCamp = res.data["isCamp"];
-        this.editData.isAcademy = res.data["isAcademy"];
-        this.popupEdit = true;
+        const res = await this.dispatchShow(user_id)
+        this.editData.user_id = res.data['id']
+        this.editData.user_name = res.data['name']
+        this.editData.type = type
+        this.editData.jadwal_id = jadwal_id
+        this.editData.isBasic = res.data['isBasic']
+        this.editData.isClass = res.data['isClass']
+        this.editData.isCamp = res.data['isCamp']
+        this.editData.isAcademy = res.data['isAcademy']
+        this.popupEdit = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("MM/DD/YYYY");
+        return moment(String(value)).format('MM/DD/YYYY')
       }
     },
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
-      ["id", "jadwal_id", "company_id", "user_id", "is_take"].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
+      ['id', 'jadwal_id', 'company_id', 'user_id', 'is_take'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
 
-      if (this.storeData.id) data.append("_method", "PUT");
-      return data;
+      if (this.storeData.id) data.append('_method', 'PUT')
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.storeData.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          window.location.reload();
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          window.location.reload()
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
 
         // window.location.reload();
 
-        this.$router.push({ name: "jadwaluservhs" });
+        this.$router.push({ name: 'jadwaluservhs' })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
 
-    async getDetail() {
-      const res = await this.dispatchIndex(this.$route.params.id);
-      this.resData = res.data;
-      this.$vs.loading.close();
+    async getDetail () {
+      const res = await this.dispatchIndex(this.$route.params.id)
+      this.resData = res.data
+      this.$vs.loading.close()
     },
 
-    async update() {
-      const data = new FormData();
-      data.append("user_id", this.editData.user_id);
-      data.append("user_name", this.editData.user_name);
-      data.append("type", this.editData.type);
-      data.append("jadwal_id", this.editData.jadwal_id);
-      data.append("isBasic", this.editData.isBasic);
-      data.append("isClass", this.editData.isClass);
-      data.append("isCamp", this.editData.isCamp);
-      data.append("isAcademy", this.editData.isAcademy);
-      data.append("_method", "PUT");
-      const formData = data;
-      if (!formData) return false;
+    async update () {
+      const data = new FormData()
+      data.append('user_id', this.editData.user_id)
+      data.append('user_name', this.editData.user_name)
+      data.append('type', this.editData.type)
+      data.append('jadwal_id', this.editData.jadwal_id)
+      data.append('isBasic', this.editData.isBasic)
+      data.append('isClass', this.editData.isClass)
+      data.append('isCamp', this.editData.isCamp)
+      data.append('isAcademy', this.editData.isAcademy)
+      data.append('_method', 'PUT')
+      const formData = data
+      if (!formData) return false
 
       try {
-        await this.dispatchUpdate(formData);
+        await this.dispatchUpdate(formData)
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was updated successfully!",
-          color: "success",
-        });
-        this.popupEdit = false;
+          title: 'Success!',
+          text: 'Data was updated successfully!',
+          color: 'success'
+        })
+        this.popupEdit = false
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.error,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
-    this.getDetail();
+      text: 'Please Wait ...'
+    })
+    this.getDetail()
     // this.dispatchIndex(this.$route.params.id)
     //   .then(() => {
     //     this.$vs.loading.close();
@@ -490,8 +490,8 @@ export default {
     //   .catch(() => {
     //     this.$vs.loading.close();
     //   });
-  },
-};
+  }
+}
 </script>
 
 <style>

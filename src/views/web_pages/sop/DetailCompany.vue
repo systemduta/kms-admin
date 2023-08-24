@@ -73,35 +73,35 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import axios from "@/axios";
+import { mapState, mapActions } from 'vuex'
+import axios from '@/axios'
 export default {
-  data() {
+  data () {
     return {
       popupActivo: false,
       popupActivo2: false,
-      name: "",
-      code: "",
+      name: '',
+      code: '',
       company_id: null,
       getDetail2: [],
       getList: [],
       getResponse: [],
-      getDetailUsers: [],
-    };
+      getDetailUsers: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.company.rows,
-    }),
+      data: (state) => state.company.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "sop/getsoporg",
+      dispatchIndex: 'sop/getsoporg'
       //   dispatchStore: "division/store",
       //   dispatchUpdate: "division/update",
     }),
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
 
     //   getID(id) {
@@ -116,18 +116,18 @@ export default {
     //       });
     //   },
 
-    async getDetail() {
-      const success = await this.dispatchIndex(this.$route.params.id);
-      this.getDetail2 = success.detailcompany;
-      this.getList = success.listorganizations;
-      this.getResponse = success;
-      this.company_id = this.getDetail2[0].id;
-    },
-  },
-  async mounted() {
-    if (this.$route.params.id) {
-      await this.getDetail();
+    async getDetail () {
+      const success = await this.dispatchIndex(this.$route.params.id)
+      this.getDetail2 = success.detailcompany
+      this.getList = success.listorganizations
+      this.getResponse = success
+      this.company_id = this.getDetail2[0].id
     }
   },
-};
+  async mounted () {
+    if (this.$route.params.id) {
+      await this.getDetail()
+    }
+  }
+}
 </script>

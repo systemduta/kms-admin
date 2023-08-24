@@ -261,9 +261,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isPeople: false,
       isProcess: false,
@@ -288,111 +288,111 @@ export default {
       idkpi: null,
 
       //storeData
-      storeData: {},
-    };
+      storeData: {}
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows,
-    }),
+      data: (state) => state.masterpas.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "masterpas/index_company",
-      dispatchDivisi: "masterpas/index_divisi",
-      dispatchEmployee: "masterpas/index_employee",
+      dispatchIndex: 'masterpas/index_company',
+      dispatchDivisi: 'masterpas/index_divisi',
+      dispatchEmployee: 'masterpas/index_employee',
 
-      dispatchMaster: "masterpas/index",
-      dispatchMasterDatas: "masterpas/index_datas",
-      dispatchMasterAllDimensi: "masterpas/all_dimensi",
-      dispatchMasterAllKpi: "masterpas/all_kpi",
-      dispatchMasterAllInd: "masterpas/all_ind",
+      dispatchMaster: 'masterpas/index',
+      dispatchMasterDatas: 'masterpas/index_datas',
+      dispatchMasterAllDimensi: 'masterpas/all_dimensi',
+      dispatchMasterAllKpi: 'masterpas/all_kpi',
+      dispatchMasterAllInd: 'masterpas/all_ind',
 
       //people
-      dispatchDimensiPeople: "dimensi/index_per_3p",
-      dispatchKpiPeople: "kpi/index",
+      dispatchDimensiPeople: 'dimensi/index_per_3p',
+      dispatchKpiPeople: 'kpi/index'
     }),
-    close() {
-      this.isPeople = false;
-      this.isPerformance = false;
-      this.isProcess = false;
+    close () {
+      this.isPeople = false
+      this.isPerformance = false
+      this.isProcess = false
     },
-    store() {
-      console.log(this.storeData);
+    store () {
+      console.log(this.storeData)
     },
 
-    ceknilai(id) {
-      const kpi = this.listAllKpi.filter((item) => item.dimensi_id === id);
-      this.filterKpi = kpi;
+    ceknilai (id) {
+      const kpi = this.listAllKpi.filter((item) => item.dimensi_id === id)
+      this.filterKpi = kpi
       kpi.forEach((item) => {
-        this.storeData[item.name] = null;
-      });
-      console.log(this.storeData);
+        this.storeData[item.name] = null
+      })
+      console.log(this.storeData)
     },
 
-    async people() {
-      const dimensi = await this.dispatchDimensiPeople(1);
-      const allkpi = await this.dispatchMasterAllKpi();
-      this.listDimensiPeople = dimensi.data;
-      this.listAllKpi = allkpi.data;
-      this.id3p = 1;
-      this.isPeople = !this.isPeople;
+    async people () {
+      const dimensi = await this.dispatchDimensiPeople(1)
+      const allkpi = await this.dispatchMasterAllKpi()
+      this.listDimensiPeople = dimensi.data
+      this.listAllKpi = allkpi.data
+      this.id3p = 1
+      this.isPeople = !this.isPeople
 
-      this.isPerformance = false;
-      this.isProcess = false;
+      this.isPerformance = false
+      this.isProcess = false
     },
-    process() {
-      this.isProcess = !this.isProcess;
-      this.isPeople = false;
-      this.isPerformance = false;
+    process () {
+      this.isProcess = !this.isProcess
+      this.isPeople = false
+      this.isPerformance = false
     },
-    performance() {
-      this.isPerformance = !this.isPerformance;
-      this.isPeople = false;
-      this.isProcess = false;
+    performance () {
+      this.isPerformance = !this.isPerformance
+      this.isPeople = false
+      this.isProcess = false
     },
-    toPenilaian(id) {
+    toPenilaian (id) {
       this.$router.push({
-        name: "penilaianpenilaianpas",
+        name: 'penilaianpenilaianpas',
         params: {
           idCompany: this.idCompany,
           idDivisi: this.idDivisi,
-          idUser: id,
-        },
-      });
+          idUser: id
+        }
+      })
     },
-    goBack() {
+    goBack () {
       this.$router.push({
-        name: `detailpenilaianpas`,
+        name: 'detailpenilaianpas',
         params: {
           idCompany: this.idCompany,
-          idDivisi: this.idDivisi,
-        },
-      });
+          idDivisi: this.idDivisi
+        }
+      })
     },
-    async getDatas() {
-      const send = new FormData();
-      send.append("idCompany", this.idCompany);
-      send.append("idDivisi", this.idDivisi);
-      send.append("idUser", this.idUser);
-      const datas3 = await this.dispatchMasterDatas(send);
-      this.datas3 = datas3;
-    },
+    async getDatas () {
+      const send = new FormData()
+      send.append('idCompany', this.idCompany)
+      send.append('idDivisi', this.idDivisi)
+      send.append('idUser', this.idUser)
+      const datas3 = await this.dispatchMasterDatas(send)
+      this.datas3 = datas3
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDatas()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

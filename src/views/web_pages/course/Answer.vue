@@ -50,7 +50,7 @@ import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
-  name: "CreateCourse",
+  name: 'CreateCourse',
   components:{
     vSelect,
     quillEditor
@@ -82,7 +82,7 @@ export default {
               {
                 name: '',
                 is_true: 0
-              },
+              }
             ]
           }
         ]
@@ -98,50 +98,50 @@ export default {
     ...mapActions({
       dispatchStore: 'course/store',
       dispatchUpdate: 'course/edits',
-      dispatchShow: 'course/details',
+      dispatchShow: 'course/details'
     }),
-    checkQuestion() {
-      let vm = this;
+    checkQuestion () {
+      const vm = this
       this.storeData.questions.every(function (item, index) {
         if (!item.description) {
-          vm.isQuestionComplete = true;
+          vm.isQuestionComplete = true
           // alert(`Soal nomor ${index+1} belum terisi`);
-          return true;
+          return true
         } else {
-          let key = false;
-          let choose = true;
+          let key = false
+          let choose = true
           item.answers.forEach(function (answer, i) {
             if (!answer.name) {
-              choose = false;
-              alert(`Ada pilihan jawaban untuk soal nomor ${index+1} belum terisi`);
-              return false;
-            } else if (answer.is_true == true) key = true;
-          });
+              choose = false
+              alert(`Ada pilihan jawaban untuk soal nomor ${index + 1} belum terisi`)
+              return false
+            } else if (answer.is_true == true) key = true
+          })
           if (!key) {
-            vm.isQuestionComplete = false;
-            alert(`Kunci jawaban untuk soal nomor ${index+1} belum ada`);
-            return false;
+            vm.isQuestionComplete = false
+            alert(`Kunci jawaban untuk soal nomor ${index + 1} belum ada`)
+            return false
           } else {
-            vm.isQuestionComplete = choose;
+            vm.isQuestionComplete = choose
           }
         }
-      });
+      })
     },
     convertToFormData () {
-      this.checkQuestion();
-      if (!this.isQuestionComplete) return false;
+      this.checkQuestion()
+      if (!this.isQuestionComplete) return false
       const data = new FormData;
       // eslint-disable-next-line no-unexpected-multiline
       ['id', 'organization_id', 'golongan_id', 'image', 'title', 'description', 'file', 'video', 'link', 'type', 'questions'].forEach((key) => {
         if (key == 'questions') {
           this.storeData.questions.forEach(function (question, index) {
-            data.append(`questions[${index}][is_pre_test]`,question.is_pre_test);
-            data.append(`questions[${index}][description]`,question.description);
+            data.append(`questions[${index}][is_pre_test]`, question.is_pre_test)
+            data.append(`questions[${index}][description]`, question.description)
             question.answers.forEach(function (answer, i) {
-              data.append(`questions[${index}][answers][${i}][name]`,answer.name);
-              data.append(`questions[${index}][answers][${i}][is_true]`,answer.is_true?1:0);
+              data.append(`questions[${index}][answers][${i}][name]`, answer.name)
+              data.append(`questions[${index}][answers][${i}][is_true]`, answer.is_true ? 1 : 0)
             })
-          });
+          })
         } else if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
       })
       if (this.$route.params.id) data.append('_method', 'PUT')
@@ -149,9 +149,9 @@ export default {
     },
     store () {
       this.$validator.validateAll().then(async res => {
-        if (!res) return false;
+        if (!res) return false
         const formData = this.convertToFormData()
-        if (!formData) return false;
+        if (!formData) return false
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0] }, ${  pair[1]}`)
         // }

@@ -199,82 +199,82 @@
 </template>
 
 <script>
-import DataViewSidebar from "@/views/ui-elements/data-list/DataViewSidebarEvent.vue";
-import moduleDataList from "@/store/data-list/moduleDataList.js";
+import DataViewSidebar from '@/views/ui-elements/data-list/DataViewSidebarEvent.vue'
+import moduleDataList from '@/store/data-list/moduleDataList.js'
 
 export default {
   components: {
-    DataViewSidebar,
+    DataViewSidebar
   },
-  data() {
+  data () {
     return {
       selected: [],
       // products: [],
       itemsPerPage: 4,
       isMounted: false,
       addNewDataSidebar: false,
-      sidebarData: {},
-    };
+      sidebarData: {}
+    }
   },
   computed: {
-    currentPage() {
+    currentPage () {
       if (this.isMounted) {
-        return this.$refs.table.currentx;
+        return this.$refs.table.currentx
       }
-      return 0;
+      return 0
     },
-    products() {
-      return this.$store.state.dataList.products;
+    products () {
+      return this.$store.state.dataList.products
     },
-    queriedItems() {
+    queriedItems () {
       return this.$refs.table
         ? this.$refs.table.queriedResults.length
-        : this.products.length;
-    },
+        : this.products.length
+    }
   },
   methods: {
-    addNewData() {
-      this.sidebarData = {};
-      this.toggleDataSidebar(true);
+    addNewData () {
+      this.sidebarData = {}
+      this.toggleDataSidebar(true)
     },
-    deleteData(id) {
-      this.$store.dispatch("dataList/removeItem", id).catch((err) => {
-        console.error(err);
-      });
+    deleteData (id) {
+      this.$store.dispatch('dataList/removeItem', id).catch((err) => {
+        console.error(err)
+      })
     },
-    editData(data) {
+    editData (data) {
       // this.sidebarData = JSON.parse(JSON.stringify(this.blankData))
-      this.sidebarData = data;
-      this.toggleDataSidebar(true);
+      this.sidebarData = data
+      this.toggleDataSidebar(true)
     },
-    getOrderStatusColor(status) {
-      if (status === "on_hold") return "warning";
-      if (status === "delivered") return "success";
-      if (status === "canceled") return "danger";
-      return "primary";
+    getOrderStatusColor (status) {
+      if (status === 'on_hold') return 'warning'
+      if (status === 'delivered') return 'success'
+      if (status === 'canceled') return 'danger'
+      return 'primary'
     },
-    getPopularityColor(num) {
-      if (num > 90) return "success";
-      if (num > 70) return "primary";
-      if (num >= 50) return "warning";
-      if (num < 50) return "danger";
-      return "primary";
+    getPopularityColor (num) {
+      if (num > 90) return 'success'
+      if (num > 70) return 'primary'
+      if (num >= 50) return 'warning'
+      if (num < 50) return 'danger'
+      return 'primary'
     },
-    toggleDataSidebar(val = false) {
-      this.addNewDataSidebar = val;
-    },
-  },
-  created() {
-    if (!moduleDataList.isRegistered) {
-      this.$store.registerModule("dataList", moduleDataList);
-      moduleDataList.isRegistered = true;
+    toggleDataSidebar (val = false) {
+      this.addNewDataSidebar = val
     }
-    this.$store.dispatch("dataList/fetchDataListItems");
   },
-  mounted() {
-    this.isMounted = true;
+  created () {
+    if (!moduleDataList.isRegistered) {
+      this.$store.registerModule('dataList', moduleDataList)
+      moduleDataList.isRegistered = true
+    }
+    this.$store.dispatch('dataList/fetchDataListItems')
   },
-};
+  mounted () {
+    this.isMounted = true
+  }
+}
 </script>
 
 <style lang="scss">

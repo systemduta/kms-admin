@@ -96,140 +96,140 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
   components: {
-    vSelect,
+    vSelect
   },
-  data() {
+  data () {
     return {
       sops: [],
       organizations: [],
       golongans: [],
-      company_id: JSON.parse(localStorage.getItem("userInfo")).data.company_id,
+      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
       isLoading: false,
       storeData: {
         id: this.$route.params.id,
         sop_id: null,
-        name: "",
-        description: "",
-        file: "",
-      },
-    };
+        name: '',
+        description: '',
+        file: ''
+      }
+    }
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.lampiran.upload_progress,
-    }),
+      uploadProgress: (state) => state.lampiran.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchStore: "crossfunction/store",
-      dispatchUpdate: "crossfunction/update",
-      dispatchShow: "crossfunction/show",
-      dispatchGetOrganizations: "master/organizations",
-      dispatchGetGolongans: "master/golongans",
-      dispatchGetSops: "master/sops",
+      dispatchStore: 'crossfunction/store',
+      dispatchUpdate: 'crossfunction/update',
+      dispatchShow: 'crossfunction/show',
+      dispatchGetOrganizations: 'master/organizations',
+      dispatchGetGolongans: 'master/golongans',
+      dispatchGetSops: 'master/sops'
     }),
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    async getMaster() {
-      const org = await this.dispatchGetOrganizations();
-      this.organizations = org.data;
-      const gol = await this.dispatchGetGolongans();
-      this.golongans = gol.data;
-      const sop = await this.dispatchGetSops();
-      this.sops = sop.data;
+    async getMaster () {
+      const org = await this.dispatchGetOrganizations()
+      this.organizations = org.data
+      const gol = await this.dispatchGetGolongans()
+      this.golongans = gol.data
+      const sop = await this.dispatchGetSops()
+      this.sops = sop.data
     },
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
-      ["id", "name", "file", "sop_id"].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
-      if (this.$route.params.id) data.append("_method", "PUT");
-      return data;
+      ['id', 'name', 'file', 'sop_id'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      if (this.$route.params.id) data.append('_method', 'PUT')
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formData);
+            await this.dispatchUpdate(formData)
           } else {
-            await this.dispatchStore(formData);
+            await this.dispatchStore(formData)
           }
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
-          this.$router.push({ name: "crossfunction" });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
+          this.$router.push({ name: 'crossfunction' })
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const { success } = await this.dispatchShow(this.$route.params.id);
-      this.storeData.organization_id = success.organization_id;
-      this.storeData.sop_id = success.sop_id;
-      this.storeData.name = success.name;
-      this.storeData.description = success.description;
+    async getDetail () {
+      const { success } = await this.dispatchShow(this.$route.params.id)
+      this.storeData.organization_id = success.organization_id
+      this.storeData.sop_id = success.sop_id
+      this.storeData.name = success.name
+      this.storeData.description = success.description
     },
-    getBase64File(event) {
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
+    getBase64File (event) {
+      const reader = new FileReader()
+      reader.readAsDataURL(event.target.files[0])
       reader.onload = () => {
         // this.file = reader.result
-        this.storeData.file = reader.result;
-      };
-      this.$emit("input", event.target.files[0]);
+        this.storeData.file = reader.result
+      }
+      this.$emit('input', event.target.files[0])
     },
-    getBase64Video(event) {
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
+    getBase64Video (event) {
+      const reader = new FileReader()
+      reader.readAsDataURL(event.target.files[0])
       reader.onload = () => {
-        this.video = reader.result;
-      };
-      this.$emit("input", event.target.files[0]);
+        this.video = reader.result
+      }
+      this.$emit('input', event.target.files[0])
     },
-    async readVideo(event) {
-      const video = event.target.files[0];
-      return this.$set(this.storeData, "video", video);
-    },
-  },
-  async mounted() {
-    await this.getMaster();
-    if (this.$route.params.id) {
-      this.getDetail();
+    async readVideo (event) {
+      const video = event.target.files[0]
+      return this.$set(this.storeData, 'video', video)
     }
   },
-};
+  async mounted () {
+    await this.getMaster()
+    if (this.$route.params.id) {
+      this.getDetail()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

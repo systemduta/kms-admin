@@ -1,70 +1,70 @@
-import axios from "@/axios";
+import axios from '@/axios'
 const state = {
-  rows: [],
-};
+  rows: []
+}
 const mutations = {
-  SET_ROWS(state, data) {
-    state.rows = data;
-  },
-};
+  SET_ROWS (state, data) {
+    state.rows = data
+  }
+}
 const actions = {
-  async deleteDiv({ commit }, id) {
+  async deleteDiv ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/deleteorg/${id}`);
-      return Promise.resolve(data);
+      const { data } = await axios.get(`api/web/deleteorg/${id}`)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async index({ commit }) {
+  async index ({ commit }) {
     try {
-      const { data } = await axios.get("api/web/organizationcompany");
-      commit("SET_ROWS", data.data);
-      return Promise.resolve(data);
+      const { data } = await axios.get('api/web/organizationcompany')
+      commit('SET_ROWS', data.data)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async store(store, payload) {
+  async store (store, payload) {
     try {
-      const { data } = await axios.post("api/web/organization", payload);
-      return Promise.resolve(data);
+      const { data } = await axios.post('api/web/organization', payload)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async show({ commit }, id) {
+  async show ({ commit }, id) {
     try {
-      const { data } = await axios.get(`api/web/organization/${id}`);
-      return Promise.resolve(data);
+      const { data } = await axios.get(`api/web/organization/${id}`)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async update(store, payload) {
+  async update (store, payload) {
     try {
       const { data } = await axios.put(
         `api/web/organization/${payload.id}`,
         payload
-      );
-      return Promise.resolve(data);
+      )
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
   },
-  async destroy(store, id) {
+  async destroy (store, id) {
     try {
-      const { data } = await axios.delete(`api/web/organization/${id}`);
-      return Promise.resolve(data);
+      const { data } = await axios.delete(`api/web/organization/${id}`)
+      return Promise.resolve(data)
     } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
     }
-  },
-};
+  }
+}
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
-};
+  actions
+}

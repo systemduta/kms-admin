@@ -40,83 +40,83 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { quillEditor } from "vue-quill-editor";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
-  name: "Create",
+  name: 'Create',
   components: {
     vSelect,
-    quillEditor,
+    quillEditor
   },
-  data() {
+  data () {
     return {
       storeData: {
-        nik: "",
-        password: "",
-      },
-    };
+        nik: '',
+        password: ''
+      }
+    }
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.profile.upload_progress,
-    }),
+      uploadProgress: (state) => state.profile.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "profile/index",
-      dispatchUpdate: "profile/store",
+      dispatchIndex: 'profile/index',
+      dispatchUpdate: 'profile/store'
     }),
-    async getMaster() {
-      const org = await this.dispatchIndex();
-      this.storeData.nik = org.data.nik;
+    async getMaster () {
+      const org = await this.dispatchIndex()
+      this.storeData.nik = org.data.nik
     },
-    convertToFormData() {
+    convertToFormData () {
       const data = new FormData();
-      ["id", "nik", "password"].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
-      });
-      data.append("_method", "PUT");
-      return data;
+      ['id', 'nik', 'password'].forEach((key) => {
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
+      })
+      data.append('_method', 'PUT')
+      return data
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
-        this.$vs.loading();
-        this.isLoading = true;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
+        this.$vs.loading()
+        this.isLoading = true
         try {
-          await this.dispatchUpdate(formData);
+          await this.dispatchUpdate(formData)
 
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was Updated successfully!",
-            color: "success",
-          });
-          this.$router.push("/pages/login");
+            title: 'Success!',
+            text: 'Data was Updated successfully!',
+            color: 'success'
+          })
+          this.$router.push('/pages/login')
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.message,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
-    },
+      })
+    }
   },
-  async mounted() {
-    await this.getMaster();
-  },
-};
+  async mounted () {
+    await this.getMaster()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

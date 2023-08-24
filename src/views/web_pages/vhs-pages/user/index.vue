@@ -331,24 +331,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       // close: true,
       resListUser: [],
       options: [
-        { value: 0, text: "Tidak Pernah" },
-        { value: 1, text: "Pernah" },
+        { value: 0, text: 'Tidak Pernah' },
+        { value: 1, text: 'Pernah' }
       ],
       dataUpdate: {
         id: null,
-        nik: "",
-        name: "",
+        nik: '',
+        name: '',
         isBasic: null,
         isClass: null,
         isCamp: null,
-        isAcademy: null,
+        isAcademy: null
       },
       isList: false,
       isDetail: false,
@@ -356,125 +356,125 @@ export default {
       detailUser: {
         id: null,
         nik: null,
-        name: "",
-        company: "",
-        division: "",
+        name: '',
+        company: '',
+        division: ''
       },
-      vhs: [],
-    };
+      vhs: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.company.rows,
-    }),
+      data: (state) => state.company.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "company/index",
-      dispatchListUser: "user/index",
-      dispatchShow: "user/show",
-      dispatchUpdate: "user/updatelist",
-      dispatchDetailUser: "user/detailUser",
+      dispatchIndex: 'company/index',
+      dispatchListUser: 'user/index',
+      dispatchShow: 'user/show',
+      dispatchUpdate: 'user/updatelist',
+      dispatchDetailUser: 'user/detailUser'
     }),
-    async getDetailUser(id) {
-      const response = await this.dispatchDetailUser(id);
-      this.detailUser.id = response.user["id"];
-      this.detailUser.name = response.user["name"];
-      this.detailUser.nik = response.user["nik"];
-      this.detailUser.company = response.user["com_name"];
-      this.detailUser.division = response.user["org_name"];
+    async getDetailUser (id) {
+      const response = await this.dispatchDetailUser(id)
+      this.detailUser.id = response.user['id']
+      this.detailUser.name = response.user['name']
+      this.detailUser.nik = response.user['nik']
+      this.detailUser.company = response.user['com_name']
+      this.detailUser.division = response.user['org_name']
 
-      this.vhs = response.vhs;
-      this.isList = false;
-      this.isDetail = true;
+      this.vhs = response.vhs
+      this.isList = false
+      this.isDetail = true
     },
-    async listUser(id) {
-      const res = await this.dispatchListUser(id);
-      this.resListUser = res.data;
+    async listUser (id) {
+      const res = await this.dispatchListUser(id)
+      this.resListUser = res.data
       // setTimeout(() => {
-      this.isList = true;
+      this.isList = true
       // }, 500);
     },
-    async editUser(id) {
-      this.isList = false;
-      const res = await this.dispatchShow(id);
-      this.dataUpdate.id = res.data[0].id;
-      this.dataUpdate.nik = res.data[0].nik;
-      this.dataUpdate.name = res.data[0].name;
-      this.dataUpdate.isBasic = res.data[0].isBasic;
-      this.dataUpdate.isClass = res.data[0].isClass;
-      this.dataUpdate.isCamp = res.data[0].isCamp;
-      this.dataUpdate.isAcademy = res.data[0].isAcademy;
+    async editUser (id) {
+      this.isList = false
+      const res = await this.dispatchShow(id)
+      this.dataUpdate.id = res.data[0].id
+      this.dataUpdate.nik = res.data[0].nik
+      this.dataUpdate.name = res.data[0].name
+      this.dataUpdate.isBasic = res.data[0].isBasic
+      this.dataUpdate.isClass = res.data[0].isClass
+      this.dataUpdate.isCamp = res.data[0].isCamp
+      this.dataUpdate.isAcademy = res.data[0].isAcademy
       setTimeout(() => {
-        this.popupActivo = true;
-      }, 100);
+        this.popupActivo = true
+      }, 100)
     },
 
-    convertToFormData() {
-      const data = new FormData();
-      data.append("id", this.dataUpdate.id);
-      data.append("nik", this.dataUpdate.nik);
-      data.append("name", this.dataUpdate.name);
-      data.append("isBasic", this.dataUpdate.isBasic);
-      data.append("isClass", this.dataUpdate.isClass);
-      data.append("isCamp", this.dataUpdate.isCamp);
-      data.append("isAcademy", this.dataUpdate.isAcademy);
-      data.append("_method", "PUT");
-      return data;
+    convertToFormData () {
+      const data = new FormData()
+      data.append('id', this.dataUpdate.id)
+      data.append('nik', this.dataUpdate.nik)
+      data.append('name', this.dataUpdate.name)
+      data.append('isBasic', this.dataUpdate.isBasic)
+      data.append('isClass', this.dataUpdate.isClass)
+      data.append('isCamp', this.dataUpdate.isCamp)
+      data.append('isAcademy', this.dataUpdate.isAcademy)
+      data.append('_method', 'PUT')
+      return data
     },
 
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
+          text: 'Please Wait ...'
+        })
         try {
-          await this.dispatchUpdate(formData);
-          this.$vs.loading.close();
-          this.isLoading = false;
+          await this.dispatchUpdate(formData)
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Success!",
-            text: "Data was saved successfully!",
-            color: "success",
-          });
+            title: 'Success!',
+            text: 'Data was saved successfully!',
+            color: 'success'
+          })
 
-          this.popupActivo = false;
+          this.popupActivo = false
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error.data.error,
-            color: "danger",
-          });
+            color: 'danger'
+          })
         }
-      });
-    },
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

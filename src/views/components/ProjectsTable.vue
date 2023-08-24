@@ -223,6 +223,6 @@
 
 <script>
 export default {
-    name: "projects-table"
+  name: 'projects-table'
 }
 </script>

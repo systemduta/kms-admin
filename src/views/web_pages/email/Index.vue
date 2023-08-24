@@ -74,73 +74,73 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { quillEditor } from "vue-quill-editor";
+import { mapState, mapActions } from 'vuex'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
-  data() {
+  data () {
     return {
       storeData: {
-        email: [""],
-        title: "",
-        message: "",
-      },
-    };
+        email: [''],
+        title: '',
+        message: ''
+      }
+    }
   },
   components: {
-    quillEditor,
+    quillEditor
   },
   methods: {
     ...mapActions({
-      dispatchStore: "email/store",
+      dispatchStore: 'email/store'
     }),
-    addEmailInput() {
-      this.storeData.email.push(""); // Add an empty email field to the array
+    addEmailInput () {
+      this.storeData.email.push('') // Add an empty email field to the array
     },
-    async send() {
+    async send () {
       try {
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        var res = await this.dispatchStore(this.storeData);
+          text: 'Please Wait ...'
+        })
+        const res = await this.dispatchStore(this.storeData)
         if (res.statusCode !== 200) {
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: `(${res.message})`,
-            color: "danger",
-            time: 4000,
-          });
+            color: 'danger',
+            time: 4000
+          })
         } else {
           this.$vs.notify({
-            title: "Success",
-            text: "Email telah berhasil dikirim",
-            color: "primary",
-          });
+            title: 'Success',
+            text: 'Email telah berhasil dikirim',
+            color: 'primary'
+          })
           this.storeData = {
-            email: [""],
-            title: "",
-            message: "",
-          };
+            email: [''],
+            title: '',
+            message: ''
+          }
         }
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       } catch (error) {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
-    },
+    }
   },
-  mounted() {},
-};
+  mounted () {}
+}
 </script>
 
 <style scoped>

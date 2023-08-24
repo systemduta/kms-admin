@@ -524,9 +524,9 @@ date, user_id, id_3p,dimensi_id
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
@@ -590,97 +590,97 @@ export default {
       tempIndFinal: null,
       nilaiC: [],
       nilaiB: [],
-      nilaiA: [],
-    };
+      nilaiA: []
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows,
+      data: (state) => state.masterpas.rows
     }),
-    perHKA() {
-      const perSakit = this.perSakit;
-      const perIzin = this.perIzin;
-      const perTerlambat = this.perTerlambat;
-      const perAlpha = this.perAlpha;
+    perHKA () {
+      const perSakit = this.perSakit
+      const perIzin = this.perIzin
+      const perTerlambat = this.perTerlambat
+      const perAlpha = this.perAlpha
 
       const hka =
         Number(this.storeKhususAbsen[0].value) * perSakit +
         Number(this.storeKhususAbsen[1].value) * perIzin +
         Number(this.storeKhususAbsen[2].value) * perTerlambat +
-        Number(this.storeKhususAbsen[3].value) * perAlpha;
-      return -1 * hka;
+        Number(this.storeKhususAbsen[3].value) * perAlpha
+      return -1 * hka
     },
-    skorabsen() {
-      const perHKA = this.perHKA;
-      const skorAbsen = Number(perHKA) + Number(this.storeKhususAbsen[4].value);
+    skorabsen () {
+      const perHKA = this.perHKA
+      const skorAbsen = Number(perHKA) + Number(this.storeKhususAbsen[4].value)
 
-      return skorAbsen;
+      return skorAbsen
     },
-    nilaiabsen() {
-      const HKA = Number(this.storeKhususAbsen[4].value);
+    nilaiabsen () {
+      const HKA = Number(this.storeKhususAbsen[4].value)
       const result =
-        (this.skorabsen / HKA) * Number(this.storeKhususAbsen[0].max_nilai);
+        (this.skorabsen / HKA) * Number(this.storeKhususAbsen[0].max_nilai)
 
       if (result < 1) {
-        return 1;
+        return 1
       } else if (result > 4) {
-        return 4;
+        return 4
       }
-      this.nilaiakhirabsen = result.toFixed(1);
-      return result.toFixed(1);
+      this.nilaiakhirabsen = result.toFixed(1)
+      return result.toFixed(1)
     },
-    perasli() {
+    perasli () {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0);
-      const count = 3; //ganti ini jika umlah A,B,C berubah
-      const avg = total / count;
+        (Number(this.tempValueA) || 0)
+      const count = 3 //ganti ini jika umlah A,B,C berubah
+      const avg = total / count
 
       if (avg < 1) {
-        return 1;
+        return 1
       } else if (avg > 4) {
-        return 4;
+        return 4
       } else {
-        return avg;
+        return avg
       }
     },
-    perata() {
+    perata () {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0);
-      const count = 3; //ganti ini jika umlah A,B,C berubah
-      const avg = total / count;
+        (Number(this.tempValueA) || 0)
+      const count = 3 //ganti ini jika umlah A,B,C berubah
+      const avg = total / count
 
       if (avg < 1) {
-        return 1;
+        return 1
       } else if (avg > 4) {
-        return 4;
+        return 4
       } else {
         // return Math.round(avg);
-        return avg.toFixed(1);
+        return avg.toFixed(1)
       }
     },
-    newfinal() {
+    newfinal () {
       if (this.tempIndFinal) {
-        return this.tempIndFinal;
+        return this.tempIndFinal
       } else {
-        return (this.tempIndFinal = 1);
+        return (this.tempIndFinal = 1)
       }
-    },
+    }
   },
   methods: {
     ...mapActions({
-      dispatchMaster: "masterpas/index",
-      dispatchMasterDatas: "masterpas/index_datas",
+      dispatchMaster: 'masterpas/index',
+      dispatchMasterDatas: 'masterpas/index_datas',
 
       //people
-      dispatchPeople: "pen_people/index",
-      dispatchPeopleInd: "pen_people/getInd",
-      dispatchStore: "pen_people/store",
+      dispatchPeople: 'pen_people/index',
+      dispatchPeopleInd: 'pen_people/getInd',
+      dispatchStore: 'pen_people/store'
     }),
-    breaking(id) {
+    breaking (id) {
       //memecah array
       if (id === 1) {
         const arrayBaru = this.itemArraysKpi
@@ -689,17 +689,17 @@ export default {
             kpi_id: itemArraysKpi.id,
             name: itemArraysKpi.name,
             value: 0,
-            max_nilai: itemArraysKpi.max_nilai,
-          }));
-        this.storeKhususAbsen = arrayBaru;
+            max_nilai: itemArraysKpi.max_nilai
+          }))
+        this.storeKhususAbsen = arrayBaru
 
-        const idArrays = Number(id) - 1;
-        this.tempIdDimensi = this.itemArrays[idArrays]; //menyimpan data dimensi yg diklik
+        const idArrays = Number(id) - 1
+        this.tempIdDimensi = this.itemArrays[idArrays] //menyimpan data dimensi yg diklik
 
-        this.isPopAbsen = !this.isPopAbsen;
+        this.isPopAbsen = !this.isPopAbsen
       } else {
-        const idArrays = Number(id) - 1;
-        this.tempIdDimensi = this.itemArrays[idArrays];
+        const idArrays = Number(id) - 1
+        this.tempIdDimensi = this.itemArrays[idArrays]
         // console.log(this.tempIdDimensi);
         const arrayBaru = this.itemArraysKpi
           .filter((itemArraysKpi) => itemArraysKpi.dimensi_id === id)
@@ -707,70 +707,70 @@ export default {
             kpi_id: itemArraysKpi.id,
             name: itemArraysKpi.name,
             value: null,
-            max_nilai: itemArraysKpi.max_nilai,
-          }));
-        this.tempArray = arrayBaru;
+            max_nilai: itemArraysKpi.max_nilai
+          }))
+        this.tempArray = arrayBaru
         if (this.tempArray.length > 0) {
-          this.isOthers = !this.isOthers;
+          this.isOthers = !this.isOthers
         } else {
-          alert("KPI kosong, mohon di dikonfigurasi ulang");
+          alert('KPI kosong, mohon di dikonfigurasi ulang')
         }
       }
     },
-    goBack() {
+    goBack () {
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: `Confirm`,
-        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
+        type: 'confirm',
+        color: 'danger',
+        title: 'Confirm',
+        text: 'Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?',
         accept: this.acceptBack,
-        acceptText: "ya",
-        cancelText: "tutup",
-      });
+        acceptText: 'ya',
+        cancelText: 'tutup'
+      })
     },
-    acceptBack() {
+    acceptBack () {
       this.$router.push({
-        name: "penilaianpenilaianpas",
+        name: 'penilaianpenilaianpas',
         params: {
           idCompany: this.idCompany,
           idDivisi: this.idDivisi,
           idUser: this.idUser,
-          date: this.date,
-        },
-      });
+          date: this.date
+        }
+      })
     },
 
-    async getDatas() {
-      const send = new FormData();
-      send.append("idCompany", this.idCompany);
-      send.append("idDivisi", this.idDivisi);
-      send.append("idUser", this.idUser);
-      send.append("date", this.date);
-      const datas3 = await this.dispatchMasterDatas(send);
-      this.datas3 = datas3;
+    async getDatas () {
+      const send = new FormData()
+      send.append('idCompany', this.idCompany)
+      send.append('idDivisi', this.idDivisi)
+      send.append('idUser', this.idUser)
+      send.append('date', this.date)
+      const datas3 = await this.dispatchMasterDatas(send)
+      this.datas3 = datas3
 
       ///people
-      const datas4 = await this.dispatchPeople();
-      this.data3p = datas4.p3;
-      this.datas4 = datas4;
-      this.itemArrays = datas4.dimensi;
-      this.itemArraysKpi = datas4.kpi;
+      const datas4 = await this.dispatchPeople()
+      this.data3p = datas4.p3
+      this.datas4 = datas4
+      this.itemArrays = datas4.dimensi
+      this.itemArraysKpi = datas4.kpi
 
       this.itemArrays.forEach((item) => {
-        this.storeData = { ...this.storeData, [item.name]: {} };
-      });
+        this.storeData = { ...this.storeData, [item.name]: {} }
+      })
 
-      this.arrayBantuan = this.itemArrays.map((item) => item.name);
+      this.arrayBantuan = this.itemArrays.map((item) => item.name)
     },
 
-    async getInd(id3p, idkpi) {
-      this.tempIdKpi = idkpi;
-      const send = new FormData();
-      send.append("id3p", id3p);
-      send.append("kpi_id", idkpi);
+    async getInd (id3p, idkpi) {
+      this.tempIdKpi = idkpi
+      const send = new FormData()
+      send.append('id3p', id3p)
+      send.append('kpi_id', idkpi)
 
       try {
-        const Ind = await this.dispatchPeopleInd(send);
+        const Ind = await this.dispatchPeopleInd(send)
         // (this.nilaiC = Ind.nilaiC.map((item) => ({
         //   id: item.id,
         //   "3p_id": item["3p_id"],
@@ -806,24 +806,24 @@ export default {
         //   }))),
 
         this.tempInd = Ind.nilai.map((item) => ({
-          id: item.id,
-          "3p_id": item["3p_id"],
-          kpi_id: item.kpi_id,
-          company_id: item.company_id,
-          division_id: item.division_id,
-          nilai: item.nilai,
-          name: item.nilai + " - " + item.desc,
-          created_at: item.created_at,
-          updated_at: item.updated_at,
-        }));
-        this.isInd = true;
+          'id': item.id,
+          '3p_id': item['3p_id'],
+          'kpi_id': item.kpi_id,
+          'company_id': item.company_id,
+          'division_id': item.division_id,
+          'nilai': item.nilai,
+          'name': `${item.nilai  } - ${  item.desc}`,
+          'created_at': item.created_at,
+          'updated_at': item.updated_at
+        }))
+        this.isInd = true
         // console.log(this.nilai4);
 
         this.tempFilter = this.tempArray.filter(
           (item) => item.kpi_id === idkpi
-        );
+        )
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
@@ -837,7 +837,7 @@ export default {
     //   // const avg = total / count;
     //   console.log(total);
     // },
-    simpanAbsen() {
+    simpanAbsen () {
       if (
         isNaN(this.nilaiabsen) ||
         this.nilaiabsen == null ||
@@ -845,11 +845,11 @@ export default {
       ) {
         this.$vs.notify({
           time: 4000,
-          title: "Error",
-          text: "Nilai Akhir null",
-          color: "warning",
-          icon: "error",
-        });
+          title: 'Error',
+          text: 'Nilai Akhir null',
+          color: 'warning',
+          icon: 'error'
+        })
       } else {
         this.storeKhususAbsen2 = {
           date: this.date,
@@ -857,24 +857,24 @@ export default {
           dimensi_id: this.tempIdDimensi.id,
           nilaiAkhir: this.nilaiakhirabsen,
           max_nilai: this.storeKhususAbsen[0].max_nilai,
-          detail: this.storeKhususAbsen,
-        };
+          detail: this.storeKhususAbsen
+        }
         if (this.storeData[this.tempIdDimensi.name]) {
-          this.storeData[this.tempIdDimensi.name] = this.storeKhususAbsen2;
+          this.storeData[this.tempIdDimensi.name] = this.storeKhususAbsen2
         } else {
           this.storeData = {
             ...this.storeData,
-            [this.tempIdDimensi.name]: this.storeKhususAbsen2,
-          };
+            [this.tempIdDimensi.name]: this.storeKhususAbsen2
+          }
         }
 
         setTimeout(() => {
-          this.isPopAbsen = false;
-        }, 100);
+          this.isPopAbsen = false
+        }, 100)
       }
     },
 
-    hitung() {
+    hitung () {
       this.tempArray = this.tempArray.map((item) => {
         if (item.kpi_id === this.tempFilter[0].kpi_id) {
           return {
@@ -883,95 +883,95 @@ export default {
             dimensi_id: this.tempIdDimensi.id,
             ...item,
             // value: this.perata,
-            value: this.newfinal,
-          };
+            value: this.newfinal
+          }
         }
-        return item;
-      });
+        return item
+      })
       setTimeout(() => {
-        this.isInd = false;
-      }, 100);
+        this.isInd = false
+      }, 100)
 
       if (this.storeData[this.tempIdDimensi.name]) {
-        this.storeData[this.tempIdDimensi.name] = this.tempArray;
+        this.storeData[this.tempIdDimensi.name] = this.tempArray
       } else {
         this.storeData = {
           ...this.storeData,
-          [this.tempIdDimensi.name]: this.tempArray,
-        };
+          [this.tempIdDimensi.name]: this.tempArray
+        }
       }
 
-      this.tempValueA = null;
-      this.tempValueB = null;
-      this.tempValueC = null;
-      this.tempIndFinal = null;
+      this.tempValueA = null
+      this.tempValueB = null
+      this.tempValueC = null
+      this.tempIndFinal = null
     },
-    simpanOthers() {
-      this.isOthers = false;
+    simpanOthers () {
+      this.isOthers = false
     },
-    cekBefore() {
-      this.isOthers = false;
-      this.isPopAbsen = false;
-      this.isInd = false;
-      this.isFinal = true;
+    cekBefore () {
+      this.isOthers = false
+      this.isPopAbsen = false
+      this.isInd = false
+      this.isFinal = true
     },
 
-    hitungNilaiAkhir() {
+    hitungNilaiAkhir () {
       try {
-        this.final_people = 0;
-        let sum_max_nilai = 0;
+        this.final_people = 0
+        let sum_max_nilai = 0
         Object.values(this.storeData).forEach((item) => {
           if (Array.isArray(item)) {
             item.forEach((subItem) => {
-              sum_max_nilai += subItem.max_nilai;
-            });
+              sum_max_nilai += subItem.max_nilai
+            })
           } else {
-            sum_max_nilai += item.max_nilai;
+            sum_max_nilai += item.max_nilai
           }
-        });
+        })
 
-        let sum_value = 0;
+        let sum_value = 0
         Object.values(this.storeData).forEach((item) => {
           if (Array.isArray(item)) {
             item.forEach((subItem) => {
-              if (subItem.name !== "Absen") {
-                sum_value += parseFloat(subItem.value);
+              if (subItem.name !== 'Absen') {
+                sum_value += parseFloat(subItem.value)
               }
-            });
+            })
           } else {
-            sum_value += parseFloat(item.nilaiAkhir);
+            sum_value += parseFloat(item.nilaiAkhir)
           }
-        });
-        sum_value = (sum_value / sum_max_nilai) * 100;
-        let final_people2 = Math.round(
+        })
+        sum_value = (sum_value / sum_max_nilai) * 100
+        const final_people2 = Math.round(
           (sum_value * this.data3p.persentase) / 100
-        );
-        this.final_people = parseInt(final_people2.toFixed(0));
+        )
+        this.final_people = parseInt(final_people2.toFixed(0))
       } catch (error) {
         // console.log(error);
         this.$vs.notify({
           time: 4000,
-          title: "Error",
-          text: "Unknow Error, Please report" + error,
-          color: "warning",
-          icon: "error",
-        });
+          title: 'Error',
+          text: `Unknow Error, Please report${  error}`,
+          color: 'warning',
+          icon: 'error'
+        })
       }
     },
 
-    async finalSend() {
-      this.isFinal = false;
+    async finalSend () {
+      this.isFinal = false
       this.$vs.dialog({
-        type: "confirm",
-        color: "primary",
-        title: `Confirm`,
-        text: "Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?",
+        type: 'confirm',
+        color: 'primary',
+        title: 'Confirm',
+        text: 'Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?',
         accept: this.acceptSend,
-        acceptText: "Kirim",
-        cancelText: "Tutup",
-      });
+        acceptText: 'Kirim',
+        cancelText: 'Tutup'
+      })
     },
-    async acceptSend() {
+    async acceptSend () {
       if (
         isNaN(this.final_people) ||
         this.final_people == null ||
@@ -979,14 +979,14 @@ export default {
       ) {
         // alert("Nilai Akhir bernilai 'null', data tidak bisa dikirim");
         this.$vs.dialog({
-          color: "warning",
-          title: "warning",
-          acceptText: "perbaiki",
-          text: "Nilai Akhir bernilai 'null', data tidak bisa dikirim",
-        });
+          color: 'warning',
+          title: 'warning',
+          acceptText: 'perbaiki',
+          text: 'Nilai Akhir bernilai \'null\', data tidak bisa dikirim'
+        })
         setTimeout(() => {
-          this.isFinal = true;
-        }, 2000);
+          this.isFinal = true
+        }, 2000)
       } else {
         this.storeData = {
           ...this.storeData,
@@ -994,74 +994,74 @@ export default {
             date: this.date,
             user_id: this.idUser,
             id_3p: this.id3p,
-            nilai: this.final_people,
-          },
-        };
+            nilai: this.final_people
+          }
+        }
         try {
-          const response = await this.dispatchStore(this.storeData);
+          const response = await this.dispatchStore(this.storeData)
           if (response.statusCode === 200) {
             this.$vs.notify({
               time: 4000,
-              title: "Suksess",
-              text: "Data sukses disimpan",
-              color: "primary",
-              icon: "verified_user",
-            });
+              title: 'Suksess',
+              text: 'Data sukses disimpan',
+              color: 'primary',
+              icon: 'verified_user'
+            })
 
             setTimeout(() => {
-              this.isFinal = false;
+              this.isFinal = false
               setTimeout(() => {
                 this.$router.push({
-                  name: "penilaianpenilaianpas",
+                  name: 'penilaianpenilaianpas',
                   params: {
                     idCompany: this.idCompany,
                     idDivisi: this.idDivisi,
                     idUser: this.idUser,
-                    date: this.date,
-                  },
-                });
-              }, 500);
-            }, 500);
+                    date: this.date
+                  }
+                })
+              }, 500)
+            }, 500)
           } else {
             this.$vs.notify({
               time: 4000,
-              title: "Error",
+              title: 'Error',
               text: response.message,
-              color: "warning",
-              icon: "error",
-            });
+              color: 'warning',
+              icon: 'error'
+            })
           }
         } catch (error) {
           // console.log(error);
           this.$vs.notify({
             time: 4000,
-            title: "Error",
+            title: 'Error',
             text: error.data.message,
-            color: "warning",
-            icon: "error",
-          });
+            color: 'warning',
+            icon: 'error'
+          })
         }
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getDatas()
       .then(() => {
-        const [year, month, day] = this.date.split("-");
-        this.showDate = `${month} - ${year}`;
-        this.$vs.loading.close();
+        const [year, month, day] = this.date.split('-')
+        this.showDate = `${month} - ${year}`
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
 <!--tempArray: [
     {

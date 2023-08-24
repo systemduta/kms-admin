@@ -10,30 +10,30 @@
 
 <script>
 export default {
-  name: "argon-progress",
+  name: 'argon-progress',
   props: {
     color: {
       type: String,
-      default: "primary",
+      default: 'primary'
     },
     variant: {
       type: String,
-      default: "fill",
+      default: 'fill'
     },
-    percentage: String,
+    percentage: String
   },
   methods: {
     getClasses: (color, variant) => {
-      let colorValue;
+      let colorValue
 
-      if (variant === "gradient") {
-        colorValue = `bg-gradient-${color}`;
+      if (variant === 'gradient') {
+        colorValue = `bg-gradient-${color}`
       } else {
-        colorValue = `bg-${color}`;
+        colorValue = `bg-${color}`
       }
 
-      return `${colorValue}`;
-    },
-  },
-};
+      return `${colorValue}`
+    }
+  }
+}
 </script>

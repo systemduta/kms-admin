@@ -81,45 +81,45 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
       datas: [],
-      nameCompany: "",
-      nameDivisi: "",
-      date: null,
-    };
+      nameCompany: '',
+      nameDivisi: '',
+      date: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows,
+      data: (state) => state.masterpas.rows
     }),
     formattedDate: {
-      get() {
+      get () {
         if (this.date) {
-          const [year, month, day] = this.date.split("-");
-          return `${year}-${month}-${day}`;
+          const [year, month, day] = this.date.split('-')
+          return `${year}-${month}-${day}`
         }
-        return "";
+        return ''
       },
-      set(value) {
+      set (value) {
         if (value) {
-          const [year, month, day] = value.split("-");
-          this.date = `${year}-${month}-${day}`;
+          const [year, month, day] = value.split('-')
+          this.date = `${year}-${month}-${day}`
         } else {
-          this.date = "";
+          this.date = ''
         }
-      },
-    },
+      }
+    }
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "masterpas/index_company",
-      dispatchDivisi: "masterpas/index_divisi",
-      dispatchEmployee: "masterpas/index_employee",
+      dispatchIndex: 'masterpas/index_company',
+      dispatchDivisi: 'masterpas/index_divisi',
+      dispatchEmployee: 'masterpas/index_employee'
     }),
     // toPenilaian(id) {
     //   if (this.date) {
@@ -136,48 +136,48 @@ export default {
     //     alert("Silahkan isi Tanggal");
     //   }
     // },
-    toMonthView(id) {
+    toMonthView (id) {
       this.$router.push({
-        name: "monthnilaipas",
+        name: 'monthnilaipas',
         params: {
           idCompany: this.idCompany,
           nameCompany: this.nameCompany,
           idDivisi: this.idDivisi,
           nameDivisi: this.nameDivisi,
-          idUser: id,
-        },
-      });
+          idUser: id
+        }
+      })
     },
-    goBack() {
+    goBack () {
       this.$router.push({
-        name: "nilaipas",
-      });
+        name: 'nilaipas'
+      })
     },
 
-    async getEmployee() {
-      const send = new FormData();
-      send.append("idCompany", this.idCompany);
-      send.append("idDivisi", this.idDivisi);
-      const dataDivisi = await this.dispatchEmployee(send);
-      this.datas = dataDivisi;
-      this.nameCompany = dataDivisi.company.name;
-      this.nameDivisi = dataDivisi.divisi.name;
-    },
+    async getEmployee () {
+      const send = new FormData()
+      send.append('idCompany', this.idCompany)
+      send.append('idDivisi', this.idDivisi)
+      const dataDivisi = await this.dispatchEmployee(send)
+      this.datas = dataDivisi
+      this.nameCompany = dataDivisi.company.name
+      this.nameDivisi = dataDivisi.divisi.name
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.getEmployee()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

@@ -310,7 +310,7 @@ export default {
   methods: {
     formSubmitted () {
       alert('Form submitted!')
-      this.$router.push(`/apps/user/user-create-course`).catch(() => {})
+      this.$router.push('/apps/user/user-create-course').catch(() => {})
     }
   },
   components: {

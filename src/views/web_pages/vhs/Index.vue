@@ -45,64 +45,64 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       base_url_image: process.env.VUE_APP_API_URL,
-      idDelete: null,
-    };
+      idDelete: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.vhs.rows,
-    }),
+      data: (state) => state.vhs.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "vhs/index",
-      dispatchDestroy: "vhs/destroy",
+      dispatchIndex: 'vhs/index',
+      dispatchDestroy: 'vhs/destroy'
     }),
-    async confirmDelete() {
-      this.$vs.loading();
+    async confirmDelete () {
+      this.$vs.loading()
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
-        this.$vs.loading.close();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.dispatchIndex({})
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

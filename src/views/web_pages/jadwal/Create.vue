@@ -358,329 +358,329 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import vSelect from "vue-select";
-import moment from "moment";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import { mapActions, mapState } from 'vuex'
+import vSelect from 'vue-select'
+import moment from 'moment'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
-  data() {
+  data () {
     return {
       options: [
-        { value: 1, text: "Dalam Kota" },
-        { value: 2, text: "Luar Kota" },
-        { value: 3, text: "Semua Kota" },
+        { value: 1, text: 'Dalam Kota' },
+        { value: 2, text: 'Luar Kota' },
+        { value: 3, text: 'Semua Kota' }
       ],
       quota: [
-        { value: 1, text: "Dengan Kuota" },
-        { value: 2, text: "Tanpa Kuota" },
+        { value: 1, text: 'Dengan Kuota' },
+        { value: 2, text: 'Tanpa Kuota' }
       ],
       isQuota: null,
-      company: [{ id: "", name: "" }],
+      company: [{ id: '', name: '' }],
       getResponse: [],
       isLoading: false,
       storeData: {
         id: this.$route.params.id,
-        name: "",
-        batch: "",
-        type: "",
-        start: "",
-        end: "",
-        isCity: "",
+        name: '',
+        batch: '',
+        type: '',
+        start: '',
+        end: '',
+        isCity: '',
         quota: null,
-        quotaAP: [],
-      },
-    };
+        quotaAP: []
+      }
+    }
   },
   components: {
-    vSelect,
+    vSelect
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.jadwal.upload_progress,
-    }),
+      uploadProgress: (state) => state.jadwal.upload_progress
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "jadwal/index",
-      dispatchStore: "jadwal/store",
-      dispatchUpdate: "jadwal/update",
-      dispatchShow: "jadwal/show",
+      dispatchIndex: 'jadwal/index',
+      dispatchStore: 'jadwal/store',
+      dispatchUpdate: 'jadwal/update',
+      dispatchShow: 'jadwal/show',
 
-      dispatchCompany: "company/index",
+      dispatchCompany: 'company/index'
     }),
-    format_date(value) {
+    format_date (value) {
       if (value) {
-        return moment(String(value)).format("MM/DD/YYYY");
+        return moment(String(value)).format('MM/DD/YYYY')
       }
     },
-    convertToFormData() {
-      const data = new FormData();
-      data.append("id", this.storeData.id);
-      data.append("name", this.storeData.name);
-      data.append("batch", this.storeData.batch);
-      data.append("type", this.storeData.type);
-      data.append("start", this.storeData.start);
-      data.append("end", this.storeData.end);
-      data.append("isCity", this.storeData.isCity);
-      data.append("quota", this.storeData.quota);
-      data.append("quotaAP", JSON.stringify(this.storeData.quotaAP));
+    convertToFormData () {
+      const data = new FormData()
+      data.append('id', this.storeData.id)
+      data.append('name', this.storeData.name)
+      data.append('batch', this.storeData.batch)
+      data.append('type', this.storeData.type)
+      data.append('start', this.storeData.start)
+      data.append('end', this.storeData.end)
+      data.append('isCity', this.storeData.isCity)
+      data.append('quota', this.storeData.quota)
+      data.append('quotaAP', JSON.stringify(this.storeData.quotaAP))
 
-      if (this.$route.params.id) data.append("_method", "PUT");
-      return data;
+      if (this.$route.params.id) data.append('_method', 'PUT')
+      return data
     },
 
-    handleUpdateQuota() {
+    handleUpdateQuota () {
       if (this.isQuota == 2) {
-        this.storeData.isCity = 4;
-        this.storeData.quota = 0;
+        this.storeData.isCity = 4
+        this.storeData.quota = 0
       }
     },
-    store() {
+    store () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const formData = this.convertToFormData();
-        if (!formData) return false;
+        if (!res) return false
+        const formData = this.convertToFormData()
+        if (!formData) return false
 
-        let sum = this.storeData.quotaAP.reduce(
+        const sum = this.storeData.quotaAP.reduce(
           (n, { quota }) => n + parseInt(quota),
           0
-        );
+        )
         if (sum > this.storeData.quota) {
-          alert("Quota AP lebih besar dari quota utama");
+          alert('Quota AP lebih besar dari quota utama')
         } else if (sum < this.storeData.quota) {
-          alert("Quota AP lebih kecil dari quota utama");
+          alert('Quota AP lebih kecil dari quota utama')
         } else {
           this.$vs.loading({
-            type: "radius",
-            color: "blue",
+            type: 'radius',
+            color: 'blue',
             textAfter: true,
-            text: "Please Wait ...",
-          });
-          this.isLoading = true;
+            text: 'Please Wait ...'
+          })
+          this.isLoading = true
           try {
             if (this.$route.params.id) {
-              const response = await this.dispatchUpdate(formData);
-              if (this.storeData.isCity == "3") {
-                console.log("3");
-                this.$vs.loading.close();
-                this.isLoading = false;
+              const response = await this.dispatchUpdate(formData)
+              if (this.storeData.isCity == '3') {
+                console.log('3')
+                this.$vs.loading.close()
+                this.isLoading = false
                 this.$vs.notify({
-                  title: "Success!",
-                  text: "Data was saved successfully!",
-                  color: "success",
-                });
-                this.$router.push({ name: "jadwal" });
+                  title: 'Success!',
+                  text: 'Data was saved successfully!',
+                  color: 'success'
+                })
+                this.$router.push({ name: 'jadwal' })
               }
-              if (this.storeData.isCity == "4") {
-                this.$vs.loading.close();
-                this.isLoading = false;
+              if (this.storeData.isCity == '4') {
+                this.$vs.loading.close()
+                this.isLoading = false
                 this.$vs.notify({
-                  title: "Success!",
-                  text: "Data was saved successfully!",
-                  color: "success",
-                });
-                this.$router.push({ name: "jadwal" });
+                  title: 'Success!',
+                  text: 'Data was saved successfully!',
+                  color: 'success'
+                })
+                this.$router.push({ name: 'jadwal' })
               }
-              if (this.storeData.isCity == "2") {
-                console.log("2");
-                this.$vs.loading.close();
-                this.isLoading = false;
+              if (this.storeData.isCity == '2') {
+                console.log('2')
+                this.$vs.loading.close()
+                this.isLoading = false
                 this.$vs.notify({
-                  title: "Success!",
-                  text: "Data was saved successfully!",
-                  color: "success",
-                });
+                  title: 'Success!',
+                  text: 'Data was saved successfully!',
+                  color: 'success'
+                })
                 this.$router.push({
-                  name: "quotaap",
-                  params: { id: response.success["id"] },
-                });
+                  name: 'quotaap',
+                  params: { id: response.success['id'] }
+                })
               }
-              if (this.storeData.isCity == "1") {
-                console.log("1");
-                this.$vs.loading.close();
-                this.isLoading = false;
+              if (this.storeData.isCity == '1') {
+                console.log('1')
+                this.$vs.loading.close()
+                this.isLoading = false
                 this.$vs.notify({
-                  title: "Success!",
-                  text: "Data was saved successfully!",
-                  color: "success",
-                });
+                  title: 'Success!',
+                  text: 'Data was saved successfully!',
+                  color: 'success'
+                })
                 this.$router.push({
-                  name: "quotaap",
-                  params: { id: response.success["id"] },
-                });
+                  name: 'quotaap',
+                  params: { id: response.success['id'] }
+                })
               }
             } else {
-              await this.dispatchStore(formData);
-              this.$vs.loading.close();
-              this.isLoading = false;
+              await this.dispatchStore(formData)
+              this.$vs.loading.close()
+              this.isLoading = false
               this.$vs.notify({
-                title: "Success!",
-                text: "Data was saved successfully!",
-                color: "success",
-              });
-              this.$router.push({ name: "jadwal" });
+                title: 'Success!',
+                text: 'Data was saved successfully!',
+                color: 'success'
+              })
+              this.$router.push({ name: 'jadwal' })
             }
           } catch (error) {
-            this.$vs.loading.close();
-            this.isLoading = false;
+            this.$vs.loading.close()
+            this.isLoading = false
             // console.log(error.data);
             this.$vs.notify({
-              title: "Oops!",
+              title: 'Oops!',
               text: error.data,
-              color: "danger",
+              color: 'danger',
               time: 10000,
-              icon: "error",
-            });
+              icon: 'error'
+            })
           }
         }
-      });
+      })
     },
 
-    async update() {
+    async update () {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false;
-        const data = new FormData();
-        data.append("id", this.storeData.id);
-        data.append("name", this.storeData.name);
-        data.append("batch", this.storeData.batch);
-        data.append("type", this.storeData.type);
-        data.append("start", this.storeData.start);
-        data.append("end", this.storeData.end);
-        data.append("isCity", this.storeData.isCity);
-        data.append("quota", this.storeData.quota);
-        data.append("_method", "PUT");
+        if (!res) return false
+        const data = new FormData()
+        data.append('id', this.storeData.id)
+        data.append('name', this.storeData.name)
+        data.append('batch', this.storeData.batch)
+        data.append('type', this.storeData.type)
+        data.append('start', this.storeData.start)
+        data.append('end', this.storeData.end)
+        data.append('isCity', this.storeData.isCity)
+        data.append('quota', this.storeData.quota)
+        data.append('_method', 'PUT')
 
         this.$vs.loading({
-          type: "radius",
-          color: "blue",
+          type: 'radius',
+          color: 'blue',
           textAfter: true,
-          text: "Please Wait ...",
-        });
-        this.isLoading = true;
+          text: 'Please Wait ...'
+        })
+        this.isLoading = true
         try {
-          const response = await this.dispatchUpdate(data);
-          if (this.storeData.isCity == "3") {
+          const response = await this.dispatchUpdate(data)
+          if (this.storeData.isCity == '3') {
             // console.log("3");
-            this.$vs.loading.close();
-            this.isLoading = false;
+            this.$vs.loading.close()
+            this.isLoading = false
             this.$vs.notify({
-              title: "Success!",
-              text: "Data was saved successfully!",
-              color: "success",
-            });
-            this.$router.push({ name: "jadwal" });
+              title: 'Success!',
+              text: 'Data was saved successfully!',
+              color: 'success'
+            })
+            this.$router.push({ name: 'jadwal' })
           }
-          if (this.storeData.isCity == "4") {
+          if (this.storeData.isCity == '4') {
             // console.log("4");
-            this.$vs.loading.close();
-            this.isLoading = false;
+            this.$vs.loading.close()
+            this.isLoading = false
             this.$vs.notify({
-              title: "Success!",
-              text: "Data was saved successfully!",
-              color: "success",
-            });
-            this.$router.push({ name: "jadwal" });
+              title: 'Success!',
+              text: 'Data was saved successfully!',
+              color: 'success'
+            })
+            this.$router.push({ name: 'jadwal' })
           }
-          if (this.storeData.isCity == "2") {
+          if (this.storeData.isCity == '2') {
             // console.log("2");
-            this.$vs.loading.close();
-            this.isLoading = false;
+            this.$vs.loading.close()
+            this.isLoading = false
             this.$vs.notify({
-              title: "Success!",
-              text: "Data was saved successfully!",
-              color: "success",
-            });
+              title: 'Success!',
+              text: 'Data was saved successfully!',
+              color: 'success'
+            })
             this.$router.push({
-              name: "quotaap",
-              params: { id: response.success["id"] },
-            });
+              name: 'quotaap',
+              params: { id: response.success['id'] }
+            })
           }
-          if (this.storeData.isCity == "1") {
-            console.log("1");
-            this.$vs.loading.close();
-            this.isLoading = false;
+          if (this.storeData.isCity == '1') {
+            console.log('1')
+            this.$vs.loading.close()
+            this.isLoading = false
             this.$vs.notify({
-              title: "Success!",
-              text: "Data was saved successfully!",
-              color: "success",
-            });
+              title: 'Success!',
+              text: 'Data was saved successfully!',
+              color: 'success'
+            })
             this.$router.push({
-              name: "quotaap",
-              params: { id: response.success["id"] },
-            });
+              name: 'quotaap',
+              params: { id: response.success['id'] }
+            })
           }
         } catch (error) {
-          this.$vs.loading.close();
-          this.isLoading = false;
+          this.$vs.loading.close()
+          this.isLoading = false
           this.$vs.notify({
-            title: "Oops!",
+            title: 'Oops!',
             text: error,
-            color: "danger",
+            color: 'danger',
             time: 10000,
-            icon: "error",
-          });
+            icon: 'error'
+          })
         }
-      });
+      })
     },
-    async getDetail() {
-      const { success } = await this.dispatchShow(this.$route.params.id);
-      this.storeData.name = success.name;
-      this.storeData.batch = success.batch;
-      this.storeData.type = success.type;
-      this.storeData.start = success.start;
-      this.storeData.end = success.end;
-      if (success.quota == "null" || success.quota == "0") {
-        this.isQuota = 0;
+    async getDetail () {
+      const { success } = await this.dispatchShow(this.$route.params.id)
+      this.storeData.name = success.name
+      this.storeData.batch = success.batch
+      this.storeData.type = success.type
+      this.storeData.start = success.start
+      this.storeData.end = success.end
+      if (success.quota == 'null' || success.quota == '0') {
+        this.isQuota = 0
       } else {
-        this.isQuota = 1;
-        this.storeData.quota = success.quota;
-        this.storeData.isCity = success.isCity;
+        this.isQuota = 1
+        this.storeData.quota = success.quota
+        this.storeData.isCity = success.isCity
       }
     },
-    handleChange() {
+    handleChange () {
       if (this.storeData.isCity === 1 || this.storeData.isCity === 2) {
-        this.storeData.quotaAP.pop({ id: null, quota: "" });
-        this.storeData.quotaAP.push({ id: null, quota: "" });
+        this.storeData.quotaAP.pop({ id: null, quota: '' })
+        this.storeData.quotaAP.push({ id: null, quota: '' })
       } else {
-        this.storeData.quotaAP.pop({ id: null, quota: "" });
+        this.storeData.quotaAP.pop({ id: null, quota: '' })
       }
     },
 
-    addItem() {
-      let sum = this.storeData.quotaAP.reduce(
+    addItem () {
+      const sum = this.storeData.quotaAP.reduce(
         (n, { quota }) => n + parseInt(quota),
         0
-      );
+      )
       if (sum > this.storeData.quota) {
-        alert("Quota AP lebih besar dari quota utama");
+        alert('Quota AP lebih besar dari quota utama')
       } else {
-        this.storeData.quotaAP.push({ id: null, quota: "" });
+        this.storeData.quotaAP.push({ id: null, quota: '' })
       }
     },
-    deleteItem() {
-      this.storeData.quotaAP.pop({ id: null, quota: "" });
+    deleteItem () {
+      this.storeData.quotaAP.pop({ id: null, quota: '' })
     },
 
-    async getCompanyData() {
-      const getCom = await this.dispatchCompany();
+    async getCompanyData () {
+      const getCom = await this.dispatchCompany()
       // console.log(getCom);
-      this.getResponse = getCom.data;
+      this.getResponse = getCom.data
       this.company = this.getResponse.map((item) => {
-        return { id: item.id, name: item.name };
-      });
-    },
+        return { id: item.id, name: item.name }
+      })
+    }
   },
 
-  async mounted() {
+  async mounted () {
     if (this.$route.params.id) {
-      this.getDetail();
+      this.getDetail()
     }
-    this.getCompanyData();
-  },
-};
+    this.getCompanyData()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -63,68 +63,68 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      idDelete: null,
-    };
+      idDelete: null
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.company.rows,
-    }),
+      data: (state) => state.company.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "company/index",
-      dispatchDestroy: "company/destroy",
+      dispatchIndex: 'company/index',
+      dispatchDestroy: 'company/destroy'
     }),
 
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
-        this.dispatchIndex();
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
+        this.dispatchIndex()
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           // text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          text: "Looks like something went wrong. please try again later maybe you have another relevant data",
-          color: "danger",
-        });
+          text: 'Looks like something went wrong. please try again later maybe you have another relevant data',
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
+    }
   },
-  mounted() {
+  mounted () {
     this.$vs.loading({
-      type: "radius",
-      color: "blue",
+      type: 'radius',
+      color: 'blue',
       textAfter: true,
-      text: "Please Wait ...",
-    });
+      text: 'Please Wait ...'
+    })
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

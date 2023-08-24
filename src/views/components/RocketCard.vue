@@ -26,6 +26,6 @@
 
 <script>
 export default {
-  name: "rocket-card",
-};
+  name: 'rocket-card'
+}
 </script>

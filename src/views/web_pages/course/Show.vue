@@ -194,17 +194,17 @@
 </template>
 
 <script>
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { quillEditor } from "vue-quill-editor";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
   components: {
-    quillEditor,
+    quillEditor
   },
-  data() {
+  data () {
     return {
       popUp: false,
       idDelete: null,
@@ -212,221 +212,221 @@ export default {
       idDeletes: null,
       updatePopUp: false,
       questionPopUp: false,
-      f_question: "",
-      id: "",
-      f_name: "",
+      f_question: '',
+      id: '',
+      f_name: '',
       f_is_true: false,
       storeData: {
-        id: this.$route.params.id,
+        id: this.$route.params.id
       },
       f_answers: [
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
-        },
-      ],
-    };
+          name: ''
+        }
+      ]
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.course.rows,
-    }),
+      data: (state) => state.course.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchStoreQuestion: "course/store_question",
-      dispatchAllQuestion: "course/getQuestion",
-      dispatchUpdates: "course/update_answer",
-      dispatchShow: "course/detail_answer",
-      dispatchDestroy: "course/delete",
-      dispatchDelete: "course/deletes",
+      dispatchStoreQuestion: 'course/store_question',
+      dispatchAllQuestion: 'course/getQuestion',
+      dispatchUpdates: 'course/update_answer',
+      dispatchShow: 'course/detail_answer',
+      dispatchDestroy: 'course/delete',
+      dispatchDelete: 'course/deletes'
     }),
-    goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    addQuestion() {
-      this.popUp = true;
+    addQuestion () {
+      this.popUp = true
     },
-    clearFormmm() {
-      this.f_name = "";
-      this.f_is_true = false;
+    clearFormmm () {
+      this.f_name = ''
+      this.f_is_true = false
     },
-    clearForm() {
-      this.f_question = "";
+    clearForm () {
+      this.f_question = ''
       this.f_answers = [
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
+          name: ''
         },
         {
           is_true: false,
-          name: "",
-        },
-      ];
+          name: ''
+        }
+      ]
     },
-    async confirmUpdates() {
+    async confirmUpdates () {
       const payload = {
         id: this.id,
         name: this.f_name,
-        is_true: this.f_is_true,
-      };
+        is_true: this.f_is_true
+      }
       // console.log(payload);
       await this.dispatchUpdates(payload).then(() => {
-        this.$vs.loading();
+        this.$vs.loading()
         this.dispatchAllQuestion(this.$route.params.id)
           .then(() => {
-            this.$vs.loading.close();
+            this.$vs.loading.close()
           })
           .catch(() => {
-            this.$vs.loading.close();
-          });
-      });
-      this.clearFormmm();
-      this.updatePopUp = false;
+            this.$vs.loading.close()
+          })
+      })
+      this.clearFormmm()
+      this.updatePopUp = false
     },
-    updates(id) {
-      this.id = id;
-      this.idUpdate = id;
-      this.updatePopUp = true;
+    updates (id) {
+      this.id = id
+      this.idUpdate = id
+      this.updatePopUp = true
     },
-    async storeAnswer() {
-      let is_ans = false;
-      let double = false;
+    async storeAnswer () {
+      let is_ans = false
+      let double = false
       this.f_answers.forEach(function (answer) {
         if (answer.is_true && is_ans) {
-          is_ans = false;
-          double = true;
-        } else if (answer.is_true) is_ans = true;
-      });
+          is_ans = false
+          double = true
+        } else if (answer.is_true) is_ans = true
+      })
       if (double) {
-        alert("Double Answer");
-        return null;
+        alert('Double Answer')
+        return null
       }
       if (!is_ans) {
-        alert("Answer Not Available");
-        return null;
+        alert('Answer Not Available')
+        return null
       }
       //end of check double answer and no answer
 
-      this.$vs.loading();
+      this.$vs.loading()
       const payload = {
         course_id: this.$route.params.id,
         description: this.f_question,
-        answers: this.f_answers,
-      };
+        answers: this.f_answers
+      }
       await this.dispatchStoreQuestion(payload).then(() => {
-        this.$vs.loading();
+        this.$vs.loading()
         this.dispatchAllQuestion(this.$route.params.id)
           .then(() => {
-            this.$vs.loading.close();
+            this.$vs.loading.close()
           })
           .catch(() => {
-            this.$vs.loading.close();
-          });
-      });
-      this.clearForm();
-      this.popUp = false;
+            this.$vs.loading.close()
+          })
+      })
+      this.clearForm()
+      this.popUp = false
     },
-    async confirmDelete() {
+    async confirmDelete () {
       try {
         await this.dispatchDestroy(this.idDelete).then(() => {
-          this.$vs.loading();
+          this.$vs.loading()
           this.dispatchAllQuestion(this.$route.params.id)
             .then(() => {
-              this.$vs.loading.close();
+              this.$vs.loading.close()
             })
             .catch(() => {
-              this.$vs.loading.close();
-            });
-        });
+              this.$vs.loading.close()
+            })
+        })
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletess(id) {
-      this.idDelete = id;
+    deletess (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
-    async confirmDeletes() {
+    async confirmDeletes () {
       try {
         await this.dispatchDelete(this.idDeletes).then(() => {
-          this.$vs.loading();
+          this.$vs.loading()
           this.dispatchAllQuestion(this.$route.params.id)
             .then(() => {
-              this.$vs.loading.close();
+              this.$vs.loading.close()
             })
             .catch(() => {
-              this.$vs.loading.close();
-            });
-        });
+              this.$vs.loading.close()
+            })
+        })
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDeletes = id;
+    deletes (id) {
+      this.idDeletes = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDeletes,
-      });
-    },
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDeletes
+      })
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.dispatchAllQuestion(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>

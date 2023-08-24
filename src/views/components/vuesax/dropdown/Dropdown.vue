@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import DropdownDefault from "./DropdownDefault.vue";
-import DropdownColor from "./DropdownColor.vue";
-import DropdownGroupOption from "./DropdownGroupOption.vue";
-import DropdownCustomContent from "./DropdownCustomContent.vue";
-import DropdownButton from "./DropdownButton.vue";
+import DropdownDefault from './DropdownDefault.vue'
+import DropdownColor from './DropdownColor.vue'
+import DropdownGroupOption from './DropdownGroupOption.vue'
+import DropdownCustomContent from './DropdownCustomContent.vue'
+import DropdownButton from './DropdownButton.vue'
 
 export default {
   components: {
@@ -30,9 +30,9 @@ export default {
     DropdownColor,
     DropdownGroupOption,
     DropdownCustomContent,
-    DropdownButton,
-  },
-};
+    DropdownButton
+  }
+}
 </script>
 
 <style lang="scss">

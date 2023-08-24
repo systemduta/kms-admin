@@ -152,151 +152,151 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isStore: false,
       isUpdate: false,
       idDelete: null,
       storeData: {
         id: null,
-        name: "",
-        code: null,
-      },
-    };
+        name: '',
+        code: null
+      }
+    }
   },
   computed: {
     ...mapState({
-      data: (state) => state.golongan.rows,
-    }),
+      data: (state) => state.golongan.rows
+    })
   },
   methods: {
     ...mapActions({
-      dispatchIndex: "golongan/index",
-      dispatchStore: "golongan/store",
-      dispatchShow: "golongan/show",
-      dispatchUpdate: "golongan/update",
-      dispatchDestroy: "golongan/destroy",
+      dispatchIndex: 'golongan/index',
+      dispatchStore: 'golongan/store',
+      dispatchShow: 'golongan/show',
+      dispatchUpdate: 'golongan/update',
+      dispatchDestroy: 'golongan/destroy'
     }),
-    async confirmDelete() {
+    async confirmDelete () {
       try {
-        await this.dispatchDestroy(this.idDelete);
-        this.dispatchIndex();
+        await this.dispatchDestroy(this.idDelete)
+        this.dispatchIndex()
         this.$vs.notify({
-          title: "Success",
-          text: "Your data has been deleted successfully",
-          color: "primary",
-        });
-        this.dispatchIndex(3);
+          title: 'Success',
+          text: 'Your data has been deleted successfully',
+          color: 'primary'
+        })
+        this.dispatchIndex(3)
       } catch (error) {
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          color: "danger",
-        });
+          color: 'danger'
+        })
       }
     },
-    deletes(id) {
-      this.idDelete = id;
+    deletes (id) {
+      this.idDelete = id
       this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: "Are you sure ?",
-        text: "Deleted data can no longer be restored",
-        accept: this.confirmDelete,
-      });
+        type: 'confirm',
+        color: 'danger',
+        title: 'Are you sure ?',
+        text: 'Deleted data can no longer be restored',
+        accept: this.confirmDelete
+      })
     },
 
-    async show(id) {
+    async show (id) {
       try {
-        var res = await this.dispatchShow(id);
+        const res = await this.dispatchShow(id)
         // console.log(res.data);
-        this.storeData.id = res.data.id;
-        this.storeData.name = res.data.name;
-        this.storeData.code = res.data.code;
+        this.storeData.id = res.data.id
+        this.storeData.name = res.data.name
+        this.storeData.code = res.data.code
 
-        this.isUpdate = true;
+        this.isUpdate = true
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
-    async store() {
-      const data = new FormData();
-      data.append("name", this.storeData.name);
-      data.append("code", this.storeData.code);
+    async store () {
+      const data = new FormData()
+      data.append('name', this.storeData.name)
+      data.append('code', this.storeData.code)
 
       this.$vs.loading({
-        type: "radius",
-        color: "blue",
+        type: 'radius',
+        color: 'blue',
         textAfter: true,
-        text: "Please Wait ...",
-      });
+        text: 'Please Wait ...'
+      })
       try {
-        await this.dispatchStore(data);
-        this.$vs.loading.close();
+        await this.dispatchStore(data)
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was saved successfully!",
-          color: "success",
-        });
-        this.isStore = false;
-        this.dispatchIndex();
+          title: 'Success!',
+          text: 'Data was saved successfully!',
+          color: 'success'
+        })
+        this.isStore = false
+        this.dispatchIndex()
       } catch (error) {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
-        this.isStore = false;
+          color: 'danger'
+        })
+        this.isStore = false
       }
     },
 
-    async update() {
-      const data = new FormData();
-      data.append("id", this.storeData.id);
-      data.append("name", this.storeData.name);
-      data.append("code", this.storeData.code);
-      data.append("_method", "PUT");
+    async update () {
+      const data = new FormData()
+      data.append('id', this.storeData.id)
+      data.append('name', this.storeData.name)
+      data.append('code', this.storeData.code)
+      data.append('_method', 'PUT')
 
       this.$vs.loading({
-        type: "radius",
-        color: "blue",
+        type: 'radius',
+        color: 'blue',
         textAfter: true,
-        text: "Please Wait ...",
-      });
+        text: 'Please Wait ...'
+      })
       try {
-        await this.dispatchUpdate(data);
-        this.$vs.loading.close();
+        await this.dispatchUpdate(data)
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Success!",
-          text: "Data was update successfully!",
-          color: "success",
-        });
-        this.isUpdate = false;
-        this.dispatchIndex();
+          title: 'Success!',
+          text: 'Data was update successfully!',
+          color: 'success'
+        })
+        this.isUpdate = false
+        this.dispatchIndex()
       } catch (error) {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
         this.$vs.notify({
-          title: "Oops!",
+          title: 'Oops!',
           text: error.data.message,
-          color: "danger",
-        });
-        this.isUpdate = false;
+          color: 'danger'
+        })
+        this.isUpdate = false
       }
-    },
+    }
   },
-  mounted() {
-    this.$vs.loading();
+  mounted () {
+    this.$vs.loading()
     this.dispatchIndex()
       .then(() => {
-        this.$vs.loading.close();
+        this.$vs.loading.close()
       })
       .catch(() => {
-        this.$vs.loading.close();
-      });
-  },
-};
+        this.$vs.loading.close()
+      })
+  }
+}
 </script>
