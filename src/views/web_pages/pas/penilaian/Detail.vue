@@ -27,7 +27,7 @@
             <td style="width: 40%">Tanggal Penilaian</td>
             <td style="width: 5%">:</td>
             <td>
-              <vs-input type="date" v-model="formattedDate" />
+              <vs-input type="month" v-model="formattedDate" />
             </td>
           </tr>
         </table>
@@ -73,104 +73,104 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
       datas: [],
-      date: null
-    }
+      date: null,
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows
+      data: (state) => state.masterpas.rows,
     }),
     formattedDate: {
-      get () {
+      get() {
         if (this.date) {
-          const [year, month, day] = this.date.split('-')
-          return `${year}-${month}-${day}`
+          const [year, month] = this.date.split("-");
+          return `${year}-${month}`;
         }
-        return ''
+        return "";
       },
-      set (value) {
+      set(value) {
         if (value) {
-          const [year, month, day] = value.split('-')
-          this.date = `${year}-${month}-${day}`
+          const [year, month] = value.split("-");
+          this.date = `${year}-${month}`;
         } else {
-          this.date = ''
+          this.date = "";
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'masterpas/index_company',
-      dispatchDivisi: 'masterpas/index_divisi',
-      dispatchEmployee: 'masterpas/index_employee',
+      dispatchIndex: "masterpas/index_company",
+      dispatchDivisi: "masterpas/index_divisi",
+      dispatchEmployee: "masterpas/index_employee",
 
-      dispatchCek: 'showedit/cekdata'
+      dispatchCek: "showedit/cekdata",
     }),
-    async toPenilaian (id) {
+    async toPenilaian(id) {
       if (this.date) {
-        const send = new FormData()
-        send.append('idUser', id)
-        send.append('date', this.date)
-        const response = await this.dispatchCek(send)
+        const send = new FormData();
+        send.append("idUser", id);
+        send.append("date", this.date);
+        const response = await this.dispatchCek(send);
         if (response.data === 0) {
           this.$router.push({
-            name: 'penilaianpenilaianpas',
+            name: "penilaianpenilaianpas",
             params: {
               idCompany: this.idCompany,
               idDivisi: this.idDivisi,
               idUser: id,
-              date: this.date
-            }
-          })
+              date: this.date,
+            },
+          });
         } else {
           this.$vs.dialog({
-            color: 'warning',
-            title: 'Warning',
-            text: 'Karyawan telah dinilai pada bulan dan tahun yang dipilih'
-          })
+            color: "warning",
+            title: "Warning",
+            text: "Karyawan telah dinilai pada bulan dan tahun yang dipilih",
+          });
         }
       } else {
         this.$vs.dialog({
-          color: 'warning',
-          title: 'Warning',
-          text: 'Silahkan di pilih tanggal terlebih dahulu'
-        })
+          color: "warning",
+          title: "Warning",
+          text: "Silahkan di pilih tanggal terlebih dahulu",
+        });
       }
     },
-    goBack () {
+    goBack() {
       this.$router.push({
-        name: 'penilaianpas'
-      })
+        name: "penilaianpas",
+      });
     },
-    async getEmployee () {
-      const send = new FormData()
-      send.append('idCompany', this.idCompany)
-      send.append('idDivisi', this.idDivisi)
-      const dataDivisi = await this.dispatchEmployee(send)
-      this.datas = dataDivisi
-    }
+    async getEmployee() {
+      const send = new FormData();
+      send.append("idCompany", this.idCompany);
+      send.append("idDivisi", this.idDivisi);
+      const dataDivisi = await this.dispatchEmployee(send);
+      this.datas = dataDivisi;
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.getEmployee()
       .then(() => {
-        this.$vs.loading.close()
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>

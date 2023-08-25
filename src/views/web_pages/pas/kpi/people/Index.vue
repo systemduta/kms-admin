@@ -37,7 +37,7 @@
             <vs-th sort-key="no">No</vs-th>
             <vs-th sort-key="kpi">KPI</vs-th>
             <vs-th sort-key="max_nilai">Nilai Maksimal</vs-th>
-            <vs-th></vs-th>
+            <vs-th> Aksi</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -46,40 +46,46 @@
               <vs-td :data="tr.max_nilai">{{ tr.max_nilai }}</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button
-                    icon-pack="feather"
-                    icon="icon-eye"
-                    size="small"
-                    :to="{
-                      name: `indPenilaianPas`,
-                      params: {
-                        idKpi: tr.id,
-                        idDimensi: idDimensi,
-                        id3p: id3p,
-                        name3p: nama3p,
-                        nameDimensi: namaDimensi,
-                        nameKpi: tr.name,
-                      },
-                    }"
-                  >
-                  </vs-button>
+                  <vx-tooltip text="lihat indikator">
+                    <vs-button
+                      icon-pack="feather"
+                      icon="icon-eye"
+                      size="small"
+                      :to="{
+                        name: `indPenilaianPas`,
+                        params: {
+                          idKpi: tr.id,
+                          idDimensi: idDimensi,
+                          id3p: id3p,
+                          name3p: nama3p,
+                          nameDimensi: namaDimensi,
+                          nameKpi: tr.name,
+                        },
+                      }"
+                    >
+                    </vs-button>
+                  </vx-tooltip>
                   &nbsp;
-                  <vs-button
-                    icon-pack="feather"
-                    icon="icon-edit"
-                    color="warning"
-                    size="small"
-                    @click="getUpdate(tr.id)"
-                  >
-                  </vs-button>
+                  <vx-tooltip text="edit KPI">
+                    <vs-button
+                      icon-pack="feather"
+                      icon="icon-edit"
+                      color="warning"
+                      size="small"
+                      @click="getUpdate(tr.id)"
+                    >
+                    </vs-button>
+                  </vx-tooltip>
                   &nbsp;
-                  <vs-button
-                    color="danger"
-                    icon-pack="feather"
-                    icon="icon-delete"
-                    size="small"
-                    @click="deletes(tr.id)"
-                  ></vs-button>
+                  <vx-tooltip text="hapus kpi">
+                    <vs-button
+                      color="danger"
+                      icon-pack="feather"
+                      icon="icon-delete"
+                      size="small"
+                      @click="deletes(tr.id)"
+                    ></vs-button>
+                  </vx-tooltip>
                 </div>
               </vs-td>
             </vs-tr>
@@ -184,9 +190,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       isAdd: false,
       isUpdate: false,
@@ -199,180 +205,180 @@ export default {
       storeData: {
         id_3p: this.$route.params.idKpi,
         dimensi_id: this.$route.params.id,
-        name: '',
-        max_nilai: null
+        name: "",
+        max_nilai: null,
       },
 
       updateData: {
         id: null,
         id_3p: this.$route.params.idKpi,
         dimensi_id: this.$route.params.id,
-        name: '',
-        max_nilai: null
-      }
-    }
+        name: "",
+        max_nilai: null,
+      },
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.kpi.rows
-    })
+      data: (state) => state.kpi.rows,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'kpi/index',
-      dispatchStore: 'kpi/store',
-      dispatchDestroy: 'kpi/destroy',
-      dispatchShow: 'kpi/show',
-      dispatchUpdate: 'kpi/update'
+      dispatchIndex: "kpi/index",
+      dispatchStore: "kpi/store",
+      dispatchDestroy: "kpi/destroy",
+      dispatchShow: "kpi/show",
+      dispatchUpdate: "kpi/update",
     }),
-    goBack () {
+    goBack() {
       this.$router.push({
-        name: 'people',
+        name: "people",
         params: {
-          id: this.$route.params.idKpi
-        }
-      })
+          id: this.$route.params.idKpi,
+        },
+      });
     },
-    async datas (id) {
+    async datas(id) {
       try {
-        const datas = await this.dispatchIndex(id)
-        this.listKpi = datas.data
+        const datas = await this.dispatchIndex(id);
+        this.listKpi = datas.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
-    async confirmDelete () {
+    async confirmDelete() {
       try {
-        await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
 
-        this.datas(this.$route.params.id)
+        this.datas(this.$route.params.id);
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
-          text: 'Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user',
-          color: 'danger'
-        })
+          title: "Oops!",
+          text: "Maaf, Materi sudah di jadwalkan ke user atau sudah ada data jawaban user",
+          color: "danger",
+        });
       }
     },
 
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
 
-    async store () {
-      const send = new FormData()
-      send.append('id_3p', this.storeData.id_3p)
-      send.append('dimensi_id', this.storeData.dimensi_id)
-      send.append('name', this.storeData.name)
-      send.append('max_nilai', this.storeData.max_nilai)
+    async store() {
+      const send = new FormData();
+      send.append("id_3p", this.storeData.id_3p);
+      send.append("dimensi_id", this.storeData.dimensi_id);
+      send.append("name", this.storeData.name);
+      send.append("max_nilai", this.storeData.max_nilai);
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchStore(send)
-        this.$vs.loading.close()
+        await this.dispatchStore(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was saved successfully!',
-          color: 'success'
-        })
-        this.datas(this.$route.params.id)
-        this.storeData.name = ''
-        this.storeData.max_nilai = null
-        this.isAdd = false
+          title: "Success!",
+          text: "Data was saved successfully!",
+          color: "success",
+        });
+        this.datas(this.$route.params.id);
+        this.storeData.name = "";
+        this.storeData.max_nilai = null;
+        this.isAdd = false;
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.error,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
 
-    async getUpdate ($id) {
+    async getUpdate($id) {
       try {
-        const kpi_data = await this.dispatchShow($id)
-        this.updateData.id = kpi_data.data['id']
-        this.updateData.name = kpi_data.data['name']
-        this.updateData.max_nilai = kpi_data.data['max_nilai']
+        const kpi_data = await this.dispatchShow($id);
+        this.updateData.id = kpi_data.data["id"];
+        this.updateData.name = kpi_data.data["name"];
+        this.updateData.max_nilai = kpi_data.data["max_nilai"];
 
-        this.isUpdate = true
+        this.isUpdate = true;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    async update () {
-      const send = new FormData()
-      send.append('id', this.updateData.id)
-      send.append('id_3p', this.updateData.id_3p)
-      send.append('dimensi_id', this.updateData.dimensi_id)
-      send.append('name', this.updateData.name)
-      send.append('max_nilai', this.updateData.max_nilai)
-      send.append('_method', 'PUT')
+    async update() {
+      const send = new FormData();
+      send.append("id", this.updateData.id);
+      send.append("id_3p", this.updateData.id_3p);
+      send.append("dimensi_id", this.updateData.dimensi_id);
+      send.append("name", this.updateData.name);
+      send.append("max_nilai", this.updateData.max_nilai);
+      send.append("_method", "PUT");
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchUpdate(send)
-        this.$vs.loading.close()
+        await this.dispatchUpdate(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was updated successfully!',
-          color: 'success'
-        })
-        this.datas(this.$route.params.id)
-        this.isUpdate = false
+          title: "Success!",
+          text: "Data was updated successfully!",
+          color: "success",
+        });
+        this.datas(this.$route.params.id);
+        this.isUpdate = false;
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.error,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.datas(this.$route.params.id)
       .then(() => {
-        this.$vs.loading.close()
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>

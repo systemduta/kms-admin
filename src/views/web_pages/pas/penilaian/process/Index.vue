@@ -31,7 +31,15 @@
             <td style="width: 40%">Bulan Penilaian</td>
             <td style="width: 5%">:</td>
             <!-- <td>{{ date }}</td> -->
-            <td>{{ showDate }}</td>
+            <!-- <td>{{ showDate }}</td> -->
+            <td>
+              <vs-input
+                type="month"
+                v-model="showDate"
+                :disabled="true"
+                class="bold-input"
+              />
+            </td>
           </tr>
           <tr>
             <td style="width: 40%">Parameter</td>
@@ -325,9 +333,9 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       idCompany: this.$route.params.idCompany,
       idDivisi: this.$route.params.idDivisi,
@@ -368,152 +376,152 @@ export default {
       tempIndFinal: null,
       nilaiC: [],
       nilaiB: [],
-      nilaiA: []
-    }
+      nilaiA: [],
+    };
   },
   computed: {
-    perasli () {
+    perasli() {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0)
-      const count = 3 //ganti ini jika umlah A,B,C berubah
-      const avg = total / count
+        (Number(this.tempValueA) || 0);
+      const count = 3; //ganti ini jika umlah A,B,C berubah
+      const avg = total / count;
 
       if (avg < 1) {
-        return 1
+        return 1;
       } else if (avg > 4) {
-        return 4
+        return 4;
       } else {
-        return avg
+        return avg;
       }
     },
-    perata () {
+    perata() {
       const total =
         (Number(this.tempValueC) || 0) +
         (Number(this.tempValueB) || 0) +
-        (Number(this.tempValueA) || 0)
-      const count = 3 //ganti ini jika umlah A,B,C berubah
-      const avg = total / count
+        (Number(this.tempValueA) || 0);
+      const count = 3; //ganti ini jika umlah A,B,C berubah
+      const avg = total / count;
 
       if (avg < 1) {
-        return 1
+        return 1;
       } else if (avg > 4) {
-        return 4
+        return 4;
       } else {
         // return Math.round(avg);
-        return avg.toFixed(1)
+        return avg.toFixed(1);
       }
     },
-    newfinal () {
+    newfinal() {
       if (this.tempIndFinal) {
-        return this.tempIndFinal
+        return this.tempIndFinal;
       } else {
-        return (this.tempIndFinal = 1)
+        return (this.tempIndFinal = 1);
       }
-    }
+    },
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'masterpas/index_company',
-      dispatchDivisi: 'masterpas/index_divisi',
-      dispatchEmployee: 'masterpas/index_employee',
+      dispatchIndex: "masterpas/index_company",
+      dispatchDivisi: "masterpas/index_divisi",
+      dispatchEmployee: "masterpas/index_employee",
 
-      dispatchMaster: 'masterpas/index',
-      dispatchMasterDatas: 'masterpas/index_datas',
-      dispatchMasterAllDimensi: 'masterpas/all_dimensi',
-      dispatchMasterAllKpi: 'masterpas/all_kpi',
-      dispatchMasterAllInd: 'masterpas/all_ind',
+      dispatchMaster: "masterpas/index",
+      dispatchMasterDatas: "masterpas/index_datas",
+      dispatchMasterAllDimensi: "masterpas/all_dimensi",
+      dispatchMasterAllKpi: "masterpas/all_kpi",
+      dispatchMasterAllInd: "masterpas/all_ind",
 
       //process
-      dispatchProcess: 'pen_proces/index',
-      dispatchPeopleInd: 'pen_people/getInd', //untuk semua gpp
-      dispatchStore: 'pen_proces/store'
+      dispatchProcess: "pen_proces/index",
+      dispatchPeopleInd: "pen_people/getInd", //untuk semua gpp
+      dispatchStore: "pen_proces/store",
     }),
-    goBack () {
+    goBack() {
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Confirm',
-        text: 'Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?',
+        type: "confirm",
+        color: "danger",
+        title: "Confirm",
+        text: "Pastikan data sudah disimpan sebelum kembali. Apakah Anda yakin ingin kembali?",
         accept: this.acceptBack,
-        acceptText: 'ya',
-        cancelText: 'tutup'
-      })
+        acceptText: "ya",
+        cancelText: "tutup",
+      });
     },
-    acceptBack () {
+    acceptBack() {
       this.$router.push({
-        name: 'penilaianpenilaianpas',
+        name: "penilaianpenilaianpas",
         params: {
           idCompany: this.idCompany,
           idDivisi: this.idDivisi,
           idUser: this.idUser,
-          date: this.date
-        }
-      })
+          date: this.date,
+        },
+      });
     },
-    async getDatas () {
-      const send = new FormData()
-      send.append('idCompany', this.idCompany)
-      send.append('idDivisi', this.idDivisi)
-      send.append('idUser', this.idUser)
-      send.append('id3p', this.id3p)
-      send.append('date', this.date)
-      const datas3 = await this.dispatchMasterDatas(send)
-      this.datas3 = datas3
+    async getDatas() {
+      const send = new FormData();
+      send.append("idCompany", this.idCompany);
+      send.append("idDivisi", this.idDivisi);
+      send.append("idUser", this.idUser);
+      send.append("id3p", this.id3p);
+      send.append("date", this.date);
+      const datas3 = await this.dispatchMasterDatas(send);
+      this.datas3 = datas3;
 
       //process
-      const datas4 = await this.dispatchProcess(send)
-      this.data3p = datas4.p3
-      this.datas4 = datas4
-      this.itemArrays = datas4.dimensi
-      this.itemArraysKpi = datas4.kpi
+      const datas4 = await this.dispatchProcess(send);
+      this.data3p = datas4.p3;
+      this.datas4 = datas4;
+      this.itemArrays = datas4.dimensi;
+      this.itemArraysKpi = datas4.kpi;
 
       this.itemArrays.forEach((item) => {
-        this.storeData = { ...this.storeData, [item.name]: {} }
-      })
+        this.storeData = { ...this.storeData, [item.name]: {} };
+      });
 
-      this.arrayBantuan = this.itemArrays.map((item) => item.name)
+      this.arrayBantuan = this.itemArrays.map((item) => item.name);
     },
 
-    breaking (id) {
-      this.tempIdDimensi = this.itemArrays.filter((i) => i.id === id)
+    breaking(id) {
+      this.tempIdDimensi = this.itemArrays.filter((i) => i.id === id);
       const arrayBaru = this.itemArraysKpi
         .filter((itemArraysKpi) => itemArraysKpi.dimensi_id === id)
         .map((itemArraysKpi) => ({
           kpi_id: itemArraysKpi.id,
           name: itemArraysKpi.name,
           value: null,
-          max_nilai: itemArraysKpi.max_nilai
-        }))
-      this.tempArray = arrayBaru
+          max_nilai: itemArraysKpi.max_nilai,
+        }));
+      this.tempArray = arrayBaru;
       if (this.tempArray.length > 0) {
-        this.isOthers = !this.isOthers
+        this.isOthers = !this.isOthers;
       } else {
-        alert('KPI kosong, mohon di dikonfigurasi ulang')
+        alert("KPI kosong, mohon di dikonfigurasi ulang");
       }
     },
 
-    async getInd (id3p, idkpi) {
-      this.tempIdKpi = idkpi
-      const send = new FormData()
-      send.append('id3p', id3p)
-      send.append('kpi_id', idkpi)
+    async getInd(id3p, idkpi) {
+      this.tempIdKpi = idkpi;
+      const send = new FormData();
+      send.append("id3p", id3p);
+      send.append("kpi_id", idkpi);
 
       try {
-        const Ind = await this.dispatchPeopleInd(send)
+        const Ind = await this.dispatchPeopleInd(send);
         // console.log(Ind);
         this.tempInd = Ind.nilai.map((item) => ({
-          'id': item.id,
-          '3p_id': item['3p_id'],
-          'kpi_id': item.kpi_id,
-          'company_id': item.company_id,
-          'division_id': item.division_id,
-          'nilai': item.nilai,
-          'name': `${item.nilai  } - ${  item.desc}`,
-          'created_at': item.created_at,
-          'updated_at': item.updated_at
-        }))
+          id: item.id,
+          "3p_id": item["3p_id"],
+          kpi_id: item.kpi_id,
+          company_id: item.company_id,
+          division_id: item.division_id,
+          nilai: item.nilai,
+          name: `${item.nilai} - ${item.desc}`,
+          created_at: item.created_at,
+          updated_at: item.updated_at,
+        }));
         // (this.nilaiC = Ind.nilaiC.map((item) => ({
         //   id: item.id,
         //   "3p_id": item["3p_id"],
@@ -547,18 +555,18 @@ export default {
         //     created_at: item.created_at,
         //     updated_at: item.updated_at,
         //   }))),
-        this.isInd = true
+        this.isInd = true;
         // console.log(this.nilai4);
 
         this.tempFilter = this.tempArray.filter(
           (item) => item.kpi_id === idkpi
-        )
+        );
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    hitung () {
+    hitung() {
       this.tempArray = this.tempArray.map((item) => {
         if (item.kpi_id === this.tempFilter[0].kpi_id) {
           return {
@@ -567,84 +575,84 @@ export default {
             // value: this.perata,
             dimensi_id: this.tempIdDimensi[0].id,
             ...item,
-            value: this.newfinal
-          }
+            value: this.newfinal,
+          };
         }
-        return item
-      })
+        return item;
+      });
       setTimeout(() => {
-        this.isInd = false
-      }, 100)
+        this.isInd = false;
+      }, 100);
       // console.log(this.tempArray);
 
       if (this.storeData[this.tempIdDimensi[0].name]) {
-        this.storeData[this.tempIdDimensi[0].name] = this.tempArray
+        this.storeData[this.tempIdDimensi[0].name] = this.tempArray;
       } else {
         this.storeData = {
           ...this.storeData,
-          [this.tempIdDimensi[0].name]: this.tempArray
-        }
+          [this.tempIdDimensi[0].name]: this.tempArray,
+        };
       }
 
-      this.tempValueA = null
-      this.tempValueB = null
-      this.tempValueC = null
-      this.tempIndFinal = null
+      this.tempValueA = null;
+      this.tempValueB = null;
+      this.tempValueC = null;
+      this.tempIndFinal = null;
     },
 
-    simpanOthers () {
+    simpanOthers() {
       // console.log(this.storeData);
-      this.isOthers = false
+      this.isOthers = false;
     },
-    cekBefore () {
-      this.isOthers = false
-      this.isPopAbsen = false
-      this.isInd = false
-      this.isFinal = true
+    cekBefore() {
+      this.isOthers = false;
+      this.isPopAbsen = false;
+      this.isInd = false;
+      this.isFinal = true;
     },
 
-    hitungNilaiAkhir () {
+    hitungNilaiAkhir() {
       try {
-        this.finalProcess = 0
-        let sum_max_nilai = 0
-        let sum_value = 0
+        this.finalProcess = 0;
+        let sum_max_nilai = 0;
+        let sum_value = 0;
         for (const items of Object.values(this.storeData)) {
           for (const item of items) {
-            sum_value += parseFloat(item.value)
-            sum_max_nilai += item.max_nilai
+            sum_value += parseFloat(item.value);
+            sum_max_nilai += item.max_nilai;
           }
         }
-        sum_value = (sum_value / sum_max_nilai) * 100
+        sum_value = (sum_value / sum_max_nilai) * 100;
         const final_people2 = Math.round(
           (sum_value * this.data3p.persentase) / 100
-        )
-        this.finalProcess = parseInt(final_people2.toFixed(0))
+        );
+        this.finalProcess = parseInt(final_people2.toFixed(0));
       } catch (error) {
         // console.log(error);
         this.$vs.notify({
           time: 4000,
-          title: 'Error',
-          text: 'Data ada yang kosong silahkan diisi terlebih dahulu',
-          color: 'warning',
-          icon: 'error'
-        })
+          title: "Error",
+          text: "Data ada yang kosong silahkan diisi terlebih dahulu",
+          color: "warning",
+          icon: "error",
+        });
       }
     },
 
-    async finalSend () {
-      this.isFinal = false
+    async finalSend() {
+      this.isFinal = false;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'primary',
-        title: 'Confirm',
-        text: 'Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?',
+        type: "confirm",
+        color: "primary",
+        title: "Confirm",
+        text: "Pastikan data sudah benar. Apakah Anda ingin melanjutkan ?",
         accept: this.acceptSend,
-        acceptText: 'Kirim',
-        cancelText: 'Tutup'
-      })
+        acceptText: "Kirim",
+        cancelText: "Tutup",
+      });
     },
 
-    async acceptSend () {
+    async acceptSend() {
       if (
         isNaN(this.finalProcess) ||
         this.finalProcess == null ||
@@ -652,14 +660,14 @@ export default {
       ) {
         // alert("Nilai Akhir adalah bernilai 'null', data tidak bisa dikirim");
         this.$vs.dialog({
-          color: 'warning',
-          title: 'warning',
-          acceptText: 'perbaiki',
-          text: 'Nilai Akhir bernilai \'null\', data tidak bisa dikirim'
-        })
+          color: "warning",
+          title: "warning",
+          acceptText: "perbaiki",
+          text: "Nilai Akhir bernilai 'null', data tidak bisa dikirim",
+        });
         setTimeout(() => {
-          this.isFinal = true
-        }, 2000)
+          this.isFinal = true;
+        }, 2000);
       } else {
         this.storeData = {
           ...this.storeData,
@@ -667,75 +675,75 @@ export default {
             date: this.date,
             user_id: this.idUser,
             id_3p: this.id3p,
-            nilai: this.finalProcess
-          }
-        }
+            nilai: this.finalProcess,
+          },
+        };
         // console.log(this.storeData);
         try {
-          const response = await this.dispatchStore(this.storeData)
+          const response = await this.dispatchStore(this.storeData);
           if (response.statusCode === 200) {
             this.$vs.notify({
               time: 4000,
-              title: 'Suksess',
-              text: 'Data sukses disimpan',
-              color: 'primary',
-              icon: 'verified_user'
-            })
+              title: "Suksess",
+              text: "Data sukses disimpan",
+              color: "primary",
+              icon: "verified_user",
+            });
 
             setTimeout(() => {
-              this.isFinal = false
+              this.isFinal = false;
               setTimeout(() => {
                 this.$router.push({
-                  name: 'penilaianpenilaianpas',
+                  name: "penilaianpenilaianpas",
                   params: {
                     idCompany: this.idCompany,
                     idDivisi: this.idDivisi,
                     idUser: this.idUser,
-                    date: this.date
-                  }
-                })
-              }, 500)
-            }, 500)
+                    date: this.date,
+                  },
+                });
+              }, 500);
+            }, 500);
           } else {
             this.$vs.notify({
               time: 4000,
-              title: 'Error',
+              title: "Error",
               text: response.message,
-              color: 'warning',
-              icon: 'error'
-            })
+              color: "warning",
+              icon: "error",
+            });
           }
         } catch (error) {
           // console.log(error);
           this.$vs.notify({
             time: 4000,
-            title: 'Error',
+            title: "Error",
             text: error.data.message,
-            color: 'warning',
-            icon: 'error'
-          })
+            color: "warning",
+            icon: "error",
+          });
         }
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.getDatas()
       .then(() => {
-        const [year, month, day] = this.date.split('-')
-        this.showDate = `${month} - ${year}`
-        this.$vs.loading.close()
+        const [year, month, day] = this.date.split("-");
+        this.showDate = `${year}-${month}`;
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>
 
 <!-- { "Routine": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 34, "name": "ini KPI", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 36, "name": "tes1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 42, "name": "monitoring", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 43, "name": "monitoring2", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 6, "kpi_id": 44, "name": "monitoring3", "value": 1, "max_nilai": 4 } ], "Cross Function": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 35, "name": "test", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 45, "name": "tester2", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 7, "kpi_id": 46, "name": "tester3", "value": 1, "max_nilai": 4 } ], "Interaction": [ { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 41, "name": "Interaction KPI 1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 47, "name": "kpi1", "value": 1, "max_nilai": 4 }, { "date": "2023-05-24", "user_id": 728, "dimensi_id": 8, "kpi_id": 48, "name": "kpi2", "value": 1, "max_nilai": 4 } ] } -->

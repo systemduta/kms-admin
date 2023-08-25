@@ -44,28 +44,26 @@
               <vs-td :data="tr.isAdm" v-else>Kosong</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button
-                    icon-pack="feather"
-                    icon="icon-eye"
-                    @click="getID(tr.id)"
-                    size="small"
-                  ></vs-button>
-                  &nbsp;
-                  <vs-button
-                    class="mr-2"
+                  <div @click="getID(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Lihat Detail Karyawan"
+                      icon="icon-eye"
+                      color="primary"
+                    />
+                  </div>
+                  <custom-tooltip-button
+                    text-tooltip="Edit Divisi"
                     :to="{ name: `division-edit`, params: { id: tr.id } }"
-                    icon-pack="feather"
                     icon="icon-edit"
-                    size="small"
-                  ></vs-button>
-                  <vs-button
-                    class="mr-2"
-                    color="danger"
-                    @click="deletes(tr.id)"
-                    icon-pack="feather"
-                    icon="icon-delete"
-                    size="small"
-                  ></vs-button>
+                    color="warning"
+                  />
+                  <div @click="deletes(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Hapus Divisi"
+                      icon="icon-delete"
+                      color="danger"
+                    />
+                  </div>
                 </div>
               </vs-td>
             </vs-tr>
@@ -224,18 +222,22 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import axios from '@/axios'
+import { mapState, mapActions } from "vuex";
+import axios from "@/axios";
+import CustomTooltipButton from "../../components/CustomTooltipButton.vue";
 export default {
-  data () {
+  components: {
+    CustomTooltipButton,
+  },
+  data() {
     return {
       idDelete: null,
       idOrg: null,
       popupActivo: false,
       popupActivo2: false,
       isEdit: false,
-      name: '',
-      code: '',
+      name: "",
+      code: "",
       company_id: null,
       isAdm: null,
       getDetail2: [],
@@ -243,54 +245,54 @@ export default {
       getResponse: [],
       getDetailUsers: [],
       options: [
-        { value: 1, text: 'Administratif' },
-        { value: 0, text: 'Lapangan' }
-      ]
-    }
+        { value: 1, text: "Administratif" },
+        { value: 0, text: "Lapangan" },
+      ],
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.company.rows
-    })
+      data: (state) => state.company.rows,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'company/getlistcompany',
-      dispatchStore: 'division/store',
-      dispatchUpdate: 'division/update',
-      dispatchDelOrg: 'division/deleteDiv'
+      dispatchIndex: "company/getlistcompany",
+      dispatchStore: "division/store",
+      dispatchUpdate: "division/update",
+      dispatchDelOrg: "division/deleteDiv",
     }),
-    goBack () {
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
-    async confirmDelete () {
+    async confirmDelete() {
       try {
-        await this.dispatchDelOrg(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDelOrg(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
-        this.dispatchIndex()
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
+        this.dispatchIndex();
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           // text: `Looks like something went wrong. please try again later (${error.data.message})`,
-          text: 'Looks like something went wrong. please try again later maybe you have another relevant data',
-          color: 'danger'
-        })
+          text: "Looks like something went wrong. please try again later maybe you have another relevant data",
+          color: "danger",
+        });
       }
     },
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
     // async cekClick(id) {
     //   try {
@@ -319,68 +321,68 @@ export default {
     //   }
     // },
 
-    getID (id) {
+    getID(id) {
       axios
-        .post('/api/web/getdetailcompany', {
+        .post("/api/web/getdetailcompany", {
           idcompany: this.$route.params.id,
-          iddivision: id
+          iddivision: id,
         })
         .then((res) => {
-          this.getDetailUsers = res.data.data
-          this.popupActivo2 = true
-        })
+          this.getDetailUsers = res.data.data;
+          this.popupActivo2 = true;
+        });
     },
 
-    store () {
+    store() {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false
+        if (!res) return false;
         const payload = {
           id: this.$route.params.id,
           company_id: this.company_id,
           name: this.name,
           code: this.code,
-          isAdm: this.isAdm
-        }
+          isAdm: this.isAdm,
+        };
         // console.log(payload);
         this.$vs.loading({
-          type: 'radius',
-          color: 'blue',
+          type: "radius",
+          color: "blue",
           textAfter: true,
-          text: 'Please Wait ...'
-        })
+          text: "Please Wait ...",
+        });
         try {
-          await this.dispatchStore(payload)
-          this.$vs.loading.close()
+          await this.dispatchStore(payload);
+          this.$vs.loading.close();
           this.$vs.notify({
-            title: 'Success!',
-            text: 'Data was saved successfully!',
-            color: 'success'
-          })
-          this.popupActivo = false
-          await this.getDetail()
+            title: "Success!",
+            text: "Data was saved successfully!",
+            color: "success",
+          });
+          this.popupActivo = false;
+          await this.getDetail();
         } catch (error) {
-          this.$vs.loading.close()
+          this.$vs.loading.close();
           this.$vs.notify({
-            title: 'Oops!',
+            title: "Oops!",
             text: error.data.message,
-            color: 'danger'
-          })
+            color: "danger",
+          });
         }
-      })
+      });
     },
 
-    async getDetail () {
-      const success = await this.dispatchIndex(this.$route.params.id)
-      this.getDetail2 = success.detailcompany
-      this.getList = success.listorganizations
-      this.getResponse = success
-      this.company_id = this.getDetail2[0].id
+    async getDetail() {
+      const success = await this.dispatchIndex(this.$route.params.id);
+      this.getDetail2 = success.detailcompany;
+      this.getList = success.listorganizations;
+      this.getResponse = success;
+      this.company_id = this.getDetail2[0].id;
+    },
+  },
+  async mounted() {
+    if (this.$route.params.id) {
+      await this.getDetail();
     }
   },
-  async mounted () {
-    if (this.$route.params.id) {
-      await this.getDetail()
-    }
-  }
-}
+};
 </script>

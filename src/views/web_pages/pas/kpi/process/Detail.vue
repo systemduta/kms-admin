@@ -56,7 +56,7 @@
             <vs-th>No</vs-th>
             <vs-th>Name</vs-th>
             <vs-th>Nilai Maksimal</vs-th>
-            <vs-th></vs-th>
+            <vs-th>Aksi</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -65,11 +65,8 @@
               <vs-td :data="tr.max_nilai">{{ tr.max_nilai }}</vs-td>
               <vs-td>
                 <div class="flex">
-                  <vs-button
-                    class="mr-2"
-                    icon-pack="feather"
-                    icon="icon-eye"
-                    size="small"
+                  <custom-tooltip-button
+                    text-tooltip="Lihat Indikator"
                     :to="{
                       name: `processIndPas`,
                       params: {
@@ -80,22 +77,25 @@
                         idDivisi: idDivisi,
                       },
                     }"
-                  ></vs-button>
-                  <vs-button
-                    class="mr-2"
-                    icon-pack="feather"
-                    icon="icon-edit"
-                    @click="getUpdate(tr.id)"
-                    color="warning"
-                    size="small"
-                  ></vs-button>
-                  <vs-button
-                    color="danger"
-                    icon-pack="feather"
-                    icon="icon-delete"
-                    @click="deletes(tr.id)"
-                    size="small"
-                  ></vs-button>
+                    icon="icon-eye"
+                    color="primary"
+                  />
+
+                  <div @click="getUpdate(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Update KPI"
+                      icon="icon-edit"
+                      color="warning"
+                    />
+                  </div>
+
+                  <div @click="deletes(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Hapus KPI"
+                      icon="icon-delete"
+                      color="danger"
+                    />
+                  </div>
                 </div>
               </vs-td>
             </vs-tr>
@@ -195,25 +195,29 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
+import CustomTooltipButton from "@/views/components/CustomTooltipButton";
 export default {
-  data () {
+  components: {
+    CustomTooltipButton,
+  },
+  data() {
     return {
       isAdd: false,
       isUpdate: false,
       idDelete: null,
-      nama3p: '',
-      namaDimensi: '',
-      namaCompany: '',
-      namaDivisi: '',
+      nama3p: "",
+      namaDimensi: "",
+      namaCompany: "",
+      namaDivisi: "",
       listKpi: [],
       storeData: {
         id3p: this.$route.params.id3p,
         idDimensi: this.$route.params.idDimensi,
         idCompany: this.$route.params.idCompany,
         idDivisi: this.$route.params.idDivisi,
-        name: '',
-        max_nilai: null
+        name: "",
+        max_nilai: null,
       },
 
       updateData: {
@@ -222,186 +226,186 @@ export default {
         idDimensi: this.$route.params.idDimensi,
         idCompany: this.$route.params.idCompany,
         idDivisi: this.$route.params.idDivisi,
-        name: '',
-        max_nilai: null
+        name: "",
+        max_nilai: null,
       },
 
       //dikirim ke page selanjutnya
       id3p: this.$route.params.id3p,
       idDimensi: this.$route.params.idDimensi,
       idCompany: this.$route.params.idCompany,
-      idDivisi: this.$route.params.idDivisi
-    }
+      idDivisi: this.$route.params.idDivisi,
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.processKpi.rows
-    })
+      data: (state) => state.processKpi.rows,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'processKpi/index',
-      dispatchStore: 'processKpi/store',
-      dispatchDestroy: 'processKpi/destroy',
-      dispatchShow: 'processKpi/show',
-      dispatchUpdate: 'processKpi/update',
+      dispatchIndex: "processKpi/index",
+      dispatchStore: "processKpi/store",
+      dispatchDestroy: "processKpi/destroy",
+      dispatchShow: "processKpi/show",
+      dispatchUpdate: "processKpi/update",
 
-      dispatchCompany: 'masterpas/index_company',
-      dispatchDivisi: 'masterpas/index_divisi'
+      dispatchCompany: "masterpas/index_company",
+      dispatchDivisi: "masterpas/index_divisi",
     }),
-    goBack () {
+    goBack() {
       this.$router.push({
-        name: 'processDimensiPas',
+        name: "processDimensiPas",
         params: {
-          id: this.id3p
-        }
-      })
+          id: this.id3p,
+        },
+      });
     },
 
-    async getUpdate ($id) {
+    async getUpdate($id) {
       try {
-        const kpiDatas = await this.dispatchShow($id)
-        this.updateData.id = kpiDatas.data['id']
-        this.updateData.name = kpiDatas.data['name']
-        this.updateData.max_nilai = kpiDatas.data['max_nilai']
+        const kpiDatas = await this.dispatchShow($id);
+        this.updateData.id = kpiDatas.data["id"];
+        this.updateData.name = kpiDatas.data["name"];
+        this.updateData.max_nilai = kpiDatas.data["max_nilai"];
 
-        this.isUpdate = true
+        this.isUpdate = true;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
-    async update () {
-      const send = new FormData()
-      send.append('id', this.updateData.id)
-      send.append('id3p', this.updateData.id3p)
-      send.append('idDimensi', this.updateData.idDimensi)
-      send.append('idCompany', this.updateData.idCompany)
-      send.append('idDivisi', this.updateData.idDivisi)
-      send.append('name', this.updateData.name)
-      send.append('max_nilai', this.updateData.max_nilai)
-      send.append('_method', 'PUT')
+    async update() {
+      const send = new FormData();
+      send.append("id", this.updateData.id);
+      send.append("id3p", this.updateData.id3p);
+      send.append("idDimensi", this.updateData.idDimensi);
+      send.append("idCompany", this.updateData.idCompany);
+      send.append("idDivisi", this.updateData.idDivisi);
+      send.append("name", this.updateData.name);
+      send.append("max_nilai", this.updateData.max_nilai);
+      send.append("_method", "PUT");
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchUpdate(send)
-        this.$vs.loading.close()
+        await this.dispatchUpdate(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was saved successfully!',
-          color: 'success'
-        })
-        this.getDatas()
-        this.isUpdate = false
+          title: "Success!",
+          text: "Data was saved successfully!",
+          color: "success",
+        });
+        this.getDatas();
+        this.isUpdate = false;
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.message,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
 
-    async store () {
-      const send = new FormData()
-      send.append('id3p', this.storeData.id3p)
-      send.append('idDimensi', this.storeData.idDimensi)
-      send.append('idCompany', this.storeData.idCompany)
-      send.append('idDivisi', this.storeData.idDivisi)
-      send.append('name', this.storeData.name)
-      send.append('max_nilai', this.storeData.max_nilai)
+    async store() {
+      const send = new FormData();
+      send.append("id3p", this.storeData.id3p);
+      send.append("idDimensi", this.storeData.idDimensi);
+      send.append("idCompany", this.storeData.idCompany);
+      send.append("idDivisi", this.storeData.idDivisi);
+      send.append("name", this.storeData.name);
+      send.append("max_nilai", this.storeData.max_nilai);
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchStore(send)
-        this.$vs.loading.close()
+        await this.dispatchStore(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was saved successfully!',
-          color: 'success'
-        })
-        this.getDatas()
-        this.isAdd = false
+          title: "Success!",
+          text: "Data was saved successfully!",
+          color: "success",
+        });
+        this.getDatas();
+        this.isAdd = false;
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.error,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
-    async getDatas () {
-      const send = new FormData()
-      send.append('id3p', this.id3p)
-      send.append('idDimensi', this.idDimensi)
-      send.append('idCompany', this.idCompany)
-      send.append('idDivisi', this.idDivisi)
+    async getDatas() {
+      const send = new FormData();
+      send.append("id3p", this.id3p);
+      send.append("idDimensi", this.idDimensi);
+      send.append("idCompany", this.idCompany);
+      send.append("idDivisi", this.idDivisi);
 
-      const datas = await this.dispatchIndex(send)
-      this.listKpi = datas
+      const datas = await this.dispatchIndex(send);
+      this.listKpi = datas;
     },
 
-    async confirmDelete () {
+    async confirmDelete() {
       try {
-        await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
 
-        this.getDatas()
+        this.getDatas();
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
-          text: 'Maaf, Data ini \'sudah\' terkait dengan user. Kontak administrator untuk penjelasan lebih lanjut',
-          color: 'danger',
-          time: 7000
-        })
+          title: "Oops!",
+          text: "Maaf, Data ini 'sudah' terkait dengan user. Kontak administrator untuk penjelasan lebih lanjut",
+          color: "danger",
+          time: 7000,
+        });
       }
     },
 
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
-    }
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.getDatas()
       .then(() => {
-        this.$vs.loading.close()
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>

@@ -60,7 +60,7 @@
             <vs-th>Deskripsi</vs-th>
             <vs-th>Nilai</vs-th>
             <!-- <vs-th>Grade</vs-th> -->
-            <vs-th></vs-th>
+            <vs-th>Aksi</vs-th>
           </template>
           <template slot-scope="{ data }">
             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -70,21 +70,21 @@
               <!-- <vs-td :data="tr.grade">{{ tr.grade }}</vs-td> -->
               <vs-td>
                 <div class="flex">
-                  <vs-button
-                    class="mr-2"
-                    icon-pack="feather"
-                    icon="icon-edit"
-                    color="warning"
-                    size="small"
-                    @click="getUpdate(tr.id)"
-                  ></vs-button>
-                  <vs-button
-                    color="danger"
-                    icon-pack="feather"
-                    icon="icon-delete"
-                    size="small"
-                    @click="deletes(tr.id)"
-                  ></vs-button>
+                  <div @click="getUpdate(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Edit Indikator"
+                      icon="icon-edit"
+                      color="warning"
+                    />
+                  </div>
+
+                  <div @click="deletes(tr.id)">
+                    <custom-tooltip-button
+                      text-tooltip="Hapus Indikator"
+                      icon="icon-delete"
+                      color="danger"
+                    />
+                  </div>
                 </div>
               </vs-td>
             </vs-tr>
@@ -275,17 +275,21 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
+import CustomTooltipButton from "@/views/components/CustomTooltipButton";
 export default {
-  data () {
+  components: {
+    CustomTooltipButton,
+  },
+  data() {
     return {
       isAdd: false,
       isUpdate: false,
       idDelete: null,
-      nama3p: '',
-      namaDimensi: '',
-      namaCompany: '',
-      namaDivisi: '',
+      nama3p: "",
+      namaDimensi: "",
+      namaCompany: "",
+      namaDivisi: "",
       listInd: [],
       // options: [
       //   { value: "a", text: "a" },
@@ -299,7 +303,7 @@ export default {
         idDivisi: this.$route.params.idDivisi,
         nilai: null,
         // grade: "",
-        desc: ''
+        desc: "",
       },
 
       updateData: {
@@ -310,7 +314,7 @@ export default {
         idDivisi: this.$route.params.idDivisi,
         nilai: null,
         // grade: "",
-        desc: ''
+        desc: "",
       },
 
       //dikirim ke page selanjutnya
@@ -318,200 +322,200 @@ export default {
       idDimensi: this.$route.params.idDimensi,
       idKpi: this.$route.params.idKpi,
       idCompany: this.$route.params.idCompany,
-      idDivisi: this.$route.params.idDivisi
-    }
+      idDivisi: this.$route.params.idDivisi,
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.processInd.rows
-    })
+      data: (state) => state.processInd.rows,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchIndex: 'processInd/index',
-      dispatchStore: 'processInd/store',
-      dispatchDestroy: 'processInd/destroy',
-      dispatchShow: 'processInd/show',
-      dispatchUpdate: 'processInd/update',
+      dispatchIndex: "processInd/index",
+      dispatchStore: "processInd/store",
+      dispatchDestroy: "processInd/destroy",
+      dispatchShow: "processInd/show",
+      dispatchUpdate: "processInd/update",
 
-      dispatchCompany: 'masterpas/index_company',
-      dispatchDivisi: 'masterpas/index_divisi'
+      dispatchCompany: "masterpas/index_company",
+      dispatchDivisi: "masterpas/index_divisi",
     }),
-    goBack () {
+    goBack() {
       this.$router.push({
-        name: 'processDetailKpiPas',
+        name: "processDetailKpiPas",
         params: {
           id3p: this.id3p,
           idDimensi: this.idDimensi,
           idCompany: this.idCompany,
-          idDivisi: this.idDivisi
-        }
-      })
+          idDivisi: this.idDivisi,
+        },
+      });
     },
 
-    async getDatas () {
-      const send = new FormData()
-      send.append('id3p', this.id3p)
-      send.append('idDimensi', this.idDimensi)
-      send.append('idKpi', this.idKpi)
-      send.append('idCompany', this.idCompany)
-      send.append('idDivisi', this.idDivisi)
+    async getDatas() {
+      const send = new FormData();
+      send.append("id3p", this.id3p);
+      send.append("idDimensi", this.idDimensi);
+      send.append("idKpi", this.idKpi);
+      send.append("idCompany", this.idCompany);
+      send.append("idDivisi", this.idDivisi);
 
-      const datas = await this.dispatchIndex(send)
-      this.listInd = datas
+      const datas = await this.dispatchIndex(send);
+      this.listInd = datas;
     },
 
-    async store () {
-      const send = new FormData()
-      send.append('id3p', this.storeData.id3p)
-      send.append('idKpi', this.storeData.idKpi)
-      send.append('idCompany', this.storeData.idCompany)
-      send.append('idDivisi', this.storeData.idDivisi)
-      send.append('nilai', this.storeData.nilai)
+    async store() {
+      const send = new FormData();
+      send.append("id3p", this.storeData.id3p);
+      send.append("idKpi", this.storeData.idKpi);
+      send.append("idCompany", this.storeData.idCompany);
+      send.append("idDivisi", this.storeData.idDivisi);
+      send.append("nilai", this.storeData.nilai);
       // send.append("grade", this.storeData.grade);
-      send.append('desc', this.storeData.desc)
+      send.append("desc", this.storeData.desc);
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchStore(send)
-        this.$vs.loading.close()
+        await this.dispatchStore(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was saved successfully!',
-          color: 'success'
-        })
-        this.getDatas()
-        this.storeData.nilai = null
+          title: "Success!",
+          text: "Data was saved successfully!",
+          color: "success",
+        });
+        this.getDatas();
+        this.storeData.nilai = null;
         // this.storeData.grade = "";
-        this.storeData.desc = ''
-        this.isAdd = false
+        this.storeData.desc = "";
+        this.isAdd = false;
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.message,
-          color: 'danger'
-        })
-        this.storeData.nilai = null
+          color: "danger",
+        });
+        this.storeData.nilai = null;
         // this.storeData.grade = "";
-        this.storeData.desc = ''
+        this.storeData.desc = "";
       }
     },
 
-    async confirmDelete () {
+    async confirmDelete() {
       try {
-        await this.dispatchDestroy(this.idDelete)
-        this.dispatchIndex()
+        await this.dispatchDestroy(this.idDelete);
+        this.dispatchIndex();
         this.$vs.notify({
-          title: 'Success',
-          text: 'Your data has been deleted successfully',
-          color: 'primary'
-        })
+          title: "Success",
+          text: "Your data has been deleted successfully",
+          color: "primary",
+        });
 
-        this.getDatas()
+        this.getDatas();
       } catch (error) {
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.message,
-          color: 'danger'
-        })
+          color: "danger",
+        });
       }
     },
 
-    deletes (id) {
-      this.idDelete = id
+    deletes(id) {
+      this.idDelete = id;
       this.$vs.dialog({
-        type: 'confirm',
-        color: 'danger',
-        title: 'Are you sure ?',
-        text: 'Deleted data can no longer be restored',
-        accept: this.confirmDelete
-      })
+        type: "confirm",
+        color: "danger",
+        title: "Are you sure ?",
+        text: "Deleted data can no longer be restored",
+        accept: this.confirmDelete,
+      });
     },
 
-    async getUpdate ($id) {
+    async getUpdate($id) {
       try {
-        const indikator_data = await this.dispatchShow($id)
-        this.updateData.id = indikator_data.data['id']
-        this.updateData.nilai = indikator_data.data['nilai']
+        const indikator_data = await this.dispatchShow($id);
+        this.updateData.id = indikator_data.data["id"];
+        this.updateData.nilai = indikator_data.data["nilai"];
         // this.updateData.grade = indikator_data.data["grade"];
-        this.updateData.desc = indikator_data.data['desc']
+        this.updateData.desc = indikator_data.data["desc"];
 
-        this.isUpdate = true
+        this.isUpdate = true;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    async update () {
-      const send = new FormData()
-      send.append('id', this.updateData.id)
-      send.append('id3p', this.updateData.id3p)
-      send.append('idKpi', this.updateData.idKpi)
-      send.append('idCompany', this.updateData.idCompany)
-      send.append('idDivisi', this.updateData.idDivisi)
-      send.append('nilai', this.updateData.nilai)
+    async update() {
+      const send = new FormData();
+      send.append("id", this.updateData.id);
+      send.append("id3p", this.updateData.id3p);
+      send.append("idKpi", this.updateData.idKpi);
+      send.append("idCompany", this.updateData.idCompany);
+      send.append("idDivisi", this.updateData.idDivisi);
+      send.append("nilai", this.updateData.nilai);
       // send.append("grade", this.updateData.grade);
-      send.append('desc', this.updateData.desc)
-      send.append('_method', 'PUT')
+      send.append("desc", this.updateData.desc);
+      send.append("_method", "PUT");
 
       this.$vs.loading({
-        type: 'radius',
-        color: 'blue',
+        type: "radius",
+        color: "blue",
         textAfter: true,
-        text: 'Please Wait ...'
-      })
+        text: "Please Wait ...",
+      });
 
       try {
-        await this.dispatchUpdate(send)
-        this.$vs.loading.close()
+        await this.dispatchUpdate(send);
+        this.$vs.loading.close();
         this.$vs.notify({
-          title: 'Success!',
-          text: 'Data was updated successfully!',
-          color: 'success'
-        })
-        this.getDatas()
-        this.isUpdate = false
+          title: "Success!",
+          text: "Data was updated successfully!",
+          color: "success",
+        });
+        this.getDatas();
+        this.isUpdate = false;
 
-        this.storeData.nilai = null
+        this.storeData.nilai = null;
         // this.storeData.grade = "";
-        this.storeData.desc = ''
+        this.storeData.desc = "";
       } catch (error) {
-        this.$vs.loading.close()
-        this.isLoading = false
+        this.$vs.loading.close();
+        this.isLoading = false;
         this.$vs.notify({
-          title: 'Oops!',
+          title: "Oops!",
           text: error.data.message,
-          color: 'danger'
-        })
+          color: "danger",
+        });
 
-        this.storeData.nilai = null
+        this.storeData.nilai = null;
         // this.storeData.grade = "";
-        this.storeData.desc = ''
+        this.storeData.desc = "";
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.getDatas()
       .then(() => {
-        this.$vs.loading.close()
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>

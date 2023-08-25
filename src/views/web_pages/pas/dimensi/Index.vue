@@ -70,48 +70,50 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
-      userInfo: JSON.parse(localStorage.getItem('userInfo')).data['company_id'],
-      datas2: []
-    }
+      userInfo: JSON.parse(localStorage.getItem("userInfo")).data[
+        "isSuperAdmin"
+      ],
+      datas2: [],
+    };
   },
   computed: {
     ...mapState({
-      data: (state) => state.masterpas.rows
-    })
+      data: (state) => state.masterpas.rows,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchMaster: 'masterpas/index'
+      dispatchMaster: "masterpas/index",
     }),
-    log (id) {
-      console.log(id)
-    }
+    log(id) {
+      console.log(id);
+    },
   },
-  mounted () {
+  mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     this.dispatchMaster()
       .then(() => {
-        this.$vs.loading.close()
-        if (this.userInfo === 1 || this.userInfo === 18) {
-          this.datas2 = this.data
-          return this.datas2
+        this.$vs.loading.close();
+        if (this.userInfo === 1) {
+          this.datas2 = this.data;
+          return this.datas2;
         } else {
-          this.datas2 = this.data.filter((e) => e.id !== 1)
-          return this.datas2
+          this.datas2 = this.data.filter((e) => e.id !== 1);
+          return this.datas2;
         }
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
-  }
-}
+        this.$vs.loading.close();
+      });
+  },
+};
 </script>
