@@ -74,4 +74,4 @@ npm run serve
 
 ## Documentation
 
-[Documentation](https://github.com/systemduta/kms-admin/blob/dev/docs/doc.md)
+[Documentation](https://github.com/systemduta/kms-admin/blob/PAS-Project-2023-new-calculation-22082023/docs/doc.md)
