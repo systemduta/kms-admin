@@ -1,6 +1,14 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        color="primary"
+        type="flat"
+        icon="arrow_back_ios"
+        @click="goBack"
+      >
+        Kembali
+      </vs-button>
       <vx-card title="Input Data Employee">
         <div class="w-full vx-col">
           <!-- {{ image }} -->
@@ -262,10 +270,10 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import { mapActions } from 'vuex'
+import vSelect from "vue-select";
+import { mapActions } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       storeData: {
         id: this.$route.params.id,
@@ -274,181 +282,184 @@ export default {
         organization_id: null,
         status: null,
         resign_date: null,
-        image: '',
-        name: '',
-        password: '',
-        c_password: '',
-        nik: '',
-        file: '',
-        email: ''
+        image: "",
+        name: "",
+        password: "",
+        c_password: "",
+        nik: "",
+        file: "",
+        email: "",
       },
-      image: '',
+      image: "",
       companies: [],
       organizations: [],
       golongans: [],
-      allowedImageType: ['image/jpeg', 'image/png']
-    }
+      allowedImageType: ["image/jpeg", "image/png"],
+    };
   },
   components: {
-    vSelect
+    vSelect,
   },
 
   methods: {
     ...mapActions({
-      dispatchStore: 'employee/store',
-      dispatchUpdate: 'employee/update',
-      dispatchShow: 'employee/show',
-      dispatchGetCompanies: 'master/companies',
-      dispatchGetOrganizations: 'master/organizations',
-      dispatchGetGolongans: 'master/golongans'
+      dispatchStore: "employee/store",
+      dispatchUpdate: "employee/update",
+      dispatchShow: "employee/show",
+      dispatchGetCompanies: "master/companies",
+      dispatchGetOrganizations: "master/organizations",
+      dispatchGetGolongans: "master/golongans",
     }),
-
-    async getMaster () {
-      const co = await this.dispatchGetCompanies()
-      this.companies = co.data
-      const org = await this.dispatchGetOrganizations()
-      this.organizations = org.data
-      const gol = await this.dispatchGetGolongans()
-      this.golongans = gol.data
+    goBack() {
+      this.$router.go(-1);
+    },
+    async getMaster() {
+      const co = await this.dispatchGetCompanies();
+      this.companies = co.data;
+      const org = await this.dispatchGetOrganizations();
+      this.organizations = org.data;
+      const gol = await this.dispatchGetGolongans();
+      this.golongans = gol.data;
       // console.log(this.organizations);
       if (this.$route.params.id) {
-        await this.getDetail()
+        await this.getDetail();
       }
     },
-    convertToFormData () {
-      this.storeData.organization_id = this.storeData.organization_id['id']
+    convertToFormData() {
+      this.storeData.organization_id = this.storeData.organization_id["id"];
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
       [
-        'id',
-        'company_id',
-        'golongan_id',
-        'organization_id',
-        'resign_date',
-        'image',
-        'name',
-        'status',
-        'password',
-        'c_password',
-        'nik',
-        'file',
-        'email'
+        "id",
+        "company_id",
+        "golongan_id",
+        "organization_id",
+        "resign_date",
+        "image",
+        "name",
+        "status",
+        "password",
+        "c_password",
+        "nik",
+        "file",
+        "email",
       ].forEach((key) => {
-        if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
-      })
-      if (this.$route.params.id) data.append('_method', 'PUT')
+        if (this.storeData[key]) data.append(`${key}`, this.storeData[key]);
+      });
+      if (this.$route.params.id) data.append("_method", "PUT");
 
-      return data
+      return data;
     },
-    store () {
+    store() {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false
-        const formData = this.convertToFormData()
+        if (!res) return false;
+        const formData = this.convertToFormData();
         // for (const pair of formData.entries()) {
         //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
         // console.log(this.storeData.organization_id["id"]);
         this.$vs.loading({
-          type: 'radius',
-          color: 'blue',
+          type: "radius",
+          color: "blue",
           textAfter: true,
-          text: 'Please Wait ...'
-        })
+          text: "Please Wait ...",
+        });
         try {
           if (this.$route.params.id) {
-            await this.dispatchUpdate(formData)
+            await this.dispatchUpdate(formData);
           } else {
-            await this.dispatchStore(formData)
+            await this.dispatchStore(formData);
           }
-          this.$vs.loading.close()
+          this.$vs.loading.close();
           this.$vs.notify({
-            title: 'Success!',
-            text: 'Data was saved successfully!',
-            color: 'success'
-          })
-          this.$router.push({ name: 'employee' })
+            title: "Success!",
+            text: "Data was saved successfully!",
+            color: "success",
+          });
+          this.$router.push({ name: "employee" });
         } catch (error) {
-          this.$vs.loading.close()
+          this.$vs.loading.close();
           this.$vs.notify({
-            title: 'Oops!',
+            title: "Oops!",
             // text: error.data.message,
-            text: 'error insert or update data, please contact administrator',
-            color: 'danger'
-          })
+            text: "error insert or update data, please contact administrator",
+            color: "danger",
+          });
         }
-      })
+      });
     },
-    async getDetail () {
-      const { success } = await this.dispatchShow(this.$route.params.id)
+    async getDetail() {
+      const { success } = await this.dispatchShow(this.$route.params.id);
       // console.log(success);
-      this.storeData.name = success.name
+      this.storeData.name = success.name;
       this.image = success.image
         ? `${process.env.VUE_APP_API_URL}/files/${success.image}`
-        : ''
-      this.storeData.nik = success.nik
-      this.storeData.company_id = success.company_id
+        : "";
+      this.storeData.nik = success.nik;
+      this.storeData.company_id = success.company_id;
       // this.storeData.organization_id = success.organization_id;
-      this.storeData.golongan_id = success.golongan_id
-      this.storeData.status = success.status
-      this.storeData.resign_date = success.resign_date
-      this.storeData.email = success.email
+      this.storeData.golongan_id = success.golongan_id;
+      this.storeData.status = success.status;
+      this.storeData.resign_date = success.resign_date;
+      this.storeData.email = success.email;
       // console.log(this.storeData);
       // console.log(this.golongans);
-      this.storeData.password = bcrypt(success.password)
+      this.storeData.password = bcrypt(success.password);
     },
-    async changeImage (e) {
-      const image = e.target
+    async changeImage(e) {
+      const image = e.target;
       if (image.files && image.files[0]) {
         // eslint-disable-next-line eqeqeq
         const filterFormat = await this.allowedImageType.filter(
           (e) => e == image.files[0].type
-        )
-        if (filterFormat.length < 1) return this.$vs.notify({
-          title: 'Maaf!',
-          text: 'File bukan berupa gambar!',
-          color: 'warning'
-        })
-        const reader = new FileReader()
+        );
+        if (filterFormat.length < 1)
+          return this.$vs.notify({
+            title: "Maaf!",
+            text: "File bukan berupa gambar!",
+            color: "warning",
+          });
+        const reader = new FileReader();
         reader.onload = async (e) => {
-          this.storeData.image = e.target.result
-          this.image = e.target.result
-        }
-        reader.readAsDataURL(image.files[0])
+          this.storeData.image = e.target.result;
+          this.image = e.target.result;
+        };
+        reader.readAsDataURL(image.files[0]);
       }
     },
-    getBase64File (event) {
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
+    getBase64File(event) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
-        this.storeData.file = reader.result
-      }
-      this.$emit('input', event.target.files[0])
-    }
+        this.storeData.file = reader.result;
+      };
+      this.$emit("input", event.target.files[0]);
+    },
   },
-  async mounted () {
+  async mounted() {
     this.$vs.loading({
-      type: 'radius',
-      color: 'blue',
+      type: "radius",
+      color: "blue",
       textAfter: true,
-      text: 'Please Wait ...'
-    })
+      text: "Please Wait ...",
+    });
     await this.getMaster()
       .then(() => {
-        this.$vs.loading.close()
+        this.$vs.loading.close();
       })
       .catch(() => {
-        this.$vs.loading.close()
-      })
+        this.$vs.loading.close();
+      });
     this.golongans.map(function (x) {
-      return (x.golongan_data = `${x.code  } - ${  x.name}`)
-    })
-  }
-}
+      return (x.golongan_data = `${x.code} - ${x.name}`);
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .preview {
-  max-width: 100%;
+  max-width: 40%;
   margin-left: auto;
   margin-right: auto;
   display: block;
