@@ -1,6 +1,16 @@
 <template>
   <div class="vx-row">
     <div class="w-full vx-col mb-base">
+      <vs-button
+        class="ml-4 my-2"
+        icon-pack="feather"
+        icon="icon-arrow-left"
+        size="small"
+        type="border"
+        @click="goBack"
+      >
+        Back
+      </vs-button>
       <vx-card title="Input Data SOP">
         <div class="w-full vx-col">
           <input
@@ -28,13 +38,12 @@
             :src="image"
             alt=""
             class="preview"
+            :style="{ maxWidth: '300px', maxHeight: '300px' }"
             @click="$refs.imageInput.click()"
           />
-          <span
-            class="text-sm text-danger center"
-            v-show="errors.has('image')"
-            >{{ errors.first("image") }}</span
-          >
+          <span class="text-sm text-danger center" v-show="errors.has('image')">
+            {{ errors.first("image") }}
+          </span>
         </div>
         <div class="mt-10 mb-5 vx-row">
           <div class="w-full vx-col">
@@ -137,6 +146,7 @@
               name="pdf_file"
               v-validate="'ext:pdf|size:3072'"
             />
+            <small class="ml-2 text-danger">Type: pdf</small> <br />
             <span class="text-sm text-danger" v-show="errors.has('pdf_file')">{{
               errors.first("pdf_file")
             }}</span>
@@ -152,6 +162,7 @@
               name="pdf_file"
               v-validate="'required|ext:pdf|size:3072'"
             />
+            <small class="ml-2 text-danger">Type: pdf</small> <br />
             <span class="text-sm text-danger" v-show="errors.has('pdf_file')">{{
               errors.first("pdf_file")
             }}</span>
@@ -254,6 +265,7 @@ export default {
         if (!res) return false;
         const formData = this.convertToFormData();
         if (!formData) return false;
+        // console.log(...formData);
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -274,8 +286,7 @@ export default {
             text: "Data was saved successfully!",
             color: "success",
           });
-          // this.$router.push({ name: "sop" });
-          this.goBack;
+          this.$router.push({ name: "sop" });
         } catch (error) {
           this.$vs.loading.close();
           this.isLoading = false;
@@ -372,7 +383,3 @@ export default {
   padding-left: 5px;
 }
 </style>
-
-/** BUG-PENTING 1. sop gambar gak iso diupdate 2. hardskill+ softskill perlu di
-review ulang 3. app iso download materi + bagian lihat video semua ke youtube
-chrome */

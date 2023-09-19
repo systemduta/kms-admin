@@ -11,21 +11,19 @@
       </vs-button>
       <vx-card title="Input Data Employee">
         <div class="w-full vx-col">
-          <!-- {{ image }} -->
           <input
             class="hidden"
             type="file"
             @change="changeImage"
             ref="imageInput"
+            accept="image/jpeg, image/jpg,image/png"
             v-validate="
               storeData.image.length < 1
-                ? (this.$route.params.id ? '' : 'required|') +
-                  'ext:jpg,jpeg,png|size:1024'
+                ? (this.$route.params.id ? '' : 'required|') + 'size:1024'
                 : ''
             "
             data-vv-as="Course Image"
             name="image"
-            accept="image/jpeg,image/png"
           /><br />
           <img
             v-if="image.length < 1"
@@ -41,6 +39,7 @@
             :src="image"
             alt=""
             class="preview"
+            :style="{ maxWidth: '300px', maxHeight: '300px' }"
             @click="$refs.imageInput.click()"
           />
           <span
@@ -242,13 +241,17 @@
               ref="file"
               name="id_card"
               @change="getBase64File"
+              accept="image/jpeg, image/jpg,image/png"
               v-validate="
                 storeData.file.length < 1
                   ? (this.$route.params.id ? '' : 'required|') +
-                    'ext:jpg,jpeg,png|size:1024'
+                    'ext:image/jpeg,image/jpg,image/png|size:1024'
                   : ''
               "
             />
+            <br />
+
+            <small class="ml-2 text-danger">Format: jpg, jpeg, png</small>
             <br />
             <span class="text-sm text-danger" v-show="errors.has('id_card')">{{
               errors.first("id_card")
@@ -354,10 +357,6 @@ export default {
       this.$validator.validateAll().then(async (res) => {
         if (!res) return false;
         const formData = this.convertToFormData();
-        // for (const pair of formData.entries()) {
-        //   console.log(`${pair[0]}, ${pair[1]}`);
-        // }
-        // console.log(this.storeData.organization_id["id"]);
         this.$vs.loading({
           type: "radius",
           color: "blue",
@@ -381,9 +380,10 @@ export default {
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Oops!",
-            // text: error.data.message,
-            text: "error insert or update data, please contact administrator",
+            // text: "error insert or update data, please contact administrator",
+            text: error.data.error ? error.data.error : error.data.message,
             color: "danger",
+            time: 5000,
           });
         }
       });
