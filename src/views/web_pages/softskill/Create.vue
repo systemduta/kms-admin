@@ -249,302 +249,304 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import vSelect from 'vue-select'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { quillEditor } from 'vue-quill-editor'
+import { mapActions, mapState } from "vuex";
+import vSelect from "vue-select";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+import { quillEditor } from "vue-quill-editor";
 
 export default {
-  name: 'CreateCourse',
+  name: "CreateCourse",
   components: {
     vSelect,
-    quillEditor
+    quillEditor,
   },
-  data () {
+  data() {
     return {
       companies: [],
       organizations: [],
       golongans: [],
-      company_id: JSON.parse(localStorage.getItem('userInfo')).data.company_id,
-      allowedImageType: ['image/jpeg', 'image/png'],
+      company_id: JSON.parse(localStorage.getItem("userInfo")).data.company_id,
+      allowedImageType: ["image/jpeg", "image/png"],
       isLoading: false,
       isQuestionComplete: false,
-      image: '',
+      image: "",
       storeData: {
         id: this.$route.params.id,
         organization_id: null,
         golongan_id: null,
         company_id: null,
-        image: '',
-        title: '',
-        description: '',
-        file: '',
-        video: '',
-        link: '',
+        image: "",
+        title: "",
+        description: "",
+        file: "",
+        video: "",
+        link: "",
         type: 1,
         questions: [
           {
-            is_pre_test: '',
-            description: '',
+            is_pre_test: "",
+            description: "",
             answers: [
               {
-                name: '',
-                is_true: 0
+                name: "",
+                is_true: 0,
               },
               {
-                name: '',
-                is_true: 0
+                name: "",
+                is_true: 0,
               },
               {
-                name: '',
-                is_true: 0
+                name: "",
+                is_true: 0,
               },
               {
-                name: '',
-                is_true: 0
-              }
-            ]
-          }
-        ]
-      }
-    }
+                name: "",
+                is_true: 0,
+              },
+            ],
+          },
+        ],
+      },
+    };
   },
   computed: {
     ...mapState({
-      uploadProgress: (state) => state.softskill.upload_progress
-    })
+      uploadProgress: (state) => state.softskill.upload_progress,
+    }),
   },
   methods: {
     ...mapActions({
-      dispatchStore: 'softskill/store',
-      dispatchUpdate: 'softskill/update',
-      dispatchShow: 'softskill/show',
-      dispatchGetCompanies: 'master/companies',
-      dispatchGetOrganizations: 'master/organizations',
-      dispatchGetGolongans: 'softskill/index'
+      dispatchStore: "softskill/store",
+      dispatchUpdate: "softskill/update",
+      dispatchShow: "softskill/show",
+      dispatchGetCompanies: "master/companies",
+      dispatchGetOrganizations: "master/organizations",
+      dispatchGetGolongans: "softskill/index",
     }),
-    goBack () {
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
-    async getMaster () {
-      const co = await this.dispatchGetCompanies()
-      this.companies = co.data
-      const org = await this.dispatchGetOrganizations()
-      this.organizations = org.data
-      const gol = await this.dispatchGetGolongans()
-      this.golongans = gol.data
+    async getMaster() {
+      const co = await this.dispatchGetCompanies();
+      this.companies = co.data;
+      const org = await this.dispatchGetOrganizations();
+      this.organizations = org.data;
+      const gol = await this.dispatchGetGolongans();
+      this.golongans = gol.data;
 
       this.golongans.map(function (x) {
-        if (x.name === 'Staf PKWT') {
-          x.name = 'Staf'
+        if (x.name === "Staf PKWT") {
+          x.name = "Staf";
         }
-        x.golongan_data = x.name
-        return x
-      })
+        x.golongan_data = x.name;
+        return x;
+      });
     },
-    addQuestion () {
+    addQuestion() {
       const blank_question = {
-        is_pre_test: '',
-        description: '',
+        is_pre_test: "",
+        description: "",
         answers: [
           {
-            name: '',
-            is_true: 0
+            name: "",
+            is_true: 0,
           },
           {
-            name: '',
-            is_true: 0
+            name: "",
+            is_true: 0,
           },
           {
-            name: '',
-            is_true: 0
+            name: "",
+            is_true: 0,
           },
           {
-            name: '',
-            is_true: 0
-          }
-        ]
-      }
-      this.storeData.questions.push(blank_question)
+            name: "",
+            is_true: 0,
+          },
+        ],
+      };
+      this.storeData.questions.push(blank_question);
     },
-    checkQuestion () {
-      const vm = this
+    checkQuestion() {
+      const vm = this;
       this.storeData.questions.every(function (item, index) {
         if (!item.description) {
-          vm.isQuestionComplete = true
+          vm.isQuestionComplete = true;
           // alert(`Soal nomor ${index+1} belum terisi`);
-          return true
+          return true;
         } else {
-          let key = false
-          let choose = true
+          let key = false;
+          let choose = true;
           item.answers.forEach(function (answer, i) {
             if (!answer.name) {
-              choose = false
+              choose = false;
               alert(
                 `Ada pilihan jawaban untuk soal nomor ${index + 1} belum terisi`
-              )
-              return false
-            } else if (answer.is_true == true) key = true
-          })
+              );
+              return false;
+            } else if (answer.is_true == true) key = true;
+          });
           if (!key) {
-            vm.isQuestionComplete = false
-            alert(`Kunci jawaban untuk soal nomor ${index + 1} belum ada`)
-            return false
+            vm.isQuestionComplete = false;
+            alert(`Kunci jawaban untuk soal nomor ${index + 1} belum ada`);
+            return false;
           } else {
-            vm.isQuestionComplete = choose
+            vm.isQuestionComplete = choose;
           }
         }
-      })
+      });
     },
-    convertToFormData () {
-      this.checkQuestion()
-      if (!this.isQuestionComplete) return false
+    convertToFormData() {
+      this.checkQuestion();
+      if (!this.isQuestionComplete) return false;
       const data = new FormData();
       // eslint-disable-next-line no-unexpected-multiline
       [
-        'id',
-        'organization_id',
-        'golongan_id',
-        'company_id',
-        'image',
-        'title',
-        'description',
-        'file',
-        'video',
-        'link',
-        'type',
-        'questions'
+        "id",
+        "organization_id",
+        "golongan_id",
+        "company_id",
+        "image",
+        "title",
+        "description",
+        "file",
+        "video",
+        "link",
+        "type",
+        "questions",
       ].forEach((key) => {
-        if (key == 'questions') {
+        if (key == "questions") {
           this.storeData.questions.forEach(function (question, index) {
             data.append(
               `questions[${index}][is_pre_test]`,
               question.is_pre_test
-            )
+            );
             data.append(
               `questions[${index}][description]`,
               question.description
-            )
+            );
             question.answers.forEach(function (answer, i) {
               data.append(
                 `questions[${index}][answers][${i}][name]`,
                 answer.name
-              )
+              );
               data.append(
                 `questions[${index}][answers][${i}][is_true]`,
                 answer.is_true ? 1 : 0
-              )
-            })
-          })
-        } else if (this.storeData[key]) data.append(`${key}`, this.storeData[key])
-      })
-      if (this.$route.params.id) data.append('_method', 'PUT')
-      return data
+              );
+            });
+          });
+        } else if (this.storeData[key])
+          data.append(`${key}`, this.storeData[key]);
+      });
+      if (this.$route.params.id) data.append("_method", "PUT");
+      return data;
     },
-    store () {
+    store() {
       this.$validator.validateAll().then(async (res) => {
-        if (!res) return false
-        const formData = this.convertToFormData()
-        if (!formData) return false
+        if (!res) return false;
+        const formData = this.convertToFormData();
+        if (!formData) return false;
 
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0]}, ${pair[1]}`)
-        }
-
-        // this.$vs.loading({
-        //   type: "radius",
-        //   color: "blue",
-        //   textAfter: true,
-        //   text: "Please Wait ...",
-        // });
-        // this.isLoading = true;
-        // try {
-        //   if (this.$route.params.id) {
-        //     await this.dispatchUpdate(formData);
-        //   } else {
-        //     await this.dispatchStore(formData);
-        //   }
-        //   this.$vs.loading.close();
-        //   this.isLoading = false;
-        //   this.$vs.notify({
-        //     title: "Success!",
-        //     text: "Data was saved successfully!",
-        //     color: "success",
-        //   });
-        //   // this.$router.push({ name: "softskill" });
-        //   this.$router.go(-1);
-        // } catch (error) {
-        //   this.$vs.loading.close();
-        //   this.isLoading = false;
-        //   this.$vs.notify({
-        //     title: "Oops!",
-        //     text: error,
-        //     color: "danger",
-        //   });
+        // for (const pair of formData.entries()) {
+        //   console.log(`${pair[0]}, ${pair[1]}`);
         // }
-      })
+
+        this.$vs.loading({
+          type: "radius",
+          color: "blue",
+          textAfter: true,
+          text: "Please Wait ...",
+        });
+        this.isLoading = true;
+        try {
+          if (this.$route.params.id) {
+            await this.dispatchUpdate(formData);
+          } else {
+            await this.dispatchStore(formData);
+          }
+          this.$vs.loading.close();
+          this.isLoading = false;
+          this.$vs.notify({
+            title: "Success!",
+            text: "Data was saved successfully!",
+            color: "success",
+          });
+          // this.$router.push({ name: "softskill" });
+          this.$router.go(-1);
+        } catch (error) {
+          this.$vs.loading.close();
+          this.isLoading = false;
+          this.$vs.notify({
+            title: "Oops!",
+            text: error,
+            color: "danger",
+          });
+        }
+      });
     },
-    async getDetail () {
-      const { success } = await this.dispatchShow(this.$route.params.id)
-      this.storeData.organization_id = success.organization_id
+    async getDetail() {
+      const { success } = await this.dispatchShow(this.$route.params.id);
+      this.storeData.organization_id = success.organization_id;
       this.image = success.image
         ? `${process.env.VUE_APP_API_URL}/files/${success.image}`
-        : ''
-      this.storeData.title = success.title
-      this.storeData.description = success.description
+        : "";
+      this.storeData.title = success.title;
+      this.storeData.description = success.description;
       // this.storeData.file = success.file;
       // this.storeData.video = success.video;
-      this.storeData.link = success.link
-      this.storeData.type = success.type
-      this.storeData.company_id = success.company_id
+      this.storeData.link = success.link;
+      this.storeData.type = success.type;
+      this.storeData.company_id = success.company_id;
       // this.storeData.questions = success.description
     },
-    async changeImage (e) {
-      const image = e.target
+    async changeImage(e) {
+      const image = e.target;
       if (image.files && image.files[0]) {
         const filterFormat = await this.allowedImageType.filter(
           (e) => e === image.files[0].type
-        )
-        if (filterFormat.length < 1) return this.$vs.notify({
-          title: 'Maaf!',
-          text: 'File bukan berupa gambar!',
-          color: 'warning'
-        })
-        const reader = new FileReader()
+        );
+        if (filterFormat.length < 1)
+          return this.$vs.notify({
+            title: "Maaf!",
+            text: "File bukan berupa gambar!",
+            color: "warning",
+          });
+        const reader = new FileReader();
         reader.onload = async (e) => {
           // this.image = e.target.result
-          this.storeData.image = e.target.result
-          this.image = e.target.result
-        }
-        reader.readAsDataURL(image.files[0])
+          this.storeData.image = e.target.result;
+          this.image = e.target.result;
+        };
+        reader.readAsDataURL(image.files[0]);
       }
     },
-    getBase64File (event) {
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
+    getBase64File(event) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         // this.file = reader.result
-        this.storeData.file = reader.result
-      }
-      this.$emit('input', event.target.files[0])
+        this.storeData.file = reader.result;
+      };
+      this.$emit("input", event.target.files[0]);
     },
-    getBase64Video (event) {
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
+    getBase64Video(event) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
-        this.video = reader.result
-      }
-      this.$emit('input', event.target.files[0])
+        this.video = reader.result;
+      };
+      this.$emit("input", event.target.files[0]);
     },
-    async readVideo (event) {
-      const video = event.target.files[0]
-      return this.$set(this.storeData, 'video', video)
-    }
+    async readVideo(event) {
+      const video = event.target.files[0];
+      return this.$set(this.storeData, "video", video);
+    },
   },
-  async mounted () {
-    await this.getMaster()
+  async mounted() {
+    await this.getMaster();
     // this.golongans.map(function (x) {
     //   if (x.name == "Staf PKWT") {
     //     return (x.name = "Staf");
@@ -554,10 +556,10 @@ export default {
     // });
 
     if (this.$route.params.id) {
-      this.getDetail()
+      this.getDetail();
     }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
